@@ -1,0 +1,16 @@
+功能按钮: "xpath==//div[@class='side-header-right']//div[contains(@class, 'ant-dropdown-trigger side-header-dropdown')]"
+切换角色按钮: "xpath==//div[contains(@class,'ant-dropdown ant-dropdown-placement-bottomLeft') and not(contains(@class, 'ant-dropdown-hidden'))]//span[text()='切换角色']/ancestor::li[@role='menuitem']"
+角色选项: "xpath==//div[not(contains(@style, 'display: none')) and @role='dialog']//label[contains(@class,'ant-radio-wrapper')]/span[not(@class)]"
+切换角色弹窗_确定按钮: "xpath==//div[not(contains(@style, 'display: none')) and @role='dialog']//span[text()='确 定']/parent::button[@type='button']"
+角色标签: ""
+
+首页概览标签: "xpath==//li[@title='首页概览']"
+
+房源管理菜单: "xpath==//span[text()='房源管理']/parent::div[@class='ant-menu-submenu-title']"
+全部房源标签: "xpath==//li[@title='全部房源']"
+
+客源管理菜单: "xpath==//span[text()='客源管理']/parent::div[@class='ant-menu-submenu-title']"
+我的客户标签: "xpath==//li[@title='我的客户']"
+
+协议应用菜单: "xpath==//span[text()='协议应用']/parent::div[@class='ant-menu-submenu-title']"
+协议列表标签: "xpath==//li[@title='协议列表']"

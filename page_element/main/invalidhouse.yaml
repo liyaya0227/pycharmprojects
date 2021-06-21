@@ -1,0 +1,3 @@
+无效房源列表: "xpath==//table"
+弹窗_取消按钮: "xpath==//div[@class='ant-modal-root']//span[text()='取 消']/parent::button[@type='button']"
+弹窗_确定按钮: "xpath==//div[@class='ant-modal-root']//span[text()='确 定']/parent::button[@type='button']"
