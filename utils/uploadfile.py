@@ -1,7 +1,12 @@
-# -*- coding:utf-8 -*-
+#!/usr/bin/env python3
+# -*- coding: UTF-8 -*-
 """
-Author: zoro ju
+@author: jutao
+@version: V1.0
+@file: vipserviceentrustmentagreementpage.py
+@time: 2021/06/22
 """
+
 import win32gui
 import win32con
 from utils.times import sleep
@@ -23,4 +28,4 @@ def upload_file(file_path, browser_type='chrome'):
     win32gui.SendMessage(edit, win32con.WM_SETTEXT, None, file_path)  # 往输入框输入绝对地址
     button = win32gui.FindWindowEx(dialog, 0, 'Button', None)  # 确认按钮
     win32gui.SendMessage(dialog, win32con.WM_COMMAND, 1, button)  # 点击确认按钮
-    sleep()
+    sleep(2)

@@ -1,6 +1,7 @@
 功能按钮: "xpath==//div[@class='side-header-right']//div[contains(@class, 'ant-dropdown-trigger side-header-dropdown')]"
 切换角色按钮: "xpath==//div[contains(@class,'ant-dropdown ant-dropdown-placement-bottomLeft') and not(contains(@class, 'ant-dropdown-hidden'))]//span[text()='切换角色']/ancestor::li[@role='menuitem']"
-角色选项: "xpath==//div[not(contains(@style, 'display: none')) and @role='dialog']//label[contains(@class,'ant-radio-wrapper')]/span[not(@class)]"
+角色选项: "xpath==//div[not(contains(@style, 'display: none')) and @role='dialog']//label[contains(@class,'ant-radio-wrapper')]/span[not(@class)]/parent::label"
+切换角色弹窗_取消按钮: "xpath==//div[not(contains(@style, 'display: none')) and @role='dialog']//span[text()='取 消']/parent::button[@type='button']"
 切换角色弹窗_确定按钮: "xpath==//div[not(contains(@style, 'display: none')) and @role='dialog']//span[text()='确 定']/parent::button[@type='button']"
 角色标签: ""
 

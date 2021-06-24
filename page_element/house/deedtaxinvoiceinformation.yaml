@@ -1,0 +1,6 @@
+上传图片按钮: "xpath==//form[@id='nest-messages']//input[@id='nest-messages_uploadImageIds']/parent::span[@role='button']"
+填发日期输入框: "xpath==//form[@id='nest-messages']//input[@id='nest-messages_time']"
+计税金额输入框: "xpath==//form[@id='nest-messages']//input[@id='nest-messages_taxMoney']"
+备注输入框: "xpath==//form[@id='nest-messages']//textarea[@id='nest-messages_remark']"
+取消按钮: "xpath==//form[@id='nest-messages']//span[text()='取 消']/parent::button[@type='button']"
+提交按钮: "xpath==//form[@id='nest-messages']//span[text()='提 交']/parent::button[@type='submit']"

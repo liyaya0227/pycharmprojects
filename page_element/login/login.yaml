@@ -1,0 +1,6 @@
+账号输入框: "xpath==//form[@class='ant-form ant-form-horizontal loginForm']//input[@id='account']"
+密码输入框: "xpath==//form[@class='ant-form ant-form-horizontal loginForm']//input[@id='password']"
+校验点击按钮: "xpath==//form[@class='ant-form ant-form-horizontal loginForm']//div[@class='verifiyIcon']/parent::button"
+立即登录按钮: "xpath==//form[@class='ant-form ant-form-horizontal loginForm']//span[contains(text(), '立即登录')]/parent::button"
+验证图片: "xpath==//div[@id='verifyCode']/canvas[not(@class)]"
+滑动按钮: "xpath==//div[@id='verifyCode']//span[@class='sliderVerifyCode_sliderIcon__2VcNZ']"

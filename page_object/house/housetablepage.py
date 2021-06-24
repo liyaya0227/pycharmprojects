@@ -1,4 +1,12 @@
-# -*- coding:utf-8 -*-
+#!/usr/bin/env python3
+# -*- coding: UTF-8 -*-
+"""
+@author: jutao
+@version: V1.0
+@file: vipserviceentrustmentagreementpage.py
+@time: 2021/06/22
+"""
+
 from utils.times import sleep
 
 from page.webpage import WebPage
@@ -12,7 +20,7 @@ class HouseTablePage(WebPage):
     def click_add_house_button(self):
         self.is_click(house_table['新增房源按钮'])
 
-    def input_community_name_search(self, community_name):
+    def choose_estate_name_search(self, community_name):
         self.input_text(house_table['楼盘输入框'], community_name)
         sleep(2)
         community_list = self.find_elements(house_table['楼盘下拉框'])
@@ -21,15 +29,15 @@ class HouseTablePage(WebPage):
                 community.click()
                 break
 
-    def input_building_id_search(self, building_id):
+    def choose_building_name_search(self, building_name):
         self.is_click(house_table['楼栋选择框'])
-        building_id_list = self.find_elements(house_table['楼栋下拉框'])
-        for building_id_ele in building_id_list:
-            if building_id_ele.text == building_id:
-                building_id_ele.click()
+        building_name_list = self.find_elements(house_table['楼栋下拉框'])
+        for building_name_ele in building_name_list:
+            if building_name_ele.text == building_name:
+                building_name_ele.click()
                 break
 
-    def input_doorplate_search(self, doorplate):
+    def choose_doorplate_search(self, doorplate):
         self.is_click(house_table['门牌选择框'])
         doorplate_list = self.find_elements(house_table['门牌下拉框'])
         for doorplate_ele in doorplate_list:
@@ -60,12 +68,12 @@ class HouseTablePage(WebPage):
 
     def go_house_detail_by_row(self, row=1):
         houses = self.find_element(house_table['房源列表'])
-        house = houses.find_element_by_xpath("//div[@class='ant-row houseManage']//table/tbody/tr[" + str(row) + "]/td[2]")
+        house = houses.find_element_by_xpath("//div[@class='ant-row houseManage']//table/tbody/tr[" + str(row) +
+                                             "]/td[2]")
         house.click()
+        sleep()
 
     def get_house_table_count(self):
         houses = self.find_element(house_table['房源列表'])
         house = houses.find_elements_by_xpath("//div[@style='']//div[@class='ant-row houseManage']//table/tbody/tr")
         return len(house)
-
-

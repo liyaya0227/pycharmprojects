@@ -1,4 +1,12 @@
-# -*- coding:utf-8 -*-
+#!/usr/bin/env python3
+# -*- coding: UTF-8 -*-
+"""
+@author: jutao
+@version: V1.0
+@file: vipserviceentrustmentagreementpage.py
+@time: 2021/06/22
+"""
+
 from utils.times import sleep
 
 from page.webpage import WebPage

@@ -1,4 +1,12 @@
-# -*- coding:utf-8 -*-
+#!/usr/bin/env python3
+# -*- coding: UTF-8 -*-
+"""
+@author: jutao
+@version: V1.0
+@file: vipserviceentrustmentagreementpage.py
+@time: 2021/06/22
+"""
+
 import os
 from selenium.webdriver.common.by import By
 from utils.times import dt_strftime
@@ -12,7 +20,7 @@ class ConfigManager(object):
     ELEMENT_PATH = os.path.join(BASE_DIR, 'page_element')
 
     # 报告文件
-    REPORT_FILE = os.path.join(BASE_DIR, 'reports', 'report.html')
+    REPORT_FILE = os.path.join(BASE_DIR, 'report', 'report.html')
 
     # 元素定位的类型
     LOCATE_MODE = {
@@ -53,9 +61,9 @@ class ConfigManager(object):
         return ini_file
 
     @property
-    def tmp_picture(self):
+    def tmp_dir(self):
         """配置文件"""
-        tmp_picture_file = os.path.join(self.BASE_DIR, 'tmp', 'config.ini')
+        tmp_picture_file = os.path.join(self.BASE_DIR, 'tmp')
         if not os.path.exists(tmp_picture_file):
             raise FileNotFoundError("配置文件%s不存在！" % tmp_picture_file)
         return tmp_picture_file

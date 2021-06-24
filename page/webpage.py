@@ -1,4 +1,12 @@
-# -*- coding:utf-8 -*-
+#!/usr/bin/env python3
+# -*- coding: UTF-8 -*-
+"""
+@author: jutao
+@version: V1.0
+@file: vipserviceentrustmentagreementpage.py
+@time: 2021/06/22
+"""
+
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import TimeoutException
@@ -44,6 +52,10 @@ class WebPage(object):
         #     self.driver.execute_script("arguments[0].scrollIntoView();", element)
         return element
 
+    def find_element_with_wait_time(self, locator, wait_time=5):
+        element = WebDriverWait(self.driver, wait_time).until(lambda x: x.find_element(*locator))
+        return element
+
     def find_elements(self, locator):
         """查找多个相同的元素"""
         return WebPage.element_locator(lambda *args: self.wait.until(
@@ -62,6 +74,15 @@ class WebPage(object):
         ele = self.find_element(locator)
         ele.clear()
         ele.send_keys(txt)
+
+    def clear_text(self, locator):
+        """清空文本"""
+        log.info("元素{}文本清空".format(locator))
+        sleep(0.5)
+        ele = self.find_element(locator)
+        ele.send_keys(Keys.CONTROL + 'A')
+        ele.send_keys(Keys.DELETE)
+        sleep(0.5)
 
     def send_enter_key(self, locator):  # 按回车键
         """输入回车键"""

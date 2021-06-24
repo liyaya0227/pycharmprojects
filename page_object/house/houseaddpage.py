@@ -1,4 +1,12 @@
-# -*- coding:utf-8 -*-
+#!/usr/bin/env python3
+# -*- coding: UTF-8 -*-
+"""
+@author: jutao
+@version: V1.0
+@file: vipserviceentrustmentagreementpage.py
+@time: 2021/06/22
+"""
+
 from page.webpage import WebPage
 from common.readelement import Element
 from utils.times import sleep
@@ -14,7 +22,7 @@ class HouseAddPage(WebPage):
     def choose_rent_radio(self):
         self.is_click(house_add['委托类型_出租单选'])
 
-    def input_community_name(self, community_name):
+    def choose_estate_name(self, community_name):
         self.input_text(house_add['楼盘名称输入框'], community_name)
         sleep()
         community_list = self.find_elements(house_add['楼盘名称下拉框'])
@@ -23,7 +31,7 @@ class HouseAddPage(WebPage):
                 community.click()
                 break
 
-    def input_building_id(self, building_id):
+    def choose_building_id(self, building_id):
         self.is_click(house_add['栋座选择框'])
         building_id_list = self.find_elements(house_add['栋座下拉框'])
         for building_id_element in building_id_list:
@@ -31,7 +39,7 @@ class HouseAddPage(WebPage):
                 building_id_element.click()
                 break
 
-    def input_building_cell(self, building_cell):
+    def choose_building_cell(self, building_cell):
         self.is_click(house_add['单元选择框'])
         building_cell_list = self.find_elements(house_add['单元下拉框'])
         for building_cell_element in building_cell_list:
@@ -39,7 +47,7 @@ class HouseAddPage(WebPage):
                 building_cell_element.click()
                 break
 
-    def input_floor(self, floor):
+    def choose_floor(self, floor):
         self.is_click(house_add['楼层选择框'])
         floor_list = self.find_elements(house_add['楼层下拉框'])
         for floor_element in floor_list:
@@ -47,7 +55,7 @@ class HouseAddPage(WebPage):
                 floor_element.click()
                 break
 
-    def input_doorplate(self, doorplate):
+    def choose_doorplate(self, doorplate):
         self.is_click(house_add['门牌选择框'])
         doorplate_list = self.find_elements(house_add['门牌下拉框'])
         for doorplate_element in doorplate_list:
@@ -95,4 +103,3 @@ class HouseAddPage(WebPage):
     def click_add_button(self):
         self.is_click(house_add['添加按钮'])
         sleep()
-

@@ -1,0 +1,3 @@
+协议名称搜索框: "xpath==//div[@class='ant-row protocolApplication']//input[@id='name']"
+查询按钮: "xpath==//div[@class='ant-row protocolApplication']//span[text()='查 询']/parent::button[@type='submit']"
+协议列表: "xpath==//div[@class='ant-row protocolApplication']//table"

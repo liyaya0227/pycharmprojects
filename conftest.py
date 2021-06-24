@@ -1,8 +1,18 @@
-# -*- coding:utf-8 -*-
+#!/usr/bin/env python3
+# -*- coding: UTF-8 -*-
+"""
+@author: jutao
+@version: V1.0
+@file: vipserviceentrustmentagreementpage.py
+@time: 2021/06/22
+"""
+
 import pytest
 from py.xml import html
 from common.readconfig import ini
 from selenium import webdriver
+from config.conf import cm
+from page_object.login.loginpage import LoginPage
 
 
 driver = None
@@ -11,10 +21,20 @@ driver = None
 @pytest.fixture(scope='module')
 def web_driver():
     print('------------open browser------------')
-    web_driver = webdriver.Chrome()
+    chrome_option = webdriver.ChromeOptions()
+    prefs = {"download.default_directory": cm.tmp_dir}
+    chrome_option.add_experimental_option("prefs", prefs)
+    web_driver = webdriver.Chrome(chrome_options=chrome_option)
     # web_driver = webdriver.Firefox(firefox_binary='C://Program Files//Mozilla Firefox//firefox.exe')
     web_driver.maximize_window()
-    web_driver.get(ini.url)
+    # web_driver.get(ini.url)
+    web_driver.get('https://uat-passport.jingrizf.com/login')
+    login_page = LoginPage(web_driver)
+    login_page.input_account('jutao')
+    login_page.input_password('111111')
+    login_page.click_verify_button()
+    login_page.verify()
+    login_page.click_login_button()
     yield web_driver
     print('------------close browser------------')
     web_driver.quit()

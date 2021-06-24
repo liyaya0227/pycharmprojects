@@ -1,3 +1,5 @@
 关闭按钮: "xpath==//div[@class='close-btn']"
 
-右上角弹窗: "xpath==//div[@class='ant-notification ant-notification-topRight']//div[@class='ant-notification-notice-message']"
+右上角弹窗_标题: "xpath==//div[@class='ant-notification ant-notification-topRight']//div[@class='ant-notification-notice-message']"
+右上角弹窗_内容: "xpath==//div[@class='ant-notification ant-notification-topRight']//div[@class='ant-notification-notice-description']"
+右上角弹窗_关闭按钮: "xpath==//div[@class='ant-notification ant-notification-topRight']//span[@aria-label='close']"

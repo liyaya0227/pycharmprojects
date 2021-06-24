@@ -1,4 +1,12 @@
-# -*- coding:utf-8 -*-
+#!/usr/bin/env python3
+# -*- coding: UTF-8 -*-
+"""
+@author: jutao
+@version: V1.0
+@file: vipserviceentrustmentagreementpage.py
+@time: 2021/06/22
+"""
+
 from page.webpage import WebPage
 from common.readelement import Element
 from utils.times import sleep
@@ -14,10 +22,13 @@ class MainLeftViewPage(WebPage):
         role_list = self.find_elements(main_leftview['角色选项'])
         for role in role_list:
             if role_name in role.text:
+                if 'ant-radio-wrapper-checked' in role.get_attribute('class'):
+                    self.is_click(main_leftview['切换角色弹窗_取消按钮'])
+                    break
                 role.click()
+                self.is_click(main_leftview['切换角色弹窗_确定按钮'])
+                sleep()
                 break
-        self.is_click(main_leftview['切换角色弹窗_确定按钮'])
-        sleep()
 
     def click_homepage_overview_label(self):
         self.is_click(main_leftview['首页概览标签'])
