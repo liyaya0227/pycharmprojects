@@ -23,5 +23,5 @@ def get_value(json_file_path, key):
 
 
 if __name__ == '__main__':
-    file = r"/TestData/house/business/test_add_house.json"
+    file = r"/TestData/house/business/test_add.json"
     print(get_data(file))
