@@ -15,23 +15,19 @@ from config.conf import cm
 from page_object.login.loginpage import LoginPage
 
 
-driver = None
-
-
-@pytest.fixture(scope='module')
+@pytest.fixture(scope='session')
 def web_driver():
     print('------------open browser------------')
-    chrome_option = webdriver.ChromeOptions()
+    chrome_options = webdriver.ChromeOptions()
     prefs = {"download.default_directory": cm.tmp_dir}
-    chrome_option.add_experimental_option("prefs", prefs)
-    web_driver = webdriver.Chrome(chrome_options=chrome_option)
+    chrome_options.add_experimental_option("prefs", prefs)
+    web_driver = webdriver.Chrome(options=chrome_options)
     # web_driver = webdriver.Firefox(firefox_binary='C://Program Files//Mozilla Firefox//firefox.exe')
     web_driver.maximize_window()
-    # web_driver.get(ini.url)
-    web_driver.get('https://uat-passport.jingrizf.com/login')
+    web_driver.get(ini.url)
     login_page = LoginPage(web_driver)
-    login_page.input_account('jutao')
-    login_page.input_password('111111')
+    login_page.input_account(ini.user_account)
+    login_page.input_password(ini.user_password)
     login_page.click_verify_button()
     login_page.verify()
     login_page.click_login_button()

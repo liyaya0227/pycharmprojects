@@ -63,7 +63,23 @@ class ConfigManager(object):
     @property
     def tmp_dir(self):
         """配置文件"""
-        tmp_picture_file = os.path.join(self.BASE_DIR, 'tmp')
+        tmp_dir = os.path.join(self.BASE_DIR, 'tmp')
+        if not os.path.exists(tmp_dir):
+            raise FileNotFoundError("配置文件%s不存在！" % tmp_dir)
+        return tmp_dir
+
+    @property
+    def tmp_picture_file(self):
+        """配置文件"""
+        tmp_picture_file = os.path.join(self.BASE_DIR, 'tmp', 'picture.JPG')
+        if not os.path.exists(tmp_picture_file):
+            raise FileNotFoundError("配置文件%s不存在！" % tmp_picture_file)
+        return tmp_picture_file
+
+    @property
+    def test_data_dir(self):
+        """配置文件"""
+        tmp_picture_file = os.path.join(self.BASE_DIR, 'TestData')
         if not os.path.exists(tmp_picture_file):
             raise FileNotFoundError("配置文件%s不存在！" % tmp_picture_file)
         return tmp_picture_file
@@ -71,4 +87,4 @@ class ConfigManager(object):
 
 cm = ConfigManager()
 if __name__ == '__main__':
-    print(cm.BASE_DIR)
+    print(cm.tmp_picture_file)

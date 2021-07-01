@@ -70,7 +70,7 @@ class TestHouse(object):
         house_add.choose_doorplate(self.doorplate)
         house_add.choose_sale_radio()
         house_add.click_next_button()
-        content = main_topview.find_notification_content()
+        content = main_topview.find_notification_title()
         if content != '':
             log.info('房源已存在')
             house_code = re.search(r"房源编号(\d+?)，", content).group(1)
@@ -82,7 +82,7 @@ class TestHouse(object):
             house_detail.click_invalid_house_button()
             house_detail.input_invalid_reason("测试需要")
             house_detail.click_invalid_reason_confirm_button()
-            content = main_topview.find_notification_content()
+            content = main_topview.find_notification_title()
             if content == '错误':
                 log.info('无效申请已提交')
                 house_detail.click_invalid_reason_cancel_button()
@@ -90,7 +90,7 @@ class TestHouse(object):
             main_rightview.click_invalid_house()
             invalid_house_page.click_pass_by_housecode(house_code)
             invalid_house_page.click_invalid_house_confirm_button()
-            content = main_topview.find_notification_content()
+            content = main_topview.find_notification_title()
             if content != '成功':
                 invalid_house_page.click_pass_by_housecode(house_code)
                 invalid_house_page.click_invalid_house_confirm_button()

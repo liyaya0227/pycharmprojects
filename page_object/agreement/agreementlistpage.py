@@ -11,7 +11,7 @@ import re
 from page.webpage import WebPage
 from common.readelement import Element
 from utils.times import sleep
-from utils.files import *
+from utils.fileutil import *
 from config.conf import cm
 
 agreement_list = Element('agreement/agreementlist')

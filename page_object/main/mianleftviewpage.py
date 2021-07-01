@@ -17,6 +17,9 @@ main_leftview = Element('main/mainleftview')
 class MainLeftViewPage(WebPage):
 
     def change_role(self, role_name):
+        label_name = self.element_text(main_leftview['角色标签'])
+        if role_name in label_name:
+            return
         self.is_click(main_leftview['功能按钮'])
         self.is_click(main_leftview['切换角色按钮'])
         role_list = self.find_elements(main_leftview['角色选项'])

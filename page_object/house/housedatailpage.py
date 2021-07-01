@@ -10,6 +10,7 @@
 from utils.times import sleep
 from page.webpage import WebPage
 from common.readelement import Element
+from config.conf import cm
 from page_object.house.writtenentrustmentagreementpage import WrittenEntrustmentAgreementPage
 from page_object.house.keyentrustmentcertificatepage import KeyEntrustmentCertificatePage
 from page_object.house.vipserviceentrustmentagreementpage import VipServiceEntrustmentAgreementPage
@@ -99,8 +100,9 @@ class HouseDetailPage(WebPage):
         written_entrustment_agreement_page.input_entrustment_start_date(written_entrustment_agreement.get('委托日期开始日期'))
         written_entrustment_agreement_page.input_entrustment_end_date(written_entrustment_agreement.get('委托日期结束日期'))
         written_entrustment_agreement_page.input_remark(written_entrustment_agreement.get('备注'))
-        written_entrustment_agreement_page.upload_picture(written_entrustment_agreement.get('图片'))
+        written_entrustment_agreement_page.upload_picture([cm.tmp_picture_file])
         written_entrustment_agreement_page.click_submit_button()
+        sleep()
 
     def upload_key_entrustment_certificate(self, key_entrustment_certificate):
         self.click_key_entrustment_certificate_upload_button()
@@ -109,13 +111,14 @@ class HouseDetailPage(WebPage):
         key_entrustment_certificate_page.choose_key_type(key_entrustment_certificate.get('钥匙'))
         key_entrustment_certificate_page.input_shop_space(key_entrustment_certificate.get('存放店面'))
         key_entrustment_certificate_page.input_remark(key_entrustment_certificate.get('备注说明'))
-        key_entrustment_certificate_page.upload_picture(key_entrustment_certificate.get('照片'))
+        key_entrustment_certificate_page.upload_picture([cm.tmp_picture_file])
         key_entrustment_certificate_page.click_save_button()
+        sleep()
 
     def upload_vip_service_entrustment_agreement(self, vip_service_entrustment_agreement):
         self.click_vip_service_entrustment_agreement_upload_button()
         vip_service_entrustment_agreement_page = VipServiceEntrustmentAgreementPage(self.driver)
-        vip_service_entrustment_agreement_page.upload_picture(vip_service_entrustment_agreement.get('图片'))
+        vip_service_entrustment_agreement_page.upload_picture([cm.tmp_picture_file])
         vip_service_entrustment_agreement_page.input_entrustment_agreement_number(
             vip_service_entrustment_agreement.get('委托协议编号'))
         vip_service_entrustment_agreement_page.input_entrustment_date(vip_service_entrustment_agreement.get('委托日期'))
@@ -126,22 +129,24 @@ class HouseDetailPage(WebPage):
         vip_service_entrustment_agreement_page.choose_payment_object(vip_service_entrustment_agreement.get('打款对象'))
         vip_service_entrustment_agreement_page.input_remark(vip_service_entrustment_agreement.get('备注'))
         vip_service_entrustment_agreement_page.click_submit_button()
+        sleep()
 
     def upload_deed_tax_invoice_information(self, deed_tax_invoice_information):
         self.click_deed_tax_invoice_upload_button()
         deed_tax_invoice_information_page = DeedTaxInvoiceInformationPage(self.driver)
-        deed_tax_invoice_information_page.upload_picture(deed_tax_invoice_information.get('图片'))
+        deed_tax_invoice_information_page.upload_picture([cm.tmp_picture_file])
         deed_tax_invoice_information_page.input_filling_date(deed_tax_invoice_information.get('填发日期'))
         deed_tax_invoice_information_page.input_tax_money(deed_tax_invoice_information.get('计税金额'))
         deed_tax_invoice_information_page.input_remark(deed_tax_invoice_information.get('备注'))
         deed_tax_invoice_information_page.click_submit_button()
+        sleep()
 
     def upload_owner_identification_information(self, owner_identification_information):
         self.click_owner_identification_information_upload_button()
         owner_identification_information_page = OwnerIdentificationInformationPage(self.driver)
         owner_identification_information_page.choose_seller_type(owner_identification_information.get('卖方类型'))
         owner_identification_information_page.choose_identity_type(owner_identification_information.get('证件类型'))
-        owner_identification_information_page.upload_picture(owner_identification_information.get('图片'))
+        owner_identification_information_page.upload_picture([cm.tmp_picture_file])
         owner_identification_information_page.choose_nationality(owner_identification_information.get('国籍'))
         owner_identification_information_page.input_owner_name(owner_identification_information.get('业主姓名'))
         owner_identification_information_page.input_valid_period_start(
@@ -149,6 +154,7 @@ class HouseDetailPage(WebPage):
         owner_identification_information_page.input_valid_period_end(owner_identification_information.get('有效期限_结束日期'))
         owner_identification_information_page.input_remark(owner_identification_information.get('备注'))
         owner_identification_information_page.click_submit_button()
+        sleep()
 
     def upload_original_purchase_contract_information(self, original_purchase_contract_information):
         self.click_original_purchase_contract_information_upload_button()
@@ -160,19 +166,21 @@ class HouseDetailPage(WebPage):
         original_purchase_contract_information_page.input_room_area(original_purchase_contract_information.get('套内面积'))
         original_purchase_contract_information_page.choose_is_share(original_purchase_contract_information.get('是否共有'))
         original_purchase_contract_information_page.input_remark(original_purchase_contract_information.get('备注'))
-        original_purchase_contract_information_page.upload_picture(original_purchase_contract_information.get('图片'))
+        original_purchase_contract_information_page.upload_picture([cm.tmp_picture_file])
         original_purchase_contract_information_page.click_submit_button()
+        sleep()
 
     def upload_property_ownership_certificate(self, property_ownership_certificate):
         self.click_property_ownership_certificate_upload_button()
         property_ownership_certificate_page = PropertyOwnershipCertificatePage(self.driver)
-        property_ownership_certificate_page.upload_picture(property_ownership_certificate.get('图片'))
+        property_ownership_certificate_page.upload_picture([cm.tmp_picture_file])
         property_ownership_certificate_page.input_contract_registration_date(property_ownership_certificate.get('登记日期'))
         property_ownership_certificate_page.choose_is_share(property_ownership_certificate.get('是否共有'))
         property_ownership_certificate_page.input_building_area( property_ownership_certificate.get('建筑面积'))
         property_ownership_certificate_page.input_room_area(property_ownership_certificate.get('套内面积'))
         property_ownership_certificate_page.input_remark(property_ownership_certificate.get('备注'))
         property_ownership_certificate_page.click_submit_button()
+        sleep()
 
     def click_invalid_house_button(self):
         self.move_mouse_to_element(house_detail['右侧菜单更多按钮'])

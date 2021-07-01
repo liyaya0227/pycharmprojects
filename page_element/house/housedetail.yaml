@@ -1,4 +1,4 @@
-预约实勘按钮: "xpath==//li[text()='预约实勘']"
+预约实勘按钮: "xpath==//li[text()='预约实勘']/span"
 选择实勘方式_普通实勘单选: "xpath==//div[@class='ant-modal-root']//span[text()='普通实勘']/parent::label//input[@type='radio']"
 选择实勘方式_VR实勘单选: "xpath==//div[@class='ant-modal-root']//span[text()='VR实勘']/parent::label//input[@type='radio']"
 摄影师输入框: "xpath==//div[@class='ant-modal-root']//input[@id='surveyUserId']"

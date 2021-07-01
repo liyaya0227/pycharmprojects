@@ -23,21 +23,20 @@ class MainTopViewPage(WebPage):
         try:
             ele = self.find_element_with_wait_time(main_topview['关闭按钮'])
             ele.click()
-            # self.is_click(main_topview['关闭按钮'])
         except TimeoutException:
             pass
 
     def find_notification_title(self):
         try:
             ele = self.find_element_with_wait_time(main_topview['右上角弹窗_标题'])
-            return ele.text  # self.element_text(main_topview['右上角弹窗_标题'])
+            return ele.text
         except TimeoutException:
             return ''
 
     def find_notification_content(self):
         try:
             ele = self.find_element_with_wait_time(main_topview['右上角弹窗_内容'])
-            return ele.text  # self.element_text(main_topview['右上角弹窗_内容'])
+            return ele.text
         except TimeoutException:
             return ''
 
