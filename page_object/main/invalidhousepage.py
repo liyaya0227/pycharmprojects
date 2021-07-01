@@ -3,7 +3,7 @@
 """
 @author: jutao
 @version: V1.0
-@file: vipserviceentrustmentagreementpage.py
+@file: invalidhousepage.py
 @time: 2021/06/22
 """
 
@@ -22,7 +22,9 @@ class InvalidHousePage(WebPage):
         invalid_housecode_list = invalid_house_tab.find_elements_by_xpath("//table/tbody/tr/td[2]/a/span")
         for invalid_housecode in invalid_housecode_list:
             if invalid_housecode.text == housecode:
-                ele = invalid_house_tab.find_element_by_xpath("//table/tbody/tr[" + str(invalid_housecode_list.index(invalid_housecode) + 1) + "]/td[10]//a[text()='通过']")
+                ele = invalid_house_tab.find_element_by_xpath("//table/tbody/tr[" +
+                                                              str(invalid_housecode_list.index(invalid_housecode) + 1) +
+                                                              "]/td[10]//a[text()='通过']")
                 ele.click()
                 sleep()
                 break
@@ -30,4 +32,3 @@ class InvalidHousePage(WebPage):
     def click_invalid_house_confirm_button(self):
         self.is_click(invalid_house_table['弹窗_确定按钮'])
         sleep()
-

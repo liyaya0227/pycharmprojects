@@ -3,7 +3,7 @@
 """
 @author: jutao
 @version: V1.0
-@file: vipserviceentrustmentagreementpage.py
+@file: inspect.py
 @time: 2021/06/22
 """
 

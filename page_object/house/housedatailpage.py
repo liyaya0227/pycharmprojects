@@ -3,7 +3,7 @@
 """
 @author: jutao
 @version: V1.0
-@file: vipserviceentrustmentagreementpage.py
+@file: housedetailpage.py
 @time: 2021/06/22
 """
 
@@ -176,7 +176,7 @@ class HouseDetailPage(WebPage):
         property_ownership_certificate_page.upload_picture([cm.tmp_picture_file])
         property_ownership_certificate_page.input_contract_registration_date(property_ownership_certificate.get('登记日期'))
         property_ownership_certificate_page.choose_is_share(property_ownership_certificate.get('是否共有'))
-        property_ownership_certificate_page.input_building_area( property_ownership_certificate.get('建筑面积'))
+        property_ownership_certificate_page.input_building_area(property_ownership_certificate.get('建筑面积'))
         property_ownership_certificate_page.input_room_area(property_ownership_certificate.get('套内面积'))
         property_ownership_certificate_page.input_remark(property_ownership_certificate.get('备注'))
         property_ownership_certificate_page.click_submit_button()
