@@ -13,8 +13,6 @@ import shutil
 import subprocess
 from config.conf import cm
 
-WIN = sys.platform.startswith('win')
-
 
 def main():
     result_path = os.path.join(cm.BASE_DIR, 'allure', 'allure_result')
@@ -27,7 +25,7 @@ def main():
     allure_cmd = f'allure generate {result_path} -o {report_path} --clean'
     p2 = subprocess.Popen(allure_cmd, shell=True, stdout=subprocess.PIPE)
     out1 = p2.communicate()[0]
-    out1 = str(out, 'utf-8')
+    out1 = str(out1, 'utf-8')
     if 'successfully' in out1:
         print(f'报告已生成成功，请到{report_path}中查看 index.html')
 

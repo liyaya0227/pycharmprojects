@@ -71,7 +71,7 @@ class ConfigManager(object):
     @property
     def tmp_picture_file(self):
         """配置文件"""
-        tmp_picture_file = os.path.join(self.BASE_DIR, 'tmp', 'picture.JPG')
+        tmp_picture_file = os.path.join(self.BASE_DIR, 'tmp', 'picture.jpg')
         if not os.path.exists(tmp_picture_file):
             raise FileNotFoundError("配置文件%s不存在！" % tmp_picture_file)
         return tmp_picture_file

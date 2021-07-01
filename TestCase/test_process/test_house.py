@@ -157,20 +157,20 @@ class TestHouse(object):
     @pytest.mark.dependency(depends=['test_001'], scope='class')
     def test_003(self, web_driver):
         written_entrustment_agreement = {'委托协议编号': '', '委托日期开始日期': '2021-06-22', '委托日期结束日期': '2021-07-22',
-                                         '备注': '书面委托协议信息', '图片': [cm.tmp_dir + '\\picture.JPG']}
+                                         '备注': '书面委托协议信息', '图片': [cm.tmp_dir + '\\picture.jpg']}
         key_entrustment_certificate = {'协议编号': '', '钥匙': ['密码钥匙', '123456'], '存放店面': '新平街888号',
-                                       '备注说明': '登记钥匙', '照片': [cm.tmp_dir + '\\picture.JPG']}
-        vip_service_entrustment_agreement = {'图片': [cm.tmp_dir + '\\picture.JPG'], '委托协议编号': '', '委托日期': '2021-06-22',
+                                       '备注说明': '登记钥匙', '照片': [cm.tmp_dir + '\\picture.jpg']}
+        vip_service_entrustment_agreement = {'图片': [cm.tmp_dir + '\\picture.jpg'], '委托协议编号': '', '委托日期': '2021-06-22',
                                              '委托截止': '2022-06-22', '委托类型': 'VIP服务', '委托价格': '2', '保证金': '8000',
                                              '打款对象': '业主', '备注': 'VIP服务委托协议'}
-        deed_tax_invoice_information = {'图片': [cm.tmp_dir + '\\picture.JPG'], '填发日期': '2021-01-22', '计税金额': '200',
+        deed_tax_invoice_information = {'图片': [cm.tmp_dir + '\\picture.jpg'], '填发日期': '2021-01-22', '计税金额': '200',
                                         '备注': '契税票信息'}
-        owner_identification_information = {'卖方类型': '个人', '证件类型': '身份证', '图片': [cm.tmp_dir + '\\picture.JPG'],
+        owner_identification_information = {'卖方类型': '个人', '证件类型': '身份证', '图片': [cm.tmp_dir + '\\picture.jpg'],
                                             '国籍': '中国大陆', '业主姓名': '测试A', '有效期限_开始日期': '2021-01-22',
                                             '有效期限_结束日期': '2091-01-22', '备注': '业主身份证明信息'}
         original_purchase_contract_information = {'原始购房合同登记日期': '2021-01-22', '建筑面积': '120', '套内面积': '118',
-                                                  '是否共有': '是', '备注': '原始购房合同信息', '图片': [cm.tmp_dir + '\\picture.JPG']}
-        property_ownership_certificate = {'图片': [cm.tmp_dir + '\\picture.JPG'], '登记日期': '2021-01-22', '是否共有': '是',
+                                                  '是否共有': '是', '备注': '原始购房合同信息', '图片': [cm.tmp_dir + '\\picture.jpg']}
+        property_ownership_certificate = {'图片': [cm.tmp_dir + '\\picture.jpg'], '登记日期': '2021-01-22', '是否共有': '是',
                                           '建筑面积': '120', '套内面积': '118', '备注': '房产证信息'}
 
         main_leftview = MainLeftViewPage(web_driver)
