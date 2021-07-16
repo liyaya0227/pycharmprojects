@@ -9,7 +9,7 @@
 
 from page.webpage import WebPage
 from common.readelement import Element
-from utils.times import sleep
+from utils.timeutil import sleep
 from utils.uploadfile import upload_file
 
 vip_service_entrustment_agreement = Element('house/vipserviceentrustmentagreement')

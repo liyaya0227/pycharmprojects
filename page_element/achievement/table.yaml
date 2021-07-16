@@ -1,0 +1,19 @@
+我的应收业绩标签: "xpath==//div[@style='' or not(@style)]/div[@class='ant-row achievement']//div[@role='tablist']/div[@class='ant-tabs-nav-wrap']//div[text()='我的应收业绩']"
+我的实收业绩标签: "xpath==//div[@style='' or not(@style)]/div[@class='ant-row achievement']//div[@role='tablist']/div[@class='ant-tabs-nav-wrap']//div[text()='我的实收业绩']"
+业绩审核标签: "xpath==//div[@style='' or not(@style)]/div[@class='ant-row achievement']//div[@role='tablist']/div[@class='ant-tabs-nav-wrap']//div[text()='业绩审核']"
+
+待提交标签: "xpath==//div[@style='' or not(@style)]/div[@class='ant-row achievement']//div[@class='ant-tabs-content-holder']//span[text()='待提交']"
+待审核标签: "xpath==//div[@style='' or not(@style)]/div[@class='ant-row achievement']//div[@class='ant-tabs-content-holder']//span[text()='待审核']"
+审核通过标签: "xpath==//div[@style='' or not(@style)]/div[@class='ant-row achievement']//div[@class='ant-tabs-content-holder']//span[text()='审核通过']"
+驳回标签: "xpath==//div[@style='' or not(@style)]/div[@class='ant-row achievement']//div[@class='ant-tabs-content-holder']//span[text()='驳回']"
+
+合同编号搜索框: "xpath==//div[@style='' or not(@style)]/div[@class='ant-row achievement']//div[@role='tabpanel' and @aria-hidden='false']//input[@id='contractNo']"
+签约日期开始日期搜索框: "xpath==//div[@style='' or not(@style)]/div[@class='ant-row achievement']//div[@role='tabpanel' and @aria-hidden='false']//input[@id='signDate']"
+签约日期结束日期搜索框: "xpath==//div[@style='' or not(@style)]/div[@class='ant-row achievement']//div[@role='tabpanel' and @aria-hidden='false']//input[@placeholder='结束日期']"
+业务类型搜索框: "xpath==//div[@style='' or not(@style)]/div[@class='ant-row achievement']//div[@role='tabpanel' and @aria-hidden='false']//input[@id='contractType']"
+提交人搜索框: "xpath==//div[@style='' or not(@style)]/div[@class='ant-row achievement']//div[@role='tabpanel' and @aria-hidden='false']//input[@id='submitter']"
+搜索下拉框: "xpath==//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'ant-select-dropdown-hidden'))]//div[@class='rc-virtual-list']//div[contains(@class,'ant-select-item ant-select-item-option')]"
+
+查询按钮: "xpath==//div[@style='' or not(@style)]/div[@class='ant-row achievement']//div[@role='tabpanel' and @aria-hidden='false']//span[text()='查询']/ancestor::button[@type='submit']"
+
+业绩列表: "xpath==//div[@style='' or not(@style)]/div[@class='ant-row achievement']//div[@role='tabpanel' and @aria-hidden='false']//table"

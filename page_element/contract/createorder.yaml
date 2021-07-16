@@ -1,0 +1,31 @@
+业务类型选择框: "xpath==//div[@style='' or not(@style)]//form[@id='contract']//input[@id='contract_businessType']/ancestor::div[@class='ant-select-selector']/span[@class='ant-select-selection-item']"
+业务类型下拉框: "xpath==//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'ant-select-dropdown-hidden'))]//div[@class='rc-virtual-list']//div[@class='ant-select-item-option-content']"
+协议类型选择框: "xpath==//div[@style='']//form[@id='contract']//input[@id='contract_agreementType']"
+协议类型下拉框: "xpath==//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'ant-select-dropdown-hidden'))]//div[@class='rc-virtual-list']//div[@class='ant-select-item-option-content']"
+
+房源编号输入框: "xpath==//div[@style='' or not(@style)]//form[@id='house']//input[@id='house_houseCode']"
+获取房源信息按钮: "xpath==//div[@style='' or not(@style)]//form[@id='house']//span[text()='获取房源信息']/parent::button"
+校验一标签: "xpath==//div[@style='' or not(@style)]//form[@id='house']//label[@for='house_select0']"
+校验一输入框: "xpath==//div[@style='' or not(@style)]//form[@id='house']//input[@id='house_select0']"
+校验二标签: "xpath==//div[@style='' or not(@style)]//form[@id='house']//label[@for='house_select1']"
+校验二输入框: "xpath==//div[@style='' or not(@style)]//form[@id='house']//input[@id='house_select1']"
+校验三标签: "xpath==//div[@style='' or not(@style)]//form[@id='house']//label[@for='house_select2']"
+校验三输入框: "xpath==//div[@style='' or not(@style)]//form[@id='house']//input[@id='house_select2']"
+校验四标签: "xpath==//div[@style='' or not(@style)]//form[@id='house']/div[4]//label"
+校验四输入框: "xpath==//div[@style='' or not(@style)]//form[@id='house']//input[@id='house_select3']"
+校验下拉框: "xpath==//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'ant-select-dropdown-hidden'))]//div[@class='rc-virtual-list']//div[@class='ant-select-item-option-content']"
+校验房源信息按钮: "xpath==//div[@style='' or not(@style)]//form[@id='house']//span[text()='校验房源信息']/parent::button"
+
+客源编号输入框: "xpath==//div[@style='' or not(@style)]//form[@id='customer']//input[@id='customer_customerCode']"
+获取客源信息按钮: "xpath==//div[@style='' or not(@style)]//form[@id='customer']//span[text()='获取客源信息']/parent::button"
+客源信息标签: "xpath==//div[@style='' or not(@style)]//form[@id='customer']//span[@id='customer_customerName']"
+
+下一步按钮: "xpath==//div[@style='' or not(@style)]//div[@class='order-container']/button[@class='ant-btn ant-btn-primary']"
+
+苏州合同单选按钮: "xpath==//div[@class='ant-modal-root']//div[@class='ant-modal-body']//span[contains(text(),'苏州')]/parent::label"
+昆山合同单选按钮: "xpath==//div[@class='ant-modal-root']//div[@class='ant-modal-body']//span[contains(text(),'昆山')]/parent::label"
+取消按钮: "xpath==//div[@class='ant-modal-root']//div[@class='ant-modal-footer']//span[text()='取 消']/parent::button"
+确定按钮: "xpath==//div[@class='ant-modal-root']//div[@class='ant-modal-footer']//span[text()='确 定']/parent::button"
+
+保存按钮: "xpath==//form[contains(@class,'create-contract-form') or contains(@class,'create-ren-contract-form')]//span[text()='保存']/parent::button"
+提交按钮: "xpath==//form[contains(@class,'create-contract-form') or contains(@class,'create-ren-contract-form')]//span[text()='提交']/parent::button"

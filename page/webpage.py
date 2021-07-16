@@ -14,7 +14,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 
 from config.conf import cm
-from utils.times import sleep
+from utils.timeutil import sleep
 from utils.logger import log
 
 
@@ -58,8 +58,8 @@ class WebPage(object):
 
     def find_elements(self, locator):
         """查找多个相同的元素"""
-        return WebPage.element_locator(lambda *args: self.wait.until(
-            EC.presence_of_all_elements_located(args)), locator)
+        return WebPage.element_locator(lambda *args: self.wait.until(EC.presence_of_all_elements_located(args)),
+                                       locator)
 
     def elements_num(self, locator):
         """获取相同元素的个数"""
@@ -74,6 +74,17 @@ class WebPage(object):
         ele = self.find_element(locator)
         ele.clear()
         ele.send_keys(txt)
+        sleep()
+
+    def input_text_with_enter(self, locator, txt):
+        """输入(输入前先清空)"""
+        log.info("元素{}输入文本：{}".format(locator, txt))
+        sleep(0.5)
+        ele = self.find_element(locator)
+        ele.clear()
+        ele.send_keys(txt)
+        ele.send_keys(Keys.ENTER)
+        sleep()
 
     def clear_text(self, locator):
         """清空文本"""
@@ -129,3 +140,14 @@ class WebPage(object):
         action = ActionChains(self.driver)
         action.move_by_offset(x, y).perform()
         sleep(0.5)
+
+    def mouse_left_click(self):
+        ActionChains(self.driver).click().release().perform()
+
+    def keyboard_send_esc(self):
+        sleep()
+        ActionChains(self.driver).key_down(Keys.ESCAPE).key_up(Keys.ESCAPE).perform()
+        sleep()
+
+    def execute_js_script(self, js):
+        self.driver.execute_script(js)

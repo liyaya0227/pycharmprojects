@@ -1,0 +1,20 @@
+买卖合同列表标签: "xpath==//div[@style='' or not(@style)]/div[@class='sign-less']//div[@role='tablist']/div[@class='ant-tabs-nav-wrap']//div[text()='买卖合同列表']"
+签前审核列表标签: "xpath==//div[@style='' or not(@style)]/div[@class='sign-less']//div[@role='tablist']/div[@class='ant-tabs-nav-wrap']//div[text()='签前审核列表']"
+租赁合同列表标签: "xpath==//div[@style='' or not(@style)]/div[@class='sign-less']//div[@role='tablist']/div[@class='ant-tabs-nav-wrap']//div[text()='租赁合同列表']"
+租赁合同审核列表标签: "xpath==//div[@style='' or not(@style)]/div[@class='sign-less']//div[@role='tablist']/div[@class='ant-tabs-nav-wrap']//div[text()='租赁合同审核列表']"
+创建订单按钮: "xpath==//div[@style='' or not(@style)]/div[@class='sign-less']//a[text()='创建订单']/parent::button[@type='button']"
+
+待审核标签: "xpath==//div[@style='' or not(@style)]/div[@class='sign-less']//div[@class='ant-tabs-content-holder']//div[@id='examineType']//span[text()='待审核']"
+已处理标签: "xpath==//div[@style='' or not(@style)]/div[@class='sign-less']//div[@class='ant-tabs-content-holder']//div[@id='examineType']//span[text()='已处理']"
+合同编号搜索框: "xpath==//div[@style='' or not(@style)]/div[@class='sign-less']//div[@class='ant-tabs-content-holder']//div[@role='tabpanel' and @aria-hidden='false']//input[@id='contractNo']"
+房源编号搜索框: "xpath==//div[@style='' or not(@style)]/div[@class='sign-less']//div[@class='ant-tabs-content-holder']//div[@role='tabpanel' and @aria-hidden='false']//input[@id='houseNo']"
+客源编号搜索框: "xpath==//div[@style='' or not(@style)]/div[@class='sign-less']//div[@class='ant-tabs-content-holder']//div[@role='tabpanel' and @aria-hidden='false']//input[@id='customerNo']"
+
+重置按钮: "xpath==//div[@style='' or not(@style)]/div[@class='sign-less']//div[@class='ant-tabs-content-holder']//div[@role='tabpanel' and @aria-hidden='false']//span[text()='重 置']/parent::button"
+查询按钮: "xpath==//div[@style='' or not(@style)]/div[@class='sign-less']//div[@class='ant-tabs-content-holder']//div[@role='tabpanel' and @aria-hidden='false']//span[text()='查 询']/parent::button"
+
+合同列表总数: "xpath==//div[@style='' or not(@style)]/div[@class='sign-less']/p[@style]/span"
+合同列表: "xpath==//div[@style='' or not(@style)]/div[@class='sign-less']//div[@class='ant-table-content']/table"
+
+弹窗_取消按钮: "xpath==//div[contains(@class,'ant-popover ant-popconfirm ant-popover-placement-top') and not(contains(@class,'ant-popover-hidden'))]//span[text()='取 消']/parent::button"
+弹窗_确认按钮: "xpath==//div[contains(@class,'ant-popover ant-popconfirm ant-popover-placement-top') and not(contains(@class,'ant-popover-hidden'))]//span[text()='确 定']/parent::button"

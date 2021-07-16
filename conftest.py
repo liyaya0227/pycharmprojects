@@ -7,33 +7,48 @@
 @time: 2021/06/22
 """
 
+import base64
 import pytest
+import allure
 from py.xml import html
 from common.readconfig import ini
 from selenium import webdriver
 from config.conf import cm
 from page_object.login.loginpage import LoginPage
+from page_object.main.leftviewpage import MainLeftViewPage
+from page_object.main.topviewpage import MainTopViewPage
+
+wdriver = None
 
 
 @pytest.fixture(scope='session')
 def web_driver():
+    global wdriver
     print('------------open browser------------')
     chrome_options = webdriver.ChromeOptions()
-    prefs = {"download.default_directory": cm.tmp_dir}
+    prefs = {"download.default_directory": cm.tmp_dir, "credentials_enable_service": False,
+             "profile.password_manager_enabled": False}
     chrome_options.add_experimental_option("prefs", prefs)
-    web_driver = webdriver.Chrome(options=chrome_options)
-    # web_driver = webdriver.Firefox(firefox_binary='C://Program Files//Mozilla Firefox//firefox.exe')
-    web_driver.maximize_window()
-    web_driver.get(ini.url)
-    login_page = LoginPage(web_driver)
+    chrome_options.add_experimental_option('useAutomationExtension', False)
+    chrome_options.add_experimental_option('excludeSwitches', ['enable-automation', 'load-extension'])
+    wdriver = webdriver.Chrome(options=chrome_options)
+    # web_driver = webdriver.Firefox(firefox_binary='C:/Program Files/Mozilla Firefox/firefox.exe')
+    wdriver.maximize_window()
+    wdriver.get(ini.url)
+    login_page = LoginPage(wdriver)
     login_page.input_account(ini.user_account)
     login_page.input_password(ini.user_password)
     login_page.click_verify_button()
     login_page.verify()
     login_page.click_login_button()
-    yield web_driver
+    main_topview = MainTopViewPage(wdriver)
+    main_topview.click_close_button()
+    main_leftview = MainLeftViewPage(web_driver)
+    main_leftview.change_role('经纪人')
+    yield wdriver
     print('------------close browser------------')
-    web_driver.quit()
+    wdriver.quit()
+
 
 # @pytest.hookimpl(hookwrapper=True)
 # def pytest_runtest_makereport(item):
@@ -53,9 +68,9 @@ def web_driver():
 #             file_name = report.nodeid.replace("::", "_") + ".png"
 #             screen_img = _capture_screenshot()
 #             if file_name:
-#                 html = '<div><img src="data:image/png;base64,%s" alt="screenshot" style="width:1024px;height:768px;" ' \
-#                        'onclick="window.open(this.src)" align="right"/></div>' % screen_img
-#                 extra.append(pytest_html.extras.html(html))
+#                 html1 = '<div><img src="data:image/png;base64,%s" alt="screenshot" style="width:1024px;height:768px;"' \
+#                         'onclick="window.open(this.src)" align="right"/></div>' % screen_img
+#                 extra.append(pytest_html.extras.html(html1))
 #         report.extra = extra
 #
 #
@@ -75,7 +90,13 @@ def web_driver():
 #     if report.passed:
 #         del data[:]
 #         data.append(html.div('通过的用例未捕获日志输出.', class_='empty log'))
-#
-#
-# def _capture_screenshot():
-#     return driver.get_screenshot_as_base64()
+
+
+def _capture_screenshot():
+    """截图保存为base64"""
+    now_time, screen_file = cm.screen_path
+    wdriver.save_screenshot(screen_file)
+    allure.attach.file(screen_file, "失败截图{}".format(now_time), allure.attachment_type.PNG)
+    with open(screen_file, 'rb') as f:
+        imagebase64 = base64.b64encode(f.read())
+    return imagebase64.decode()

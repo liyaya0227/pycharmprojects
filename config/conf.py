@@ -9,7 +9,7 @@
 
 import os
 from selenium.webdriver.common.by import By
-from utils.times import dt_strftime
+from utils.timeutil import dt_strftime
 
 
 class ConfigManager(object):
@@ -83,6 +83,16 @@ class ConfigManager(object):
         if not os.path.exists(tmp_picture_file):
             raise FileNotFoundError("配置文件%s不存在！" % tmp_picture_file)
         return tmp_picture_file
+
+    @property
+    def screen_path(self):
+        """截图目录"""
+        screenshot_dir = os.path.join(self.BASE_DIR, 'tmp', 'screen_capture')
+        if not os.path.exists(screenshot_dir):
+            os.makedirs(screenshot_dir)
+        now_time = dt_strftime("%Y%m%d%H%M%S")
+        screen_file = os.path.join(screenshot_dir, "{}.png".format(now_time))
+        return now_time, screen_file
 
 
 cm = ConfigManager()

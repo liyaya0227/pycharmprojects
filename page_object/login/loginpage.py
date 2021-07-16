@@ -9,7 +9,7 @@
 
 from page.webpage import WebPage
 from common.readelement import Element
-from utils.times import sleep
+from utils.timeutil import sleep
 from config.conf import cm
 from PIL import Image
 from utils.fileutil import delete_file

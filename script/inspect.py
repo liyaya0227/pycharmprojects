@@ -10,7 +10,7 @@
 import os
 import yaml
 from config.conf import cm
-from utils.times import running_time
+from utils.timeutil import running_time
 
 
 @running_time

@@ -7,18 +7,18 @@
 @time: 2021/06/22
 """
 
-from utils.times import sleep
+from utils.timeutil import sleep
 
 from page.webpage import WebPage
 from common.readelement import Element
 
-invalid_house_table = Element('main/invalidhouse')
+invalid_house = Element('main/invalidhouse')
 
 
 class InvalidHousePage(WebPage):
 
     def click_pass_by_housecode(self, housecode):
-        invalid_house_tab = self.find_element(invalid_house_table['无效房源列表'])
+        invalid_house_tab = self.find_element(invalid_house['无效房源列表'])
         invalid_housecode_list = invalid_house_tab.find_elements_by_xpath("//table/tbody/tr/td[2]/a/span")
         for invalid_housecode in invalid_housecode_list:
             if invalid_housecode.text == housecode:
@@ -30,5 +30,5 @@ class InvalidHousePage(WebPage):
                 break
 
     def click_invalid_house_confirm_button(self):
-        self.is_click(invalid_house_table['弹窗_确定按钮'])
+        self.is_click(invalid_house['弹窗_确定按钮'])
         sleep()

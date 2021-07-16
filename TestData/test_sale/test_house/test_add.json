@@ -1,0 +1,9 @@
+{
+  "house_owner_name": "ceshi",
+  "house_owner_phone": "18112591866",
+  "house_types": ["4", "3", "2", "1"],
+  "area": "120",
+  "orientations": ["南"],
+  "sale_price": "200",
+  "inspect_type": "下班后可看"
+}

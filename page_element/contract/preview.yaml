@@ -1,0 +1,7 @@
+通过按钮: "xpath==//div[@class='previewOrder-less']//span[text()='通 过']/parent::button"
+驳回按钮: "xpath==//div[@class='previewOrder-less']//span[text()='驳 回']/parent::button"
+修改按钮: "xpath==//div[@class='previewOrder-less']//a[text()='修改']/parent::button"
+无效按钮: "xpath==//div[@class='previewOrder-less']//span[text()='无 效']/parent::button"
+无章打印按钮: "xpath==//div[@class='previewOrder-less']//span[text()='无章打印']/parent::button"
+有章打印按钮: "xpath==//div[@class='previewOrder-less']//span[text()='有章打印']/parent::button"
+签章按钮: "xpath==//div[@class='previewOrder-less']//span[text()='签 章']/parent::button"

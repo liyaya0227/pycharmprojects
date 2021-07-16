@@ -1,0 +1,3 @@
+综合办理按钮: "xpath==//div[@style='']/div[@class='detail-transaction']//div[text()='综合办理']"
+结案按钮: "xpath==//div[@style='']/div[@class='detail-transaction']//div[text()='结案' and not(@class='title')]"
+完成按钮: "xpath==//div[contains(@class,'ant-dropdown-placement-bottomLeft')]//li[text()='完成']"

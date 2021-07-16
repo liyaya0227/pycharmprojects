@@ -1,6 +1,0 @@
-买二手住宅勾选: "xpath==//div[@class='ant-modal-root']//span[text()='买二手住宅']/parent::label/span[@class='ant-checkbox']"
-租赁住宅勾选: "xpath==//div[@class='ant-modal-root']//span[text()='租赁住宅']/parent::label/span[@class='ant-checkbox']"
-买新房不限勾选: "xpath==//div[@class='ant-modal-root']//span[text()='买新房不限']/parent::label/span[@class='ant-checkbox']"
-取消按钮: "xpath==//div[@class='ant-modal-root']//span[text()='取 消']/parent::button[@type='button']"
-确定按钮: "xpath==//div[@class='ant-modal-root']//span[text()='确 定']/parent::button[@type='button']"
-关闭按钮: "xpath==//div[@class='ant-modal-root']//span[@class='ant-modal-close-x']"

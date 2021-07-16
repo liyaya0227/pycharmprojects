@@ -1,0 +1,10 @@
+客户姓名标签: "xpath==//div[@style='' or not(@style)]/div[@class='customerDetail']//div[@class='gray customDetail']/div[@style]/p[1]"
+客户编码标签: "xpath==//div[@style='' or not(@style)]/div[@class='customerDetail']//div[@class='gray customDetail']/div[not(@style)]/p[contains(text(), '客户编码')]"
+
+无效客源按钮: "xpath==//div[@style='' or not(@style)]/div[@class='customerDetail']//div[@class='more']//a[text()='无效客源']"
+
+无效客源申请弹窗_无效类型选择框: "xpath==//div[@class='ant-modal-root']//input[@id='reasonType']"
+无效客源申请弹窗_无效类型下拉框: "xpath==//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'ant-select-dropdown-hidden'))]//div[@class='rc-virtual-list']//div[@class='ant-select-item-option-content']"
+无效客源申请弹窗_无效原因输入框: "xpath==//div[@class='ant-modal-root']//textarea[@id='reasonInfo']"
+无效客源申请弹窗_取消按钮: "xpath==//div[@class='ant-modal-root']//span[text()='取 消']/parent::button"
+无效客源申请弹窗_确定按钮: "xpath==//div[@class='ant-modal-root']//span[text()='确 定']/parent::button"

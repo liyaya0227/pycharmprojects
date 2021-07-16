@@ -34,11 +34,19 @@ class ReadConfig(object):
 
     @property
     def user_account(self):
-        return self._get(self.environment.upper() + '_USER', 'ACCOUNT')
+        if self.environment == 'ks':
+            env = 'sz'
+        else:
+            env = self.environment
+        return self._get(env.upper() + '_USER', 'ACCOUNT')
 
     @property
     def user_password(self):
-        return self._get(self.environment.upper() + '_USER', 'PASSWORD')
+        if self.environment == 'ks':
+            env = 'sz'
+        else:
+            env = self.environment
+        return self._get(env.upper() + '_USER', 'PASSWORD')
 
     @property
     def database_server(self):
@@ -54,8 +62,12 @@ class ReadConfig(object):
 
     @property
     def database_name(self):
+        if self.environment == 'ks':
+            env = 'sz'
+        else:
+            env = self.environment
         database_name = self._get('DATABASE', 'DATABASE_NAME')
-        database_name = database_name.replace("@env", self.environment.upper())
+        database_name = database_name.replace("@env", env.upper())
         return database_name
 
     @property

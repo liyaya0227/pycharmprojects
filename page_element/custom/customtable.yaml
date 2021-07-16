@@ -1,4 +1,0 @@
-录入客源按钮: "xpath==//span[text()='录入客源']/parent::button"
-搜索输入框: "id==searchText"
-查询按钮: "xpath==//span[text()='查 询']/parent::button[@type='submit']"
-意愿等级_不限: "xpath==//div[@id='customerWishes']//span[text()='不限']"

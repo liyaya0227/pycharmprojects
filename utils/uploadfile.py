@@ -9,7 +9,7 @@
 
 import win32gui
 import win32con
-from utils.times import sleep
+from utils.timeutil import sleep
 
 
 def upload_file(file_path, browser_type='chrome'):

@@ -1,0 +1,5 @@
+证件审批列表: "xpath==//table"
+
+翻页标签: "xpath==//div[@class='checkWrapper']//ul[@class='ant-pagination']/li[contains(@class,'ant-pagination-item')]"
+第一页标签: "xpath==//div[@class='checkWrapper']//ul[@class='ant-pagination']/li[contains(@class,'ant-pagination-item') and @title='1']"
+下一页标签: "xpath==//div[@class='checkWrapper']//ul[@class='ant-pagination']/li[contains(@class,'ant-pagination-next')]"
