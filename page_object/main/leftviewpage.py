@@ -9,6 +9,7 @@
 
 from page.webpage import WebPage
 from common.readelement import Element
+from page_object.main.topviewpage import MainTopViewPage
 from utils.timeutil import sleep
 
 left_view = Element('main/leftview')
@@ -32,6 +33,9 @@ class MainLeftViewPage(WebPage):
                 self.is_click(left_view['切换角色弹窗_确定按钮'])
                 sleep(2)
                 break
+        if role_name in '经纪人':
+            main_topview = MainTopViewPage(self.driver)
+            main_topview.click_close_button()
 
     def click_homepage_overview_label(self):
         self.is_click(left_view['首页概览标签'])
@@ -47,6 +51,12 @@ class MainLeftViewPage(WebPage):
         if is_expanded == 'false':
             self.is_click(left_view['客源管理菜单'])
         self.is_click(left_view['我的客户标签'])
+
+    def click_new_house_operation_label(self):
+        is_expanded = self.get_element_attribute(left_view['客源管理菜单'], 'aria-expanded')
+        if is_expanded == 'false':
+            self.is_click(left_view['客源管理菜单'])
+        self.is_click(left_view['新房作业标签'])
 
     def click_contract_management_label(self):
         is_expanded = self.get_element_attribute(left_view['签约管理菜单'], 'aria-expanded')

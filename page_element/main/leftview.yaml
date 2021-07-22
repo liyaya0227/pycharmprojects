@@ -12,6 +12,7 @@
 
 客源管理菜单: "xpath==//span[text()='客源管理']/parent::div[@class='ant-menu-submenu-title']"
 我的客户标签: "xpath==//li[@title='我的客户']"
+新房作业标签: "xpath==//li[@title='新房作业']"
 
 签约管理菜单: "xpath==//span[text()='签约管理']/parent::div[@class='ant-menu-submenu-title']"
 签约管理标签: "xpath==//li[@title='签约管理']"

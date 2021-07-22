@@ -61,6 +61,10 @@ class WebPage(object):
         return WebPage.element_locator(lambda *args: self.wait.until(EC.presence_of_all_elements_located(args)),
                                        locator)
 
+    def find_elements_with_wait_time(self, locator, wait_time=5):
+        element = WebDriverWait(self.driver, wait_time).until(lambda x: x.find_elements(*locator))
+        return element
+
     def elements_num(self, locator):
         """获取相同元素的个数"""
         number = len(self.find_elements(locator))
@@ -73,6 +77,14 @@ class WebPage(object):
         sleep(0.5)
         ele = self.find_element(locator)
         ele.clear()
+        ele.send_keys(txt)
+        sleep()
+
+    def input_text_without_clear(self, locator, txt):
+        """输入(输入前先清空)"""
+        log.info("元素{}输入文本：{}".format(locator, txt))
+        sleep(0.5)
+        ele = self.find_element(locator)
         ele.send_keys(txt)
         sleep()
 

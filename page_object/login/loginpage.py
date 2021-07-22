@@ -69,3 +69,4 @@ class LoginPage(WebPage):
 
     def click_login_button(self):
         self.is_click(login['立即登录按钮'])
+        sleep(3)

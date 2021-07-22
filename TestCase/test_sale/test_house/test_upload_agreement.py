@@ -47,6 +47,7 @@ class TestUploadAgreement(object):
         house_table = HouseTablePage(web_driver)
         house_detail = HouseDetailPage(web_driver)
 
+        main_leftview.change_role('经纪人')
         main_leftview.click_all_house_label()
         house_table.click_sale_tab()
         house_table.click_all_house_tab()
@@ -67,12 +68,13 @@ class TestUploadAgreement(object):
                 main_upview.close_title_by_name(house_property_address['estate_name'])
                 break
             main_upview.close_title_by_name(house_property_address['estate_name'])
+            house_table.click_reset_button()
             house_table.clear_filter('买卖')
             house_table.choose_estate_name_search(ini.house_community_name)
             house_table.choose_building_name_search(ini.house_building_id)
             house_table.click_search_button()
         assert house_code != ''
-        log.info('创建合同的房源编号: ' + house_code)
+        log.info('房源编号: ' + house_code)
         main_upview.clear_all_title()
 
     @allure.story("测试房源上传协议用例")
@@ -180,13 +182,9 @@ class TestUploadAgreement(object):
         log.info('房产证已上传')
         main_leftview.change_role('赋能经理')
         main_rightview.click_certificate_examine()
+        assert certificate_examine.get_table_count() > 0
         certificate_examine.pass_written_entrustment_agreement_examine(house_code)
         certificate_examine.pass_key_entrustment_certificate_examine(house_code)
         certificate_examine.pass_vip_service_entrustment_agreement_examine(house_code)
         certificate_examine.pass_property_ownership_certificate_examine(house_code)
         main_upview.clear_all_title()
-
-
-if __name__ == '__main__':
-    pytest.main(["-v", "-s", "/TestCase/test_sale/test_house/test_upload_agreement.py"])
-    # pytest.main(["-v", "-k", "house and not appointment"])

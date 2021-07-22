@@ -35,6 +35,7 @@ class TestAdd(object):
         customer_table = CustomerTablePage(web_driver)
         customer_detail = CustomerDetailPage(web_driver)
 
+        main_leftview.change_role('经纪人')
         main_leftview.click_my_customer_label()
         customer_table.click_all_tab()
         customer_table.choose_customer_wish('不限')

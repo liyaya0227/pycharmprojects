@@ -18,6 +18,8 @@ certificate_examine = Element('main/certificateexamine')
 class CertificateExaminePage(WebPage):
 
     def __click_pass_examine_button(self, house_code, certificate_name):
+        self.is_click(certificate_examine['第一页标签'])
+        self.scroll_to_top()
         tab_count = self.find_elements(certificate_examine['翻页标签'])
         for _ in range(len(tab_count)):
             locator = "xpath",\
@@ -28,16 +30,12 @@ class CertificateExaminePage(WebPage):
                 pass_button = self.find_element_with_wait_time(locator)
                 pass_button.click()
                 sleep()
-                self.is_click(certificate_examine['第一页标签'])
-                self.scroll_to_top()
                 return True
             except TimeoutException:
                 pass
             if 'ant-pagination-disabled' in self.get_element_attribute(certificate_examine['下一页标签'], 'class'):
                 break
             self.is_click(certificate_examine['下一页标签'])
-        self.is_click(certificate_examine['第一页标签'])
-        self.scroll_to_top()
         return False
 
     def pass_written_entrustment_agreement_examine(self, house_code):
@@ -56,3 +54,11 @@ class CertificateExaminePage(WebPage):
         js = "var q=document.documentElement.scrollTop=0"
         self.execute_js_script(js)
         sleep(3)
+
+    def get_table_count(self):
+        locator = 'xpath', "//table/tbody/tr"
+        sleep()
+        table_row = self.find_elements(locator)
+        if table_row[0].text == '暂无数据':
+            return 0
+        return len(table_row)

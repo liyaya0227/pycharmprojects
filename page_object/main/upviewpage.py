@@ -19,7 +19,7 @@ class MainUpViewPage(WebPage):
 
     def clear_all_title(self):
         try:
-            close_button_list = self.find_elements(up_view['标题列表_关闭按钮'])
+            close_button_list = self.find_elements_with_wait_time(up_view['标题列表_关闭按钮'])
             for close_ele in close_button_list:
                 close_ele.click()
                 sleep()

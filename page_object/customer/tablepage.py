@@ -24,6 +24,7 @@ class CustomerTablePage(WebPage):
 
     def click_search_button(self):
         self.is_click(customer_table['查询按钮'])
+        sleep()
 
     def click_all_tab(self):
         self.is_click(customer_table['全部标签'])

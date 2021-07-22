@@ -19,9 +19,9 @@ class MainTopViewPage(WebPage):
 
     def click_close_button(self):
         try:
-            sleep(2)
             ele = self.find_element_with_wait_time(top_view['关闭按钮'])
             ele.click()
+            sleep(1)
         except TimeoutException:
             pass
 

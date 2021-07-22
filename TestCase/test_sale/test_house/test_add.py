@@ -35,6 +35,7 @@ class TestAdd(object):
     def test_prepare(self, web_driver):
         main_leftview = MainLeftViewPage(web_driver)
 
+        main_leftview.change_role('经纪人')
         main_leftview.click_all_house_label()
 
     @allure.story("测试新增买卖房源，查看搜索结果用例")
@@ -150,6 +151,7 @@ class TestAdd(object):
                 main_upview.close_title_by_name(house_property_address['estate_name'])
                 break
             main_upview.close_title_by_name(house_property_address['estate_name'])
+
             house_table.clear_filter('买卖')
             house_table.choose_estate_name_search(ini.house_community_name)
             house_table.choose_building_name_search(ini.house_building_id)

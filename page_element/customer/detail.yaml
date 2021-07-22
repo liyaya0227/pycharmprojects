@@ -1,5 +1,6 @@
 客户姓名标签: "xpath==//div[@style='' or not(@style)]/div[@class='customerDetail']//div[@class='gray customDetail']/div[@style]/p[1]"
 客户编码标签: "xpath==//div[@style='' or not(@style)]/div[@class='customerDetail']//div[@class='gray customDetail']/div[not(@style)]/p[contains(text(), '客户编码')]"
+所有需求标签: "xpath==//div[@style='' or not(@style)]/div[@class='customerDetail']//div[@class='demandBox']//div[@class='ant-tabs-tab-btn']"
 
 无效客源按钮: "xpath==//div[@style='' or not(@style)]/div[@class='customerDetail']//div[@class='more']//a[text()='无效客源']"
 

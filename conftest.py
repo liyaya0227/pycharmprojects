@@ -43,8 +43,6 @@ def web_driver():
     login_page.click_login_button()
     main_topview = MainTopViewPage(wdriver)
     main_topview.click_close_button()
-    main_leftview = MainLeftViewPage(web_driver)
-    main_leftview.change_role('经纪人')
     yield wdriver
     print('------------close browser------------')
     wdriver.quit()

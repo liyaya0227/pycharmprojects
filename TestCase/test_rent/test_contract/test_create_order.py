@@ -46,6 +46,7 @@ class TestCreateOrder(object):
         customer_detail = CustomerDetailPage(web_driver)
         contract_table = ContractTablePage(web_driver)
 
+        main_leftview.change_role('经纪人')
         main_leftview.click_all_house_label()
         house_table.click_rent_tab()
         house_table.click_reset_button()

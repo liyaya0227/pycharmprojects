@@ -61,7 +61,9 @@ class HouseDetailPage(WebPage):
             return False
 
     def click_exploration_button(self):
+        sleep(2)
         self.is_click(house_detail['预约实勘按钮'])
+        sleep()
 
     def click_back_exploration_button(self):
         self.is_click(house_detail['实勘退单按钮'])
@@ -88,6 +90,11 @@ class HouseDetailPage(WebPage):
         time_list = self.find_elements(house_detail['预约实勘时间_时间下拉框'])
         for time_ele in time_list:
             if time_ele.text == date_time[1]:
+                if "ant-select-item-option-disabled" not in time_ele.get_attribute('class'):
+                    time_ele.click()
+                    break
+        for time_ele in time_list:
+            if "ant-select-item-option-disabled" not in time_ele.get_attribute('class'):
                 time_ele.click()
                 break
 
@@ -108,6 +115,7 @@ class HouseDetailPage(WebPage):
 
     def click_back_exploration_return_button(self):
         self.is_click(house_detail['实勘退单_退单按钮'])
+        sleep()
 
     def expand_certificates_info(self):
         ele = self.find_element(house_detail['证件信息展开收起按钮'])
@@ -308,6 +316,7 @@ class HouseDetailPage(WebPage):
 
     def get_house_property_address(self):
         self.is_click(house_detail['右侧菜单地址按钮'])
+        sleep(1)
         estate_name = self.element_text(house_detail['房源物业地址_楼盘名称显示框']).split('楼盘名称')[1]
         building_name = self.element_text(house_detail['房源物业地址_楼栋显示框']).split('楼栋')[1]
         unit_name = self.element_text(house_detail['房源物业地址_单元显示框']).split('单元')[1]
