@@ -10,7 +10,6 @@
 from utils.timeutil import sleep
 from page.webpage import WebPage
 from common.readelement import Element
-from selenium.common.exceptions import TimeoutException
 
 certificate_examine = Element('main/certificateexamine')
 
@@ -26,13 +25,10 @@ class CertificateExaminePage(WebPage):
                       "//table/tbody//div[@class='houseCode' and text()='" \
                       + house_code + "']/ancestor::tr/td[6]//div[text()='" + certificate_name + \
                       "']/ancestor::tr/td[8]//a[text()='通过']"
-            try:
-                pass_button = self.find_element_with_wait_time(locator)
-                pass_button.click()
+            if self.find_element_with_wait_time(locator):
+                self.is_click(locator)
                 sleep()
                 return True
-            except TimeoutException:
-                pass
             if 'ant-pagination-disabled' in self.get_element_attribute(certificate_examine['下一页标签'], 'class'):
                 break
             self.is_click(certificate_examine['下一页标签'])

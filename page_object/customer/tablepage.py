@@ -8,6 +8,9 @@
 """
 
 from page.webpage import WebPage
+from page_object.customer.addpage import CustomerAddPage
+from page_object.main.leftviewpage import MainLeftViewPage
+from page_object.main.upviewpage import MainUpViewPage
 from utils.timeutil import sleep
 from common.readelement import Element
 
@@ -21,10 +24,11 @@ class CustomerTablePage(WebPage):
 
     def input_search_text(self, search_text):
         self.input_text(customer_table['搜索输入框'], search_text)
+        sleep()
 
     def click_search_button(self):
         self.is_click(customer_table['查询按钮'])
-        sleep()
+        sleep(3)
 
     def click_all_tab(self):
         self.is_click(customer_table['全部标签'])
@@ -66,3 +70,62 @@ class CustomerTablePage(WebPage):
         if table_count[0].text == '暂无数据':
             return 0
         return len(table_count)
+
+    def get_customer_code_by_row(self, row=1):
+        locator = 'xpath', \
+                  "//div[not(contains(@style,'display'))]/div[contains(@class,'customesList')]//table/tbody/tr["\
+                  + str(row) + "]/td[1]/a/div"
+        return self.element_text(locator)
+
+    def get_customer_name_by_row(self, row=1):
+        locator = 'xpath', \
+                  "//div[not(contains(@style,'display'))]/div[contains(@class,'customesList')]//table/tbody/tr["\
+                  + str(row) + "]/td[2]/a/div"
+        return self.element_text(locator)
+
+    def get_customer_detailed_requirements_by_row(self, row=1):
+        expand_locator = 'xpath', "//div[not(contains(@style,'display'))]/div[contains(@class,'customesList')]" \
+                                  "//table/tbody/tr[" + str(row) + "]/td[7]/div/div/a"
+        if self.find_element_with_wait_time(expand_locator, wait_time=1):
+            self.is_click(expand_locator)
+        locator = 'xpath', "//div[not(contains(@style,'display'))]/div[contains(@class,'customesList')]" \
+                           "//table/tbody/tr[" + str(row) + "]/td[7]//div[@class='ant-row']/div[1]"
+        requirement_list = self.find_elements(locator)
+        value = []
+        for requirement_ele in requirement_list:
+            value.append(requirement_ele.text)
+        return value
+
+    def add_customer(self, test_data):
+        main_leftview = MainLeftViewPage(self.driver)
+        main_upview = MainUpViewPage(self.driver)
+        customer_add = CustomerAddPage(self.driver)
+        self.click_add_button()
+        customer_add.input_customer_name(test_data['姓名'])
+        customer_add.choose_customer_sex(test_data['性别'])
+        customer_add.choose_phone_area(test_data['电话号_区域'])
+        customer_add.input_customer_phone(test_data['电话号'])
+        customer_add.choose_customer_wish(test_data['客户意愿'])
+        customer_add.add_customer_requirements(test_data['需求类型'])
+        customer_add.click_next_step_button()
+        customer_add.choose_purchase_house_purpose(test_data['购房目的'])
+        customer_add.input_psychology_price(test_data['心理价位'])
+        customer_add.input_area(test_data['面积'])
+        customer_add.input_room(test_data['居室'])
+        customer_add.choose_business_district(test_data['商圈'])
+        customer_add.choose_use(test_data['用途'])
+        customer_add.choose_pay_type(test_data['付款方式'])
+        customer_add.input_first_pay(test_data['首付'])
+        customer_add.input_month_pay(test_data['月供'])
+        customer_add.choose_decoration(test_data['装修'])
+        customer_add.choose_orientation(test_data['朝向'])
+        customer_add.choose_floor(test_data['楼层'])
+        customer_add.choose_floor_year(test_data['楼龄'])
+        customer_add.click_complete_button()
+        main_upview.clear_all_title()
+        main_leftview.click_my_customer_label()
+        self.click_all_tab()
+        self.choose_customer_wish('不限')
+        self.input_search_text(test_data['电话号'])
+        self.click_search_button()
+

@@ -24,7 +24,7 @@ from page_object.customer.addpage import CustomerAddPage
 @allure.feature("测试房源模块")
 class TestAdd(object):
 
-    json_file_path = cm.test_data_dir + "/test_sale/test_customer/test_add.json"
+    json_file_path = cm.test_data_dir + "/test_sale/test_customer/test_add_" + ini.environment + ".json"
     test_data = get_data(json_file_path)
 
     @pytest.fixture(scope="class", autouse=True)

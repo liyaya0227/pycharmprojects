@@ -4,6 +4,10 @@
 无效按钮: "xpath==//div[@class='order-detail-less']//span[text()='无 效']/parent::button"
 预览按钮: "xpath==//div[@class='order-detail-less']//a[text()='预览']/parent::button"
 去提审按钮: "xpath==//div[@class='order-detail-less']//span[text()='去提审']/parent::button"
+
+创建时间标签: "xpath==//div[@class='order-detail-less']//div[contains(text(),'创建时间')]/span"
+签约时间标签: "xpath==//div[@class='order-detail-less']//div[contains(text(),'签约时间')]/span"
+
 流程_创建合同图标: "xpath==//div[@class='order-detail-less']//div[text()='创建合同']/ancestor::div[contains(@class, 'ant-steps-item-custom')]"
 流程_提交签前审核图标: "xpath==//div[@class='order-detail-less']//div[text()='提交签前审核']/ancestor::div[contains(@class, 'ant-steps-item-custom')]"
 流程_签前审核通过图标: "xpath==//div[@class='order-detail-less']//div[text()='签前审核通过']/ancestor::div[contains(@class, 'ant-steps-item-custom')]"

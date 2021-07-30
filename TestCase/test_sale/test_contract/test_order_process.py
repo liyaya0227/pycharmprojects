@@ -24,7 +24,7 @@ from page_object.contract.detailpage import ContractDetailPage
 from page_object.contract.preview import ContractPreviewPage
 from page_object.achievement.detailpage import AchievementDetailPage
 from page_object.achievement.tablepage import AchievementTablePage
-from page_object.transaction.onwayodertablepage import TransactionOnwayOrderTablePage
+from page_object.transaction.tablepage import TransactionTablePage
 from page_object.transaction.detailpage import TransactionDetailPage
 
 house_code = ''
@@ -104,7 +104,7 @@ class TestOrderProcess(object):
         contract_preview = ContractPreviewPage(web_driver)
         achievement_table = AchievementTablePage(web_driver)
         achievement_detail = AchievementDetailPage(web_driver)
-        transaction_onway_order_table = TransactionOnwayOrderTablePage(web_driver)
+        transaction_table = TransactionTablePage(web_driver)
         transaction_detail = TransactionDetailPage(web_driver)
 
         contract_table.click_sale_contract_tab()
@@ -349,11 +349,11 @@ class TestOrderProcess(object):
         log.info('代理费收取后，状态显示正确')
         main_leftview.change_role('权证专员')  # 权证专员过户
         main_leftview.click_on_way_order_label()
-        transaction_onway_order_table.click_contract_code_tab()
-        transaction_onway_order_table.input_search_text(contract_code)
-        transaction_onway_order_table.click_search_button()
-        assert transaction_onway_order_table.get_order_table_count() == 1
-        transaction_onway_order_table.go_to_transaction_detail_by_row(1)
+        transaction_table.click_contract_code_tab()
+        transaction_table.input_search_text(contract_code)
+        transaction_table.click_search_button()
+        assert transaction_table.get_table_count() == 1
+        transaction_table.go_to_transaction_detail_by_row(1)
         transaction_detail.complete_transfer_house()
         assert main_topview.wait_notification_content_exist() == '操作成功'
         main_leftview.change_role('经纪人')
@@ -373,11 +373,11 @@ class TestOrderProcess(object):
         log.info('权证过户后，状态显示正确')
         main_leftview.change_role('权证专员')  # 权证专员结案
         main_leftview.click_on_way_order_label()
-        transaction_onway_order_table.click_contract_code_tab()
-        transaction_onway_order_table.input_search_text(contract_code)
-        transaction_onway_order_table.click_search_button()
-        assert transaction_onway_order_table.get_order_table_count() == 1
-        transaction_onway_order_table.go_to_transaction_detail_by_row(1)
+        transaction_table.click_contract_code_tab()
+        transaction_table.input_search_text(contract_code)
+        transaction_table.click_search_button()
+        assert transaction_table.get_table_count() == 1
+        transaction_table.go_to_transaction_detail_by_row(1)
         transaction_detail.close_case()
         assert main_topview.wait_notification_content_exist() == '操作成功'
         main_leftview.change_role('经纪人')

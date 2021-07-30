@@ -33,8 +33,8 @@ class ContractCreateSaleOrderDetailSZPage(WebPage):
         self.input_special_info(test_data['特别告知'])
         self.input_attachment_two_info(test_data['附件二信息'])
         self.input_supplementary_agreement_info(test_data['补充协议'])
-        self.input_commission_confirmation_info(test_data['房地产经纪佣金确认书'])
-        self.input_commission_confirmation2_info(test_data['房地产经纪佣金确认书'])
+        self.input_commission_confirmation_info(test_data['房地产经纪佣金确认书一'])
+        self.input_commission_confirmation2_info(test_data['房地产经纪佣金确认书二'])
         self.input_receipt_info(test_data['收据'])
 
     def input_buyer_info(self, buyer_info):
@@ -53,32 +53,85 @@ class ContractCreateSaleOrderDetailSZPage(WebPage):
         self.input_text(create_sale_order_detail_sz['房屋出卖人_通讯地址输入框'], buyer_info['房屋出卖人_通讯地址'])
 
     def input_seller_info(self, seller_info):
-        self.input_text(create_sale_order_detail_sz['房屋买受人_姓名输入框'], seller_info['房屋买受人_姓名'])
-        self.input_text(create_sale_order_detail_sz['房屋买受人_英文名输入框'], seller_info['房屋买受人_英文名'])
-        self.is_click(create_sale_order_detail_sz['房屋买受人_性别选择框'])
-        self.__choose_value_in_drop_down_box(seller_info['房屋买受人_性别'])
-        self.input_text(create_sale_order_detail_sz['房屋买受人_国籍输入框'], seller_info['房屋买受人_国籍'])
-        self.is_click(create_sale_order_detail_sz['房屋买受人_出生日期输入框'])
-        self.input_text_with_enter(create_sale_order_detail_sz['房屋买受人_出生日期输入框'], seller_info['房屋买受人_出生日期'])
-        self.is_click(create_sale_order_detail_sz['房屋买受人_证件名称选择框'])
-        self.__choose_value_in_drop_down_box(seller_info['房屋买受人_证件名称'])
-        self.input_text(create_sale_order_detail_sz['房屋买受人_证件号码输入框'], seller_info['房屋买受人_证件号码'])
-        self.input_text(create_sale_order_detail_sz['房屋买受人_联系电话输入框'], seller_info['房屋买受人_联系电话'])
-        self.input_text(create_sale_order_detail_sz['房屋买受人_电子邮箱输入框'], seller_info['房屋买受人_电子邮箱'])
-        self.input_text(create_sale_order_detail_sz['房屋买受人_通讯地址输入框'], seller_info['房屋买受人_通讯地址'])
+        keys = seller_info.keys()
+        if '房屋买受人' in keys:
+            main_seller_info = seller_info['房屋买受人']
+            self.input_text(create_sale_order_detail_sz['房屋买受人_姓名输入框'], main_seller_info['房屋买受人_姓名'])
+            self.input_text(create_sale_order_detail_sz['房屋买受人_英文名输入框'], main_seller_info['房屋买受人_英文名'])
+            self.is_click(create_sale_order_detail_sz['房屋买受人_性别选择框'])
+            self.__choose_value_in_drop_down_box(main_seller_info['房屋买受人_性别'])
+            self.input_text(create_sale_order_detail_sz['房屋买受人_国籍输入框'], main_seller_info['房屋买受人_国籍'])
+            self.is_click(create_sale_order_detail_sz['房屋买受人_出生日期输入框'])
+            self.input_text_with_enter(create_sale_order_detail_sz['房屋买受人_出生日期输入框'], main_seller_info['房屋买受人_出生日期'])
+            self.is_click(create_sale_order_detail_sz['房屋买受人_证件名称选择框'])
+            self.__choose_value_in_drop_down_box(main_seller_info['房屋买受人_证件名称'])
+            self.input_text(create_sale_order_detail_sz['房屋买受人_证件号码输入框'], main_seller_info['房屋买受人_证件号码'])
+            self.input_text(create_sale_order_detail_sz['房屋买受人_联系电话输入框'], main_seller_info['房屋买受人_联系电话'])
+            self.input_text(create_sale_order_detail_sz['房屋买受人_电子邮箱输入框'], main_seller_info['房屋买受人_电子邮箱'])
+            self.input_text(create_sale_order_detail_sz['房屋买受人_通讯地址输入框'], main_seller_info['房屋买受人_通讯地址'])
+        if '共同买受人' in keys:
+            common_sellers_info = seller_info['共同买受人']
+            self.input_common_seller_info(common_sellers_info)
+
+    def input_common_seller_info(self, common_sellers_info):
+        for common_seller_info in common_sellers_info:
+            self.is_click(create_sale_order_detail_sz['房屋买受人_添加共同买受人按钮'])
+            self.input_text(create_sale_order_detail_sz['房屋买受人_共同买受人'
+                                                        + str(common_sellers_info.index(common_seller_info) + 1)
+                                                        + '_姓名输入框'], common_seller_info['共同买受人_姓名'])
+            self.input_text(create_sale_order_detail_sz['房屋买受人_共同买受人'
+                                                        + str(common_sellers_info.index(common_seller_info) + 1)
+                                                        + '_英文名输入框'], common_seller_info['共同买受人_英文名'])
+            self.is_click(create_sale_order_detail_sz['房屋买受人_共同买受人'
+                                                      + str(common_sellers_info.index(common_seller_info) + 1)
+                                                      + '_性别选择框'])
+            self.__choose_value_in_drop_down_box(common_seller_info['共同买受人_性别'])
+            self.input_text(create_sale_order_detail_sz['房屋买受人_共同买受人'
+                                                        + str(common_sellers_info.index(common_seller_info) + 1)
+                                                        + '_国籍输入框'], common_seller_info['共同买受人_国籍'])
+            self.is_click(create_sale_order_detail_sz['房屋买受人_共同买受人'
+                                                      + str(common_sellers_info.index(common_seller_info) + 1)
+                                                      + '_出生日期输入框'])
+            self.input_text_with_enter(
+                create_sale_order_detail_sz['房屋买受人_共同买受人' + str(common_sellers_info.index(common_seller_info) + 1)
+                                            + '_出生日期输入框'], common_seller_info['共同买受人_出生日期'])
+            self.is_click(create_sale_order_detail_sz['房屋买受人_共同买受人'
+                                                      + str(common_sellers_info.index(common_seller_info) + 1)
+                                                      + '_证件名称选择框'])
+            self.__choose_value_in_drop_down_box(common_seller_info['共同买受人_证件名称'])
+            self.input_text(create_sale_order_detail_sz['房屋买受人_共同买受人'
+                                                        + str(common_sellers_info.index(common_seller_info) + 1)
+                                                        + '_证件号码输入框'], common_seller_info['共同买受人_证件号码'])
+            self.input_text(create_sale_order_detail_sz['房屋买受人_共同买受人'
+                                                        + str(common_sellers_info.index(common_seller_info) + 1)
+                                                        + '_联系电话输入框'], common_seller_info['共同买受人_联系电话'])
+            self.input_text(create_sale_order_detail_sz['房屋买受人_共同买受人'
+                                                        + str(common_sellers_info.index(common_seller_info) + 1)
+                                                        + '_电子邮箱输入框'], common_seller_info['共同买受人_电子邮箱'])
+            self.input_text(create_sale_order_detail_sz['房屋买受人_共同买受人'
+                                                        + str(common_sellers_info.index(common_seller_info) + 1)
+                                                        + '_通讯地址输入框'], common_seller_info['共同买受人_通讯地址'])
 
     def input_first_info(self, first_info):
         self.is_click(create_sale_order_detail_sz['一_1_1_选择框'])
-        self.__choose_value_in_drop_down_box('')
+        self.__choose_value_in_drop_down_box(first_info['区'])
         self.input_text(create_sale_order_detail_sz['一_1_2_输入框'], first_info['详细地址'])
         self.input_text(create_sale_order_detail_sz['一_2_1_输入框'], first_info['房屋所有权证编号'])
         self.is_click(create_sale_order_detail_sz['一_3_1_选择框'])
         self.__choose_value_in_drop_down_box(first_info['土地使用权获得方式'])
         self.input_text(create_sale_order_detail_sz['一_3_2_输入框'], first_info['土地使用权证号'])
         self.is_click(create_sale_order_detail_sz['一_3_3_选择框'])
-        self.__choose_value_in_special_drop_down_box(1)
-        self.is_click(create_sale_order_detail_sz['一_3_3_输入框'])
-        self.input_text_with_enter(create_sale_order_detail_sz['一_3_3_输入框'], first_info['土地使用权终止日期'])
+        if first_info['土地使用权终止日期'][0] == 1:
+            self.__choose_value_in_special_drop_down_box(1)
+            self.is_click(create_sale_order_detail_sz['一_3_3_输入框'])
+            if first_info['土地使用权终止日期'][1] != '':
+                self.input_text_with_enter(create_sale_order_detail_sz['一_3_3_输入框'], first_info['土地使用权终止日期'][1])
+            else:
+                raise ValueError('传值错误')
+        elif first_info['土地使用权终止日期'][0] == 2:
+            self.__choose_value_in_special_drop_down_box(2)
+        else:
+            raise ValueError('传值错误')
         self.input_text(create_sale_order_detail_sz['一_4_1_输入框'], first_info['产权登记建筑面积'])
         self.is_click(create_sale_order_detail_sz['一_5_1_选择框'])
         self.__choose_value_in_drop_down_box(first_info['房屋用途'])
@@ -89,28 +142,104 @@ class ContractCreateSaleOrderDetailSZPage(WebPage):
         self.input_text(create_sale_order_detail_sz['一_8_1_输入框'], first_info['产权登记附记内容'])
 
     def input_second_info(self, second_info):
-        self.is_click(create_sale_order_detail_sz['二_1_1_单选按钮'])
-        self.is_click(create_sale_order_detail_sz['二_2_1_单选按钮'])
-        self.is_click(create_sale_order_detail_sz['二_3_1_单选按钮'])
-        self.is_click(create_sale_order_detail_sz['二_4_1_单选按钮'])
-        self.is_click(create_sale_order_detail_sz['二_5_1_单选按钮'])
-        self.is_click(create_sale_order_detail_sz['二_6_1_单选按钮'])
-        self.is_click(create_sale_order_detail_sz['二_6_1_1_单选按钮'])
+        if second_info['房屋权证状况'][0] == 1:
+            self.is_click(create_sale_order_detail_sz['二_1_1_单选按钮'])
+        elif second_info['房屋权证状况'][0] == 2:
+            self.is_click(create_sale_order_detail_sz['二_1_2_单选按钮'])
+            self.input_text(create_sale_order_detail_sz['二_1_2_输入框'], second_info['房屋权证状况'][1])
+        else:
+            raise ValueError('传值错误')
+        if second_info['房屋抵押状况'][0] == 1:
+            self.is_click(create_sale_order_detail_sz['二_2_1_单选按钮'])
+        elif second_info['房屋抵押状况'][0] == 2:
+            self.is_click(create_sale_order_detail_sz['二_2_2_单选按钮'])
+            self.is_click(create_sale_order_detail_sz['二_2_2_选择框'])
+            if second_info['房屋抵押状况'][1][0] == 1:
+                self.__choose_value_in_special_drop_down_box(1)
+            else:
+                raise ValueError('传值错误')
+            self.is_click(create_sale_order_detail_sz['二_2_2_输入框'])
+            self.input_text_with_enter(create_sale_order_detail_sz['二_2_2_输入框'], second_info['房屋抵押状况'][1][1])
+        else:
+            raise ValueError('传值错误')
+        if second_info['房屋租赁状况'][0] == 1:
+            self.is_click(create_sale_order_detail_sz['二_3_1_单选按钮'])
+        elif second_info['房屋租赁状况'][0] == 2:
+            self.is_click(create_sale_order_detail_sz['二_3_2_单选按钮'])
+            self.input_text(create_sale_order_detail_sz['二_3_2_输入框'], second_info['房屋租赁状况'][1])
+        else:
+            raise ValueError('传值错误')
+        if second_info['房屋物业管理状况'] == 1:
+            self.is_click(create_sale_order_detail_sz['二_4_1_单选按钮'])
+        elif second_info['房屋物业管理状况'] == 2:
+            self.is_click(create_sale_order_detail_sz['二_4_2_单选按钮'])
+        else:
+            raise ValueError('传值错误')
+        if second_info['房屋户籍状况'][0] == 1:
+            self.is_click(create_sale_order_detail_sz['二_5_1_单选按钮'])
+        elif second_info['房屋户籍状况'][0] == 2:
+            self.is_click(create_sale_order_detail_sz['二_5_2_单选按钮'])
+            self.is_click(create_sale_order_detail_sz['二_5_2_1_选择框'])
+            if second_info['房屋户籍状况'][1][0] == 1:
+                self.__choose_value_in_special_drop_down_box(1)
+                self.input_text(create_sale_order_detail_sz['二_5_2_1_输入框'], second_info['房屋户籍状况'][1][1])
+            else:
+                raise ValueError('传值错误')
+            self.input_text(create_sale_order_detail_sz['二_5_2_2_输入框'], second_info['房屋户籍状况'][2])
+        else:
+            raise ValueError('传值错误')
+        if second_info['房屋维修资金状'][0] == 1:
+            self.is_click(create_sale_order_detail_sz['二_6_1_单选按钮'])
+            if second_info['房屋维修资金状'][1][0] == 1:
+                self.is_click(create_sale_order_detail_sz['二_6_1_1_单选按钮'])
+            elif second_info['房屋维修资金状'][1][0] == 2:
+                self.is_click(create_sale_order_detail_sz['二_6_1_2_单选按钮'])
+            else:
+                raise ValueError('传值错误')
+        elif second_info['房屋维修资金状'][0] == 2:
+            self.is_click(create_sale_order_detail_sz['二_6_2_单选按钮'])
+            if second_info['房屋维修资金状'][1][0] == 1:
+                self.is_click(create_sale_order_detail_sz['二_6_2_1_单选按钮'])
+            elif second_info['房屋维修资金状'][1][0] == 2:
+                self.is_click(create_sale_order_detail_sz['二_6_2_2_单选按钮'])
+                self.input_text(create_sale_order_detail_sz['二_6_2_2_输入框'], second_info['房屋维修资金状'][1][1])
+            else:
+                raise ValueError('传值错误')
+        else:
+            raise ValueError('传值错误')
         self.is_click(create_sale_order_detail_sz['二_8_1_输入框'])
         self.input_text_with_enter(create_sale_order_detail_sz['二_8_1_输入框'], second_info['费用已支付日期'])
         self.is_click(create_sale_order_detail_sz['二_8_2_输入框'])
         self.input_text_with_enter(create_sale_order_detail_sz['二_8_2_输入框'], second_info['费用支付开始日期'])
 
     def input_third_info(self, third_info):
-        self.input_text(create_sale_order_detail_sz['三_小写_输入框'], third_info['人民币小写'])
+        self.input_text(create_sale_order_detail_sz['三_1_输入框'], third_info['房屋价款'])
 
     def input_four_info(self, four_info):
         self.is_click(create_sale_order_detail_sz['四_单选按钮'])
-        self.is_click(create_sale_order_detail_sz['四_1_单选按钮'])
-        self.is_click(create_sale_order_detail_sz['四_1_1_选择框'])
-        self.__choose_value_in_special_drop_down_box(1)
-        self.is_click(create_sale_order_detail_sz['四_1_1_输入框'])
-        self.input_text_with_enter(create_sale_order_detail_sz['四_1_1_输入框'], four_info['支付日期'])
+        if four_info['选项'][0] == 1:
+            self.is_click(create_sale_order_detail_sz['四_1_单选按钮'])
+            if four_info['选项'][1][0] == 1:
+                self.is_click(create_sale_order_detail_sz['四_1_1_选择框'])
+                self.__choose_value_in_special_drop_down_box(1)
+            else:
+                raise ValueError('传值错误')
+            self.is_click(create_sale_order_detail_sz['四_1_1_输入框'])
+            self.input_text_with_enter(create_sale_order_detail_sz['四_1_1_输入框'], four_info['选项'][1][1])
+        elif four_info['选项'][0] == 2:
+            self.is_click(create_sale_order_detail_sz['四_2_单选按钮'])
+            self.is_click(create_sale_order_detail_sz['四_2_1_输入框'])
+            self.input_text_with_enter(create_sale_order_detail_sz['四_2_1_输入框'], four_info['选项'][1][0])
+            self.input_text(create_sale_order_detail_sz['四_2_2_输入框'], four_info['选项'][1][1])
+            if four_info['选项'][1][2] == 1:
+                self.is_click(create_sale_order_detail_sz['四_2_4_选择框'])
+                self.__choose_value_in_special_drop_down_box(four_info['选项'][1][2])
+            else:
+                raise ValueError('传值错误')
+            self.is_click(create_sale_order_detail_sz['四_2_7_输入框'])
+            self.input_text_with_enter(create_sale_order_detail_sz['四_2_7_输入框'], four_info['选项'][1][3])
+        else:
+            raise ValueError('传值错误')
 
     def input_five_info(self, five_info):
         self.input_text(create_sale_order_detail_sz['五_1_1_输入框'], five_info['逾期日期范围'])
@@ -130,49 +259,55 @@ class ContractCreateSaleOrderDetailSZPage(WebPage):
             self.input_text(create_sale_order_detail_sz['七_1_输入框'], seven_info['交付日期'][1])
 
     def input_nine_info(self, nine_info):
-        if nine_info['选项'] == 1:
+        if nine_info['选项'][0] == 1:
             self.is_click(create_sale_order_detail_sz['九_1_单选按钮'])
-            self.input_text(create_sale_order_detail_sz['九_1_输入框'], nine_info['输入'])
-            if nine_info['协商或评估'] == '协商':
+            self.input_text(create_sale_order_detail_sz['九_1_输入框'], nine_info['选项'][1])
+            if nine_info['选项'][2] == 1:
                 self.is_click(create_sale_order_detail_sz['九_2_1_单选按钮'])
-            elif nine_info['协商或评估'] == '评估':
+            elif nine_info['选项'][2] == 2:
                 self.is_click(create_sale_order_detail_sz['九_2_2_单选按钮'])
             else:
                 raise ValueError("填值错误")
-        elif nine_info['选项'] == 2:
+        elif nine_info['选项'][0] == 2:
             self.is_click(create_sale_order_detail_sz['九_2_单选按钮'])
-            self.input_text(create_sale_order_detail_sz['九_2_输入框'], nine_info['输入'])
+            self.input_text(create_sale_order_detail_sz['九_2_输入框'],  nine_info['选项'][1])
         else:
             raise ValueError("填值错误")
 
     def input_ten_info(self, ten_info):
-        self.is_click(create_sale_order_detail_sz['十_1_选择框'])
-        self.__choose_value_in_special_drop_down_box(1)
-        self.input_text(create_sale_order_detail_sz['十_1_输入框'], ten_info['时间'])
+        if ten_info['选项'][0] == 1:
+            self.is_click(create_sale_order_detail_sz['十_1_选择框'])
+            self.__choose_value_in_special_drop_down_box(1)
+            self.input_text(create_sale_order_detail_sz['十_1_输入框'], ten_info['选项'][1])
+        else:
+            raise ValueError("填值错误")
 
     def input_eleven_info(self, eleven_info):
-        if eleven_info['选项'] == 1:
+        if eleven_info['选项'][0] == 1:
             self.is_click(create_sale_order_detail_sz['十一_1_单选按钮'])
-        elif eleven_info['选项'] == 2:
+        elif eleven_info['选项'][0] == 2:
             self.is_click(create_sale_order_detail_sz['十一_2_单选按钮'])
-            self.input_text(create_sale_order_detail_sz['十一_2_输入框'], eleven_info['输入'])
+            self.input_text(create_sale_order_detail_sz['十一_2_输入框'], eleven_info['选项'][1])
         else:
             raise ValueError("选项填值错误")
 
     def input_twelve_info(self, twelve_info):
-        if twelve_info['选项'] == 1:
+        if twelve_info['选项'][0][0] == 1:
             self.is_click(create_sale_order_detail_sz['十二_1_1_单选按钮'])
-        elif twelve_info['选项'] == 2:
+        elif twelve_info['选项'][0][0] == 2:
             self.is_click(create_sale_order_detail_sz['十二_1_2_单选按钮'])
-        elif twelve_info['选项'] == 3:
+        elif twelve_info['选项'][0][0] == 3:
             self.is_click(create_sale_order_detail_sz['十二_1_3_单选按钮'])
-        elif twelve_info['选项'] == 4:
+        elif twelve_info['选项'][0][0] == 4:
             self.is_click(create_sale_order_detail_sz['十二_1_4_单选按钮'])
-            self.input_text(create_sale_order_detail_sz['十二_1_4_输入框'], twelve_info['输入'])
+            self.input_text(create_sale_order_detail_sz['十二_1_4_输入框'], twelve_info['选项'][0][1])
         else:
             raise ValueError("选项填值错误")
-        self.is_click(create_sale_order_detail_sz['十二_1_5_输入框'])
-        self.__choose_value_in_special_drop_down_box()
+        if twelve_info['选项'][1] == 1:
+            self.is_click(create_sale_order_detail_sz['十二_1_5_输入框'])
+            self.__choose_value_in_special_drop_down_box(1)
+        else:
+            raise ValueError("选项填值错误")
 
     def input_sixteen_info(self, sixteen_info):
         if sixteen_info['选项'] == 1:
@@ -201,28 +336,34 @@ class ContractCreateSaleOrderDetailSZPage(WebPage):
 
     def input_supplementary_agreement_info(self, supplementary_agreement_info):
         pay_list = supplementary_agreement_info['首期款支付分期']
-        for pay in pay_list:
-            self.is_click(create_sale_order_detail_sz['补充协议_1_1_1_选择框'])
-            date = pay['日期']
-            self.__choose_value_in_special_drop_down_box(date[0])
-            if date[0] != 2:
-                self.is_click(create_sale_order_detail_sz['补充协议_1_1_1_输入框'])
-                self.input_text_with_enter(create_sale_order_detail_sz['补充协议_1_1_1_输入框'], date[1])
-            if date[0] > 6:
-                raise ValueError("传参错误")
-            self.input_text(create_sale_order_detail_sz['补充协议_1_1_2_输入框'], pay['金额'])
-            if pay['支付方式'] == 1:
-                self.is_click(create_sale_order_detail_sz['补充协议_1_1_3_单选按钮'])
-            elif pay['支付方式'] == 2:
-                self.is_click(create_sale_order_detail_sz['补充协议_1_1_4_单选按钮'])
-            elif pay['支付方式'] == 3:
-                self.is_click(create_sale_order_detail_sz['补充协议_1_1_5_单选按钮'])
-            else:
-                raise ValueError("传值错误")
-            self.is_click(create_sale_order_detail_sz['补充协议_1_1_6_选择框'])
-            self.__choose_value_in_special_drop_down_box()
-            self.input_text(create_sale_order_detail_sz['补充协议_1_1_6_输入框'], pay['其他'])
-        house_deposit = supplementary_agreement_info['户口迁出保证金']
+        if len(pay_list) < 5:
+            for pay in pay_list:
+                self.is_click(create_sale_order_detail_sz['补充协议_1_' + str(pay_list.index(pay) + 1) + '_1_选择框'])
+                date = pay['日期']
+                self.__choose_value_in_special_drop_down_box(date[0])
+                if date[0] != 2:
+                    self.is_click(create_sale_order_detail_sz['补充协议_1_' + str(pay_list.index(pay) + 1) + '_1_输入框'])
+                    self.input_text_with_enter(create_sale_order_detail_sz['补充协议_1_' + str(pay_list.index(pay) + 1)
+                                                                           + '_1_输入框'], date[1])
+                if date[0] > 6:
+                    raise ValueError("传参错误")
+                self.input_text(create_sale_order_detail_sz['补充协议_1_' + str(pay_list.index(pay) + 1) + '_2_输入框'],
+                                pay['金额'])
+                if pay['支付方式'] == 1:
+                    self.is_click(create_sale_order_detail_sz['补充协议_1_' + str(pay_list.index(pay) + 1) + '_3_单选按钮'])
+                elif pay['支付方式'] == 2:
+                    self.is_click(create_sale_order_detail_sz['补充协议_1_' + str(pay_list.index(pay) + 1) + '_4_单选按钮'])
+                elif pay['支付方式'] == 3:
+                    self.is_click(create_sale_order_detail_sz['补充协议_1_' + str(pay_list.index(pay) + 1) + '_5_单选按钮'])
+                else:
+                    raise ValueError("传值错误")
+                self.is_click(create_sale_order_detail_sz['补充协议_1_' + str(pay_list.index(pay) + 1) + '_6_选择框'])
+                self.__choose_value_in_special_drop_down_box()
+                self.input_text(create_sale_order_detail_sz['补充协议_1_' + str(pay_list.index(pay) + 1) + '_6_输入框'],
+                                pay['其他'])
+        else:
+            raise ValueError("传参错误")
+        house_deposit = supplementary_agreement_info['交房保证金']
         self.is_click(create_sale_order_detail_sz['补充协议_1_5_1_选择框'])
         house_deposit_date = house_deposit['日期']
         self.__choose_value_in_special_drop_down_box(house_deposit_date[0])
@@ -326,15 +467,18 @@ class ContractCreateSaleOrderDetailSZPage(WebPage):
         self.input_text(create_sale_order_detail_sz['收据_房屋买受人_输入框'], receipt_info['房屋买受人'])
         self.input_text(create_sale_order_detail_sz['收据_定金_输入框'], receipt_info['定金'])
         collection_details = receipt_info['收款明细']
-        for collection in collection_details:
-            self.is_click(create_sale_order_detail_sz['收据_支付日期'
-                                                      + str(collection_details.index(collection) + 1) + '_输入框'])
-            self.input_text_with_enter(
-                create_sale_order_detail_sz['收据_支付日期' + str(collection_details.index(collection) + 1)
-                                            + '_输入框'], collection['日期'])
-            self.input_text(
-                create_sale_order_detail_sz['收据_支付金额' + str(collection_details.index(collection) + 1) + '_输入框'],
-                collection['金额'])
+        if len(collection_details) < 4:
+            for collection in collection_details:
+                self.is_click(create_sale_order_detail_sz['收据_支付日期'
+                                                          + str(collection_details.index(collection) + 1) + '_输入框'])
+                self.input_text_with_enter(
+                    create_sale_order_detail_sz['收据_支付日期' + str(collection_details.index(collection) + 1)
+                                                + '_输入框'], collection['日期'])
+                self.input_text(
+                    create_sale_order_detail_sz['收据_支付金额' + str(collection_details.index(collection) + 1) + '_输入框'],
+                    collection['金额'])
+        else:
+            raise ValueError("传值错误")
 
     def __choose_value_in_drop_down_box(self, choose_value):
         ele_list = self.find_elements(create_sale_order_detail_sz['合同内容下拉框'])
@@ -346,7 +490,8 @@ class ContractCreateSaleOrderDetailSZPage(WebPage):
                 if ele.text == choose_value:
                     ele.click()
                     sleep()
-                    break
+                    return True
+            raise ValueError('传值错误')
 
     def __choose_value_in_special_drop_down_box(self, index=1):
         ele_list = self.find_elements(create_sale_order_detail_sz['合同内容特殊下拉框'])

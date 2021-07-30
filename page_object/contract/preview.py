@@ -18,7 +18,7 @@ class ContractPreviewPage(WebPage):
 
     def click_pass_button(self):
         self.is_click(preview['通过按钮'])
-        sleep()
+        sleep(2)
 
     def click_reject_button(self):
         self.is_click(preview['驳回按钮'])

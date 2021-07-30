@@ -7,12 +7,9 @@
 @date: 2021/7/8 0008
 """
 
-from utils.timeutil import dt_strftime
 from utils.timeutil import sleep
-from utils.uploadfile import upload_file
 from page.webpage import WebPage
 from common.readelement import Element
-from selenium.common.exceptions import TimeoutException
 
 detail = Element('achievement/detail')
 

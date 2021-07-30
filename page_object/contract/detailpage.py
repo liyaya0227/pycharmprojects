@@ -30,6 +30,7 @@ class ContractDetailPage(WebPage):
 
     def click_go_examine_button(self):
         self.is_click(detail['去提审按钮'])
+        sleep(2)
 
     def create_contract_icon_is_light(self):
         value = self.get_element_attribute(detail['流程_创建合同图标'], 'class')
@@ -117,10 +118,11 @@ class ContractDetailPage(WebPage):
         for picture_path in pictures_path:
             self.is_click(detail['上传图片按钮'])
             upload_file(picture_path)
-            sleep()
+            sleep(2)
 
     def click_submit_button(self):
         self.is_click(detail['提交按钮'])
+        sleep(2)
 
     def click_attachment_info(self):
         self.is_click(detail['备件信息标签'])
@@ -178,6 +180,12 @@ class ContractDetailPage(WebPage):
 
     def click_confirm_button(self):
         self.is_click(detail['弹窗_确定按钮'])
+        sleep()
 
     def click_close_button(self):
         self.is_click(detail['弹窗_关闭按钮'])
+
+    def get_contract_info(self):
+        contract_info = {'create_time': self.element_text(detail['创建时间标签']),
+                         'sign_time': self.element_text(detail['签约时间标签'])}
+        return contract_info

@@ -53,8 +53,11 @@ class WebPage(object):
         return element
 
     def find_element_with_wait_time(self, locator, wait_time=5):
-        element = WebDriverWait(self.driver, wait_time).until(lambda x: x.find_element(*locator))
-        return element
+        try:
+            element = WebDriverWait(self.driver, wait_time).until(lambda x: x.find_element(*locator))
+            return element
+        except TimeoutException:
+            return False
 
     def find_elements(self, locator):
         """查找多个相同的元素"""
@@ -118,7 +121,7 @@ class WebPage(object):
         """点击"""
         log.info("点击元素：{}".format(locator))
         self.find_element(locator).click()
-        sleep()
+        sleep(2)
 
     def element_text(self, locator):
         """获取当前的text"""
@@ -163,3 +166,7 @@ class WebPage(object):
 
     def execute_js_script(self, js):
         self.driver.execute_script(js)
+
+    def wait_page_loading_complete(self):
+        while self.driver.execute_script("return document.readyState") != 'complete':
+            sleep()

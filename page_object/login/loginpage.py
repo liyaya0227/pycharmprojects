@@ -14,7 +14,6 @@ from config.conf import cm
 from PIL import Image
 from utils.fileutil import delete_file
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.common.exceptions import TimeoutException
 
 login = Element('login/login')
 
@@ -62,10 +61,8 @@ class LoginPage(WebPage):
             action.release().perform()
             sleep()
             delete_file(cm.tmp_dir + "/全屏截图.png")
-            try:
-                self.find_element_with_wait_time(login['验证图片'])
-            except TimeoutException:
-                return
+            if not self.find_element_with_wait_time(login['验证图片']):
+                return True
 
     def click_login_button(self):
         self.is_click(login['立即登录按钮'])

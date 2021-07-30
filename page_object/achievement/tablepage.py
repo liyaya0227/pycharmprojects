@@ -7,12 +7,9 @@
 @date: 2021/7/8 0008
 """
 
-from utils.timeutil import dt_strftime
 from utils.timeutil import sleep
-from utils.uploadfile import upload_file
 from page.webpage import WebPage
 from common.readelement import Element
-from selenium.common.exceptions import TimeoutException
 
 table = Element('achievement/table')
 
@@ -53,6 +50,7 @@ class AchievementTablePage(WebPage):
         for business_type_ele in business_type_list:
             if business_type_ele.text == business_type:
                 business_type_ele.click()
+                sleep()
                 break
 
     def input_submit_person_search(self, submit_person):
@@ -65,7 +63,7 @@ class AchievementTablePage(WebPage):
         examine_table = self.find_element(table['业绩列表'])
         contract = examine_table.find_element_by_xpath(
             "//div[@style='' or not(@style)]/div[@class='ant-row achievement']"
-            "//div[@role='tabpanel' and @aria-hidden='false']//table//tbody/tr[" + str(row) + "]/td[8]/a[text()='通过']")
+            "//div[@role='tabpanel' and @aria-hidden='false']//table//tbody/tr[" + str(row) + "]/td[9]/a[text()='通过']")
         contract.click()
         sleep()
 

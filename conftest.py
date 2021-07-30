@@ -14,6 +14,8 @@ from py.xml import html
 from common.readconfig import ini
 from selenium import webdriver
 from config.conf import cm
+from utils.timeutil import timestamp
+from utils.sendmail import send_report
 from page_object.login.loginpage import LoginPage
 from page_object.main.leftviewpage import MainLeftViewPage
 from page_object.main.topviewpage import MainTopViewPage
@@ -42,6 +44,7 @@ def web_driver():
     login_page.verify()
     login_page.click_login_button()
     main_topview = MainTopViewPage(wdriver)
+    main_topview.wait_page_loading_complete()
     main_topview.click_close_button()
     yield wdriver
     print('------------close browser------------')
@@ -70,11 +73,11 @@ def web_driver():
 #                         'onclick="window.open(this.src)" align="right"/></div>' % screen_img
 #                 extra.append(pytest_html.extras.html(html1))
 #         report.extra = extra
-#
-#
+
+
 # def pytest_html_results_table_header(cells):
 #     cells.insert(1, html.th('用例名称'))
-#     cells.insert(2, html.th('Test_nodeid'))
+#     cells.insert(2, html.th('Test_node_id'))
 #     cells.pop(2)
 #
 #
@@ -90,11 +93,29 @@ def web_driver():
 #         data.append(html.div('通过的用例未捕获日志输出.', class_='empty log'))
 
 
+# def pytest_terminal_summary(terminalreporter, exitstatus, config):
+#     """收集测试结果"""
+#     result = {
+#         "total": terminalreporter._numcollected,
+#         'passed': len(terminalreporter.stats.get('passed', [])),
+#         'failed': len(terminalreporter.stats.get('failed', [])),
+#         'error': len(terminalreporter.stats.get('error', [])),
+#         'skipped': len(terminalreporter.stats.get('skipped', [])),
+#         # terminalreporter._sessionstarttime 会话开始时间
+#         'total times': timestamp() - terminalreporter._sessionstarttime
+#     }
+#     print(result)
+#     if result['failed'] or result['error']:
+#         send_report()
+
+
 def _capture_screenshot():
     """截图保存为base64"""
     now_time, screen_file = cm.screen_path
     wdriver.save_screenshot(screen_file)
-    allure.attach.file(screen_file, "失败截图{}".format(now_time), allure.attachment_type.PNG)
+    allure.attach.file(screen_file,
+                       "失败截图{}".format(now_time),
+                       allure.attachment_type.PNG)
     with open(screen_file, 'rb') as f:
         imagebase64 = base64.b64encode(f.read())
     return imagebase64.decode()

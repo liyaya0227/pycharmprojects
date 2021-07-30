@@ -11,7 +11,6 @@ from page.webpage import WebPage
 from common.readelement import Element
 from utils.timeutil import sleep
 from common.readconfig import ini
-from selenium.common.exceptions import TimeoutException
 
 house_add = Element('house/add')
 
@@ -81,10 +80,9 @@ class HouseAddPage(WebPage):
                 break
 
     def find_dialog(self):
-        try:
-            self.find_element_with_wait_time(house_add['资料盘认领弹窗_前往按钮'])
+        if self.find_element_with_wait_time(house_add['资料盘认领弹窗_前往按钮']):
             return True
-        except TimeoutException:
+        else:
             return False
 
     def click_dialog_cancel_button(self):
@@ -151,7 +149,7 @@ class HouseAddPage(WebPage):
 
     def click_add_button(self):
         self.is_click(house_add['添加按钮'])
-        sleep()
+        sleep(2)
 
     def input_property_address(self, flag):
         if flag == '买卖':

@@ -43,15 +43,38 @@ class HouseDetailPage(WebPage):
 
     def get_inspect_type(self):
         value = self.element_text(house_detail['常规看房时间标签'])
-        return value.split('： ')[1]
+        try:
+            return value.split('： ')[1]
+        except IndexError:
+            return ''
 
     def get_renovation_condition(self):
         value = self.element_text(house_detail['装修情况标签'])
-        return value.split('： ')[1]
+        try:
+            return value.split('： ')[1]
+        except IndexError:
+            return ''
+
+    def get_house_state(self):
+        value = self.element_text(house_detail['房屋现状标签'])
+        try:
+            return value.split('： ')[1]
+        except IndexError:
+            return ''
+
+    def get_has_pledge(self):
+        value = self.element_text(house_detail['抵押情况标签'])
+        try:
+            return value.split('： ')[1]
+        except IndexError:
+            return ''
 
     def get_enable_watch_time(self):
         value = self.element_text(house_detail['可看时间标签'])
-        return value.split('： ')[1]
+        try:
+            return value.split('： ')[1]
+        except IndexError:
+            return ''
 
     def check_exploration(self):
         value = self.element_text(house_detail['是否预约实勘标签'])
@@ -316,7 +339,7 @@ class HouseDetailPage(WebPage):
 
     def get_house_property_address(self):
         self.is_click(house_detail['右侧菜单地址按钮'])
-        sleep(1)
+        sleep(3)
         estate_name = self.element_text(house_detail['房源物业地址_楼盘名称显示框']).split('楼盘名称')[1]
         building_name = self.element_text(house_detail['房源物业地址_楼栋显示框']).split('楼栋')[1]
         unit_name = self.element_text(house_detail['房源物业地址_单元显示框']).split('单元')[1]
@@ -332,3 +355,169 @@ class HouseDetailPage(WebPage):
     def page_refresh(self):
         self.refresh()
         sleep(2)
+
+    def click_edit_house_key_info_button(self):
+        self.is_click(house_detail['编辑重点维护信息按钮'])
+
+    def dialog_choose_inspect_type(self, inspect_type):
+        self.is_click(house_detail['常规看房时间选择框'])
+        inspect_type_list = self.find_elements(house_detail['下拉框'])
+        for inspect_type_ele in inspect_type_list:
+            if inspect_type_ele.text == inspect_type:
+                inspect_type_ele.click()
+                sleep()
+                return True
+        raise ValueError('传值错误')
+
+    def dialog_choose_house_state(self, house_state):
+        self.is_click(house_detail['房屋现状选择框'])
+        house_state_list = self.find_elements(house_detail['下拉框'])
+        for house_state_ele in house_state_list:
+            if house_state_ele.text == house_state:
+                house_state_ele.click()
+                sleep()
+                return True
+        raise ValueError('传值错误')
+
+    def dialog_input_house_state_desc(self, house_state_desc):
+        self.clear_text(house_detail['房屋现状输入框'])
+        self.input_text(house_detail['房屋现状输入框'], house_state_desc)
+
+    def dialog_choose_is_unique(self, is_unique):
+        self.is_click(house_detail['是否唯一选择框'])
+        is_unique_list = self.find_elements(house_detail['下拉框'])
+        for is_unique_ele in is_unique_list:
+            if is_unique_ele.text == is_unique:
+                is_unique_ele.click()
+                sleep()
+                return True
+        raise ValueError('传值错误')
+
+    def dialog_input_pay_constraint(self, pay_constraint):
+        self.clear_text(house_detail['付款要求输入框'])
+        self.input_text(house_detail['付款要求输入框'], pay_constraint)
+
+    def dialog_input_sale_reason(self, sale_reason):
+        self.clear_text(house_detail['售房原因输入框'])
+        self.input_text(house_detail['售房原因输入框'], sale_reason)
+
+    def dialog_choose_register_state(self, register_state):
+        self.is_click(house_detail['户口情况选择框'])
+        register_state_list = self.find_elements(house_detail['下拉框'])
+        for register_state_ele in register_state_list:
+            if register_state_ele.text == register_state:
+                register_state_ele.click()
+                sleep()
+                return True
+        raise ValueError('传值错误')
+
+    def dialog_choose_has_pledge(self, has_pledge):
+        self.is_click(house_detail['抵押情况选择框'])
+        has_pledge_list = self.find_elements(house_detail['下拉框'])
+        for has_pledge_ele in has_pledge_list:
+            if has_pledge_ele.text == has_pledge:
+                has_pledge_ele.click()
+                sleep()
+                return True
+        raise ValueError('传值错误')
+
+    def dialog_choose_check_out_right_now(self, check_out_right_now):
+        self.is_click(house_detail['是否随时可签选择框'])
+        check_out_right_now_list = self.find_elements(house_detail['下拉框'])
+        for check_out_right_now_ele in check_out_right_now_list:
+            if check_out_right_now_ele.text == check_out_right_now:
+                check_out_right_now_ele.click()
+                sleep()
+                return True
+        raise ValueError('传值错误')
+
+    def dialog_choose_has_school_places(self, has_school_places):
+        self.is_click(house_detail['学区名额选择框'])
+        has_school_places_list = self.find_elements(house_detail['下拉框'])
+        for has_school_places_ele in has_school_places_list:
+            if has_school_places_ele.text == has_school_places:
+                has_school_places_ele.click()
+                sleep()
+                return True
+        raise ValueError('传值错误')
+
+    def dialog_choose_decoration_state(self, decoration_state):
+        self.is_click(house_detail['装修情况选择框'])
+        decoration_state_list = self.find_elements(house_detail['下拉框'])
+        for decoration_state_ele in decoration_state_list:
+            if decoration_state_ele.text == decoration_state:
+                decoration_state_ele.click()
+                sleep()
+                return True
+        raise ValueError('传值错误')
+
+    def dialog_choose_house_property_limit(self, house_property_limit):
+        self.is_click(house_detail['产证年限选择框'])
+        house_property_limit_list = self.find_elements(house_detail['下拉框'])
+        for house_property_limit_ele in house_property_limit_list:
+            if house_property_limit_ele.text == house_property_limit:
+                house_property_limit_ele.click()
+                sleep()
+                return True
+        raise ValueError('传值错误')
+
+    def dialog_choose_house_usage(self, house_usage):
+        self.is_click(house_detail['房屋用途选择框'])
+        house_usage_list = self.find_elements(house_detail['下拉框'])
+        for house_usage_ele in house_usage_list:
+            if house_usage_ele.text == house_usage:
+                house_usage_ele.click()
+                sleep()
+                return True
+        raise ValueError('传值错误')
+
+    def dialog_click_confirm_button(self):
+        self.is_click(house_detail['弹窗_确定按钮'])
+        sleep(2)
+
+    def dialog_click_cancel_button(self):
+        self.is_click(house_detail['弹窗_取消按钮'])
+
+    def edit_house_key_info(self, test_data):
+        self.click_edit_house_key_info_button()
+        self.dialog_choose_inspect_type(test_data['常规看房时间'])
+        self.dialog_choose_house_state(test_data['房屋现状'][0])
+        self.dialog_input_house_state_desc(test_data['房屋现状'][1])
+        self.dialog_choose_is_unique(test_data['是否唯一'])
+        self.dialog_input_pay_constraint(test_data['付款要求'])
+        self.dialog_input_sale_reason(test_data['售房原因'])
+        self.dialog_choose_register_state(test_data['户口情况'])
+        self.dialog_choose_has_pledge(test_data['抵押情况'])
+        self.dialog_choose_check_out_right_now(test_data['是否随时可签'])
+        self.dialog_choose_has_school_places(test_data['学区名额'])
+        self.dialog_choose_decoration_state(test_data['装修情况'])
+        self.dialog_choose_house_property_limit(test_data['产证年限'])
+        self.dialog_choose_house_usage(test_data['房屋用途'])
+        self.dialog_click_confirm_button()
+
+    def get_house_key_info(self):
+        inspect_type = self.element_text(house_detail['右侧_常规看房时间标签']).split('：')[1].replace(' ', '')
+        house_state = self.element_text(house_detail['右侧_房屋现状标签']).split('：')[1].replace(' ', '')
+        is_unique = self.element_text(house_detail['右侧_是否唯一标签']).split('：')[1].replace(' ', '')
+        pay_constraint = self.element_text(house_detail['右侧_付款要求标签']).split('：')[1].replace(' ', '')
+        sale_reason = self.element_text(house_detail['右侧_售房原因标签']).split('：')[1].replace(' ', '')
+        register_state = self.element_text(house_detail['右侧_户口情况标签']).split('：')[1].replace(' ', '')
+        has_pledge = self.element_text(house_detail['右侧_抵押情况标签']).split('：')[1].replace(' ', '')
+        check_out_right_now = self.element_text(house_detail['右侧_是否随时可签标签']).split('：')[1].replace(' ', '')
+        has_school_places = self.element_text(house_detail['右侧_学区名额标签']).split('：')[1].replace(' ', '')
+        decoration_state = self.element_text(house_detail['右侧_装修情况标签']).split('：')[1].replace(' ', '')
+        house_property_limit = self.element_text(house_detail['右侧_产证年限标签']).split('：')[1].replace(' ', '')
+        house_usage = self.element_text(house_detail['右侧_房屋用途标签']).split('：')[1].replace(' ', '')
+        house_key_info = {'inspect_type': '-' if inspect_type == '' else inspect_type,
+                          'house_state': '-' if house_state == '' else house_state,
+                          'is_unique': '-' if is_unique == '' else is_unique,
+                          'pay_constraint': pay_constraint,
+                          'sale_reason': sale_reason,
+                          'register_state': '-' if register_state == '' else register_state,
+                          'has_pledge': '-' if has_pledge == '' else has_pledge,
+                          'check_out_right_now': '-' if check_out_right_now == '' else check_out_right_now,
+                          'has_school_places': '-' if has_school_places == '' else has_school_places,
+                          'decoration_state': '-' if decoration_state == '' else decoration_state,
+                          'house_property_limit': '-' if house_property_limit == '' else house_property_limit,
+                          'house_usage': '-' if house_usage == '' else house_usage}
+        return house_key_info

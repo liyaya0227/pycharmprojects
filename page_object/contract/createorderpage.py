@@ -49,7 +49,7 @@ class ContractCreateOrderPage(WebPage):
             for ele in ele_list:
                 if ele.text == self.get_value(label, house_info):
                     ele.click()
-                    sleep()
+                    sleep(2)
                     break
 
     @staticmethod
@@ -68,6 +68,10 @@ class ContractCreateOrderPage(WebPage):
             return house_info['enable_watch_time']
         if label_name == '装修情况':
             return house_info['renovation_condition']
+        if label_name == '房屋现状':
+            return house_info['house_state']
+        if label_name == '抵押状态':
+            return house_info['has_pledge']
 
     def click_verify_house_button(self):
         self.is_click(create_order['校验房源信息按钮'])
@@ -98,7 +102,7 @@ class ContractCreateOrderPage(WebPage):
 
     def click_submit_button(self):
         self.is_click(create_order['提交按钮'])
-        sleep(4)
+        sleep(8)
 
     def input_contract_content(self, test_data, flag='买卖'):
         if flag == '买卖':
@@ -107,6 +111,8 @@ class ContractCreateOrderPage(WebPage):
             elif ini.environment == 'ks':
                 ContractCreateSaleOrderDetailKSPage(self.driver).input_contract_content(test_data)
             elif ini.environment == 'wx':
+                ContractCreateSaleOrderDetailWXPage(self.driver).input_contract_content(test_data)
+            elif ini.environment == 'cz':
                 ContractCreateSaleOrderDetailWXPage(self.driver).input_contract_content(test_data)
             else:
                 raise ValueError('传值错误')

@@ -6,7 +6,8 @@
 @file: tablepage.py
 @time: 2021/06/22
 """
-
+from page_object.house.detailpage import HouseDetailPage
+from page_object.main.upviewpage import MainUpViewPage
 from utils.timeutil import sleep
 from page.webpage import WebPage
 from common.readelement import Element
@@ -47,14 +48,17 @@ class HouseTablePage(WebPage):
         for community in community_list:
             if community.text == community_name:
                 community.click()
+                sleep()
                 break
 
     def choose_building_name_search(self, building_name):
         self.is_click(house_table['楼栋选择框'])
+        sleep()
         building_name_list = self.find_elements(house_table['楼栋下拉框'])
         for building_name_ele in building_name_list:
             if building_name_ele.text == building_name:
                 building_name_ele.click()
+                sleep()
                 break
 
     def choose_doorplate_search(self, doorplate):
@@ -67,11 +71,14 @@ class HouseTablePage(WebPage):
 
     def input_house_code_search(self, house_code):
         self.input_text(house_table['房源编号搜索项'], house_code)
+        sleep()
 
     def input_building_name_search(self, building_name):
         self.input_text(house_table['楼盘名称搜索项'], building_name)
+        sleep()
 
     def click_search_button(self):
+        sleep()
         self.is_click(house_table['搜索按钮'])
         sleep()
 
@@ -114,6 +121,7 @@ class HouseTablePage(WebPage):
         sleep()
 
     def go_house_detail_by_row(self, row=1):
+        sleep()
         locator = 'xpath', "//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table/tbody/tr["\
                   + str(row) + "]/td[2]"
         ele = self.find_element(locator)
@@ -143,3 +151,35 @@ class HouseTablePage(WebPage):
     def scroll_to_top(self):
         self.execute_js_script("var q=document.documentElement.scrollTop=0")
         sleep(2)
+
+    def check_house_exist(self, test_data, flag='买卖'):
+        table = HouseTablePage(self.driver)
+        house_detail = HouseDetailPage(self.driver)
+        main_upview = MainUpViewPage(self.driver)
+        if flag == '买卖':
+            table.click_sale_tab()
+        table.click_reset_button()
+        table.clear_filter(flag)
+        table.choose_estate_name_search(test_data['楼盘'])
+        table.choose_building_name_search(test_data['楼栋'])
+        table.click_search_button()
+        table_count = table.get_house_table_count()
+        if table_count == 0:
+            return False
+        else:
+            for row in range(table_count):
+                table.go_house_detail_by_row(row + 1)
+                house_property_address = house_detail.get_house_property_address()
+                if house_property_address['estate_name'] == test_data['楼盘'] \
+                        and house_property_address['building_name'] == test_data['楼栋'] \
+                        and house_property_address['door_name'] == test_data['门牌号']:
+                    main_upview.close_title_by_name(house_property_address['estate_name'])
+                    return True
+                main_upview.close_title_by_name(house_property_address['estate_name'])
+                if flag == '买卖':
+                    table.click_sale_tab()
+                table.clear_filter(flag)
+                table.choose_estate_name_search(test_data['楼盘'])
+                table.choose_building_name_search(test_data['楼栋'])
+                table.click_search_button()
+            return False

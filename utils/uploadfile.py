@@ -28,4 +28,4 @@ def upload_file(file_path, browser_type='chrome'):
     win32gui.SendMessage(edit, win32con.WM_SETTEXT, None, file_path)  # 往输入框输入绝对地址
     button = win32gui.FindWindowEx(dialog, 0, 'Button', None)  # 确认按钮
     win32gui.SendMessage(dialog, win32con.WM_COMMAND, 1, button)  # 点击确认按钮
-    sleep(2)
+    sleep(4)

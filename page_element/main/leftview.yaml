@@ -20,6 +20,7 @@
 
 交易管理菜单: "xpath==//span[text()='交易管理']/parent::div[@class='ant-menu-submenu-title']"
 在途单标签: "xpath==//li[@title='在途单']"
+终结单标签: "xpath==//li[@title='终结单']"
 
 协议应用菜单: "xpath==//span[text()='协议应用']/parent::div[@class='ant-menu-submenu-title']"
 协议列表标签: "xpath==//li[@title='协议列表']"
