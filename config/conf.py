@@ -20,7 +20,7 @@ class ConfigManager(object):
     ELEMENT_PATH = os.path.join(BASE_DIR, 'page_element')
 
     # 报告文件
-    REPORT_FILE = os.path.join(BASE_DIR, 'report', 'report.html')
+    REPORT_FILE = os.path.join(BASE_DIR, 'reports', 'report.html')
 
     # 元素定位的类型
     LOCATE_MODE = {
@@ -34,7 +34,7 @@ class ConfigManager(object):
     # 邮件信息
     EMAIL_INFO = {
         'username': '347869033@qq.com',
-        'password': 'QQ邮箱授权码',
+        'password': 'qybgpjtqpndycahh',
         'smtp_host': 'smtp.qq.com',
         'smtp_port': 465
     }
