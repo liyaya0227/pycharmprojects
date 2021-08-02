@@ -60,12 +60,13 @@ class CustomerTablePage(WebPage):
     def go_customer_detail_by_row(self, row=1):
         locator = 'xpath', \
                   "//div[not(contains(@style,'display'))]//div[contains(@class,'customesList')]//table/tbody/tr["\
-                  + str(row) + "]/td[2]/a/div"
+                  + str(row) + "]/td[" + str(self.__get_column_by_title('姓名') + 1) + "]/a/div"
         self.is_click(locator)
         sleep(1)
 
     def get_customer_table_count(self):
-        locator = 'xpath', "//div[not(contains(@style,'display'))]/div[contains(@class,'customesList')]//table/tbody/tr"
+        locator = 'xpath', \
+                  "//div[not(contains(@style,'display'))]/div[contains(@class,'customesList')]//table/tbody/tr"
         table_count = self.find_elements(locator)
         if table_count[0].text == '暂无数据':
             return 0
@@ -74,27 +75,37 @@ class CustomerTablePage(WebPage):
     def get_customer_code_by_row(self, row=1):
         locator = 'xpath', \
                   "//div[not(contains(@style,'display'))]/div[contains(@class,'customesList')]//table/tbody/tr["\
-                  + str(row) + "]/td[1]/a/div"
+                  + str(row) + "]/td[" + str(self.__get_column_by_title('编号') + 1) + "]/a/div"
         return self.element_text(locator)
 
     def get_customer_name_by_row(self, row=1):
         locator = 'xpath', \
                   "//div[not(contains(@style,'display'))]/div[contains(@class,'customesList')]//table/tbody/tr["\
-                  + str(row) + "]/td[2]/a/div"
+                  + str(row) + "]/td[" + str(self.__get_column_by_title('姓名') + 1) + "]/a/div"
         return self.element_text(locator)
 
     def get_customer_detailed_requirements_by_row(self, row=1):
         expand_locator = 'xpath', "//div[not(contains(@style,'display'))]/div[contains(@class,'customesList')]" \
-                                  "//table/tbody/tr[" + str(row) + "]/td[7]/div/div/a"
+                                  "//table/tbody/tr[" + str(row) + "]/td[" + \
+                         str(self.__get_column_by_title('详细需求') + 1) + "]/div/div/a"
         if self.find_element_with_wait_time(expand_locator, wait_time=1):
             self.is_click(expand_locator)
         locator = 'xpath', "//div[not(contains(@style,'display'))]/div[contains(@class,'customesList')]" \
-                           "//table/tbody/tr[" + str(row) + "]/td[7]//div[@class='ant-row']/div[1]"
+                           "//table/tbody/tr[" + str(row) + "]/td[" + str(self.__get_column_by_title('详细需求') + 1) + \
+                  "]//div[@class='ant-row']/div[1]"
         requirement_list = self.find_elements(locator)
         value = []
         for requirement_ele in requirement_list:
             value.append(requirement_ele.text)
         return value
+
+    def __get_column_by_title(self, title):
+        locator = 'xpath', \
+                  "//div[not(contains(@style,'display'))]/div[contains(@class,'customesList')]//table/thead//th"
+        title_list = self.find_elements(locator)
+        for title_ele in title_list:
+            if title_ele.text == title:
+                return title_list.index(title_ele)
 
     def add_customer(self, test_data):
         main_leftview = MainLeftViewPage(self.driver)

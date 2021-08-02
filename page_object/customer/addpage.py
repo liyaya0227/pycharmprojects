@@ -33,12 +33,10 @@ class CustomerAddPage(WebPage):
         area_list = self.find_elements(customer_add_base_info['电话号_区域下拉框'])
         if phone_area == '':
             area_list[0].click()
-            sleep()
             return True
         for area_ele in area_list:
             if area_ele.text == phone_area:
                 area_ele.click()
-                sleep()
                 return True
         raise ValueError('传值错误')
 
@@ -57,7 +55,6 @@ class CustomerAddPage(WebPage):
 
     def click_add_requirement_button(self):
         self.is_click(customer_add_base_info['需求类型添加按钮'])
-        sleep()
 
     def choose_requirements(self, requirement):
         if requirement == '买二手住宅':
@@ -93,7 +90,6 @@ class CustomerAddPage(WebPage):
 
     def click_next_step_button(self):
         self.is_click(customer_add_base_info['下一步按钮'])
-        sleep()
 
     def get_requirement_tabs(self):
         requirement_tabs = []
@@ -114,7 +110,6 @@ class CustomerAddPage(WebPage):
         for purchase_house_purpose_ele in purchase_house_purpose_list:
             if purchase_house_purpose_ele.text == purchase_house_purpose:
                 purchase_house_purpose_ele.click()
-                sleep()
                 return True
         raise ValueError('传值错误')
 
@@ -124,7 +119,6 @@ class CustomerAddPage(WebPage):
         for rent_type_ele in rent_type_list:
             if rent_type_ele.text == rent_type:
                 rent_type_ele.click()
-                sleep()
                 return True
         raise ValueError('传值错误')
 
@@ -158,7 +152,6 @@ class CustomerAddPage(WebPage):
         for room_ele in room_list:
             if room_ele.text == min_room:
                 room_ele.click()
-                sleep()
                 return True
         raise ValueError('传值错误')
 
@@ -168,7 +161,6 @@ class CustomerAddPage(WebPage):
         for room_ele in room_list:
             if room_ele.text == max_room:
                 room_ele.click()
-                sleep()
                 return True
         raise ValueError('传值错误')
 
@@ -207,7 +199,6 @@ class CustomerAddPage(WebPage):
         for use_ele in use_list:
             if use_ele.text == use:
                 use_ele.click()
-                sleep()
                 return True
         raise ValueError('传值错误')
 
@@ -221,7 +212,6 @@ class CustomerAddPage(WebPage):
         for pay_type_ele in pay_type_list:
             if pay_type_ele.text == pay_type:
                 pay_type_ele.click()
-                sleep()
                 return True
         raise ValueError('传值错误')
 
@@ -231,7 +221,6 @@ class CustomerAddPage(WebPage):
         for rent_range_ele in rent_range_list:
             if rent_range_ele.text == rent_range:
                 rent_range_ele.click()
-                sleep()
                 return True
         raise ValueError('传值错误')
 
@@ -321,8 +310,6 @@ class CustomerAddPage(WebPage):
 
     def click_back_step_button(self):
         self.is_click(customer_add_need_info['上一步按钮'])
-        sleep()
 
     def click_complete_button(self):
         self.is_click(customer_add_need_info['完成按钮'])
-        sleep()

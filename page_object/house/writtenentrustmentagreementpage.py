@@ -9,7 +9,6 @@
 
 from page.webpage import WebPage
 from common.readelement import Element
-from utils.timeutil import sleep
 from utils.uploadfile import upload_file
 
 written_entrustment_agreement = Element('house/writtenentrustmentagreement')
@@ -36,7 +35,6 @@ class WrittenEntrustmentAgreementPage(WebPage):
     def upload_picture(self, file_path):
         for file in file_path:
             self.is_click(written_entrustment_agreement['上传图片按钮'])
-            sleep()
             upload_file(file)
 
     def click_close_button(self):

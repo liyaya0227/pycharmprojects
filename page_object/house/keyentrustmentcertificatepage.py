@@ -9,7 +9,6 @@
 
 from page.webpage import WebPage
 from common.readelement import Element
-from utils.timeutil import sleep
 from utils.uploadfile import upload_file
 
 key_entrustment_certificate = Element('house/keyentrustmentcertificate')
@@ -38,7 +37,6 @@ class KeyEntrustmentCertificatePage(WebPage):
     def upload_picture(self, file_path):
         for file in file_path:
             self.is_click(key_entrustment_certificate['上传照片按钮'])
-            sleep()
             upload_file(file)
 
     def click_close_button(self):

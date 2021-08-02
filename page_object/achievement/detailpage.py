@@ -7,7 +7,6 @@
 @date: 2021/7/8 0008
 """
 
-from utils.timeutil import sleep
 from page.webpage import WebPage
 from common.readelement import Element
 
@@ -18,5 +17,4 @@ class AchievementDetailPage(WebPage):
 
     def click_submit_button(self):
         self.is_click(detail['提交按钮'])
-        sleep()
 

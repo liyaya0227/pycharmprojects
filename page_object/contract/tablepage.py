@@ -49,124 +49,93 @@ class ContractTablePage(WebPage):
 
     def click_reset_button(self):
         self.is_click(table['重置按钮'])
-        sleep()
 
     def click_search_button(self):
         self.is_click(table['查询按钮'])
-        sleep()
 
-    def delete_contract_by_row(self, row, flag='买卖'):
-        contract_tb = self.find_element(table['合同列表'])
-        if flag == '买卖':
-            locator = "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + str(row)\
-                      + "]/td[12]//span[contains(text(),'删除')]"
-        elif flag == '租赁':
-            locator = "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + str(row)\
-                      + "]/td[11]//span[contains(text(),'删除')]"
-        contract = contract_tb.find_element_by_xpath(locator)
-        contract.click()
-        sleep()
+    def delete_contract_by_row(self, row=1):
+        locator = "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + \
+                  str(row) + "]/td[" + str(self.__get_column_by_title('操作') + 1) + "]//span[contains(text(),'删除')]"
+        self.is_click(locator)
 
-    def go_contract_detail_by_row(self, row=1, flag='买卖'):
-        contract_tb = self.find_element(table['合同列表'])
-        if flag == '买卖':
-            locator = "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + str(row)\
-                      + "]/td[2]//div"
-        elif flag == '租赁':
-            locator = "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + str(row)\
-                      + "]/td[2]//a"
-        else:
-            raise ValueError('传值错误')
-        contract = contract_tb.find_element_by_xpath(locator)
-        contract.click()
-        sleep()
+    def go_contract_detail_by_row(self, row=1):
+        locator = 'xpath', "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + str(row)\
+                      + "]/td[" + str(self.__get_column_by_title('合同编号') + 1) + "]//a"
+        self.is_click(locator)
 
-    def pass_examine_by_row(self, row=1, flag='买卖'):
-        contract_tb = self.find_element(table['合同列表'])
-        if flag == '买卖':
-            locator = "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + str(row)\
-                      + "]/td[10]//span[text()='通过']"
-        elif flag == '租赁':
-            locator = "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + str(row)\
-                      + "]/td[8]//span[text()='通过']"
-        else:
-            raise ValueError('传值错误')
-        contract = contract_tb.find_element_by_xpath(locator)
-        contract.click()
-        sleep(2)
+    def pass_examine_by_row(self, row=1):
+        locator = 'xpath', "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + \
+                  str(row) + "]/td[" + str(self.__get_column_by_title('审核状态') + 1) + "]//span[text()='通过']"
+        self.is_click(locator)
 
     def legal_examine_by_row(self, row=1):
-        contract_tb = self.find_element(table['合同列表'])
-        contract = contract_tb.find_element_by_xpath(
-            "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + str(row)
-            + "]/td[10]//a[text()='审核']")
-        contract.click()
-        sleep()
+        locator = 'xpath', "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + \
+                  str(row) + "]/td[" + str(self.__get_column_by_title('审核状态') + 1) + "]//a[text()='审核']"
+        self.is_click(locator)
 
     def get_contract_detail_by_row(self, row=1, flag='买卖'):
-        contract_tb = self.find_element(table['合同列表'])
         contract_detail = {}
-        house_code = contract_tb.find_element_by_xpath(
-            "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + str(row) + "]/td[3]/a")
-        contract_detail['house_code'] = house_code.text
-        customer_code = contract_tb.find_element_by_xpath(
-            "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + str(row) + "]/td[4]/a")
-        contract_detail['customer_code'] = customer_code.text
-        trade_type = contract_tb.find_element_by_xpath(
-            "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + str(row) + "]/td[5]")
-        contract_detail['trade_type'] = trade_type.text
-        contract_status = contract_tb.find_element_by_xpath(
-            "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + str(row) + "]/td[7]")
-        contract_detail['contract_status'] = contract_status.text
+        contract_code_locator = 'xpath', \
+                                "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + \
+                                str(row) + "]/td[" + str(self.__get_column_by_title('合同编号') + 1) + "]//a"
+        contract_detail['contract_code'] = self.element_text(contract_code_locator)
+        house_code_locator = 'xpath', \
+                             "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + \
+                             str(row) + "]/td[" + str(self.__get_column_by_title('房源编号/物业地址') + 1) + "]/a"
+        contract_detail['house_code'] = self.element_text(house_code_locator)
+        customer_code_locator = 'xpath', \
+                                "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + \
+                                str(row) + "]/td[" + str(self.__get_column_by_title('客户编号/姓名') + 1) + "]/a"
+        contract_detail['customer_code'] = self.element_text(customer_code_locator)
+        customer_name_locator = 'xpath', \
+                                "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + \
+                                str(row) + "]/td[" + str(self.__get_column_by_title('客户编号/姓名') + 1) + "]/div"
+        contract_detail['customer_name'] = self.element_text(customer_name_locator)
+        trade_type_locator = 'xpath', \
+                             "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + \
+                             str(row) + "]/td[" + str(self.__get_column_by_title('交易类型') + 1) + "]"
+        contract_detail['trade_type'] = self.element_text(trade_type_locator)
+        contract_status_locator = 'xpath', \
+                                  "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + \
+                                  str(row) + "]/td[" + str(self.__get_column_by_title('合同状态') + 1) + "]"
+        contract_detail['contract_status'] = self.element_text(contract_status_locator)
+        agency_fee_locator = 'xpath', \
+                             "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + \
+                             str(row) + "]/td[" + str(self.__get_column_by_title('代理费待收款') + 1) + "]/p[1]"
+        contract_detail['agency_fee'] = self.element_text(agency_fee_locator)
+        agency_fee_status_locator = 'xpath', \
+                                    "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + \
+                                    str(row) + "]/td[" + str(self.__get_column_by_title('代理费待收款') + 1) + "]/p[2]"
+        contract_detail['agency_fee_status'] = self.element_text(agency_fee_status_locator)
+        achievement_status_locator = 'xpath', \
+                                     "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + \
+                                     str(row) + "]/td[" + str(self.__get_column_by_title('业绩状态') + 1) + "]"
+        contract_detail['achievement_status'] = self.element_text(achievement_status_locator)
         if flag == '买卖':
-            contract_code = contract_tb.find_element_by_xpath(
-                "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + str(row) + "]/td[2]//div")
-            contract_detail['contract_code'] = contract_code.text
-            customer_name = contract_tb.find_element_by_xpath(
-                "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + str(row) + "]/td[4]/div")
-            contract_detail['customer_name'] = customer_name.text
-            pre_examine = contract_tb.find_element_by_xpath(
-                "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + str(row) + "]/td[8]")
-            contract_detail['pre_examine'] = pre_examine.text
-            change_rescind = contract_tb.find_element_by_xpath(
-                "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + str(row) + "]/td[9]")
-            contract_detail['change_rescind'] = change_rescind.text
-            agency_fee = contract_tb.find_element_by_xpath(
-                "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + str(row) + "]/td[10]/p[1]")
-            contract_detail['agency_fee'] = agency_fee.text
-            agency_fee_status = contract_tb.find_element_by_xpath(
-                "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + str(row) + "]/td[10]/p[2]")
-            contract_detail['agency_fee_status'] = agency_fee_status.text
-            achievement_status = contract_tb.find_element_by_xpath(
-                "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + str(row) + "]/td[11]")
-            contract_detail['achievement_status'] = achievement_status.text
+            pre_examine_locator = 'xpath', \
+                                  "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + \
+                                  str(row) + "]/td[" + str(self.__get_column_by_title('签前审核') + 1) + "]"
+            contract_detail['pre_examine'] = self.element_text(pre_examine_locator)
+
+            change_rescind_locator = 'xpath', \
+                                     "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + \
+                                     str(row) + "]/td[" + str(self.__get_column_by_title('更变/解约') + 1) + "]"
+            contract_detail['change_rescind'] = self.element_text(change_rescind_locator)
+
         elif flag == '租赁':
-            contract_code = contract_tb.find_element_by_xpath(
-                "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + str(row) + "]/td[2]//a")
-            contract_detail['contract_code'] = contract_code.text
-            attachment_examine = contract_tb.find_element_by_xpath(
-                "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + str(row) + "]/td[8]")
-            contract_detail['attachment_examine'] = attachment_examine.text
-            agency_fee = contract_tb.find_element_by_xpath(
-                "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + str(row) + "]/td[9]/p[1]")
-            contract_detail['agency_fee'] = agency_fee.text
-            agency_fee_status = contract_tb.find_element_by_xpath(
-                "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + str(row) + "]/td[9]/p[2]")
-            contract_detail['agency_fee_status'] = agency_fee_status.text
-            achievement_status = contract_tb.find_element_by_xpath(
-                "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + str(row) + "]/td[10]")
-            contract_detail['achievement_status'] = achievement_status.text
+            attachment_examine_locator = 'xpath', \
+                                         "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + \
+                                         str(row) + "]/td[" + str(self.__get_column_by_title('备件审核') + 1) + "]"
+            contract_detail['attachment_examine'] = self.element_text(attachment_examine_locator)
         else:
             raise ValueError('传值错误')
         return contract_detail
 
     def click_dialog_confirm_button(self):
         self.is_click(table['弹窗_确认按钮'])
-        sleep()
 
     def click_dialog_cancel_button(self):
         self.is_click(table['弹窗_取消按钮'])
-        sleep()
 
     def get_contract_table_count(self):
         value = self.element_text(table['合同列表总数'])
@@ -177,3 +146,10 @@ class ContractTablePage(WebPage):
         sql = "update contract_order set is_all_pay='1' where contract_no='" + contract_code + "'"
         update_sql(sql)
 
+    def __get_column_by_title(self, title):
+        locator = 'xpath', \
+                  "//div[not(contains(@style,'display'))]/div[@class='sign-less']//table/thead//th"
+        title_list = self.find_elements(locator)
+        for title_ele in title_list:
+            if title_ele.text == title:
+                return title_list.index(title_ele)

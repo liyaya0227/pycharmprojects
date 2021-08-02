@@ -9,7 +9,6 @@
 
 from page.webpage import WebPage
 from common.readelement import Element
-from utils.timeutil import sleep
 from utils.uploadfile import upload_file
 
 deed_tax_invoice_information = Element('house/deedtaxinvoiceinformation')
@@ -20,7 +19,6 @@ class DeedTaxInvoiceInformationPage(WebPage):
     def upload_picture(self, file_path):
         for file in file_path:
             self.is_click(deed_tax_invoice_information['上传图片按钮'])
-            sleep()
             upload_file(file)
 
     def input_filling_date(self, filling_date):

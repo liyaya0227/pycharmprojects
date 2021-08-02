@@ -7,7 +7,6 @@
 @date: 2021/7/8 0008
 """
 
-from utils.timeutil import sleep
 from page.webpage import WebPage
 from common.readelement import Element
 
@@ -24,11 +23,9 @@ class AchievementTablePage(WebPage):
 
     def click_to_examine_tab(self):
         self.is_click(table['待审核标签'])
-        sleep()
 
     def click_pass_examine_tab(self):
         self.is_click(table['审核通过标签'])
-        sleep()
 
     def click_reject_examine_tab(self):
         self.is_click(table['驳回标签'])
@@ -50,7 +47,6 @@ class AchievementTablePage(WebPage):
         for business_type_ele in business_type_list:
             if business_type_ele.text == business_type:
                 business_type_ele.click()
-                sleep()
                 break
 
     def input_submit_person_search(self, submit_person):
@@ -60,18 +56,26 @@ class AchievementTablePage(WebPage):
         self.is_click(table['查询按钮'])
 
     def click_pass_examine_button_by_row(self, row=1):
-        examine_table = self.find_element(table['业绩列表'])
-        contract = examine_table.find_element_by_xpath(
-            "//div[@style='' or not(@style)]/div[@class='ant-row achievement']"
-            "//div[@role='tabpanel' and @aria-hidden='false']//table//tbody/tr[" + str(row) + "]/td[9]/a[text()='通过']")
-        contract.click()
-        sleep()
+        locator = "xpath", \
+                  "//div[@style='' or not(@style)]/div[@class='ant-row achievement']" \
+                  "//div[@role='tabpanel' and @aria-hidden='false']//table/tbody/tr[" + str(row) + "]/td[" +\
+                  str(self.__get_column_by_title('审批人') + 1) + "]/a[text()='通过']"
+        self.is_click(locator)
 
     def get_achievement_table_count(self):
-        examine_table = self.find_element(table['业绩列表'])
-        contracts = examine_table.find_elements_by_xpath(
-            "//div[@style='' or not(@style)]/div[@class='ant-row achievement']"
-            "//div[@role='tabpanel' and @aria-hidden='false']//table//tbody/tr")
-        if contracts[0].text == '暂无数据':
+        locator = 'xpath', \
+                  "//div[@style='' or not(@style)]/div[contains(@class,'achievement')]" \
+                  "//div[@role='tabpanel' and @aria-hidden='false']//table/tbody/tr"
+        table_count = self.find_elements(locator)
+        if table_count[0].text == '暂无数据':
             return 0
-        return len(contracts)
+        return len(table_count)
+
+    def __get_column_by_title(self, title):
+        locator = 'xpath', \
+                  "//div[@style='' or not(@style)]/div[contains(@class,'achievement')]" \
+                  "//div[@role='tabpanel' and @aria-hidden='false']//table/thead//th"
+        title_list = self.find_elements(locator)
+        for title_ele in title_list:
+            if title_ele.text == title:
+                return title_list.index(title_ele)

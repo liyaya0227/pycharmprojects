@@ -79,7 +79,7 @@ class NewHouseOperationTablePage(WebPage):
         self.is_click(new_house_operation_table['新增按钮'])
 
     def dialog_input_building_info(self, build_info):
-        self.input_text_without_clear(new_house_operation_table['弹窗_楼盘信息输入框'], build_info)
+        self.input_text(new_house_operation_table['弹窗_楼盘信息输入框'], build_info)
         sleep()
         building_info_list = self.find_elements(new_house_operation_table['下拉框'])
         for building_info_ele in building_info_list:
@@ -125,7 +125,7 @@ class NewHouseOperationTablePage(WebPage):
         for picture in pictures:
             self.is_click(new_house_operation_table['弹窗_上传图片按钮'])
             upload_file(picture)
-            sleep()
+            sleep(2)
 
     def dialog_input_block(self, block):
         self.input_text(new_house_operation_table['弹窗_楼栋输入框'], block)
@@ -157,19 +157,19 @@ class NewHouseOperationTablePage(WebPage):
         for subscribe_form in subscribe_forms:
             self.is_click(new_house_operation_table['弹窗_认购书_上传图片按钮'])
             upload_file(subscribe_form)
-            sleep()
+            sleep(2)
 
     def dialog_upload_customer_certificate(self, customer_certificates):
         for customer_certificate in customer_certificates:
             self.is_click(new_house_operation_table['弹窗_客户证件_上传图片按钮'])
             upload_file(customer_certificate)
-            sleep()
+            sleep(2)
 
     def dialog_upload_payment_voucher(self, payment_vouchers):
         for payment_voucher in payment_vouchers:
             self.is_click(new_house_operation_table['弹窗_交款凭证_上传图片按钮'])
             upload_file(payment_voucher)
-            sleep()
+            sleep(2)
 
     def input_commission_price(self, commission_price):
         self.input_text(new_house_operation_table['弹窗_佣金金额输入框'], commission_price)
@@ -202,20 +202,28 @@ class NewHouseOperationTablePage(WebPage):
 
     def delete_report_by_row(self, row=1):
         locator = 'xpath', "(//div[@style='']/div[@class='new-house-management']//table/tbody/tr[not(@aria-hidden)])["\
-                  + str(row) + "]/td[11]//a[text()='删除']"
+                  + str(row) + "]/td[" + str(self.__get_column_by_title('操作') + 1) + "]//a[text()='删除']"
         self.is_click(locator)
 
     def watch_report_by_row(self, row=1):
         locator = 'xpath', "(//div[@style='']/div[@class='new-house-management']//table/tbody/tr[not(@aria-hidden)])["\
-                  + str(row) + "]/td[11]//a[text()='查看']"
+                  + str(row) + "]/td[" + str(self.__get_column_by_title('操作') + 1) + "]//a[text()='查看']"
         self.is_click(locator)
 
     def enter_take_look_by_row(self, row=1):
         locator = 'xpath', "(//div[@style='']/div[@class='new-house-management']//table/tbody/tr[not(@aria-hidden)])[" \
-                  + str(row) + "]/td[11]//a[text()='录入带看']"
+                  + str(row) + "]/td[" + str(self.__get_column_by_title('操作') + 1) + "]//a[text()='录入带看']"
         self.is_click(locator)
 
     def enter_subscribe_by_row(self, row=1):
         locator = 'xpath', "(//div[@style='']/div[@class='new-house-management']//table/tbody/tr[not(@aria-hidden)])[" \
-                  + str(row) + "]/td[11]//a[text()='录认购']"
+                  + str(row) + "]/td[" + str(self.__get_column_by_title('操作') + 1) + "]//a[text()='录认购']"
         self.is_click(locator)
+
+    def __get_column_by_title(self, title):
+        locator = 'xpath', \
+                  "//div[@style='']/div[@class='new-house-management']//table/thead//th"
+        title_list = self.find_elements(locator)
+        for title_ele in title_list:
+            if title_ele.text == title:
+                return title_list.index(title_ele)

@@ -7,7 +7,6 @@
 @date: 2021/7/8 0008
 """
 
-from utils.timeutil import sleep
 from page.webpage import WebPage
 from common.readelement import Element
 
@@ -18,15 +17,12 @@ class TransactionTablePage(WebPage):
 
     def click_transaction_code_tab(self):
         self.is_click(transaction_table['交易编号标签'])
-        sleep()
 
     def click_contract_code_tab(self):
         self.is_click(transaction_table['合同编号标签'])
-        sleep()
 
     def input_search_text(self, search_value):
         self.input_text(transaction_table['搜索输入框'], search_value)
-        sleep()
 
     def click_search_button(self):
         self.is_click(transaction_table['搜索按钮'])
@@ -36,7 +32,6 @@ class TransactionTablePage(WebPage):
                   "//div[@style='']/div[@class='onTheWay-transaction' or @class='final-transaction']" \
                   "//div[@class='ant-table-wrapper']//table//tbody/tr[" + str(row) + "]/td[2]//div"
         self.is_click(locator)
-        sleep()
 
     def get_table_count(self):
         locator = "xpath",\

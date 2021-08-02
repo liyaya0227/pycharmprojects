@@ -79,7 +79,6 @@ class HouseAddNewHousePage(WebPage):
         for developers_rechecking_ele in developers_rechecking_list:
             if developers_rechecking_ele.text == developers_rechecking:
                 developers_rechecking_ele.click()
-                sleep()
                 return True
         raise ValueError('传值错误')
 
@@ -95,19 +94,16 @@ class HouseAddNewHousePage(WebPage):
     def add_r_person(self, r_person):
         for person in r_person:
             self.is_click(house_add_new_house['R新房案场端_新增联系人按钮'])
-            sleep()
             self.__dialog_choose_person(person)
 
     def add_s_person(self, s_person):
         for person in s_person:
             self.is_click(house_add_new_house['S新房经理_新增联系人按钮'])
-            sleep()
             self.__dialog_choose_person(person)
 
     def add_d_person(self, d_person):
         for person in d_person:
             self.is_click(house_add_new_house['D新房总监_新增联系人按钮'])
-            sleep()
             self.__dialog_choose_person(person)
 
     def __dialog_choose_person(self, person):
@@ -117,7 +113,6 @@ class HouseAddNewHousePage(WebPage):
         for person_ele in person_list:
             if person in person_ele.text:
                 person_ele.click()
-                sleep()
                 break
         self.is_click(house_add_new_house['弹窗_确定按钮'])
 
@@ -145,7 +140,6 @@ class HouseAddNewHousePage(WebPage):
         for building_status_ele in building_status_list:
             if building_status_ele.text == building_status:
                 building_status_ele.click()
-                sleep()
                 return True
         raise ValueError('传值错误')
 
@@ -183,7 +177,6 @@ class HouseAddNewHousePage(WebPage):
             for country_ele in country_list:
                 if country_ele.text == building_project_address[0]:
                     country_ele.click()
-                    sleep(2)
                     break
         self.is_click(house_add_new_house['项目地址_镇选择框'])
         town_list = self.find_elements(house_add_new_house['下拉框'])
@@ -193,7 +186,6 @@ class HouseAddNewHousePage(WebPage):
             for town_ele in town_list:
                 if town_ele.text == building_project_address[1]:
                     town_ele.click()
-                    sleep()
                     break
 
     def input_building_sale_address(self, building_sale_address):
@@ -210,7 +202,6 @@ class HouseAddNewHousePage(WebPage):
         for building_type_ele in building_type_list:
             if building_type_ele.text == building_type:
                 building_type_ele.click()
-                sleep()
                 return True
         raise ValueError('传值错误')
 
@@ -220,10 +211,8 @@ class HouseAddNewHousePage(WebPage):
         for property_year_ele in property_year_list:
             if property_year_ele.text == property_year:
                 property_year_ele.click()
-                sleep()
                 return True
         raise ValueError('传值错误')
-
 
     def input_plot_ratio(self, plot_ratio):
         if plot_ratio == '':
@@ -267,7 +256,6 @@ class HouseAddNewHousePage(WebPage):
         for water_electricity_ele in water_electricity_list:
             if water_electricity_ele.text == water_electricity:
                 water_electricity_ele.click()
-                sleep()
                 return True
         raise ValueError('传值错误')
 
@@ -298,7 +286,6 @@ class HouseAddNewHousePage(WebPage):
         for heating_type_ele in heating_type_list:
             if heating_type_ele.text == heating_type:
                 heating_type_ele.click()
-                sleep()
                 return True
         raise ValueError('传值错误')
 
@@ -308,7 +295,6 @@ class HouseAddNewHousePage(WebPage):
         for house_keeper_type_ele in house_keeper_type_list:
             if house_keeper_type_ele.text == house_keeper_type:
                 house_keeper_type_ele.click()
-                sleep()
                 return True
         raise ValueError('传值错误')
 

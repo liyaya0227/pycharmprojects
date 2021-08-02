@@ -76,7 +76,6 @@ class HouseAddPage(WebPage):
         for doorplate_element in doorplate_list:
             if doorplate_element.text == doorplate:
                 doorplate_element.click()
-                sleep()
                 break
 
     def find_dialog(self):
@@ -149,7 +148,6 @@ class HouseAddPage(WebPage):
 
     def click_add_button(self):
         self.is_click(house_add['添加按钮'])
-        sleep(2)
 
     def input_property_address(self, flag):
         if flag == '买卖':

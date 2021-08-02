@@ -103,7 +103,7 @@ class TestCreateOrder(object):
             contract_table.click_search_button()
             count = contract_table.get_contract_table_count()
             for _ in range(count):
-                contract_table.delete_contract_by_row(1, flag='租赁')
+                contract_table.delete_contract_by_row(1)
                 contract_table.click_dialog_confirm_button()
                 assert main_topview.find_notification_content() == '操作成功'
             main_leftview.change_role('经纪人')

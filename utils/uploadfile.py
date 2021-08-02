@@ -13,6 +13,7 @@ from utils.timeutil import sleep
 
 
 def upload_file(file_path, browser_type='chrome'):
+    sleep(2)
     if browser_type.lower() == "chrome":
         title = '打开'
     elif browser_type.lower() == "firefox":

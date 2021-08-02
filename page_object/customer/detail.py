@@ -8,7 +8,6 @@
 """
 
 from page.webpage import WebPage
-from utils.timeutil import sleep
 from common.readelement import Element
 
 customer_detail = Element('customer/detail')
@@ -32,7 +31,6 @@ class CustomerDetailPage(WebPage):
         for invalid_customer_type_ele in invalid_customer_type_list:
             if invalid_customer_type_ele.text == invalid_customer_type:
                 invalid_customer_type_ele.click()
-                sleep()
                 return True
         raise ValueError('传值错误')
 

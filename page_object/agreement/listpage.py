@@ -10,7 +10,6 @@
 import re
 from page.webpage import WebPage
 from common.readelement import Element
-from utils.timeutil import sleep
 from utils.fileutil import *
 from config.conf import cm
 
@@ -31,7 +30,6 @@ class AgreementListPage(WebPage):
         agreement_list_ele = table.find_element_by_xpath(
             "//div[@class='ant-row protocolApplication']//table//tr[" + str(row) + "]//a[text()='下载']")
         agreement_list_ele.click()
-        sleep()
 
     @staticmethod
     def get_written_entrustment_agreement_number():

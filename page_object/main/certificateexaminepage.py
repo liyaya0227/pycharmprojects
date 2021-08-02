@@ -49,7 +49,7 @@ class CertificateExaminePage(WebPage):
     def scroll_to_top(self):
         js = "var q=document.documentElement.scrollTop=0"
         self.execute_js_script(js)
-        sleep(3)
+        sleep(2)
 
     def get_table_count(self):
         locator = 'xpath', "//table/tbody/tr"

@@ -109,7 +109,7 @@ class TestOrderProcess(object):
         assert contract_details['attachment_examine'] == '未知'
         assert contract_details['agency_fee_status'] == '未收齐'
         assert contract_details['achievement_status'] == '未知'
-        contract_table.go_contract_detail_by_row(1, flag='租赁')
+        contract_table.go_contract_detail_by_row(1)
         assert contract_detail.create_contract_icon_is_light()
         log.info('初始状态显示正确')
         contract_detail.click_preview_button()  # 签章
@@ -126,7 +126,7 @@ class TestOrderProcess(object):
         assert contract_details['attachment_examine'] == '未知'
         assert contract_details['agency_fee_status'] == '未收齐'
         assert contract_details['achievement_status'] == '未知'
-        contract_table.go_contract_detail_by_row(1, flag='租赁')
+        contract_table.go_contract_detail_by_row(1)
         assert contract_detail.last_sign_icon_is_light()
         log.info('经纪人盖章后，状态显示正确')
         contract_detail.click_preview_button()  # 经纪人有章打印
@@ -143,7 +143,7 @@ class TestOrderProcess(object):
         assert contract_details['attachment_examine'] == '未知'
         assert contract_details['agency_fee_status'] == '未收齐'
         assert contract_details['achievement_status'] == '未知'
-        contract_table.go_contract_detail_by_row(1, flag='租赁')
+        contract_table.go_contract_detail_by_row(1)
         assert contract_detail.last_sign_print_icon_is_light()
         log.info('经纪人有章打印后，状态显示正确')
         contract_detail.click_subject_contract()  # 经纪人签约时间
@@ -160,7 +160,7 @@ class TestOrderProcess(object):
         assert contract_details['attachment_examine'] == '未知'
         assert contract_details['agency_fee_status'] == '未收齐'
         assert contract_details['achievement_status'] == '未知'
-        contract_table.go_contract_detail_by_row(1, flag='租赁')
+        contract_table.go_contract_detail_by_row(1)
         assert contract_detail.sign_time_icon_is_light()
         log.info('经纪人填写签约时间后，状态显示正确')
         contract_detail.click_subject_contract()  # 经纪人上传主体合同
@@ -179,7 +179,7 @@ class TestOrderProcess(object):
         assert contract_details['attachment_examine'] == '未知'
         assert contract_details['agency_fee_status'] == '未收齐'
         assert contract_details['achievement_status'] == '未知'
-        contract_table.go_contract_detail_by_row(1, flag='租赁')
+        contract_table.go_contract_detail_by_row(1)
         assert contract_detail.upload_contract_icon_is_light()
         log.info('经纪人上传合同后，状态显示正确')
         contract_detail.click_attachment_info()  # 提交备件审核
@@ -202,7 +202,7 @@ class TestOrderProcess(object):
         assert contract_details['attachment_examine'] == '待审核'
         assert contract_details['agency_fee_status'] == '未收齐'
         assert contract_details['achievement_status'] == '未知'
-        contract_table.go_contract_detail_by_row(1, flag='租赁')
+        contract_table.go_contract_detail_by_row(1)
         assert not contract_detail.pass_attachment_examine_icon_is_light()
         log.info('经纪人提交备件审核后，状态显示正确')
         main_leftview.change_role('商圈经理')  # 商圈经理备件审核
@@ -213,7 +213,7 @@ class TestOrderProcess(object):
         contract_table.input_contract_code_search(contract_code)
         contract_table.click_search_button()
         assert contract_table.get_contract_table_count() == 1
-        contract_table.pass_examine_by_row(1, flag='租赁')
+        contract_table.pass_examine_by_row(1)
         # assert main_topview.wait_notification_content_exist() == '操作成功'
         contract_table.click_had_examine()
         contract_table.click_reset_button()
@@ -231,7 +231,7 @@ class TestOrderProcess(object):
         assert contract_details['attachment_examine'] == '通过'
         assert contract_details['agency_fee_status'] == '未收齐'
         assert contract_details['achievement_status'] == '未知'
-        contract_table.go_contract_detail_by_row(1, flag='租赁')
+        contract_table.go_contract_detail_by_row(1)
         assert contract_detail.pass_attachment_examine_icon_is_light()
         log.info('商圈经理备件审核通过后，状态显示正确')
         contract_detail.click_subject_contract()  # 经纪人提交业绩审核

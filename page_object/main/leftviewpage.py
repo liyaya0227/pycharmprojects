@@ -22,9 +22,7 @@ class MainLeftViewPage(WebPage):
         if role_name in label_name:
             return
         self.is_click(left_view['功能按钮'])
-        sleep()
         self.is_click(left_view['切换角色按钮'])
-        sleep()
         role_list = self.find_elements(left_view['角色选项'])
         for role in role_list:
             if role_name in role.text:
@@ -32,7 +30,6 @@ class MainLeftViewPage(WebPage):
                     self.is_click(left_view['切换角色弹窗_取消按钮'])
                     break
                 role.click()
-                sleep()
                 self.is_click(left_view['切换角色弹窗_确定按钮'])
                 sleep()
                 break
@@ -47,55 +44,46 @@ class MainLeftViewPage(WebPage):
         is_expanded = self.get_element_attribute(left_view['房源管理菜单'], 'aria-expanded')
         if is_expanded == 'false':
             self.is_click(left_view['房源管理菜单'])
-            sleep()
         self.is_click(left_view['全部房源标签'])
 
     def click_my_customer_label(self):
         is_expanded = self.get_element_attribute(left_view['客源管理菜单'], 'aria-expanded')
         if is_expanded == 'false':
             self.is_click(left_view['客源管理菜单'])
-            sleep()
         self.is_click(left_view['我的客户标签'])
 
     def click_new_house_operation_label(self):
         is_expanded = self.get_element_attribute(left_view['客源管理菜单'], 'aria-expanded')
         if is_expanded == 'false':
             self.is_click(left_view['客源管理菜单'])
-            sleep()
         self.is_click(left_view['新房作业标签'])
 
     def click_contract_management_label(self):
         is_expanded = self.get_element_attribute(left_view['签约管理菜单'], 'aria-expanded')
         if is_expanded == 'false':
             self.is_click(left_view['签约管理菜单'])
-            sleep()
         self.is_click(left_view['签约管理标签'])
-        sleep()
 
     def click_achievement_label(self):
         is_expanded = self.get_element_attribute(left_view['签约管理菜单'], 'aria-expanded')
         if is_expanded == 'false':
             self.is_click(left_view['签约管理菜单'])
-            sleep()
         self.is_click(left_view['业绩标签'])
 
     def click_on_way_order_label(self):
         is_expanded = self.get_element_attribute(left_view['交易管理菜单'], 'aria-expanded')
         if is_expanded == 'false':
             self.is_click(left_view['交易管理菜单'])
-            sleep()
         self.is_click(left_view['在途单标签'])
 
     def click_completed_order_label(self):
         is_expanded = self.get_element_attribute(left_view['交易管理菜单'], 'aria-expanded')
         if is_expanded == 'false':
             self.is_click(left_view['交易管理菜单'])
-            sleep()
         self.is_click(left_view['终结单标签'])
 
     def click_agreement_list(self):
         is_expanded = self.get_element_attribute(left_view['协议应用菜单'], 'aria-expanded')
         if is_expanded == 'false':
             self.is_click(left_view['协议应用菜单'])
-            sleep()
         self.is_click(left_view['协议列表标签'])

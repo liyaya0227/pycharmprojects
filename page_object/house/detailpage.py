@@ -84,9 +84,7 @@ class HouseDetailPage(WebPage):
             return False
 
     def click_exploration_button(self):
-        sleep(2)
         self.is_click(house_detail['预约实勘按钮'])
-        sleep()
 
     def click_back_exploration_button(self):
         self.is_click(house_detail['实勘退单按钮'])
@@ -104,7 +102,6 @@ class HouseDetailPage(WebPage):
         for photographer_ele in photographer_list:
             if photographer in photographer_ele.text:
                 photographer_ele.click()
-                sleep(0.5)
                 break
 
     def choose_exploration_time(self, date_time):
@@ -133,24 +130,20 @@ class HouseDetailPage(WebPage):
         for reason_ele in reason_list:
             if reason_ele.text == reason:
                 reason_ele.click()
-                sleep()
                 break
 
     def click_back_exploration_return_button(self):
         self.is_click(house_detail['实勘退单_退单按钮'])
-        sleep()
 
     def expand_certificates_info(self):
         ele = self.find_element(house_detail['证件信息展开收起按钮'])
         if ele.text == '展开':
             ele.click()
-            sleep()
 
     def retract_certificates_info(self):
         ele = self.find_element(house_detail['证件信息展开收起按钮'])
         if ele.text == '收起':
             ele.click()
-            sleep()
 
     def click_written_entrustment_agreement_upload_button(self):
         self.__click_upload_button('书面委托协议')
@@ -230,7 +223,6 @@ class HouseDetailPage(WebPage):
         locator = 'xpath', "//span[text()='" + certificate_name + "']/ancestor::p//span[text()='删除']"
         self.is_click(locator)
         self.is_click(house_detail['删除证件_确定按钮'])
-        sleep(2)
 
     def upload_written_entrustment_agreement(self, written_entrustment_agreement):
         self.click_written_entrustment_agreement_upload_button()
@@ -242,7 +234,6 @@ class HouseDetailPage(WebPage):
         written_entrustment_agreement_page.input_remark(written_entrustment_agreement.get('备注'))
         written_entrustment_agreement_page.upload_picture([cm.tmp_picture_file])
         written_entrustment_agreement_page.click_submit_button()
-        sleep()
 
     def upload_key_entrustment_certificate(self, key_entrustment_certificate):
         self.click_key_entrustment_certificate_upload_button()
@@ -253,7 +244,6 @@ class HouseDetailPage(WebPage):
         key_entrustment_certificate_page.input_remark(key_entrustment_certificate.get('备注说明'))
         key_entrustment_certificate_page.upload_picture([cm.tmp_picture_file])
         key_entrustment_certificate_page.click_save_button()
-        sleep()
 
     def upload_vip_service_entrustment_agreement(self, vip_service_entrustment_agreement):
         self.click_vip_service_entrustment_agreement_upload_button()
@@ -269,7 +259,6 @@ class HouseDetailPage(WebPage):
         vip_service_entrustment_agreement_page.choose_payment_object(vip_service_entrustment_agreement.get('打款对象'))
         vip_service_entrustment_agreement_page.input_remark(vip_service_entrustment_agreement.get('备注'))
         vip_service_entrustment_agreement_page.click_submit_button()
-        sleep()
 
     def upload_deed_tax_invoice_information(self, deed_tax_invoice_information):
         self.click_deed_tax_invoice_upload_button()
@@ -279,7 +268,6 @@ class HouseDetailPage(WebPage):
         deed_tax_invoice_information_page.input_tax_money(deed_tax_invoice_information.get('计税金额'))
         deed_tax_invoice_information_page.input_remark(deed_tax_invoice_information.get('备注'))
         deed_tax_invoice_information_page.click_submit_button()
-        sleep()
 
     def upload_owner_identification_information(self, owner_identification_information):
         self.click_owner_identification_information_upload_button()
@@ -294,7 +282,6 @@ class HouseDetailPage(WebPage):
         owner_identification_information_page.input_valid_period_end(owner_identification_information.get('有效期限_结束日期'))
         owner_identification_information_page.input_remark(owner_identification_information.get('备注'))
         owner_identification_information_page.click_submit_button()
-        sleep()
 
     def upload_original_purchase_contract_information(self, original_purchase_contract_information):
         self.click_original_purchase_contract_information_upload_button()
@@ -308,7 +295,6 @@ class HouseDetailPage(WebPage):
         original_purchase_contract_information_page.input_remark(original_purchase_contract_information.get('备注'))
         original_purchase_contract_information_page.upload_picture([cm.tmp_picture_file])
         original_purchase_contract_information_page.click_submit_button()
-        sleep()
 
     def upload_property_ownership_certificate(self, property_ownership_certificate):
         self.click_property_ownership_certificate_upload_button()
@@ -320,7 +306,6 @@ class HouseDetailPage(WebPage):
         property_ownership_certificate_page.input_room_area(property_ownership_certificate.get('套内面积'))
         property_ownership_certificate_page.input_remark(property_ownership_certificate.get('备注'))
         property_ownership_certificate_page.click_submit_button()
-        sleep()
 
     def click_invalid_house_button(self):
         self.move_mouse_to_element(house_detail['右侧菜单更多按钮'])
@@ -365,7 +350,6 @@ class HouseDetailPage(WebPage):
         for inspect_type_ele in inspect_type_list:
             if inspect_type_ele.text == inspect_type:
                 inspect_type_ele.click()
-                sleep()
                 return True
         raise ValueError('传值错误')
 
@@ -375,7 +359,6 @@ class HouseDetailPage(WebPage):
         for house_state_ele in house_state_list:
             if house_state_ele.text == house_state:
                 house_state_ele.click()
-                sleep()
                 return True
         raise ValueError('传值错误')
 
@@ -389,7 +372,6 @@ class HouseDetailPage(WebPage):
         for is_unique_ele in is_unique_list:
             if is_unique_ele.text == is_unique:
                 is_unique_ele.click()
-                sleep()
                 return True
         raise ValueError('传值错误')
 
@@ -407,7 +389,6 @@ class HouseDetailPage(WebPage):
         for register_state_ele in register_state_list:
             if register_state_ele.text == register_state:
                 register_state_ele.click()
-                sleep()
                 return True
         raise ValueError('传值错误')
 
@@ -417,7 +398,6 @@ class HouseDetailPage(WebPage):
         for has_pledge_ele in has_pledge_list:
             if has_pledge_ele.text == has_pledge:
                 has_pledge_ele.click()
-                sleep()
                 return True
         raise ValueError('传值错误')
 
@@ -427,7 +407,6 @@ class HouseDetailPage(WebPage):
         for check_out_right_now_ele in check_out_right_now_list:
             if check_out_right_now_ele.text == check_out_right_now:
                 check_out_right_now_ele.click()
-                sleep()
                 return True
         raise ValueError('传值错误')
 
@@ -437,7 +416,6 @@ class HouseDetailPage(WebPage):
         for has_school_places_ele in has_school_places_list:
             if has_school_places_ele.text == has_school_places:
                 has_school_places_ele.click()
-                sleep()
                 return True
         raise ValueError('传值错误')
 
@@ -447,7 +425,6 @@ class HouseDetailPage(WebPage):
         for decoration_state_ele in decoration_state_list:
             if decoration_state_ele.text == decoration_state:
                 decoration_state_ele.click()
-                sleep()
                 return True
         raise ValueError('传值错误')
 
@@ -457,7 +434,6 @@ class HouseDetailPage(WebPage):
         for house_property_limit_ele in house_property_limit_list:
             if house_property_limit_ele.text == house_property_limit:
                 house_property_limit_ele.click()
-                sleep()
                 return True
         raise ValueError('传值错误')
 
@@ -467,13 +443,11 @@ class HouseDetailPage(WebPage):
         for house_usage_ele in house_usage_list:
             if house_usage_ele.text == house_usage:
                 house_usage_ele.click()
-                sleep()
                 return True
         raise ValueError('传值错误')
 
     def dialog_click_confirm_button(self):
         self.is_click(house_detail['弹窗_确定按钮'])
-        sleep(2)
 
     def dialog_click_cancel_button(self):
         self.is_click(house_detail['弹窗_取消按钮'])

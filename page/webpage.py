@@ -77,26 +77,24 @@ class WebPage(object):
     def input_text(self, locator, txt):
         """输入(输入前先清空)"""
         log.info("元素{}输入文本：{}".format(locator, txt))
-        sleep(0.5)
         ele = self.find_element(locator)
-        ele.clear()
+        sleep()
         ele.send_keys(txt)
         sleep()
 
-    def input_text_without_clear(self, locator, txt):
-        """输入(输入前先清空)"""
-        log.info("元素{}输入文本：{}".format(locator, txt))
-        sleep(0.5)
-        ele = self.find_element(locator)
-        ele.send_keys(txt)
-        sleep()
+    # def input_text_without_clear(self, locator, txt):
+    #     """输入(输入前先清空)"""
+    #     log.info("元素{}输入文本：{}".format(locator, txt))
+    #     sleep(0.5)
+    #     ele = self.find_element(locator)
+    #     ele.send_keys(txt)
+    #     sleep()
 
     def input_text_with_enter(self, locator, txt):
         """输入(输入前先清空)"""
         log.info("元素{}输入文本：{}".format(locator, txt))
-        sleep(0.5)
         ele = self.find_element(locator)
-        ele.clear()
+        sleep()
         ele.send_keys(txt)
         ele.send_keys(Keys.ENTER)
         sleep()
@@ -104,34 +102,41 @@ class WebPage(object):
     def clear_text(self, locator):
         """清空文本"""
         log.info("元素{}文本清空".format(locator))
-        sleep(0.5)
         ele = self.find_element(locator)
+        sleep()
         ele.send_keys(Keys.CONTROL + 'A')
         ele.send_keys(Keys.DELETE)
-        sleep(0.5)
+        sleep()
 
     def send_enter_key(self, locator):  # 按回车键
         """输入回车键"""
         log.info("元素{}输入回车键".format(locator))
         ele = self.find_element(locator)
+        sleep()
         ele.send_keys(Keys.ENTER)
         sleep()
 
     def is_click(self, locator):
         """点击"""
         log.info("点击元素：{}".format(locator))
-        self.find_element(locator).click()
-        sleep(2)
+        ele = self.find_element(locator)
+        sleep()
+        ele.click()
+        sleep()
 
     def element_text(self, locator):
         """获取当前的text"""
-        _text = self.find_element(locator).text
+        ele = self.find_element(locator)
+        sleep()
+        _text = ele.text
         log.info("获取元素{}文本：{}".format(locator, _text))
         return _text
 
     def get_element_attribute(self, locator, attribute):
         """获取当前的text"""
-        _text = self.find_element(locator).get_attribute(attribute)
+        ele = self.find_element(locator)
+        sleep()
+        _text = ele.get_attribute(attribute)
         log.info("获取元素{}属性的{}：{}".format(locator, attribute, _text))
         return _text
 
@@ -149,12 +154,12 @@ class WebPage(object):
         ele = self.find_element(locator)
         action = ActionChains(self.driver)
         action.move_to_element(ele).perform()
-        sleep(0.5)
+        sleep()
 
     def move_mouse_to_offset(self, x, y):
         action = ActionChains(self.driver)
         action.move_by_offset(x, y).perform()
-        sleep(0.5)
+        sleep()
 
     def mouse_left_click(self):
         ActionChains(self.driver).click().release().perform()
@@ -166,6 +171,7 @@ class WebPage(object):
 
     def execute_js_script(self, js):
         self.driver.execute_script(js)
+        sleep()
 
     def wait_page_loading_complete(self):
         while self.driver.execute_script("return document.readyState") != 'complete':
