@@ -123,7 +123,7 @@ class HouseTablePage(WebPage):
     def go_house_detail_by_row(self, row=1):
         sleep()
         locator = 'xpath', "//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table/tbody/tr["\
-                  + str(row) + "]/td[2]"
+                  + str(row) + "]/td[" + str(self.__get_column_by_title('楼盘名称') + 1) + "]"
         ele = self.find_element(locator)
         self.driver.execute_script("arguments[0].scrollIntoView();", ele)
         ele.click()
@@ -142,15 +142,19 @@ class HouseTablePage(WebPage):
 
     def click_delete_button_by_row(self, row=1):
         locator = 'xpath', "//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table/tbody/tr["\
-                  + str(row) + "]/td[6]/p[contains(text(),'删除')]"
+                  + str(row) + "]/td[" + str(self.__get_column_by_title('操作') + 1) + "]/p[contains(text(),'删除')]"
         self.is_click(locator)
+
+    def __get_column_by_title(self, title):
+        locator = 'xpath', \
+                  "//div[not(contains(@style,'display'))]/div[contains(@class,'houseManage')]//table/thead//th"
+        title_list = self.find_elements(locator)
+        for title_ele in title_list:
+            if title_ele.text == title:
+                return title_list.index(title_ele)
 
     def dialog_click_confirm_button(self):
         self.is_click(house_table['弹窗_删除按钮'])
-
-    def scroll_to_top(self):
-        self.execute_js_script("var q=document.documentElement.scrollTop=0")
-        sleep(2)
 
     def check_house_exist(self, test_data, flag='买卖'):
         table = HouseTablePage(self.driver)

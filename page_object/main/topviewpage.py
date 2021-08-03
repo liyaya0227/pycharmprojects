@@ -20,6 +20,14 @@ class MainTopViewPage(WebPage):
         if self.find_element_with_wait_time(top_view['关闭按钮']):
             self.is_click(top_view['关闭按钮'])
 
+    def wait_close_top_view(self):
+        while True:
+            if self.find_element_with_wait_time(top_view['关闭按钮']):
+                self.click_close_button()
+                break
+            else:
+                sleep()
+
     def find_notification_title(self):
         if self.find_element_with_wait_time(top_view['右上角弹窗_标题']):
             value = self.element_text(top_view['右上角弹窗_标题'])
