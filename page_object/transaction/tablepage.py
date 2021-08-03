@@ -30,7 +30,8 @@ class TransactionTablePage(WebPage):
     def go_to_transaction_detail_by_row(self, row=1):
         locator = "xpath", \
                   "//div[@style='']/div[@class='onTheWay-transaction' or @class='final-transaction']" \
-                  "//div[@class='ant-table-wrapper']//table//tbody/tr[" + str(row) + "]/td[2]//div"
+                  "//div[@class='ant-table-wrapper']//table//tbody/tr[" + str(row) + "]/td[" + \
+                  str(self.__get_column_by_title('交易编号') + 1) + "]//div"
         self.is_click(locator)
 
     def get_table_count(self):
@@ -41,34 +42,48 @@ class TransactionTablePage(WebPage):
         return len(table_row)
 
     def get_order_detail_by_row(self, row=1):
-        order_table = self.find_element(transaction_table['订单列表'])
         order_detail = {}
-        transaction_code = order_table.find_element_by_xpath(
-            "//div[@style='']/div[@class='onTheWay-transaction' or @class='final-transaction']"
-            "//div[@class='ant-table-wrapper']//table//tbody/tr[" + str(row) + "]/td[2]//div")
-        order_detail['transaction_code'] = transaction_code.text
-        buyer = order_table.find_element_by_xpath(
-            "//div[@style='']/div[@class='onTheWay-transaction' or @class='final-transaction']"
-            "//div[@class='ant-table-wrapper']//table//tbody/tr[" + str(row) + "]/td[4]/div")
-        order_detail['buyer'] = buyer.text
-        seller = order_table.find_element_by_xpath(
-            "//div[@style='']/div[@class='onTheWay-transaction' or @class='final-transaction']"
-            "//div[@class='ant-table-wrapper']//table//tbody/tr[" + str(row) + "]/td[5]/div")
-        order_detail['seller'] = seller.text
-        agent = order_table.find_element_by_xpath(
-            "//div[@style='']/div[@class='onTheWay-transaction' or @class='final-transaction']"
-            "//div[@class='ant-table-wrapper']//table//tbody/tr[" + str(row) + "]/td[6]/div")
-        order_detail['agent'] = agent.text
-        property_address = order_table.find_element_by_xpath(
-            "//div[@style='']/div[@class='onTheWay-transaction' or @class='final-transaction']"
-            "//div[@class='ant-table-wrapper']//table//tbody/tr[" + str(row) + "]/td[7]/div")
-        order_detail['property_address'] = property_address.text
-        contract_code = order_table.find_element_by_xpath(
-            "//div[@style='']/div[@class='onTheWay-transaction' or @class='final-transaction']"
-            "//div[@class='ant-table-wrapper']//table//tbody/tr[" + str(row) + "]/td[2]//div")
-        order_detail['contract_code'] = contract_code.text
-        commission = order_table.find_element_by_xpath(
-            "//div[@style='']/div[@class='onTheWay-transaction' or @class='final-transaction']"
-            "//div[@class='ant-table-wrapper']//table//tbody/tr[" + str(row) + "]/td[11]//div")
-        order_detail['commission'] = commission.text
+        transaction_code_locator = "xpath",\
+                                   "//div[@style='']/div[@class='onTheWay-transaction' or @class='final-transaction']" \
+                                   "//div[@class='ant-table-wrapper']//table//tbody/tr[" + str(row) + "]/td[" + \
+                                   str(self.__get_column_by_title('交易编号') + 1) + "]//div"
+        order_detail['transaction_code'] = self.element_text(transaction_code_locator)
+        buyer_locator = "xpath",\
+                        "//div[@style='']/div[@class='onTheWay-transaction' or @class='final-transaction']" \
+                        "//div[@class='ant-table-wrapper']//table//tbody/tr[" + str(row) + "]/td[" + \
+                        str(self.__get_column_by_title('买方') + 1) + "]/div"
+        order_detail['buyer'] = self.element_text(buyer_locator)
+        seller_locator = "xpath", \
+                         "//div[@style='']/div[@class='onTheWay-transaction' or @class='final-transaction']" \
+                         "//div[@class='ant-table-wrapper']//table//tbody/tr[" + str(row) + "]/td[" + \
+                         str(self.__get_column_by_title('卖方') + 1) + "]/div"
+        order_detail['seller'] = self.element_text(seller_locator)
+        agent_locator = "xpath", \
+                        "//div[@style='']/div[@class='onTheWay-transaction' or @class='final-transaction']" \
+                        "//div[@class='ant-table-wrapper']//table//tbody/tr[" + str(row) + "]/td[" + \
+                        str(self.__get_column_by_title('经纪人') + 1) + "]/div"
+        order_detail['agent'] = self.element_text(agent_locator)
+        property_address_locator = "xpath", \
+                                   "//div[@style='']/div[@class='onTheWay-transaction' or @class='final-transaction']" \
+                                   "//div[@class='ant-table-wrapper']//table//tbody/tr[" + str(row) + "]/td[" + \
+                                   str(self.__get_column_by_title('物业地址') + 1) + "]/div"
+        order_detail['property_address'] = self.element_text(property_address_locator)
+        contract_code_locator = "xpath", \
+                                "//div[@style='']/div[@class='onTheWay-transaction' or @class='final-transaction']" \
+                                "//div[@class='ant-table-wrapper']//table//tbody/tr[" + str(row) + "]/td[" + \
+                                str(self.__get_column_by_title('合同编号') + 1) + "]/div"
+        order_detail['contract_code'] = self.element_text(contract_code_locator)
+        commission_locator = "xpath", \
+                             "//div[@style='']/div[@class='onTheWay-transaction' or @class='final-transaction']" \
+                             "//div[@class='ant-table-wrapper']//table//tbody/tr[" + str(row) + "]/td[" + \
+                             str(self.__get_column_by_title('佣金') + 1) + "]/div"
+        order_detail['commission'] = self.element_text(commission_locator)
         return order_detail
+
+    def __get_column_by_title(self, title):
+        locator = 'xpath', \
+                  "///div[@style='']/div[@class='onTheWay-transaction' or @class='final-transaction']//table/thead//th"
+        title_list = self.find_elements(locator)
+        for title_ele in title_list:
+            if title_ele.text == title:
+                return title_list.index(title_ele)

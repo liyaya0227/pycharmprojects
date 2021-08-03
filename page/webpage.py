@@ -176,3 +176,7 @@ class WebPage(object):
     def wait_page_loading_complete(self):
         while self.driver.execute_script("return document.readyState") != 'complete':
             sleep()
+
+    def scroll_to_top(self):
+        self.execute_js_script("var q=document.documentElement.scrollTop=0")
+        sleep(2)
