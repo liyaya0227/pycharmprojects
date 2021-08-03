@@ -9,11 +9,11 @@
 
 import base64
 import pytest
-from py.xml import html
 import allure
-from common.readconfig import ini
-from selenium import webdriver
+from py.xml import html
 from config.conf import cm
+from selenium import webdriver
+from common.readconfig import ini
 from utils.timeutil import dt_strftime
 from page_object.login.loginpage import LoginPage
 from page_object.main.topviewpage import MainTopViewPage
@@ -43,7 +43,7 @@ def web_driver():
     login_page.click_login_button()
     main_topview = MainTopViewPage(wdriver)
     main_topview.wait_page_loading_complete()
-    main_topview.click_close_button()
+    main_topview.wait_close_top_view()
     yield wdriver
     print('------------close browser------------')
     wdriver.quit()
@@ -93,21 +93,6 @@ def pytest_html_results_table_html(report, data):
 
 def pytest_html_report_title(report):
     report.title = "京日找房Web端UI自动化测试报告"
-#
-#
-# def pytest_terminal_summary(terminalreporter):
-#     """收集测试结果"""
-#     result = {
-#         "total": terminalreporter._numcollected,
-#         'passed': len(terminalreporter.stats.get('passed', [])),
-#         'failed': len(terminalreporter.stats.get('failed', [])),
-#         'error': len(terminalreporter.stats.get('error', [])),
-#         'skipped': len(terminalreporter.stats.get('skipped', [])),
-#         'total times': timestamp() - terminalreporter._sessionstarttime
-#     }
-#     print(result)
-#     # if result['failed'] or result['error']:
-#     #  send_report()
 
 
 def _capture_screenshot():
