@@ -39,8 +39,12 @@ def web_driver():
     login_page.input_account(ini.user_account)
     login_page.input_password(ini.user_password)
     login_page.click_verify_button()
-    login_page.verify()
-    login_page.click_login_button()
+    # login_page.verify()
+    # login_page.click_login_button()
+
+    """图片验证"""
+    login_page.slide_verification("./slider.png", "background.jpg", 5)
+
     main_topview = MainTopViewPage(wdriver)
     main_topview.wait_page_loading_complete()
     main_topview.wait_close_top_view()

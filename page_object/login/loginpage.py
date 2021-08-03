@@ -6,7 +6,11 @@
 @file: loginpage.py
 @time: 2021/06/24
 """
-
+import base64
+from io import BytesIO
+import random
+import time
+import cv2
 from page.webpage import WebPage
 from common.readelement import Element
 from utils.timeutil import sleep
@@ -63,6 +67,107 @@ class LoginPage(WebPage):
             delete_file(cm.tmp_dir + "/全屏截图.png")
             if not self.find_element_with_wait_time(login['验证图片']):
                 return True
+
+
+    def save_img(self, class_name):
+        """下载滑块图片"""
+        getImgJS = 'return document.getElementsByClassName("' + class_name + '")[0].toDataURL("image/jpeg");'
+        img = self.driver.execute_script(getImgJS)
+        base64_data_img = img[img.find(',') + 1:]
+        # j = img[img.find(',') + 1:]
+        image_base = base64.b64decode(base64_data_img)
+        file_like = BytesIO(image_base)
+        image = Image.open(file_like)
+        return image
+
+    def save_img_css(self):
+        """下载带缺口背景图片"""
+        getImgJS = 'return document.getElementsByTagName("canvas")[0].toDataURL("image/jpeg");'
+        img = self.driver.execute_script(getImgJS)
+        base64_data_img = img[img.find(',') + 1:]
+        # j = img[img.find(',') + 1:]
+        image_base = base64.b64decode(base64_data_img)
+        file_like = BytesIO(image_base)
+        image = Image.open(file_like)
+        return image
+
+    def get_element_slide_distance(self,slider_pic,background_pic):
+        """
+        破解滑块验证主程序
+        :param slider_pic:保存滑块图片时的名字；background_pic：保存带缺口背景图片时的名字
+        :return:需移动的距离
+        """
+        # log = Log().logger
+        print("出现滑块验证，验证中")
+        # 1、出现滑块验证，获取验证小图片
+        picture1 = self.save_img('sliderVerifyCode_block__2nWM1')
+        picture1.save(slider_pic)
+
+        # 2、获取有缺口验证图片
+        cut_image = self.save_img_css()
+        cut_image.save(background_pic)
+
+        # 二值化图片,进行对比，输出匹配的坐标系
+        target_rgb = cv2.imread(background_pic)
+        target_gray = cv2.cvtColor(target_rgb, cv2.COLOR_BGR2GRAY)
+        template_rgb = cv2.imread(slider_pic, 0)
+        res = cv2.matchTemplate(target_gray, template_rgb, cv2.TM_CCOEFF_NORMED)
+        value = cv2.minMaxLoc(res)
+        value = value[3][0]+10
+        # log.info("==================================" + str(value) + "===================================")
+        return value
+
+    def get_slide_locus(self, distance):
+        """
+        根据移动坐标位置构造移动轨迹,前期移动慢，中期块，后期慢
+        :param distance:移动距离
+        :type:int
+        :return:移动轨迹
+        :rtype:list
+        """
+        remaining_dist = distance
+        locus = []
+        while remaining_dist > 0:
+            ratio = remaining_dist / distance
+            if ratio < 0.2:
+                span = random.randint(2, 8)
+            elif ratio > 0.8:
+                span = random.randint(5, 8)
+            else:
+                span = random.randint(10, 16)
+            locus.append(span)
+            remaining_dist -= span
+        return locus
+
+    def slide_verification(self,slider_pic,background_pic,count):
+        """
+        :param driver: driver对象
+        :type driver:webdriver.Chrome
+        :param distance:  滑动的距离
+        :type: int
+        :param count:  重试次数
+        :type: int
+        """
+        distance = self.get_element_slide_distance(slider_pic,background_pic)
+        # count = 5
+        start_url = self.driver.current_url
+        print("需要滑动的距离为：", distance)
+        locus = self.get_slide_locus(distance)
+        print("生成的滑动轨迹为:{}，轨迹的距离之和为{}".format(locus, distance))
+        ActionChains(self.driver).click_and_hold(self.find_element(login['滑动按钮'])).perform()
+        time.sleep(0.5)
+        for loc in locus:
+            time.sleep(0.01)
+            ActionChains(self.driver).move_by_offset(loc, random.randint(-5, 5)).perform()
+            ActionChains(self.driver).context_click(self.find_element(login['滑动按钮']))
+        ActionChains(self.driver).release(on_element=self.find_element(login['滑动按钮'])).perform()
+        self.click_login_button()
+        time.sleep(1)
+        end_url = self.driver.current_url
+        if start_url == end_url and count > 0:
+            print("第{}次验证失败，开启重试".format(6 - count))
+            count -= 1
+            self.slide_verification(slider_pic,background_pic,count)
 
     def click_login_button(self):
         self.is_click(login['立即登录按钮'])
