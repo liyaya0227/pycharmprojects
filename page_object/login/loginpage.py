@@ -6,6 +6,8 @@
 @file: loginpage.py
 @time: 2021/06/24
 """
+import random
+
 import cv2
 import base64
 from io import BytesIO
@@ -44,7 +46,6 @@ class LoginPage(WebPage):
         破解滑块验证主程序
         :return:需移动的距离
         """
-        print("出现滑块验证，验证中")
         # 1、出现滑块验证，获取验证小图片
         slider_img_css = "#verifyCode>canvas[class]"
         self.__save_img(slider_img_css, cm.tmp_dir + "/slider.png")
@@ -60,16 +61,42 @@ class LoginPage(WebPage):
         value = value[3][0]+10
         return value
 
+    @staticmethod
+    def __get_slide_locus(distance):
+        """
+        根据移动坐标位置构造移动轨迹,前期移动慢，中期块，后期慢
+        :param distance:移动距离
+        :type:int
+        :return:移动轨迹
+        :rtype:list
+        """
+        remaining_dist = distance
+        locus = []
+        while remaining_dist > 0:
+            ratio = remaining_dist / distance
+            if ratio < 0.2:
+                span = random.randint(2, 8)
+            elif ratio > 0.8:
+                span = random.randint(5, 8)
+            else:
+                span = random.randint(10, 16)
+            locus.append(span)
+            remaining_dist -= span
+        return locus
+
     def slide_verification(self, count=5):
         """
         :param count:  重试次数
         :type: int
         """
         distance = self.__get_element_slide_distance()
+        locus = self.__get_slide_locus(distance)
         slide_button = self.find_element(login['滑动按钮'])
         ActionChains(self.driver).click_and_hold(slide_button).perform()
         sleep(0.5)
-        ActionChains(self.driver).move_by_offset(distance, 0).perform()
+        for loc in locus:
+            sleep(0.01)
+            ActionChains(self.driver).move_by_offset(loc, 0).perform()
         ActionChains(self.driver).release(slide_button).perform()
         sleep(2)
         if self.find_element_with_wait_time(login['验证图片'], wait_time=2):
