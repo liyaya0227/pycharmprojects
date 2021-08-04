@@ -24,9 +24,9 @@ wdriver = None
 @pytest.fixture(scope='session')
 def web_driver():
     global wdriver
-    print('------------open browser------------')
     chrome_options = webdriver.ChromeOptions()
-    prefs = {"download.default_directory": cm.tmp_dir, "credentials_enable_service": False,
+    prefs = {"download.default_directory": cm.tmp_dir,
+             "credentials_enable_service": False,
              "profile.password_manager_enabled": False}
     chrome_options.add_experimental_option("prefs", prefs)
     chrome_options.add_experimental_option('useAutomationExtension', False)
@@ -39,17 +39,12 @@ def web_driver():
     login_page.input_account(ini.user_account)
     login_page.input_password(ini.user_password)
     login_page.click_verify_button()
-    # login_page.verify()
-    # login_page.click_login_button()
-
-    """图片验证"""
-    login_page.slide_verification("./slider.png", "background.jpg", 5)
-
+    login_page.slide_verification()  # 图片验证
+    login_page.click_login_button()
     main_topview = MainTopViewPage(wdriver)
     main_topview.wait_page_loading_complete()
     main_topview.wait_close_top_view()
     yield wdriver
-    print('------------close browser------------')
     wdriver.quit()
 
 
