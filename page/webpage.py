@@ -22,8 +22,6 @@ class WebPage(object):
 
     def __init__(self, driver):
         self.driver = driver
-        self.timeout = 20
-        self.wait = WebDriverWait(self.driver, self.timeout)
 
     def open_url(self, url):
         """打开网址并验证"""
@@ -42,43 +40,37 @@ class WebPage(object):
         name, value = locator
         return func(cm.LOCATE_MODE[name], value)
 
-    def find_element(self, locator):
+    def find_element(self, locator, wait_time=10):
         """寻找单个元素"""
-        element = WebPage.element_locator(lambda *args: self.wait.until(EC.presence_of_element_located(args)), locator)
+        try:
+            # element = WebPage.element_locator(lambda *args: WebDriverWait(self.driver, wait_time).
+            #                                   until(EC.presence_of_element_located(args)), locator)
+            name, value = locator
+            element = WebDriverWait(self.driver, wait_time).until(lambda x: x.find_element(cm.LOCATE_MODE[name], value))
         # size = self.driver.get_window_size()
         # if element.location['y'] < size['height'] / 4:
         #     self.driver.execute_script("arguments[0].scrollIntoView(false);", element)
         # if element.location['y'] > size['height'] - size['height'] / 10:
         #     self.driver.execute_script("arguments[0].scrollIntoView();", element)
-        return element
-
-    def find_element_with_wait_time(self, locator, wait_time=5):
-        try:
-            element = WebDriverWait(self.driver, wait_time).until(lambda x: x.find_element(*locator))
             return element
         except TimeoutException:
             return False
 
-    def find_elements(self, locator):
+    def find_elements(self, locator, wait_time=10):
         """查找多个相同的元素"""
-        return WebPage.element_locator(lambda *args: self.wait.until(EC.presence_of_all_elements_located(args)),
-                                       locator)
+        return WebPage.element_locator(lambda *args: WebDriverWait(self.driver, wait_time)
+                                       .until(EC.presence_of_all_elements_located(args)), locator)
 
-    def find_elements_with_wait_time(self, locator, wait_time=5):
-        element = WebDriverWait(self.driver, wait_time).until(lambda x: x.find_elements(*locator))
-        return element
-
-    def elements_num(self, locator):
-        """获取相同元素的个数"""
-        number = len(self.find_elements(locator))
-        log.info("相同元素：{}".format((locator, number)))
-        return number
+    # def elements_num(self, locator):
+    #     """获取相同元素的个数"""
+    #     number = len(self.find_elements(locator))
+    #     log.info("相同元素：{}".format((locator, number)))
+    #     return number
 
     def input_text(self, locator, txt):
         """输入(输入前先清空)"""
         log.info("元素{}输入文本：{}".format(locator, txt))
         ele = self.find_element(locator)
-        sleep()
         ele.send_keys(txt)
         sleep()
 
@@ -94,7 +86,6 @@ class WebPage(object):
         """输入(输入前先清空)"""
         log.info("元素{}输入文本：{}".format(locator, txt))
         ele = self.find_element(locator)
-        sleep()
         ele.send_keys(txt)
         ele.send_keys(Keys.ENTER)
         sleep()
@@ -103,7 +94,6 @@ class WebPage(object):
         """清空文本"""
         log.info("元素{}文本清空".format(locator))
         ele = self.find_element(locator)
-        sleep()
         ele.send_keys(Keys.CONTROL + 'A')
         ele.send_keys(Keys.DELETE)
         sleep()
@@ -112,7 +102,6 @@ class WebPage(object):
         """输入回车键"""
         log.info("元素{}输入回车键".format(locator))
         ele = self.find_element(locator)
-        sleep()
         ele.send_keys(Keys.ENTER)
         sleep()
 
@@ -120,14 +109,12 @@ class WebPage(object):
         """点击"""
         log.info("点击元素：{}".format(locator))
         ele = self.find_element(locator)
-        sleep()
         ele.click()
         sleep()
 
     def element_text(self, locator):
         """获取当前的text"""
         ele = self.find_element(locator)
-        sleep()
         _text = ele.text
         log.info("获取元素{}文本：{}".format(locator, _text))
         return _text
@@ -135,7 +122,6 @@ class WebPage(object):
     def get_element_attribute(self, locator, attribute):
         """获取当前的text"""
         ele = self.find_element(locator)
-        sleep()
         _text = ele.get_attribute(attribute)
         log.info("获取元素{}属性的{}：{}".format(locator, attribute, _text))
         return _text
@@ -165,7 +151,6 @@ class WebPage(object):
         ActionChains(self.driver).click().release().perform()
 
     def keyboard_send_esc(self):
-        sleep()
         ActionChains(self.driver).key_down(Keys.ESCAPE).key_up(Keys.ESCAPE).perform()
         sleep()
 
@@ -179,4 +164,4 @@ class WebPage(object):
 
     def scroll_to_top(self):
         self.execute_js_script("var q=document.documentElement.scrollTop=0")
-        sleep(2)
+        sleep()

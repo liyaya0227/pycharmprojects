@@ -50,7 +50,7 @@ class TestAppointmentExploration(object):
         assert table_count > 0
         for row in range(table_count):
             house_table.go_house_detail_by_row(row + 1)
-            house_property_address = house_detail.get_house_property_address()
+            house_property_address = house_detail.get_address_dialog_house_property_address()
             if house_property_address['estate_name'] == ini.house_community_name \
                     and house_property_address['building_name'] == ini.house_building_id \
                     and house_property_address['door_name'] == ini.house_doorplate:
@@ -71,7 +71,7 @@ class TestAppointmentExploration(object):
     @allure.story("测试房源预约实勘用例")
     @pytest.mark.sale
     @pytest.mark.house
-    @pytest.mark.run(order=2)
+    @pytest.mark.run(order=11)
     def test_001(self, web_driver):
         main_upview = MainUpViewPage(web_driver)
         main_topview = MainTopViewPage(web_driver)
@@ -90,7 +90,7 @@ class TestAppointmentExploration(object):
             house_detail.click_back_exploration_button()
             house_detail.choose_back_exploration_reason('其他')
             house_detail.click_back_exploration_return_button()
-            assert main_topview.wait_notification_content_exist() == '退单成功'
+            assert main_topview.find_notification_content() == '退单成功'
         house_detail.click_exploration_button()
         house_detail.choose_normal_exploration()
         house_detail.choose_photographer(self.test_data['photographer'])

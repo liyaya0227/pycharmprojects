@@ -88,7 +88,7 @@ class CustomerTablePage(WebPage):
         expand_locator = 'xpath', "//div[not(contains(@style,'display'))]/div[contains(@class,'customesList')]" \
                                   "//table/tbody/tr[" + str(row) + "]/td[" + \
                          str(self.__get_column_by_title('详细需求') + 1) + "]/div/div/a"
-        if self.find_element_with_wait_time(expand_locator, wait_time=1):
+        if self.find_element(expand_locator, wait_time=2):
             self.is_click(expand_locator)
         locator = 'xpath', "//div[not(contains(@style,'display'))]/div[contains(@class,'customesList')]" \
                            "//table/tbody/tr[" + str(row) + "]/td[" + str(self.__get_column_by_title('详细需求') + 1) + \

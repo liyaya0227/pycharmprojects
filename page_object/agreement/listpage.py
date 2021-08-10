@@ -12,6 +12,7 @@ from page.webpage import WebPage
 from common.readelement import Element
 from utils.fileutil import *
 from config.conf import cm
+from common.readconfig import ini
 
 agreement_list = Element('agreement/list')
 
@@ -26,15 +27,17 @@ class AgreementListPage(WebPage):
         self.is_click(agreement_list['查询按钮'])
 
     def click_download_button_by_row(self, row=1):
-        table = self.find_element(agreement_list['协议列表'])
-        agreement_list_ele = table.find_element_by_xpath(
-            "//div[@class='ant-row protocolApplication']//table//tr[" + str(row) + "]//a[text()='下载']")
-        agreement_list_ele.click()
+        locator = 'xpath', "//div[@class='ant-row protocolApplication']//table//tr[" + str(row) + "]//a[text()='下载']"
+        self.is_click(locator)
 
     @staticmethod
     def get_written_entrustment_agreement_number():
         while True:
-            file_path = search_file_in_dir(cm.tmp_dir, '一般委托书')
+            file_path = ''
+            if ini.environment == 'sz' or ini.environment == 'ks':
+                file_path = search_file_in_dir(cm.tmp_dir, '一般委托书')
+            if ini.environment == 'wx':
+                file_path = search_file_in_dir(cm.tmp_dir, '限时委托代理销售协议')
             if file_path == '':
                 continue
             content = get_docx_file_content(file_path)

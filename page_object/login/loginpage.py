@@ -99,9 +99,16 @@ class LoginPage(WebPage):
             ActionChains(self.driver).move_by_offset(loc, 0).perform()
         ActionChains(self.driver).release(slide_button).perform()
         sleep(2)
-        if self.find_element_with_wait_time(login['验证图片'], wait_time=2):
+        if self.element_text(login['校验点击按钮']) != '验证成功':
             count -= 1
             self.slide_verification(count)
 
     def click_login_button(self):
         self.is_click(login['立即登录按钮'])
+
+    def log_in(self, account, password):
+        self.input_account(account)
+        self.input_password(password)
+        self.click_verify_button()
+        self.slide_verification()
+        self.click_login_button()

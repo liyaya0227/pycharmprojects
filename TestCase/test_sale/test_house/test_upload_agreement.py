@@ -9,7 +9,6 @@
 
 import pytest
 import allure
-
 from utils.logger import log
 from config.conf import cm
 from common.readconfig import ini
@@ -60,7 +59,7 @@ class TestUploadAgreement(object):
         assert table_count > 0
         for row in range(table_count):
             house_table.go_house_detail_by_row(row + 1)
-            house_property_address = house_detail.get_house_property_address()
+            house_property_address = house_detail.get_address_dialog_house_property_address()
             if house_property_address['estate_name'] == ini.house_community_name \
                     and house_property_address['building_name'] == ini.house_building_id \
                     and house_property_address['door_name'] == ini.house_doorplate:
@@ -80,7 +79,7 @@ class TestUploadAgreement(object):
     @allure.story("测试房源上传协议用例")
     @pytest.mark.sale
     @pytest.mark.house
-    @pytest.mark.run(order=2)
+    @pytest.mark.run(order=11)
     def test_001(self, web_driver):
 
         main_leftview = MainLeftViewPage(web_driver)
@@ -92,7 +91,7 @@ class TestUploadAgreement(object):
         agreement_list = AgreementListPage(web_driver)
         certificate_examine = CertificateExaminePage(web_driver)
 
-        main_leftview.click_agreement_list()  # 获取协议编号
+        main_leftview.click_agreement_list_label()  # 获取协议编号
         agreement_list.input_agreement_name_search('一般委托书')
         agreement_list.click_query_button()
         agreement_list.click_download_button_by_row(1)

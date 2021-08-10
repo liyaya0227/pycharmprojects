@@ -25,7 +25,7 @@ class CertificateExaminePage(WebPage):
                       "//table/tbody//div[@class='houseCode' and text()='" \
                       + house_code + "']/ancestor::tr/td[6]//div[text()='" + certificate_name + \
                       "']/ancestor::tr/td[8]//a[text()='通过']"
-            if self.find_element_with_wait_time(locator):
+            if self.find_element(locator, wait_time=5):
                 self.is_click(locator)
                 sleep()
                 return True

@@ -58,7 +58,7 @@ class TestCreateOrder(object):
         assert table_count > 0
         for row in range(table_count):
             house_table.go_house_detail_by_row(row + 1)
-            house_property_address = house_detail.get_house_property_address()
+            house_property_address = house_detail.get_address_dialog_house_property_address()
             if house_property_address['estate_name'] == ini.house_community_name \
                     and house_property_address['building_name'] == ini.house_building_id \
                     and house_property_address['door_name'] == ini.house_doorplate:
@@ -139,7 +139,7 @@ class TestCreateOrder(object):
             contract_create_order.click_confirm_button_in_dialog()
         contract_create_order.input_contract_content(self.test_data, flag='租赁')
         contract_create_order.click_submit_button()
-        assert main_topview.wait_notification_content_exist() == '提交成功'
+        assert main_topview.find_notification_content() == '提交成功'
         contract_table.click_rent_contract_tab()
         contract_table.click_reset_button()
         contract_table.input_house_code_search(house_info['house_code'])

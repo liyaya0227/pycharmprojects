@@ -1,2 +1,5 @@
+登录人姓名: "xpath==//div[@class='home']/div[@class='homeRight']//div[@class='card-name']"
+登录人电话: "xpath==//div[@class='home']/div[@class='homeRight']//div[@class='card-phone']/span"
+
 房源待办_无效房源: "xpath==//div[text()='房源待办']/parent::div[@class='todo']//div[text()='无效房源' and @class='name']/ancestor::button"
 房源待办_证件审批: "xpath==//div[text()='房源待办']/parent::div[@class='todo']//div[text()='证件审批' and @class='name']/ancestor::button"

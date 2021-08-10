@@ -87,7 +87,7 @@ class TestTransactionOrderContent(object):
         table_count = house_table.get_house_table_count()  # 进入详情，获取房源信息
         for row in range(table_count):
             house_table.go_house_detail_by_row(row + 1)
-            house_property_address = house_detail.get_house_property_address()
+            house_property_address = house_detail.get_address_dialog_house_property_address()
             if house_property_address['estate_name'] == ini.house_community_name \
                     and house_property_address['building_name'] == ini.house_building_id \
                     and house_property_address['door_name'] == ini.house_doorplate:
@@ -135,7 +135,7 @@ class TestTransactionOrderContent(object):
     @allure.story("测试全款购买合同，查看权证单显示数据用例")
     @pytest.mark.sale
     @pytest.mark.transaction
-    @pytest.mark.run(order=5)
+    @pytest.mark.run(order=41)
     @pytest.mark.dependency()
     @pytest.mark.flaky(reruns=5, reruns_delay=2)
     @pytest.mark.parametrize("contract_data", full_payment_contract_data)

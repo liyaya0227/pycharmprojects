@@ -37,6 +37,11 @@ class MainLeftViewPage(WebPage):
             main_topview = MainTopViewPage(self.driver)
             main_topview.click_close_button()
 
+    def log_out(self):
+        self.is_click(left_view['功能按钮'])
+        self.is_click(left_view['推出登录按钮'])
+        self.refresh()
+
     def click_homepage_overview_label(self):
         self.is_click(left_view['首页概览标签'])
 
@@ -82,7 +87,7 @@ class MainLeftViewPage(WebPage):
             self.is_click(left_view['交易管理菜单'])
         self.is_click(left_view['终结单标签'])
 
-    def click_agreement_list(self):
+    def click_agreement_list_label(self):
         is_expanded = self.get_element_attribute(left_view['协议应用菜单'], 'aria-expanded')
         if is_expanded == 'false':
             self.is_click(left_view['协议应用菜单'])

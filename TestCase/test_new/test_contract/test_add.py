@@ -84,7 +84,7 @@ class TestAdd(object):
             if new_house_operation_table.get_table_count() != 0:
                 new_house_operation_table.delete_report_by_row(1)
                 new_house_operation_table.dialog_click_delete_button()
-                assert main_topview.wait_notification_content_exist() == '删除成功'
+                assert main_topview.find_notification_content() == '删除成功'
             new_house_operation_table.click_take_look_tab()
             new_house_operation_table.input_building_name_search(self.test_data['楼盘信息'])
             new_house_operation_table.input_customer_phone_search(customer_info['customer_phone'])
@@ -92,7 +92,7 @@ class TestAdd(object):
             if new_house_operation_table.get_table_count() != 0:
                 new_house_operation_table.delete_report_by_row(1)
                 new_house_operation_table.dialog_click_delete_button()
-                assert main_topview.wait_notification_content_exist() == '删除成功'
+                assert main_topview.find_notification_content() == '删除成功'
             new_house_operation_table.click_subscription_tab()
             new_house_operation_table.input_building_name_search(self.test_data['楼盘信息'])
             new_house_operation_table.input_customer_phone_search(customer_info['customer_phone'])
@@ -100,7 +100,7 @@ class TestAdd(object):
             if new_house_operation_table.get_table_count() != 0:
                 new_house_operation_table.delete_report_by_row(1)
                 new_house_operation_table.dialog_click_delete_button()
-                assert main_topview.wait_notification_content_exist() == '删除成功'
+                assert main_topview.find_notification_content() == '删除成功'
             main_leftview.change_role('经纪人')
             main_leftview.click_new_house_operation_label()
             new_house_operation_table.click_report_tab()
@@ -110,7 +110,7 @@ class TestAdd(object):
         new_house_operation_table.dialog_input_expect_arrive_time(self.test_data['预计到访时间'])
         new_house_operation_table.dialog_input_remark(self.test_data['备注'])
         new_house_operation_table.dialog_click_confirm_button()
-        assert main_topview.wait_notification_content_exist() == '报备新增成功'
+        assert main_topview.find_notification_content() == '报备新增成功'
         log.info('报备新增成功')
         main_leftview.change_role('新房案场')
         main_leftview.click_new_house_operation_label()
@@ -121,7 +121,7 @@ class TestAdd(object):
         assert new_house_operation_table.get_table_count() == 1
         new_house_operation_table.watch_report_by_row(1)
         new_house_operation_table.dialog_click_examine_pass_button()
-        assert main_topview.wait_notification_content_exist() == '报备审核成功'
+        assert main_topview.find_notification_content() == '报备审核成功'
         log.info('报备审核成功')
         main_leftview.change_role('经纪人')
         main_leftview.click_new_house_operation_label()
@@ -134,7 +134,7 @@ class TestAdd(object):
         new_house_operation_table.dialog_input_take_look_time(self.test_data['带看日期'])
         new_house_operation_table.dialog_upload_picture([cm.tmp_picture_file])
         new_house_operation_table.dialog_click_confirm_button()
-        assert main_topview.wait_notification_content_exist() == '带看新增成功'
+        assert main_topview.find_notification_content() == '带看新增成功'
         log.info('带看新增成功')
         main_leftview.change_role('新房案场')
         main_leftview.click_new_house_operation_label()
@@ -145,7 +145,7 @@ class TestAdd(object):
         assert new_house_operation_table.get_table_count() == 1
         new_house_operation_table.watch_report_by_row(1)
         new_house_operation_table.dialog_click_examine_pass_button()
-        assert main_topview.wait_notification_content_exist() == '带看审核成功'
+        assert main_topview.find_notification_content() == '带看审核成功'
         log.info('带看审核成功')
         main_leftview.change_role('经纪人')
         main_leftview.click_new_house_operation_label()
@@ -166,7 +166,7 @@ class TestAdd(object):
         new_house_operation_table.dialog_upload_customer_certificate([cm.tmp_picture_file])
         new_house_operation_table.dialog_upload_payment_voucher([cm.tmp_picture_file])
         new_house_operation_table.dialog_click_confirm_button()
-        assert main_topview.wait_notification_content_exist() == '认购新增成功'
+        assert main_topview.find_notification_content() == '认购新增成功'
         log.info('认购新增成功')
         main_leftview.change_role('新房案场')
         main_leftview.click_new_house_operation_label()
@@ -179,7 +179,7 @@ class TestAdd(object):
         new_house_operation_table.input_commission_price(self.test_data['佣金金额'])
         new_house_operation_table.input_company_income(self.test_data['公司收入'])
         new_house_operation_table.dialog_click_examine_pass_button()
-        assert main_topview.wait_notification_content_exist() == '认购审核成功'
+        assert main_topview.find_notification_content() == '认购审核成功'
         log.info('认购审核成功')
         main_leftview.change_role('经纪人')
         main_leftview.click_new_house_operation_label()
