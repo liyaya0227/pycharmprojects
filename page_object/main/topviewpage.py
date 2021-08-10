@@ -17,19 +17,19 @@ top_view = Element('main/topview')
 class MainTopViewPage(WebPage):
 
     def click_close_button(self):
-        if self.find_element_with_wait_time(top_view['关闭按钮']):
+        if self.find_element(top_view['关闭按钮'], wait_time=4):
             self.is_click(top_view['关闭按钮'])
 
     def wait_close_top_view(self):
         while True:
-            if self.find_element_with_wait_time(top_view['关闭按钮']):
+            if self.find_element(top_view['关闭按钮'], wait_time=5):
                 self.click_close_button()
                 break
             else:
                 sleep()
 
     def find_notification_title(self):
-        if self.find_element_with_wait_time(top_view['右上角弹窗_标题']):
+        if self.find_element(top_view['右上角弹窗_标题'], wait_time=4):
             value = self.element_text(top_view['右上角弹窗_标题'])
             self.close_notification()
             return value
@@ -37,23 +37,13 @@ class MainTopViewPage(WebPage):
             return ''
 
     def find_notification_content(self):
-        if self.find_element_with_wait_time(top_view['右上角弹窗_内容']):
+        if self.find_element(top_view['右上角弹窗_内容'], wait_time=4):
             value = self.element_text(top_view['右上角弹窗_内容'])
             self.close_notification()
             return value
         else:
             return ''
 
-    def wait_notification_content_exist(self):
-        while True:
-            if self.find_element_with_wait_time(top_view['右上角弹窗_内容']):
-                value = self.element_text(top_view['右上角弹窗_内容'])
-                self.close_notification()
-                return value
-            else:
-                sleep()
-
     def close_notification(self):
-        sleep()
-        if self.find_element_with_wait_time(top_view['右上角弹窗_关闭按钮']):
+        if self.find_element(top_view['右上角弹窗_关闭按钮'], wait_time=4):
             self.is_click(top_view['右上角弹窗_关闭按钮'])

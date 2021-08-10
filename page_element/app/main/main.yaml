@@ -1,0 +1,3 @@
+订单按钮: "xpath==//*[@class='android.widget.TextView' and @text='订单']/parent::android.widget.Button"
+消息按钮: "xpath==//*[@class='android.widget.TextView' and @text='消息']/parent::android.widget.Button"
+我的按钮: "xpath==//*[@class='android.widget.TextView' and @text='我的']/parent::android.widget.Button"

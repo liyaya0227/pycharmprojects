@@ -59,7 +59,7 @@ class TestOrderProcess(object):
         assert table_count > 0
         for row in range(table_count):
             house_table.go_house_detail_by_row(row + 1)
-            house_property_address = house_detail.get_house_property_address()
+            house_property_address = house_detail.get_address_dialog_house_property_address()
             if house_property_address['estate_name'] == ini.house_community_name \
                     and house_property_address['building_name'] == ini.house_building_id \
                     and house_property_address['door_name'] == ini.house_doorplate:
@@ -181,7 +181,7 @@ class TestOrderProcess(object):
         assert contract_table.get_contract_table_count() == 1
         contract_table.legal_examine_by_row(1)
         contract_preview.click_pass_button()
-        assert main_topview.wait_notification_content_exist() == '操作成功'
+        assert main_topview.find_notification_content() == '操作成功'
         main_upview.clear_all_title()
         main_leftview.click_contract_management_label()
         contract_table.click_sale_contract_examine_tab()
@@ -207,7 +207,7 @@ class TestOrderProcess(object):
         log.info('法务审核通过后，状态显示正确')
         contract_detail.click_preview_button()  # 签章
         contract_preview.click_signature_button()
-        assert main_topview.wait_notification_content_exist() == '操作成功'
+        assert main_topview.find_notification_content() == '操作成功'
         main_upview.clear_all_title()
         main_leftview.click_contract_management_label()
         contract_table.click_sale_contract_tab()
@@ -290,7 +290,7 @@ class TestOrderProcess(object):
         contract_detail.click_submit_button()
         contract_detail.click_report_achievement_button()
         achievement_detail.click_submit_button()
-        assert main_topview.wait_notification_content_exist() == '操作成功'
+        assert main_topview.find_notification_content() == '操作成功'
         main_upview.clear_all_title()
         main_leftview.click_contract_management_label()
         contract_table.click_sale_contract_tab()
@@ -312,7 +312,7 @@ class TestOrderProcess(object):
         achievement_table.click_search_button()
         assert achievement_table.get_achievement_table_count() == 1
         achievement_table.click_pass_examine_button_by_row(1)
-        assert main_topview.wait_notification_content_exist() == '操作成功'
+        assert main_topview.find_notification_content() == '操作成功'
         main_upview.clear_all_title()
         main_leftview.click_achievement_label()
         achievement_table.click_achievement_examine_tab()
@@ -355,7 +355,7 @@ class TestOrderProcess(object):
         assert transaction_table.get_table_count() == 1
         transaction_table.go_to_transaction_detail_by_row(1)
         transaction_detail.complete_transfer_house()
-        assert main_topview.wait_notification_content_exist() == '操作成功'
+        assert main_topview.find_notification_content() == '操作成功'
         main_leftview.change_role('经纪人')
         main_leftview.click_contract_management_label()
         contract_table.click_sale_contract_tab()
@@ -379,7 +379,7 @@ class TestOrderProcess(object):
         assert transaction_table.get_table_count() == 1
         transaction_table.go_to_transaction_detail_by_row(1)
         transaction_detail.close_case()
-        assert main_topview.wait_notification_content_exist() == '操作成功'
+        assert main_topview.find_notification_content() == '操作成功'
         main_leftview.change_role('经纪人')
         main_leftview.click_contract_management_label()
         contract_table.click_sale_contract_tab()

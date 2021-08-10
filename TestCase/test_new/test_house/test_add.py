@@ -54,7 +54,7 @@ class TestAdd(object):
         if house_table.get_house_table_count() != 0:
             house_table.click_delete_button_by_row(1)
             house_table.dialog_click_confirm_button()
-            assert main_topview.wait_notification_content_exist() == '删除成功'
+            assert main_topview.find_notification_content() == '删除成功'
         house_table.click_off_shelf_house_tab()
         house_table.click_reset_button()
         house_table.clear_filter(flag='新房')
@@ -63,7 +63,7 @@ class TestAdd(object):
         if house_table.get_house_table_count() != 0:
             house_table.click_delete_button_by_row(1)
             house_table.dialog_click_confirm_button()
-            assert main_topview.wait_notification_content_exist() == '删除成功'
+            assert main_topview.find_notification_content() == '删除成功'
         house_table.click_add_new_house_button()
         house_add_new_house.input_building_name(self.test_data['楼盘名称'])
         house_add_new_house.input_building_discount(self.test_data['楼盘优惠'])
@@ -97,7 +97,7 @@ class TestAdd(object):
         house_add_new_house.input_heating_type(self.test_data['供暖方式'])
         house_add_new_house.input_house_keeper_type(self.test_data['物业类型'])
         house_add_new_house.click_save_button()
-        assert main_topview.wait_notification_content_exist() == '添加成功'
+        assert main_topview.find_notification_content() == '添加成功'
         main_upview.clear_all_title()
         main_leftview.click_all_house_label()
         house_table.click_new_tab()

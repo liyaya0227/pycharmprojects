@@ -58,7 +58,7 @@ class TestCreateOrder(object):
         assert table_count > 0
         for row in range(table_count):
             house_table.go_house_detail_by_row(row + 1)
-            house_property_address = house_detail.get_house_property_address()
+            house_property_address = house_detail.get_address_dialog_house_property_address()
             if house_property_address['estate_name'] == ini.house_community_name \
                     and house_property_address['building_name'] == ini.house_building_id \
                     and house_property_address['door_name'] == ini.house_doorplate:
@@ -115,7 +115,7 @@ class TestCreateOrder(object):
     @allure.story("测试创建买卖合同，查看搜索结果用例")
     @pytest.mark.sale
     @pytest.mark.contract
-    @pytest.mark.run(order=3)
+    @pytest.mark.run(order=21)
     @pytest.mark.flaky(reruns=5, reruns_delay=2)
     def test_001(self, web_driver):
         main_topview = MainTopViewPage(web_driver)

@@ -1,0 +1,4 @@
+账号输入框: "xpath==//*[@class='android.widget.TextView' and @text='欢迎来到京日找房']/parent::android.view.ViewGroup/*[@class='android.view.ViewGroup' and @index='2']/*[@class='android.widget.EditText']"
+密码输入框: "xpath==//*[@class='android.widget.TextView' and @text='欢迎来到京日找房']/parent::android.view.ViewGroup/*[@class='android.view.ViewGroup' and @index='4']/*[@class='android.widget.EditText']"
+登录按钮: "xpath==//*[@class='android.widget.TextView' and @text='登录']"
+协议已阅读勾选: "xpath==//*[@class='android.widget.TextView' and @text='已阅读并同意']/parent::android.view.ViewGroup//*[@class='android.widget.ImageView']"

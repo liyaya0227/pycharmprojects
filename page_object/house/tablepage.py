@@ -6,11 +6,13 @@
 @file: tablepage.py
 @time: 2021/06/22
 """
-from page_object.house.detailpage import HouseDetailPage
-from page_object.main.upviewpage import MainUpViewPage
+from common.readconfig import ini
 from utils.timeutil import sleep
+from utils.sqlutil import select_sql
 from page.webpage import WebPage
 from common.readelement import Element
+from page_object.house.detailpage import HouseDetailPage
+from page_object.main.upviewpage import MainUpViewPage
 
 house_table = Element('house/table')
 
@@ -121,15 +123,10 @@ class HouseTablePage(WebPage):
         sleep()
 
     def go_house_detail_by_row(self, row=1):
-        sleep()
+        self.wait_page_loading_complete()
         locator = 'xpath', "//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table/tbody/tr["\
                   + str(row) + "]/td[" + str(self.__get_column_by_title('楼盘名称') + 1) + "]"
-        ele = self.find_element(locator)
-        self.driver.execute_script("arguments[0].scrollIntoView();", ele)
-        ele.click()
-        sleep()
-        self.refresh()
-        sleep(2)
+        self.is_click(locator)
 
     def get_house_table_count(self):
         sleep()
@@ -173,7 +170,7 @@ class HouseTablePage(WebPage):
         else:
             for row in range(table_count):
                 table.go_house_detail_by_row(row + 1)
-                house_property_address = house_detail.get_house_property_address()
+                house_property_address = house_detail.get_address_dialog_house_property_address()
                 if house_property_address['estate_name'] == test_data['楼盘'] \
                         and house_property_address['building_name'] == test_data['楼栋'] \
                         and house_property_address['door_name'] == test_data['门牌号']:
@@ -187,3 +184,24 @@ class HouseTablePage(WebPage):
                 table.choose_building_name_search(test_data['楼栋'])
                 table.click_search_button()
             return False
+
+    @staticmethod
+    def get_house_code_by_db(flag='买卖'):
+        estate_sql = "select id from estate_new_base_info where [name]='" + ini.house_community_name + "'"
+        estate_id = select_sql(estate_sql)[0][0]
+        if flag == '买卖':
+            house_sql = "select house_code from trade_house where location_estate_id='" + str(estate_id) + \
+                        "' and location_building_number='" + ini.house_building_id + \
+                        "' and location_building_cell='" + ini.house_building_cell + \
+                        "' and location_floor='" + ini.house_floor + \
+                        "' and location_doorplate='" + ini.house_doorplate + "' and is_valid='1' and [status]='0'"
+        elif flag == '租赁':
+            house_sql = "select house_code from rent_house where location_estate_id='" + str(estate_id) + \
+                        "' and location_building_number='" + ini.house_building_id + \
+                        "' and location_building_cell='" + ini.house_building_cell + \
+                        "' and location_floor='" + ini.house_floor + \
+                        "' and location_doorplate='" + ini.house_doorplate + "' and is_valid='1' and [status]='0'"
+        else:
+            raise "传值错误"
+        house_code = select_sql(house_sql)[0][0]
+        return house_code

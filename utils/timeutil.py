@@ -25,6 +25,18 @@ def dt_strftime(fmt="%Y%m"):
     return datetime.datetime.now().strftime(fmt)
 
 
+def dt_strftime_with_delta(day, fmt="%Y%m"):
+    """
+    datetime格式化时间
+    :param day
+    :param fmt "%Y%m%d %H%M%S
+    """
+    now = datetime.datetime.now()
+    delta = datetime.timedelta(days=day)
+    n_days = now + delta
+    return n_days.strftime(fmt)
+
+
 def sleep(seconds=1.0):
     """
     睡眠时间

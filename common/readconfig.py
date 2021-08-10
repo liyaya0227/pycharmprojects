@@ -33,6 +33,10 @@ class ReadConfig(object):
         return self._get('HOST', 'HOST')
 
     @property
+    def app_package(self):
+        return self._get('APP', 'PACKAGE')
+
+    @property
     def user_account(self):
         if self.environment == 'ks':
             env = 'sz'
@@ -72,31 +76,31 @@ class ReadConfig(object):
 
     @property
     def environment(self):
-        return self._get('ENVIRONMENT', 'environment')
+        return self._get('ENVIRONMENT', 'ENVIRONMENT')
 
     @property
     def house_community_name(self):
-        return self._get('HOUSE', 'community_name')
+        return self._get('HOUSE', 'COMMUNITY_NAME')
 
     @property
     def house_building_id(self):
-        return self._get('HOUSE', 'building_id')
+        return self._get('HOUSE', 'BUILDING_ID')
 
     @property
     def house_building_cell(self):
-        return self._get('HOUSE', 'building_cell')
+        return self._get('HOUSE', 'BUILDING_CELL')
 
     @property
     def house_floor(self):
-        return self._get('HOUSE', 'floor')
+        return self._get('HOUSE', 'FLOOR')
 
     @property
     def house_doorplate(self):
-        return self._get('HOUSE', 'doorplate')
+        return self._get('HOUSE', 'DOORPLATE')
 
     @property
     def custom_telephone(self):
-        return self._get('CUSTOM', 'telephone')
+        return self._get('CUSTOM', 'TELEPHONE')
 
 
 ini = ReadConfig()

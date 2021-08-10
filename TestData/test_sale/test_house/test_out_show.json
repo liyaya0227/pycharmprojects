@@ -1,0 +1,15 @@
+{
+  "exploration_info": {
+    "photographer": "自动化测试",
+    "photographer_phone": "18112592221",
+    "exploration_time": ["明天", "16:00-17:00"],
+    "appointment_instructions": "预约实勘，请留意"
+  },
+  "written_entrustment_agreement": {
+    "委托协议编号": "",
+    "委托日期开始日期": "",
+    "委托日期结束日期": "",
+    "备注": "书面委托协议信息",
+    "图片": []
+  }
+}

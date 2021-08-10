@@ -79,7 +79,7 @@ class HouseAddPage(WebPage):
                 break
 
     def find_dialog(self):
-        if self.find_element_with_wait_time(house_add['资料盘认领弹窗_前往按钮']):
+        if self.find_element(house_add['资料盘认领弹窗_前往按钮'], wait_time=2):
             return True
         else:
             return False
