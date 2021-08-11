@@ -4,3 +4,5 @@
 立即登录按钮: "xpath==//form[@class='ant-form ant-form-horizontal loginForm']//span[contains(text(), '立即登录')]/parent::button"
 验证图片: "xpath==//div[@id='verifyCode']/canvas[not(@class)]"
 滑动按钮: "xpath==//div[@id='verifyCode']//span[@class='sliderVerifyCode_sliderIcon__2VcNZ']"
+功能按钮: "xpath==//div[@class='side-header-right']//div[contains(@class, 'ant-dropdown-trigger side-header-dropdown')]"
+退出按钮: "xpath==//span[contains(.,'退出登录')]"

@@ -13,7 +13,7 @@ import allure
 from py.xml import html
 from config.conf import cm
 from selenium import webdriver
-from appium import webdriver as androiddriver
+# from appium import webdriver as androiddriver
 from common.readconfig import ini
 from utils.timeutil import dt_strftime
 from page_object.login.loginpage import LoginPage
@@ -47,34 +47,57 @@ def web_driver():
     wdriver.quit()
 
 
-@pytest.fixture(scope='session')
-def android_driver():
-    global adriver
-    desired_caps = {
-        'automationName': 'appium',  # 自动化引擎，默认appium
-        'platformName': 'Android',  # 操作系统
-        'platformVersion': '6.0.1',  # 操作系统版本
-        'deviceName': '127.0.0.1:7555',  # MUMU
-        # 'platformVersion': '5.1.1',  # 操作系统版本
-        # 'deviceName': '127.0.0.1:62001',  # 夜神
-        # 'platformVersion': '7.1.2',  # 操作系统版本
-        # 'deviceName': '721QEDRE2H7DT',  # 设备名称。如果是真机，在'设置->关于手机->设备名称'里查看
-        'noReset': True,  # 应用状态是否需要重置，默认true
-        'fullReset': False,  # 执行完测试后是否卸载app，默认false
-        'appPackage': ini.app_package,  # 应用的包名
-        'appActivity': ini.app_package + '.MainActivity',  # 应用的第一个启动Activity
-        'newCommandTimeout': 60 * 60,  # 命令超时时间，单位：秒；超时自动结束会话
-        'unicodeKeyboard': True,  # 使用unicode编码方式发送字符串；输入中文需要
-        'resetKeyboard': True  # 将键盘隐藏起来，默认true；输入中文需要
-    }
-    adriver = androiddriver.Remote('http://127.0.0.1:4723/wd/hub', desired_caps)  # 连接Appium
-    # login_page = AppLoginPage(adriver)
-    # login_page.input_account(ini.user_account)
-    # login_page.input_password(ini.user_password)
-    # login_page.choose_read()
-    # login_page.click_login_button()
-    yield adriver
-    adriver.quit()
+# @pytest.fixture(scope='session')
+# def android_driver():
+#     global adriver
+#     desired_caps = {
+#         'automationName': 'appium',  # 自动化引擎，默认appium
+#         'platformName': 'Android',  # 操作系统
+#         'platformVersion': '6.0.1',  # 操作系统版本
+#         'deviceName': '127.0.0.1:7555',  # MUMU
+#         # 'platformVersion': '5.1.1',  # 操作系统版本
+#         # 'deviceName': '127.0.0.1:62001',  # 夜神
+#         # 'platformVersion': '7.1.2',  # 操作系统版本
+#         # 'deviceName': '721QEDRE2H7DT',  # 设备名称。如果是真机，在'设置->关于手机->设备名称'里查看
+#         'noReset': True,  # 应用状态是否需要重置，默认true
+#         'fullReset': False,  # 执行完测试后是否卸载app，默认false
+#         'appPackage': ini.app_package,  # 应用的包名
+#         'appActivity': ini.app_package + '.MainActivity',  # 应用的第一个启动Activity
+#         'newCommandTimeout': 60 * 60,  # 命令超时时间，单位：秒；超时自动结束会话
+#         'unicodeKeyboard': True,  # 使用unicode编码方式发送字符串；输入中文需要
+#         'resetKeyboard': True  # 将键盘隐藏起来，默认true；输入中文需要
+#     }
+#     adriver = androiddriver.Remote('http://127.0.0.1:4723/wd/hub', desired_caps)  # 连接Appium
+#     # login_page = AppLoginPage(adriver)
+#     # login_page.input_account(ini.user_account)
+#     # login_page.input_password(ini.user_password)
+#     # login_page.choose_read()
+#     # login_page.click_login_button()
+#     yield adriver
+#     adriver.quit()
+
+
+driver = None
+@pytest.fixture(scope='session', autouse=False)
+def drivers(request):
+    global driver
+    if driver is None:
+
+        chrome_options = webdriver.ChromeOptions()
+        prefs = {"download.default_directory": cm.tmp_dir,
+                 "credentials_enable_service": False,
+                 "profile.password_manager_enabled": False}
+        chrome_options.add_experimental_option("prefs", prefs)
+        chrome_options.add_experimental_option('useAutomationExtension', False)
+        chrome_options.add_experimental_option('excludeSwitches', ['enable-automation', 'load-extension'])
+        driver = webdriver.Chrome(options=chrome_options)
+        # web_driver = webdriver.Firefox(firefox_binary='C:/Program Files/Mozilla Firefox/firefox.exe')
+        driver.maximize_window()
+        driver.get(ini.url)
+    def fn():
+        driver.quit()
+    request.addfinalizer(fn)
+    return driver
 
 
 @pytest.hookimpl(hookwrapper=True)
@@ -127,7 +150,11 @@ def _capture_screenshot():
     """截图保存为base64"""
     file_name = dt_strftime("%Y%m%d%H%M%S") + ".png"
     path = cm.tmp_dir + "\\screen_capture\\" + file_name
-    wdriver.save_screenshot(path)
+    if driver is None:
+        web_driver.save_screenshot(path)
+    else:
+        driver.save_screenshot(path)
+    # wdriver.save_screenshot(path)
     allure.attach.file(path, "失败截图", allure.attachment_type.PNG)
     with open(path, 'rb') as f:
         imagebase64 = base64.b64encode(f.read())

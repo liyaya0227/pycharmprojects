@@ -9,7 +9,7 @@
 
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 
@@ -40,7 +40,7 @@ class WebPage(object):
         name, value = locator
         return func(cm.LOCATE_MODE[name], value)
 
-    def find_element(self, locator, wait_time=10):
+    def find_element(self, locator, wait_time=15):
         """寻找单个元素"""
         try:
             # element = WebPage.element_locator(lambda *args: WebDriverWait(self.driver, wait_time).
@@ -56,7 +56,7 @@ class WebPage(object):
         except TimeoutException:
             return False
 
-    def find_elements(self, locator, wait_time=10):
+    def find_elements(self, locator, wait_time=15):
         """查找多个相同的元素"""
         return WebPage.element_locator(lambda *args: WebDriverWait(self.driver, wait_time)
                                        .until(EC.presence_of_all_elements_located(args)), locator)
@@ -165,3 +165,19 @@ class WebPage(object):
     def scroll_to_top(self):
         self.execute_js_script("var q=document.documentElement.scrollTop=0")
         sleep()
+
+    def is_exists(self, locator):
+        """
+        元素是否存在(DOM)
+        如元素不存在直接返回false，程序不退出
+        """
+        try:
+            WebPage.element_locator(lambda *args: EC.presence_of_element_located(args)(self.driver), locator)
+            return True
+        except NoSuchElementException:
+            return False
+
+    def click_blank_area(self):
+        """点击页面空白区域"""
+        actions = ActionChains(self.driver)
+        actions.move_by_offset(0, 0).click().perform()

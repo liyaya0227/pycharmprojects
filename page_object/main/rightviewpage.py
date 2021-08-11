@@ -27,3 +27,6 @@ class MainRightViewPage(WebPage):
 
     def click_certificate_examine(self):
         self.is_click(right_view['房源待办_证件审批'])
+
+    def click_review_house_state(self):
+        self.is_click(right_view['房源待办_房源状态审核'])
