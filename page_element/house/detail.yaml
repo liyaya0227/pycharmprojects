@@ -97,3 +97,35 @@
 弹窗_关闭按钮: "xpath==//div[@class='ant-modal-root']//span[@class='anticon anticon-close ant-modal-close-icon']"
 
 下拉框: "xpath==//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'ant-select-dropdown-hidden'))]//div[@class='rc-virtual-list']//div[contains(@class,'ant-select-item ant-select-item-option')]"
+
+
+
+#更多-房源基础信息
+当前账号名字: "css==.side-header-name"
+维护人输入框: "xpath==//input[@id='maintainerName']"
+搜索按钮: "xpath==//button[contains(.,'搜 索')]"
+搜索结果总数: "css==.houseTotal .ant-col"
+楼盘名称: "xpath==//div[@id='rc-tabs-3-panel-0']/div/div[3]/div/div/div/div/div/div/table/tbody/tr/td[2]/a/div/p"
+房源编号: "xpath==//span[contains(.,'房源编号：')]"
+更多按钮: "xpath==//span[contains(.,'更多')]"
+房源基础信息按钮: "xpath==//li[contains(.,'房源基础信息')]"
+房源基础信息弹窗title: "xpath==//div[contains(.,'房源基础信息')]"
+#基础信息弹窗确定按钮: "//div[contains(.,'房源基础信息：')]"
+
+#更多-提交修改房源状态申请
+是否可修改状态提示: "xpath==//div[text()='存在待审核的记录，不允许再次修改']"
+房源状态按钮: "xpath==//li[contains(.,'房源状态')]"
+暂缓出售选项: "xpath==//span[contains(.,'暂缓出售（房东暂时不卖了）')]"
+房源状态弹窗确定按钮: "css==.ant-modal-footer > .ant-btn-primary"
+申请提交成功提示: "xpath==//h1[contains(.,'申请提交成功！')]"
+申请提交成功弹窗确定按钮: "css==.ant-modal-footer > .ant-btn"
+
+#更多-审核修改房源状态申请
+暂缓房源审核选项: "xpath==//div[@id='rc-tabs-2-tab-1']"
+房源详情页面的房源编号: "xpath==//span[contains(.,'房源编号：')]"
+房源初始价格: "css==.price"
+房源初始单价: "css==.pricing > i"
+驳回按钮: "xpath==//a[contains(text(),'驳回')]"
+驳回理由输入框: "xpath==//textarea[@id='remark']"
+驳回弹窗确定按钮: "xpath==//button[contains(.,'确 定')]"
+审核成功驳回提示框: "xpath==//div[contains(.,'审核已驳回')]"

@@ -3,12 +3,12 @@
 """
 @author: caijj
 @version: V1.0
-@file: test_house_detail.py
+@file: test_more.py
 @time: 2021/08/10
 """
 import allure
 import pytest
-from page_object.house.housedetailpage import HouseDetailPage1
+from page_object.house.detailpage import HouseDetailPage
 from utils.logger import log
 
 
@@ -20,7 +20,7 @@ class TestHouseDetail(object):
     @allure.story("查看房源基本信息")
     def test_view_basic_information(self, sz_login_admin):
         driver = sz_login_admin
-        house_detail = HouseDetailPage1(driver)
+        house_detail = HouseDetailPage(driver)
         house_detail.change_role('经纪人')
         num = house_detail.get_house_num()
         # print('test_view_basic_information', num)
@@ -37,7 +37,7 @@ class TestHouseDetail(object):
     @allure.story("维护人提交修改房源状态审核，商圈经理驳回审核")
     def test_modify_house_state(self, sz_login_admin):
         driver = sz_login_admin
-        house_detail = HouseDetailPage1(driver)
+        house_detail = HouseDetailPage(driver)
         house_detail.change_role('经纪人')
         num = house_detail.get_house_num()
         if int(num) > 0: #判断当前用户的房源数量
@@ -68,6 +68,14 @@ class TestHouseDetail(object):
         else:
             log.info('当前维护人没有房源')
             assert False
+
+    # @allure.story("维护人提交修改房源状态审核，商圈经理驳回审核")
+    # def test_modify_house_state(self, sz_login_admin):
+    #     pass
+
+
+if __name__ == '__main__':
+    pytest.main(['-q','test_more.py'])
 
 
 

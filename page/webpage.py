@@ -40,7 +40,7 @@ class WebPage(object):
         name, value = locator
         return func(cm.LOCATE_MODE[name], value)
 
-    def find_element(self, locator, wait_time=15):
+    def find_element(self, locator, wait_time=10):
         """寻找单个元素"""
         try:
             # element = WebPage.element_locator(lambda *args: WebDriverWait(self.driver, wait_time).
@@ -56,7 +56,7 @@ class WebPage(object):
         except TimeoutException:
             return False
 
-    def find_elements(self, locator, wait_time=15):
+    def find_elements(self, locator, wait_time=10):
         """查找多个相同的元素"""
         return WebPage.element_locator(lambda *args: WebDriverWait(self.driver, wait_time)
                                        .until(EC.presence_of_all_elements_located(args)), locator)
