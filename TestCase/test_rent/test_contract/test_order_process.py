@@ -17,11 +17,11 @@ from page_object.main.leftviewpage import MainLeftViewPage
 from page_object.main.upviewpage import MainUpViewPage
 from page_object.house.tablepage import HouseTablePage
 from page_object.house.detailpage import HouseDetailPage
-from page_object.customer.detail import CustomerDetailPage
+from page_object.customer.detailpage import CustomerDetailPage
 from page_object.customer.tablepage import CustomerTablePage
 from page_object.contract.tablepage import ContractTablePage
 from page_object.contract.detailpage import ContractDetailPage
-from page_object.contract.preview import ContractPreviewPage
+from page_object.contract.previewpage import ContractPreviewPage
 from page_object.achievement.detailpage import AchievementDetailPage
 from page_object.achievement.tablepage import AchievementTablePage
 

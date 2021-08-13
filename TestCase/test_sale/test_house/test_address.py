@@ -10,6 +10,7 @@
 import pytest
 import allure
 from config.conf import cm
+from page_object.main.upviewpage import MainUpViewPage
 from utils.logger import log
 from common.readconfig import ini
 from utils.jsonutil import get_value
@@ -39,6 +40,13 @@ class TestAddress(object):
         assert house_code != ''
         log.info('房源编号为：' + house_code)
 
+    # @staticmethod
+    # def teardown_method(web_driver):
+    #     main_upview = MainUpViewPage(web_driver)
+    #
+    #     main_upview.refresh()
+    #     main_upview.clear_all_title()
+
     @allure.story("测试房源详情右侧地址用例")
     @pytest.mark.sale
     @pytest.mark.house
@@ -65,7 +73,6 @@ class TestAddress(object):
     @pytest.mark.sale
     @pytest.mark.house
     @pytest.mark.run(order=11)
-    # @pytest.mark.parametrize("account", account)
     def test_002(self, web_driver):
         main_topview = MainTopViewPage(web_driver)
         house_table = HouseTablePage(web_driver)
@@ -89,6 +96,8 @@ class TestAddress(object):
         if dialog_content == '':
             looked_count = house_detail.dialog_get_looked_count()
             house_detail.dialog_click_close_button()
+            if looked_count == 1:
+                assert house_detail.follow_dialog_exist()
             if house_detail.follow_dialog_exist():
                 assert house_detail.check_dialog_cancel_button_disabled()
                 house_detail.follow_dialog_input_detail_follow('详细跟进信息')

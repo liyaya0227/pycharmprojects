@@ -1,0 +1,4 @@
+上传图片按钮: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'bulkUpload')]//span[text()='上传图片']/parent::button"
+
+关闭按钮: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'bulkUpload')]//span[text()='关 闭']/parent::button"
+保存按钮: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'bulkUpload')]//span[text()='保 存']/parent::button"

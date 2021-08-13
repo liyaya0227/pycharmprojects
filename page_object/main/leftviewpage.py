@@ -39,7 +39,7 @@ class MainLeftViewPage(WebPage):
 
     def log_out(self):
         self.is_click(left_view['功能按钮'])
-        self.is_click(left_view['推出登录按钮'])
+        self.is_click(left_view['退出登录按钮'])
         self.refresh()
 
     def click_homepage_overview_label(self):
@@ -50,6 +50,12 @@ class MainLeftViewPage(WebPage):
         if is_expanded == 'false':
             self.is_click(left_view['房源管理菜单'])
         self.is_click(left_view['全部房源标签'])
+
+    def click_survey_management_label(self):
+        is_expanded = self.get_element_attribute(left_view['房源管理菜单'], 'aria-expanded')
+        if is_expanded == 'false':
+            self.is_click(left_view['房源管理菜单'])
+        self.is_click(left_view['实勘管理标签'])
 
     def click_my_customer_label(self):
         is_expanded = self.get_element_attribute(left_view['客源管理菜单'], 'aria-expanded')

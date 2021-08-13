@@ -9,7 +9,7 @@
 
 import pytest
 import allure
-from page_object.customer.detail import CustomerDetailPage
+from page_object.customer.detailpage import CustomerDetailPage
 from page_object.customer.tablepage import CustomerTablePage
 from utils.logger import log
 from config.conf import cm

@@ -10,7 +10,7 @@
 import pytest
 import allure
 from config.conf import cm
-from page_object.customer.detail import CustomerDetailPage
+from page_object.customer.detailpage import CustomerDetailPage
 from utils.logger import log
 from common.readconfig import ini
 from utils.jsonutil import get_data

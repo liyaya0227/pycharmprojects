@@ -161,6 +161,7 @@ class HouseAddPage(WebPage):
         self.choose_building_cell(ini.house_building_cell)
         self.choose_floor(ini.house_floor)
         self.choose_doorplate(ini.house_doorplate)
+        sleep()
         self.click_next_button()  # 点击下一步按钮
 
     def input_owner_info_and_house_info(self, test_data, flag):

@@ -1,0 +1,11 @@
+切换角色按钮: "xpath==//*[@class='android.widget.TextView' and @text='切换角色']"
+
+实勘人员标签: "xpath==//*[@class='android.widget.TextView' and @text='实勘人员']"
+确定按钮: "xpath==//*[@class='android.widget.TextView' and @text='确定']"
+
+设置中心按钮: "xpath==//*[@class='android.widget.TextView' and @text='切换角色']/parent::android.view.ViewGroup/parent::android.view.ViewGroup/*[@class='android.view.ViewGroup' and @index='1']/*[@class='android.widget.ImageView']"
+退出登录按钮: "xpath==//*[@class='android.widget.TextView' and @text='退出登录']"
+
+退出登录_确认按钮: "xpath==//*[@class='android.widget.TextView' and @text='确认']"
+
+角色标签: "xpath==//*[@class='android.widget.TextView' and contains(@text,'系统号')]/parent::android.view.ViewGroup/*[@class='android.view.ViewGroup' and @index='5']/*[@class='android.widget.TextView']"

@@ -7,6 +7,7 @@
 @time: 2021/06/22
 """
 
+import os
 import base64
 import pytest
 import allure
@@ -18,7 +19,6 @@ from common.readconfig import ini
 from utils.timeutil import dt_strftime
 from page_object.login.loginpage import LoginPage
 from page_object.main.topviewpage import MainTopViewPage
-from page_object.app.login.loginpage import AppLoginPage
 
 wdriver = None
 adriver = None
@@ -42,7 +42,7 @@ def web_driver():
     login_page.log_in(ini.user_account, ini.user_password)
     main_topview = MainTopViewPage(wdriver)
     main_topview.wait_page_loading_complete()
-    main_topview.wait_close_top_view()
+    main_topview.click_close_button()
     yield wdriver
     wdriver.quit()
 
@@ -150,11 +150,9 @@ def _capture_screenshot():
     """截图保存为base64"""
     file_name = dt_strftime("%Y%m%d%H%M%S") + ".png"
     path = cm.tmp_dir + "\\screen_capture\\" + file_name
-    if driver is None:
-        web_driver.save_screenshot(path)
-    else:
-        driver.save_screenshot(path)
-    # wdriver.save_screenshot(path)
+    if not os.path.exists(cm.tmp_dir + "\\screen_capture"):
+        os.makedirs(cm.tmp_dir + "\\screen_capture")
+    wdriver.save_screenshot(path)
     allure.attach.file(path, "失败截图", allure.attachment_type.PNG)
     with open(path, 'rb') as f:
         imagebase64 = base64.b64encode(f.read())

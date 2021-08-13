@@ -23,12 +23,11 @@ class CustomerTablePage(WebPage):
         self.is_click(customer_table['录入客源按钮'])
 
     def input_search_text(self, search_text):
+        self.clear_text(customer_table['搜索输入框'])
         self.input_text(customer_table['搜索输入框'], search_text)
-        sleep()
 
     def click_search_button(self):
         self.is_click(customer_table['查询按钮'])
-        sleep(3)
 
     def click_all_tab(self):
         self.is_click(customer_table['全部标签'])
@@ -62,7 +61,6 @@ class CustomerTablePage(WebPage):
                   "//div[not(contains(@style,'display'))]//div[contains(@class,'customesList')]//table/tbody/tr["\
                   + str(row) + "]/td[" + str(self.__get_column_by_title('姓名') + 1) + "]/a/div"
         self.is_click(locator)
-        sleep(1)
 
     def get_customer_table_count(self):
         locator = 'xpath', \

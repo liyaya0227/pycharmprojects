@@ -7,15 +7,14 @@
 @time: 2021/06/22
 """
 
+from config.conf import cm
+from utils.logger import log
+from utils.timeutil import sleep
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
-
-from config.conf import cm
-from utils.timeutil import sleep
-from utils.logger import log
 
 
 class WebPage(object):
@@ -159,6 +158,7 @@ class WebPage(object):
         sleep()
 
     def wait_page_loading_complete(self):
+        log.info("等待页面加载完成")
         while self.driver.execute_script("return document.readyState") != 'complete':
             sleep()
 
