@@ -18,7 +18,7 @@ from page_object.main.leftviewpage import MainLeftViewPage
 from page_object.main.upviewpage import MainUpViewPage
 from page_object.house.tablepage import HouseTablePage
 from page_object.house.detailpage import HouseDetailPage
-from page_object.customer.detail import CustomerDetailPage
+from page_object.customer.detailpage import CustomerDetailPage
 from page_object.customer.tablepage import CustomerTablePage
 from page_object.contract.tablepage import ContractTablePage
 from page_object.contract.createorderpage import ContractCreateOrderPage
@@ -47,34 +47,23 @@ class TestCreateOrder(object):
         contract_table = ContractTablePage(web_driver)
 
         main_leftview.change_role('经纪人')
+        house_code = house_table.get_house_code_by_db(flag='买卖')
+        assert house_code != ''
+        log.info('房源编号为：' + house_code)
         main_leftview.click_all_house_label()
         house_table.click_sale_tab()
         house_table.click_reset_button()
         house_table.clear_filter('买卖')
-        house_table.choose_estate_name_search(ini.house_community_name)
-        house_table.choose_building_name_search(ini.house_building_id)
+        house_table.input_house_code_search(house_code)
         house_table.click_search_button()
-        table_count = house_table.get_house_table_count()
-        assert table_count > 0
-        for row in range(table_count):
-            house_table.go_house_detail_by_row(row + 1)
-            house_property_address = house_detail.get_address_dialog_house_property_address()
-            if house_property_address['estate_name'] == ini.house_community_name \
-                    and house_property_address['building_name'] == ini.house_building_id \
-                    and house_property_address['door_name'] == ini.house_doorplate:
-                house_info = house_property_address
-                house_info['house_code'] = house_detail.get_house_code()
-                house_info['house_type'] = house_detail.get_house_type()
-                house_info['orientations'] = house_detail.get_orientations()
-                house_info['floor'] = house_detail.get_floor()
-                house_info['inspect_type'] = house_detail.get_inspect_type()
-                main_upview.close_title_by_name(house_property_address['estate_name'])
-                break
-            main_upview.close_title_by_name(house_property_address['estate_name'])
-            house_table.clear_filter('买卖')
-            house_table.choose_estate_name_search(ini.house_community_name)
-            house_table.choose_building_name_search(ini.house_building_id)
-            house_table.click_search_button()
+        house_table.go_house_detail_by_row(1)
+        house_property_address = house_detail.get_address_dialog_house_property_address()
+        house_info = house_property_address
+        house_info['house_code'] = house_code
+        house_info['house_type'] = house_detail.get_house_type()
+        house_info['orientations'] = house_detail.get_orientations()
+        house_info['floor'] = ini.house_floor
+        house_info['inspect_type'] = house_detail.get_inspect_type()
         assert house_info != {}
         log.info('获取房源信息，新建合同校验需要')
         main_upview.clear_all_title()
@@ -141,7 +130,7 @@ class TestCreateOrder(object):
             contract_create_order.click_confirm_button_in_dialog()
         contract_create_order.input_contract_content(self.test_data, '买卖')
         contract_create_order.click_submit_button()
-        # assert main_topview.wait_notification_content_exist() == '提交成功'
+        assert main_topview.find_notification_content() == '提交成功'
         log.info('合同创建成功')
         main_upview.clear_all_title()
         main_leftview.click_contract_management_label()

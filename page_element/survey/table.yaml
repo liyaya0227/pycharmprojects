@@ -1,0 +1,6 @@
+普通实勘标签: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'surveyManagement') or contains(@class,'surveyAppointment')]//div[text()='普通实勘']"
+VR实勘标签: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'surveyManagement') or contains(@class,'surveyAppointment')]//div[text()='VR实勘']"
+
+房源编号搜索框: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'surveyManagement')]//input[@id='houseCode']"
+查询按钮: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'surveyManagement') or contains(@class,'surveyAppointment')]//span[text()='查 询']/parent::button"
+重置按钮: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'surveyManagement') or contains(@class,'surveyAppointment')]//span[text()='重 置']/parent::button"

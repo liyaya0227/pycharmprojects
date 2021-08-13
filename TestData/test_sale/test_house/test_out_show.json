@@ -1,7 +1,5 @@
 {
   "exploration_info": {
-    "photographer": "自动化测试",
-    "photographer_phone": "18112592221",
     "exploration_time": ["明天", "16:00-17:00"],
     "appointment_instructions": "预约实勘，请留意"
   },
@@ -11,5 +9,10 @@
     "委托日期结束日期": "",
     "备注": "书面委托协议信息",
     "图片": []
+  },
+  "sz": {
+    "photographer": "自动化测试AAAASK",
+    "photographer_phone": "15800000009",
+    "photographer_password": "Autotest1"
   }
 }

@@ -8,6 +8,7 @@
 """
 
 from page.webpage import WebPage
+from utils.timeutil import sleep
 from common.readelement import Element
 
 table = Element('achievement/table')
@@ -61,6 +62,7 @@ class AchievementTablePage(WebPage):
                   "//div[@role='tabpanel' and @aria-hidden='false']//table/tbody/tr[" + str(row) + "]/td[" +\
                   str(self.__get_column_by_title('审批人') + 1) + "]/a[text()='通过']"
         self.is_click(locator)
+        sleep(2)
 
     def get_achievement_table_count(self):
         locator = 'xpath', \

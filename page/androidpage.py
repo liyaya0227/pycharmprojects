@@ -2,8 +2,10 @@
 """
 Author: zoro ju
 """
-import time
+from utils.timeutil import sleep
+from utils.logger import log
 from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.common.keys import Keys
 
 
 class AndroidPage(object):
@@ -29,7 +31,7 @@ class AndroidPage(object):
         try:
             element = self.find_element(locator)
             element.click()
-            time.sleep(2)
+            sleep(2)
         except Exception as e:
             raise e
 
@@ -47,19 +49,30 @@ class AndroidPage(object):
             element = self.find_element(locator)
             if click:
                 element.click()
-                time.sleep(1)
+                sleep(1)
             if clear:
                 element.clear()
-                time.sleep(1)
+                sleep(1)
             element.send_keys(value)
-            time.sleep(1)
+            sleep(1)
         except AttributeError as e:
             raise e
+
+    def input_text_with_enter(self, locator, txt):
+        """输入(输入前先清空)"""
+        log.info("元素{}输入文本：{}".format(locator, txt))
+        ele = self.find_element(locator)
+        ele.send_keys(txt)
+        self.input_enter_key()
+        sleep()
+
+    def input_enter_key(self):
+        self.driver.press_keycode(66)
 
     def swipe(self, start_x, start_y, end_x, end_y, duration=1000):  # 滑动
         try:
             self.driver.swipe(start_x, start_y, end_x, end_y, duration)
-            time.sleep(1)
+            sleep(1)
         except Exception as e:
             raise e
 
@@ -67,13 +80,13 @@ class AndroidPage(object):
         width = self.driver.get_window_size()['width']
         height = self.driver.get_window_size()['height']
         self.swipe(width / 2, height * 4 / 8, width / 2, height * 7 / 8)
-        time.sleep(1)
+        sleep(1)
 
     def up_swipe(self):  # 上滑
         width = self.driver.get_window_size()['width']
         height = self.driver.get_window_size()['height']
         self.swipe(width / 2, height * 7 / 8, width / 2, height * 4 / 8)
-        time.sleep(1)
+        sleep(1)
 
     def get_element_attribute(self, locator, attribute=None):  # 获取元素属性值
         try:

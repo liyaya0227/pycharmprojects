@@ -6,12 +6,13 @@
 切换角色弹窗_取消按钮: "xpath==//div[not(contains(@style, 'display: none')) and @role='dialog']//span[text()='取 消']/parent::button[@type='button']"
 切换角色弹窗_确定按钮: "xpath==//div[not(contains(@style, 'display: none')) and @role='dialog']//span[text()='确 定']/parent::button[@type='button']"
 
-推出登录按钮: "xpath==//div[contains(@class,'ant-dropdown ant-dropdown-placement-bottomLeft') and not(contains(@class, 'ant-dropdown-hidden'))]//span[text()='退出登录']/ancestor::li[@role='menuitem']"
+退出登录按钮: "xpath==//div[contains(@class,'ant-dropdown ant-dropdown-placement-bottomLeft') and not(contains(@class, 'ant-dropdown-hidden'))]//span[text()='退出登录']/ancestor::li[@role='menuitem']"
 
 首页概览标签: "xpath==//li[@title='首页概览']"
 
 房源管理菜单: "xpath==//span[text()='房源管理']/parent::div[@class='ant-menu-submenu-title']"
 全部房源标签: "xpath==//li[@title='全部房源']"
+实勘管理标签: "xpath==//li[@title='实勘管理']"
 
 客源管理菜单: "xpath==//span[text()='客源管理']/parent::div[@class='ant-menu-submenu-title']"
 我的客户标签: "xpath==//li[@title='我的客户']"

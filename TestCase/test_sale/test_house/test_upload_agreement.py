@@ -47,34 +47,9 @@ class TestUploadAgreement(object):
         house_detail = HouseDetailPage(web_driver)
 
         main_leftview.change_role('经纪人')
-        main_leftview.click_all_house_label()
-        house_table.click_sale_tab()
-        house_table.click_all_house_tab()
-        house_table.click_reset_button()
-        house_table.clear_filter(flag='买卖')
-        house_table.choose_estate_name_search(ini.house_community_name)
-        house_table.choose_building_name_search(ini.house_building_id)
-        house_table.click_search_button()
-        table_count = house_table.get_house_table_count()
-        assert table_count > 0
-        for row in range(table_count):
-            house_table.go_house_detail_by_row(row + 1)
-            house_property_address = house_detail.get_address_dialog_house_property_address()
-            if house_property_address['estate_name'] == ini.house_community_name \
-                    and house_property_address['building_name'] == ini.house_building_id \
-                    and house_property_address['door_name'] == ini.house_doorplate:
-                house_code = house_detail.get_house_code()
-                main_upview.close_title_by_name(house_property_address['estate_name'])
-                break
-            main_upview.close_title_by_name(house_property_address['estate_name'])
-            house_table.click_reset_button()
-            house_table.clear_filter('买卖')
-            house_table.choose_estate_name_search(ini.house_community_name)
-            house_table.choose_building_name_search(ini.house_building_id)
-            house_table.click_search_button()
+        house_code = house_table.get_house_code_by_db(flag='买卖')
         assert house_code != ''
-        log.info('房源编号: ' + house_code)
-        main_upview.clear_all_title()
+        log.info('房源编号为：' + house_code)
 
     @allure.story("测试房源上传协议用例")
     @pytest.mark.sale
@@ -117,7 +92,7 @@ class TestUploadAgreement(object):
         house_table.click_search_button()
         house_table.go_house_detail_by_row()
         house_detail.expand_certificates_info()  # 上传协议
-        if house_detail.check_upload_written_entrustment_agreement():
+        if house_detail.check_upload_written_entrustment_agreement() != '未上传':
             house_detail.delete_written_entrustment_agreement()
             assert main_topview.find_notification_content() == '操作成功'
             house_detail.page_refresh()
@@ -126,7 +101,7 @@ class TestUploadAgreement(object):
         assert main_topview.find_notification_content() == '上传成功'
         log.info('书面委托协议已上传')
         house_detail.expand_certificates_info()
-        if house_detail.check_upload_key_entrustment_certificate():
+        if house_detail.check_upload_key_entrustment_certificate() != '未上传':
             house_detail.delete_key_entrustment_certificate()
             assert main_topview.find_notification_content() == '操作成功'
             house_detail.page_refresh()
@@ -135,7 +110,7 @@ class TestUploadAgreement(object):
         assert main_topview.find_notification_content() == '上传成功'
         log.info('钥匙委托凭证已上传')
         house_detail.expand_certificates_info()
-        if house_detail.check_upload_vip_service_entrustment_agreement():
+        if house_detail.check_upload_vip_service_entrustment_agreement() != '未上传':
             house_detail.delete_vip_service_entrustment_agreement()
             assert main_topview.find_notification_content() == '操作成功'
             house_detail.page_refresh()
@@ -144,7 +119,7 @@ class TestUploadAgreement(object):
         assert main_topview.find_notification_content() == '上传成功'
         log.info('VIP服务委托协议已上传')
         house_detail.expand_certificates_info()
-        if house_detail.check_upload_deed_tax_invoice():
+        if house_detail.check_upload_deed_tax_invoice() != '未上传':
             house_detail.delete_deed_tax_invoice()
             assert main_topview.find_notification_content() == '操作成功'
             house_detail.page_refresh()
@@ -153,7 +128,7 @@ class TestUploadAgreement(object):
         assert main_topview.find_notification_content() == '上传成功'
         log.info('契税票已上传')
         house_detail.expand_certificates_info()
-        if house_detail.check_upload_owner_identification_information():
+        if house_detail.check_upload_owner_identification_information() != '未上传':
             house_detail.delete_owner_identification_information()
             assert main_topview.find_notification_content() == '操作成功'
             house_detail.page_refresh()
@@ -162,7 +137,7 @@ class TestUploadAgreement(object):
         assert main_topview.find_notification_content() == '上传成功'
         log.info('身份证明已上传')
         house_detail.expand_certificates_info()
-        if house_detail.check_upload_original_purchase_contract_information():
+        if house_detail.check_upload_original_purchase_contract_information() != '未上传':
             house_detail.delete_original_purchase_contract_information()
             assert main_topview.find_notification_content() == '操作成功'
             house_detail.page_refresh()
@@ -171,7 +146,7 @@ class TestUploadAgreement(object):
         assert main_topview.find_notification_content() == '上传成功'
         log.info('原始购房合同已上传')
         house_detail.expand_certificates_info()
-        if house_detail.check_upload_property_ownership_certificate():
+        if house_detail.check_upload_property_ownership_certificate() != '未上传':
             house_detail.delete_property_ownership_certificate()
             assert main_topview.find_notification_content() == '操作成功'
             house_detail.page_refresh()

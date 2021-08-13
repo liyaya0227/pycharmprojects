@@ -26,3 +26,9 @@ class AppLoginPage(AndroidPage):
 
     def choose_read(self):
         self.is_click(login['协议已阅读勾选'])
+
+    def log_in(self, account, password):
+        self.input_account(account)
+        self.input_password(password)
+        self.choose_read()
+        self.click_login_button()

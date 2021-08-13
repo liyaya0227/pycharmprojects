@@ -169,6 +169,15 @@ class ContractCreateSaleOrderDetailSZPage(WebPage):
             self.input_text(create_sale_order_detail_sz['二_3_2_输入框'], second_info['房屋租赁状况'][1])
         else:
             raise ValueError('传值错误')
+        if second_info['房屋居住处理方式'][0] == 1:
+            self.is_click(create_sale_order_detail_sz['二_9_1_单选按钮'])
+        elif second_info['房屋居住处理方式'][0] == 2:
+            self.is_click(create_sale_order_detail_sz['二_9_2_单选按钮'])
+        elif second_info['房屋居住处理方式'][0] == 3:
+            self.is_click(create_sale_order_detail_sz['二_9_3_单选按钮'])
+            self.input_text(create_sale_order_detail_sz['二_9_3_输入框'], second_info['房屋居住处理方式'][1])
+        else:
+            raise ValueError('传值错误')
         if second_info['房屋物业管理状况'] == 1:
             self.is_click(create_sale_order_detail_sz['二_4_1_单选按钮'])
         elif second_info['房屋物业管理状况'] == 2:
@@ -335,76 +344,125 @@ class ContractCreateSaleOrderDetailSZPage(WebPage):
             raise ValueError()
 
     def input_supplementary_agreement_info(self, supplementary_agreement_info):
-        pay_list = supplementary_agreement_info['首期款支付分期']
-        if len(pay_list) < 5:
-            for pay in pay_list:
-                self.is_click(create_sale_order_detail_sz['补充协议_1_' + str(pay_list.index(pay) + 1) + '_1_选择框'])
-                date = pay['日期']
-                self.__choose_value_in_special_drop_down_box(date[0])
-                if date[0] != 2:
-                    self.is_click(create_sale_order_detail_sz['补充协议_1_' + str(pay_list.index(pay) + 1) + '_1_输入框'])
-                    self.input_text_with_enter(create_sale_order_detail_sz['补充协议_1_' + str(pay_list.index(pay) + 1)
-                                                                           + '_1_输入框'], date[1])
-                if date[0] > 6:
-                    raise ValueError("传参错误")
-                self.input_text(create_sale_order_detail_sz['补充协议_1_' + str(pay_list.index(pay) + 1) + '_2_输入框'],
-                                pay['金额'])
-                if pay['支付方式'] == 1:
-                    self.is_click(create_sale_order_detail_sz['补充协议_1_' + str(pay_list.index(pay) + 1) + '_3_单选按钮'])
-                elif pay['支付方式'] == 2:
-                    self.is_click(create_sale_order_detail_sz['补充协议_1_' + str(pay_list.index(pay) + 1) + '_4_单选按钮'])
-                elif pay['支付方式'] == 3:
-                    self.is_click(create_sale_order_detail_sz['补充协议_1_' + str(pay_list.index(pay) + 1) + '_5_单选按钮'])
-                else:
-                    raise ValueError("传值错误")
-                self.is_click(create_sale_order_detail_sz['补充协议_1_' + str(pay_list.index(pay) + 1) + '_6_选择框'])
-                self.__choose_value_in_special_drop_down_box()
-                self.input_text(create_sale_order_detail_sz['补充协议_1_' + str(pay_list.index(pay) + 1) + '_6_输入框'],
-                                pay['其他'])
-        else:
-            raise ValueError("传参错误")
+        deposit_list = supplementary_agreement_info['定金']
+        for pay in deposit_list:
+            choose1_locator = 'xpath', "//div[@style='']//div[@id='B0']//input[@id='earnest_" \
+                              + str(deposit_list.index(pay)) + "_AC_B1_1_1_1']"
+            self.is_click(choose1_locator)
+            date = pay['日期']
+            self.__choose_value_in_special_drop_down_box(date[0])
+            input1_locator = 'xpath', "//div[@style='']//div[@id='B0']//input[@id='earnest_" \
+                             + str(deposit_list.index(pay)) + "_B1_1_1_1']"
+            if date[0] == 1:
+                self.is_click(input1_locator)
+                self.input_text_with_enter(input1_locator, date[1])
+            if date[0] != 1 and date[0] != 2:
+                self.input_text(input1_locator, date[1])
+            if date[0] > 6:
+                raise ValueError("传参错误")
+            input2_locator = 'xpath', "//div[@style='']//div[@id='B0']//input[@id='earnest_" \
+                             + str(deposit_list.index(pay)) + "_B1_1_1_2']"
+            self.input_text(input2_locator, pay['金额'])
+            if pay['支付方式'] == 1:
+                button1_locator = 'xpath', "//div[@style='']//div[@id='B0']//input[@name='earnest_" \
+                              + str(deposit_list.index(pay)) + "_B1_1_1_4' and @id='B11142']"
+                self.is_click(button1_locator)
+                choose4_locator = 'xpath', "//div[@style='']//div[@id='B0']//input[@id='earnest_" \
+                                  + str(deposit_list.index(pay)) + "_AC_B1_1_1_5']"
+                self.is_click(choose4_locator)
+                self.__choose_value_in_special_drop_down_box(1)
+                input4_locator = 'xpath', "//div[@style='']//div[@id='B0']//input[@id='earnest_" \
+                                 + str(deposit_list.index(pay)) + "_B1_1_1_5']"
+                self.input_text(input4_locator, pay['其他'])
+            elif pay['支付方式'] == 2:
+                button2_locator = 'xpath', "//div[@style='']//div[@id='B0']//input[@name='earnest_" \
+                              + str(deposit_list.index(pay)) + "_B1_1_1_4' and @id='B11143']"
+                self.is_click(button2_locator)
+            else:
+                raise ValueError("传值错误")
+            if len(deposit_list) - deposit_list.index(pay) != 1:
+                self.is_click(create_sale_order_detail_sz['补充协议_1_1_1_定金按钮'])
+        house_payment_list = supplementary_agreement_info['房款']
+        for house_payment in house_payment_list:
+            choose1_locator = 'xpath', "//div[@style='']//div[@id='B0']//input[@id='housePayment_" \
+                              + str(house_payment_list.index(house_payment)) + "_AC_B1_1_1_1']"
+            self.is_click(choose1_locator)
+            date = house_payment['日期']
+            self.__choose_value_in_special_drop_down_box(date[0])
+            input1_locator = 'xpath', "//div[@style='']//div[@id='B0']//input[@id='housePayment_" \
+                             + str(house_payment_list.index(house_payment)) + "_B1_1_1_1']"
+            if date[0] == 1:
+                self.is_click(input1_locator)
+                self.input_text_with_enter(input1_locator, date[1])
+            if date[0] != 1 and date[0] != 2:
+                self.input_text(input1_locator, date[1])
+            if date[0] > 6:
+                raise ValueError("传参错误")
+            input2_locator = 'xpath', "//div[@style='']//div[@id='B0']//input[@id='housePayment_" \
+                             + str(house_payment_list.index(house_payment)) + "_B1_1_1_2']"
+            self.input_text(input2_locator, house_payment['金额'])
+            if house_payment['支付方式'] == 1:
+                button1_locator = 'xpath', "//div[@style='']//div[@id='B0']//input[@name='housePayment_" \
+                                  + str(house_payment_list.index(house_payment)) + "_B1_1_1_4' and @id='B11142']"
+                self.is_click(button1_locator)
+                choose4_locator = 'xpath', "//div[@style='']//div[@id='B0']//input[@id='housePayment_" \
+                                  + str(house_payment_list.index(house_payment)) + "_AC_B1_1_1_5']"
+                self.is_click(choose4_locator)
+                self.__choose_value_in_special_drop_down_box(1)
+                input4_locator = 'xpath', "//div[@style='']//div[@id='B0']//input[@id='housePayment_" \
+                                 + str(house_payment_list.index(house_payment)) + "_B1_1_1_5']"
+                self.input_text(input4_locator, house_payment['其他'])
+            elif house_payment['支付方式'] == 2:
+                button2_locator = 'xpath', "//div[@style='']//div[@id='B0']//input[@name='housePayment_" \
+                                  + str(house_payment_list.index(house_payment)) + "_B1_1_1_4' and @id='B11143']"
+                self.is_click(button2_locator)
+            else:
+                raise ValueError("传值错误")
+            if len(house_payment_list) - house_payment_list.index(house_payment) != 1:
+                self.is_click(create_sale_order_detail_sz['补充协议_1_1_1_房款按钮'])
+
         house_deposit = supplementary_agreement_info['交房保证金']
         self.is_click(create_sale_order_detail_sz['补充协议_1_5_1_选择框'])
         house_deposit_date = house_deposit['日期']
         self.__choose_value_in_special_drop_down_box(house_deposit_date[0])
-        if house_deposit_date[0] != 2:
+        if house_deposit_date[0] == 1:
             self.is_click(create_sale_order_detail_sz['补充协议_1_5_1_输入框'])
             self.input_text_with_enter(create_sale_order_detail_sz['补充协议_1_5_1_输入框'], house_deposit_date[1])
+        if house_deposit_date[0] != 1 and house_deposit_date[0] != 2:
+            self.input_text(create_sale_order_detail_sz['补充协议_1_5_1_输入框'], house_deposit_date[1])
         if house_deposit_date[0] > 6:
             raise ValueError("传参错误")
         self.input_text(create_sale_order_detail_sz['补充协议_1_5_2_输入框'], house_deposit['金额'])
         if house_deposit['支付方式'] == 1:
-            self.is_click(create_sale_order_detail_sz['补充协议_1_5_3_单选按钮'])
-        elif house_deposit['支付方式'] == 2:
             self.is_click(create_sale_order_detail_sz['补充协议_1_5_4_单选按钮'])
-        elif house_deposit['支付方式'] == 3:
+            self.is_click(create_sale_order_detail_sz['补充协议_1_5_6_选择框'])
+            self.__choose_value_in_special_drop_down_box()
+            self.input_text(create_sale_order_detail_sz['补充协议_1_5_6_输入框'], house_deposit['其他'])
+        elif house_deposit['支付方式'] == 2:
             self.is_click(create_sale_order_detail_sz['补充协议_1_5_5_单选按钮'])
         else:
             raise ValueError("传值错误")
-        self.is_click(create_sale_order_detail_sz['补充协议_1_5_6_选择框'])
-        self.__choose_value_in_special_drop_down_box()
-        self.input_text(create_sale_order_detail_sz['补充协议_1_5_6_输入框'], house_deposit['其他'])
         resident_deposit = supplementary_agreement_info['户口迁出保证金']
         self.is_click(create_sale_order_detail_sz['补充协议_1_6_1_选择框'])
         resident_deposit_date = resident_deposit['日期']
         self.__choose_value_in_special_drop_down_box(resident_deposit_date[0])
-        if resident_deposit_date[0] != 2:
+        if resident_deposit_date[0] == 1:
             self.is_click(create_sale_order_detail_sz['补充协议_1_6_1_输入框'])
             self.input_text_with_enter(create_sale_order_detail_sz['补充协议_1_6_1_输入框'], resident_deposit_date[1])
+        if resident_deposit_date[0] != 1 and resident_deposit_date[0] != 2:
+            self.input_text(create_sale_order_detail_sz['补充协议_1_6_1_输入框'], resident_deposit_date[1])
         if resident_deposit_date[0] > 6:
             raise ValueError("传参错误")
         self.input_text(create_sale_order_detail_sz['补充协议_1_6_2_输入框'], resident_deposit['金额'])
         if resident_deposit['支付方式'] == 1:
-            self.is_click(create_sale_order_detail_sz['补充协议_1_6_3_单选按钮'])
-        elif resident_deposit['支付方式'] == 2:
             self.is_click(create_sale_order_detail_sz['补充协议_1_6_4_单选按钮'])
-        elif resident_deposit['支付方式'] == 3:
+            self.is_click(create_sale_order_detail_sz['补充协议_1_6_6_选择框'])
+            self.__choose_value_in_special_drop_down_box()
+            self.input_text(create_sale_order_detail_sz['补充协议_1_6_6_输入框'], resident_deposit['其他'])
+        elif resident_deposit['支付方式'] == 2:
             self.is_click(create_sale_order_detail_sz['补充协议_1_6_5_单选按钮'])
         else:
             raise ValueError("传值错误")
-        self.is_click(create_sale_order_detail_sz['补充协议_1_6_6_选择框'])
-        self.__choose_value_in_special_drop_down_box()
-        self.input_text(create_sale_order_detail_sz['补充协议_1_6_6_输入框'], resident_deposit['其他'])
         self.input_text(create_sale_order_detail_sz['补充协议_1_户名_输入框'], supplementary_agreement_info['户名'])
         self.input_text(create_sale_order_detail_sz['补充协议_1_开户行_输入框'], supplementary_agreement_info['开户行'])
         self.input_text(create_sale_order_detail_sz['补充协议_1_账号_输入框'], supplementary_agreement_info['账号'])
@@ -465,7 +523,7 @@ class ContractCreateSaleOrderDetailSZPage(WebPage):
     def input_receipt_info(self, receipt_info):
         self.input_text(create_sale_order_detail_sz['收据_房屋出售人_输入框'], receipt_info['房屋出售人'])
         self.input_text(create_sale_order_detail_sz['收据_房屋买受人_输入框'], receipt_info['房屋买受人'])
-        self.input_text(create_sale_order_detail_sz['收据_定金_输入框'], receipt_info['定金'])
+        # self.input_text(create_sale_order_detail_sz['收据_定金_输入框'], receipt_info['定金'])
         collection_details = receipt_info['收款明细']
         if len(collection_details) < 4:
             for collection in collection_details:

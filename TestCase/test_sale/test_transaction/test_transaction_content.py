@@ -20,13 +20,13 @@ from page_object.main.leftviewpage import MainLeftViewPage
 from page_object.house.addpage import HouseAddPage
 from page_object.house.tablepage import HouseTablePage
 from page_object.house.detailpage import HouseDetailPage
-from page_object.customer.detail import CustomerDetailPage
+from page_object.customer.detailpage import CustomerDetailPage
 from page_object.customer.tablepage import CustomerTablePage
 from page_object.achievement.detailpage import AchievementDetailPage
 from page_object.achievement.tablepage import AchievementTablePage
 from page_object.contract.createorderpage import ContractCreateOrderPage
 from page_object.contract.detailpage import ContractDetailPage
-from page_object.contract.preview import ContractPreviewPage
+from page_object.contract.previewpage import ContractPreviewPage
 from page_object.contract.tablepage import ContractTablePage
 from page_object.transaction.tablepage import TransactionTablePage
 from page_object.transaction.detailpage import TransactionDetailPage
@@ -66,7 +66,7 @@ class TestTransactionOrderContent(object):
 
         main_leftview.change_role('经纪人')
         main_leftview.click_all_house_label()
-        if not house_table.check_house_exist(test_data=self.house_data):  # 判断房源是否存在，不存在则新增
+        if house_table.get_house_code_by_db(flag='买卖') == '':  # 判断房源是否存在，不存在则新增
             house_table.click_add_house_button()
             house_add.choose_sale_radio()
             house_add.choose_estate_name(ini.house_community_name)  # 填写物业地址信息
@@ -78,34 +78,23 @@ class TestTransactionOrderContent(object):
             house_add.input_owner_info_and_house_info(self.house_data, '买卖')
         main_upview.clear_all_title()
         main_leftview.click_all_house_label()
+        house_code = house_table.get_house_code_by_db(flag='买卖')
+        assert house_code != ''
+        log.info('房源编号为：' + house_code)
+        main_leftview.click_all_house_label()
         house_table.click_sale_tab()
         house_table.click_reset_button()
         house_table.clear_filter('买卖')
-        house_table.choose_estate_name_search(ini.house_community_name)
-        house_table.choose_building_name_search(ini.house_building_id)
+        house_table.input_house_code_search(house_code)
         house_table.click_search_button()
-        table_count = house_table.get_house_table_count()  # 进入详情，获取房源信息
-        for row in range(table_count):
-            house_table.go_house_detail_by_row(row + 1)
-            house_property_address = house_detail.get_address_dialog_house_property_address()
-            if house_property_address['estate_name'] == ini.house_community_name \
-                    and house_property_address['building_name'] == ini.house_building_id \
-                    and house_property_address['door_name'] == ini.house_doorplate:
-                house_info = house_property_address
-                house_info['house_code'] = house_detail.get_house_code()
-                house_info['house_type'] = house_detail.get_house_type()
-                house_info['orientations'] = house_detail.get_orientations()
-                house_info['floor'] = house_detail.get_floor()
-                house_info['inspect_type'] = house_detail.get_inspect_type()
-                house_info['house_state'] = house_detail.get_house_state()
-                house_info['has_pledge'] = house_detail.get_has_pledge()
-                main_upview.close_title_by_name(house_property_address['estate_name'])
-                break
-            main_upview.close_title_by_name(house_property_address['estate_name'])
-            house_table.clear_filter('买卖')
-            house_table.choose_estate_name_search(ini.house_community_name)
-            house_table.choose_building_name_search(ini.house_building_id)
-            house_table.click_search_button()
+        house_table.go_house_detail_by_row(1)
+        house_property_address = house_detail.get_address_dialog_house_property_address()
+        house_info = house_property_address
+        house_info['house_code'] = house_code
+        house_info['house_type'] = house_detail.get_house_type()
+        house_info['orientations'] = house_detail.get_orientations()
+        house_info['floor'] = ini.house_floor
+        house_info['inspect_type'] = house_detail.get_inspect_type()
         assert house_info != {}
         log.info('获取房源信息，新建合同校验需要')
         main_upview.clear_all_title()
@@ -349,7 +338,7 @@ class TestTransactionOrderContent(object):
             assert Decimal(transaction_fund_info['户口迁出保证金'][:-1]) == register_transfer_payment
             assert Decimal(transaction_fund_info['物业交割保证金'][:-1]) == property_delivery_payment
         else:
-            for item in contract_data['补充协议']['首期款支付分期']:
+            for item in contract_data['补充协议']['定金']:
                 deposit = deposit + Decimal(item['金额'])
             house_payment = Decimal(contract_data['第三条信息']['房屋价款'])
             house_delivery_payment = Decimal(contract_data['补充协议']['交房保证金']['金额'])
@@ -734,7 +723,7 @@ class TestTransactionOrderContent(object):
             assert Decimal(transaction_fund_info['户口迁出保证金'][:-1]) == register_transfer_payment
             assert Decimal(transaction_fund_info['物业交割保证金'][:-1]) == property_delivery_payment
         else:
-            for item in contract_data['补充协议']['首期款支付分期']:
+            for item in contract_data['补充协议']['定金']:
                 deposit = deposit + Decimal(item['金额'])
             house_payment = Decimal(contract_data['第三条信息']['房屋价款'])
             house_delivery_payment = Decimal(contract_data['补充协议']['交房保证金']['金额'])

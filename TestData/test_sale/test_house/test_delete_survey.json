@@ -1,0 +1,14 @@
+{
+  "exploration_info": {
+    "exploration_time": ["明天", "16:00-17:00"],
+    "appointment_instructions": "预约实勘，请留意"
+  },
+  "sz": {
+    "实勘人员": {
+      "姓名": "自动化测试AAAASK",
+      "电话": "15800000009",
+      "密码": "Autotest1"
+  },
+    "其他经纪人": ["15800020001", "Autotest1"]
+  }
+}
