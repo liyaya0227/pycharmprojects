@@ -66,7 +66,7 @@ class TestCreateOrder(object):
                 house_info['house_code'] = house_detail.get_house_code()
                 house_info['house_type'] = house_detail.get_house_type()
                 house_info['orientations'] = house_detail.get_orientations()
-                house_info['floor'] = house_detail.get_floor()
+                house_info['floor'] = ini.house_floor
                 house_info['renovation_condition'] = house_detail.get_renovation_condition()
                 house_info['enable_watch_time'] = house_detail.get_enable_watch_time()
                 main_upview.close_title_by_name(house_property_address['estate_name'])

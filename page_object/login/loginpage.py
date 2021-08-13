@@ -112,3 +112,9 @@ class LoginPage(WebPage):
         self.click_verify_button()
         self.slide_verification()
         self.click_login_button()
+
+    def log_out(self):
+        """退出登录"""
+        self.is_click(login['功能按钮'])
+        self.is_click(login['退出按钮'])
+

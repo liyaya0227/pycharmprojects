@@ -77,6 +77,29 @@ def android_driver():
     adriver.quit()
 
 
+driver = None
+@pytest.fixture(scope='session', autouse=False)
+def drivers(request):
+    global driver
+    if driver is None:
+
+        chrome_options = webdriver.ChromeOptions()
+        prefs = {"download.default_directory": cm.tmp_dir,
+                 "credentials_enable_service": False,
+                 "profile.password_manager_enabled": False}
+        chrome_options.add_experimental_option("prefs", prefs)
+        chrome_options.add_experimental_option('useAutomationExtension', False)
+        chrome_options.add_experimental_option('excludeSwitches', ['enable-automation', 'load-extension'])
+        driver = webdriver.Chrome(options=chrome_options)
+        # web_driver = webdriver.Firefox(firefox_binary='C:/Program Files/Mozilla Firefox/firefox.exe')
+        driver.maximize_window()
+        driver.get(ini.url)
+    def fn():
+        driver.quit()
+    request.addfinalizer(fn)
+    return driver
+
+
 @pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_makereport(item):
     """
