@@ -3,7 +3,7 @@
 """
 @author: jutao
 @version: V1.0
-@file: detail.py
+@file: detailpage.py
 @date: 2021/7/16 0016
 """
 

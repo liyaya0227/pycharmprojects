@@ -203,5 +203,8 @@ class HouseTablePage(WebPage):
                         "' and location_doorplate='" + ini.house_doorplate + "' and is_valid='1' and [status]='0'"
         else:
             raise "传值错误"
-        house_code = select_sql(house_sql)[0][0]
-        return house_code
+        try:
+            house_code = select_sql(house_sql)[0][0]
+            return house_code
+        except IndexError:
+            return ''

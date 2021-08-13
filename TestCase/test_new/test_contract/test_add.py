@@ -17,7 +17,7 @@ from utils.jsonutil import get_data
 from page_object.main.topviewpage import MainTopViewPage
 from page_object.main.leftviewpage import MainLeftViewPage
 from page_object.main.upviewpage import MainUpViewPage
-from page_object.customer.detail import CustomerDetailPage
+from page_object.customer.detailpage import CustomerDetailPage
 from page_object.customer.tablepage import CustomerTablePage
 from page_object.newhouseoperation.tablepage import NewHouseOperationTablePage
 

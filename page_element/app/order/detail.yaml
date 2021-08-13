@@ -1,0 +1,5 @@
+房源编号标签: "xpath==//*[@class='android.widget.EditText' and contains(@text,'房源编号')]"
+
+开始拍摄按钮: "xpath==//*[@class='android.widget.TextView' and @text='开始拍摄']"
+结束拍摄按钮: "xpath==//*[@class='android.widget.TextView' and @text='结束拍摄']"
+退单按钮: "xpath==//*[@class='android.widget.TextView' and @text='退单']"

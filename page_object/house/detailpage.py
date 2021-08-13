@@ -17,7 +17,7 @@ from page_object.house.writtenentrustmentagreementpage import WrittenEntrustment
 from page_object.house.keyentrustmentcertificatepage import KeyEntrustmentCertificatePage
 from page_object.house.vipserviceentrustmentagreementpage import VipServiceEntrustmentAgreementPage
 from page_object.house.deedtaxinvoiceinformationpage import DeedTaxInvoiceInformationPage
-from page_object.house.owneridentificationinformation import OwnerIdentificationInformationPage
+from page_object.house.owneridentificationinformationpage import OwnerIdentificationInformationPage
 from page_object.house.originalpurchasecontractinformationpage import OriginalPurchaseContractInformationPage
 from page_object.house.propertyownershipcertificatepage import PropertyOwnershipCertificatePage
 
@@ -40,21 +40,18 @@ class HouseDetailPage(WebPage):
 
     def get_floor(self):  # 获取房源详情楼层信息
         value = self.element_text(house_detail['楼层标签'])
-        return value.split('/')[0]
+        return value
 
     def get_detail_floor(self):  # 获取房源详情具体楼层信息
         value = self.element_text(house_detail['楼层标签'])
         return value
 
-    def get_out_show(self):  # 回去是否外网呈现
-        try:
-            flag = self.get_element_attribute(house_detail['外网呈现按钮'], 'ant-click-animating')
-            if flag == 'false':
-                return False
-            if flag == 'true':
-                return True
-        except Exception:
+    def get_out_show(self):  # 获取是否外网呈现
+        flag = self.get_element_attribute(house_detail['外网呈现按钮'], 'aria-checked')
+        if flag == 'false':
             return False
+        if flag == 'true':
+            return True
 
     def choose_out_show(self):  # 选择外网呈现
         if not self.get_out_show():
@@ -99,26 +96,29 @@ class HouseDetailPage(WebPage):
         except IndexError:
             return ''
 
-    def check_exploration(self):  # 是否已预约实勘
+    def check_survey_status(self):  # 是否已上传实勘
         value = self.element_text(house_detail['是否预约实勘标签'])
+        if '下载实勘图' in value:
+            return '已上传'
         if '已预约实勘' in value:
-            return True
-        else:
-            return False
+            return '已预约'
+        if '预约实勘' in value:
+            return '未预约'
 
-    def click_exploration_button(self):  # 点击预约实勘按钮
+    def click_survey_appointment_button(self):  # 点击预约实勘按钮
         self.is_click(house_detail['预约实勘按钮'])
+        sleep()
 
-    def click_back_exploration_button(self):  # 点击实勘退单按钮
+    def click_back_survey_button(self):  # 点击实勘退单按钮
         self.is_click(house_detail['实勘退单按钮'])
 
-    def choose_normal_exploration(self):  # 预约实勘弹窗选择普通实勘
+    def dialog_choose_normal_survey(self):  # 预约实勘弹窗选择普通实勘
         self.is_click(house_detail['选择实勘方式_普通实勘单选'])
 
-    def choose_vr_exploration(self):  # 预约实勘弹窗选择VR实勘
+    def dialog_choose_vr_survey(self):  # 预约实勘弹窗选择VR实勘
         self.is_click(house_detail['选择实勘方式_VR实勘单选'])
 
-    def choose_photographer(self, photographer):  # 预约实勘弹窗选择摄影师
+    def dialog_choose_photographer(self, photographer):  # 预约实勘弹窗选择摄影师
         self.is_click(house_detail['摄影师输入框'])
         self.input_text(house_detail['摄影师输入框'], photographer)
         photographer_list = self.find_elements(house_detail['摄影师下拉框'])
@@ -127,7 +127,7 @@ class HouseDetailPage(WebPage):
                 photographer_ele.click()
                 break
 
-    def choose_exploration_time(self, date_time):  # 预约实勘弹窗输入预约时间
+    def dialog_choose_exploration_time(self, date_time):  # 预约实勘弹窗输入预约时间
         self.is_click(house_detail['预约实勘时间_' + date_time[0] + '单选'])
         self.is_click(house_detail['预约实勘时间_时间选择框'])
         time_list = self.find_elements(house_detail['预约实勘时间_时间下拉框'])
@@ -135,19 +135,16 @@ class HouseDetailPage(WebPage):
             if time_ele.text == date_time[1]:
                 if "ant-select-item-option-disabled" not in time_ele.get_attribute('class'):
                     time_ele.click()
-                    break
+                    return
         for time_ele in time_list:
             if "ant-select-item-option-disabled" not in time_ele.get_attribute('class'):
                 time_ele.click()
                 break
 
-    def input_appointment_instructions(self, appointment_instructions):  # 预约实勘弹窗输入预约说明
+    def dialog_input_appointment_instructions(self, appointment_instructions):  # 预约实勘弹窗输入预约说明
         self.input_text(house_detail['预约说明输入框'], appointment_instructions)
 
-    def click_exploration_confirm_button(self):  # 点击预约实勘弹窗确认按钮
-        self.is_click(house_detail['预约实勘_确认按钮'])
-
-    def choose_back_exploration_reason(self, reason):  # 实勘退单弹窗选择退单原因
+    def dialog_choose_back_exploration_reason(self, reason):  # 实勘退单弹窗选择退单原因
         self.is_click(house_detail['实勘退单_退单原因选择框'])
         reason_list = self.find_elements(house_detail['实勘退单_退单原因下拉框'])
         for reason_ele in reason_list:
@@ -155,7 +152,7 @@ class HouseDetailPage(WebPage):
                 reason_ele.click()
                 break
 
-    def click_back_exploration_return_button(self):  # 点击实勘退单弹窗退单按钮
+    def dialog_click_back_exploration_return_button(self):  # 点击实勘退单弹窗退单按钮
         self.is_click(house_detail['实勘退单_退单按钮'])
 
     def expand_certificates_info(self):  # 展开证书信息
@@ -217,9 +214,14 @@ class HouseDetailPage(WebPage):
     def __check_upload_certificate(self, certificate_name):  # 查看证书是否已上传
         locator = 'xpath', "//span[text()='" + certificate_name + "']/ancestor::p//span[@class='blue']"
         if self.element_text(locator) == '查看':
-            return True
+            certificate_locator = 'xpath', "//span[text()='" + certificate_name + "']/ancestor::li" \
+                                                                                  "//em[contains(text(),'证书')]/i"
+            try:
+                return self.element_text(certificate_locator)
+            except AttributeError:
+                return '审核通过'
         if self.element_text(locator) == '上传':
-            return False
+            return '未上传'
 
     def delete_written_entrustment_agreement(self):  # 删除书面委托协议
         self.__delete_certificate('书面委托协议')
@@ -397,6 +399,17 @@ class HouseDetailPage(WebPage):
     def click_invalid_reason_cancel_button(self):  # 点击无效弹窗取消按钮
         self.is_click(house_detail['无效理由_取消按钮'])
 
+    def click_delete_survey_button(self):  # 点击房源详情右侧删除实勘按钮
+        self.move_mouse_to_element(house_detail['右侧菜单更多按钮'])
+        self.move_mouse_to_element(house_detail['删除实勘按钮'])
+        self.is_click(house_detail['删除实勘按钮'])
+
+    def get_tooltip_content(self):
+        if self.find_element(house_detail['弹窗显示'], wait_time=2):
+            return self.element_text(house_detail['弹窗显示'])
+        else:
+            return ''
+
     def get_address_dialog_house_property_address(self):  # 获取房源地址弹窗所有信息
         self.is_click(house_detail['右侧菜单地址按钮'])
         estate_name = self.element_text(house_detail['房源物业地址_楼盘名称显示框']).split('楼盘名称')[1]
@@ -404,6 +417,9 @@ class HouseDetailPage(WebPage):
         unit_name = self.element_text(house_detail['房源物业地址_单元显示框']).split('单元')[1]
         door_name = self.element_text(house_detail['房源物业地址_门牌显示框']).split('门牌')[1]
         self.is_click(house_detail['房源物业地址_关闭按钮'])
+        if self.follow_dialog_exist():
+            self.follow_dialog_input_detail_follow('详细跟进信息')
+            self.dialog_click_confirm_button()
         return {
             'estate_name': estate_name,
             'building_name': building_name,

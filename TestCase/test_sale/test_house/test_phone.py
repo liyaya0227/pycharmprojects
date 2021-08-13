@@ -68,7 +68,6 @@ class TestPhone(object):
     @pytest.mark.sale
     @pytest.mark.house
     @pytest.mark.run(order=11)
-    # @pytest.mark.parametrize("account", account)
     def test_002(self, web_driver):
         main_topview = MainTopViewPage(web_driver)
         house_table = HouseTablePage(web_driver)
@@ -107,6 +106,7 @@ class TestPhone(object):
             house_detail.click_phone_button()
             dialog_content = main_topview.find_notification_content()
         assert dialog_content == '今日查看次数已经超过60次'
+        house_detail.dialog_click_close_button()
         main_leftview.log_out()
         login.log_in(ini.user_account, ini.user_password)
         main_leftview.change_role('经纪人')

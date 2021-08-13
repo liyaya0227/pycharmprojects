@@ -75,6 +75,8 @@
 无效理由_确认按钮: "xpath==//div[@class='ant-modal-root']//span[text()='确 认']/parent::button[@type='button']"
 无效理由_取消按钮: "xpath==//div[@class='ant-modal-root']//span[text()='取 消']/parent::button[@type='button']"
 
+删除实勘按钮: "xpath==//div[contains(@class,'ant-popover ant-popover-placement-left')]//*[text()='删除实勘']"
+
 右侧菜单顶部按钮: "xpath==//div[@class='rightMenu']//span[text()='顶部']"
 
 编辑重点维护信息按钮: "xpath==//div[@style='' or not(@style)]/div[@class='houseDetail']//div[text()='编辑重点维护信息']"
@@ -97,3 +99,4 @@
 弹窗_关闭按钮: "xpath==//div[@class='ant-modal-root']//span[@class='anticon anticon-close ant-modal-close-icon']"
 
 下拉框: "xpath==//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'ant-select-dropdown-hidden'))]//div[@class='rc-virtual-list']//div[contains(@class,'ant-select-item ant-select-item-option')]"
+弹窗显示: "xpath==//div[contains(@class, 'ant-popover-placement-top') and not(contains(@class, 'ant-popover-hidden'))]//div[@class='ant-popover-inner-content']"

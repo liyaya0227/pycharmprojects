@@ -82,7 +82,7 @@ class TransactionTablePage(WebPage):
 
     def __get_column_by_title(self, title):
         locator = 'xpath', \
-                  "///div[@style='']/div[@class='onTheWay-transaction' or @class='final-transaction']//table/thead//th"
+                  "//div[@style='']/div[@class='onTheWay-transaction' or @class='final-transaction']//table/thead//th"
         title_list = self.find_elements(locator)
         for title_ele in title_list:
             if title_ele.text == title:
