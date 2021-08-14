@@ -169,13 +169,18 @@ class ContractCreateSaleOrderDetailSZPage(WebPage):
             self.input_text(create_sale_order_detail_sz['二_3_2_输入框'], second_info['房屋租赁状况'][1])
         else:
             raise ValueError('传值错误')
-        if second_info['房屋居住处理方式'][0] == 1:
-            self.is_click(create_sale_order_detail_sz['二_9_1_单选按钮'])
-        elif second_info['房屋居住处理方式'][0] == 2:
-            self.is_click(create_sale_order_detail_sz['二_9_2_单选按钮'])
-        elif second_info['房屋居住处理方式'][0] == 3:
-            self.is_click(create_sale_order_detail_sz['二_9_3_单选按钮'])
-            self.input_text(create_sale_order_detail_sz['二_9_3_输入框'], second_info['房屋居住处理方式'][1])
+        if second_info['房屋居住权情况'][0] == 1:
+            self.is_click(create_sale_order_detail_sz['二_10_1_单选按钮'])
+        elif second_info['房屋居住权情况'][0] == 2:
+            self.is_click(create_sale_order_detail_sz['二_10_2_单选按钮'])
+            self.input_text(create_sale_order_detail_sz['二_10_2_1_输入框'], second_info['房屋居住权情况'][1][0])
+            self.is_click(create_sale_order_detail_sz['二_10_2_2_选择框'])
+            if second_info['房屋居住权情况'][1][1][0] <= 3:
+                self.__choose_value_in_special_drop_down_box(second_info['房屋居住权情况'][1][1][0])
+            else:
+                raise ValueError('传值错误')
+            if second_info['房屋居住权情况'][1][1] == 3:
+                self.input_text(create_sale_order_detail_sz['二_10_2_2_选择框'], second_info['房屋居住权情况'][1][1][1])
         else:
             raise ValueError('传值错误')
         if second_info['房屋物业管理状况'] == 1:

@@ -125,8 +125,10 @@ class TestOutShow(object):
             house_detail.dialog_choose_exploration_time(self.exploration_info['exploration_time'])
             house_detail.dialog_input_appointment_instructions(self.exploration_info['appointment_instructions'])
             house_detail.dialog_click_confirm_button()
-            app_main.click_mine_button()
-            app_mine.log_out()
+            if not app_login.check_login_page():
+                app_main.close_top_view()
+                app_main.click_mine_button()
+                app_mine.log_out()
             app_login.log_in(self.survey_person_info['photographer_phone'],
                              self.survey_person_info['photographer_password'])
             app_main.click_mine_button()
@@ -306,8 +308,10 @@ class TestOutShow(object):
             house_detail.dialog_choose_exploration_time(self.exploration_info['exploration_time'])
             house_detail.dialog_input_appointment_instructions(self.exploration_info['appointment_instructions'])
             house_detail.dialog_click_confirm_button()
-            app_main.click_mine_button()
-            app_mine.log_out()
+            if not app_login.check_login_page():
+                app_main.close_top_view()
+                app_main.click_mine_button()
+                app_mine.log_out()
             app_login.log_in(self.survey_person_info['photographer_phone'],
                              self.survey_person_info['photographer_password'])
             app_main.click_mine_button()
