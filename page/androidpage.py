@@ -2,10 +2,12 @@
 """
 Author: zoro ju
 """
+
 from utils.timeutil import sleep
 from utils.logger import log
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import TimeoutException
 
 
 class AndroidPage(object):
@@ -16,8 +18,8 @@ class AndroidPage(object):
         try:
             element = WebDriverWait(self.driver, wait_time).until(lambda x: x.find_element(*locator))
             return element
-        except Exception as e:
-            raise e
+        except TimeoutException:
+            return False
 
     def find_elements(self, locator, wait_time=30):  # 多个元素定位
         try:

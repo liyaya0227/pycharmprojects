@@ -9,12 +9,13 @@
 
 import pytest
 import allure
+from config.conf import cm
 from decimal import Decimal
-from page_object.main.topviewpage import MainTopViewPage
 from utils.logger import log
 from common.readconfig import ini
-from config.conf import cm
 from utils.jsonutil import get_data
+from page_object.login.loginpage import LoginPage
+from page_object.main.topviewpage import MainTopViewPage
 from page_object.main.upviewpage import MainUpViewPage
 from page_object.main.leftviewpage import MainLeftViewPage
 from page_object.house.addpage import HouseAddPage
@@ -63,6 +64,7 @@ class TestTransactionOrderContent(object):
         house_detail = HouseDetailPage(web_driver)
         customer_table = CustomerTablePage(web_driver)
         customer_detail = CustomerDetailPage(web_driver)
+        login = LoginPage(web_driver)
 
         main_leftview.change_role('经纪人')
         main_leftview.click_all_house_label()
@@ -120,6 +122,9 @@ class TestTransactionOrderContent(object):
         assert customer_info != {}
         log.info('获取客源信息，新建合同校验需要')
         main_upview.clear_all_title()
+        yield
+        main_leftview.log_out()
+        login.log_in(ini.user_account, ini.user_password)
 
     @allure.story("测试全款购买合同，查看权证单显示数据用例")
     @pytest.mark.sale

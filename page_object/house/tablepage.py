@@ -127,6 +127,7 @@ class HouseTablePage(WebPage):
         locator = 'xpath', "//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table/tbody/tr["\
                   + str(row) + "]/td[" + str(self.__get_column_by_title('楼盘名称') + 1) + "]"
         self.is_click(locator)
+        sleep(2)
 
     def get_house_table_count(self):
         sleep()

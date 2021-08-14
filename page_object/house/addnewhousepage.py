@@ -108,10 +108,10 @@ class HouseAddNewHousePage(WebPage):
 
     def __dialog_choose_person(self, person):
         self.is_click(house_add_new_house['弹窗_姓名输入框'])
-        self.input_text(house_add_new_house['弹窗_姓名输入框'], person)
+        self.input_text(house_add_new_house['弹窗_姓名输入框'], person['姓名'])
         person_list = self.find_elements(house_add_new_house['下拉框'])
         for person_ele in person_list:
-            if person in person_ele.text:
+            if person_ele.text == person['姓名'] + '-' + person['电话']:
                 person_ele.click()
                 break
         self.is_click(house_add_new_house['弹窗_确定按钮'])

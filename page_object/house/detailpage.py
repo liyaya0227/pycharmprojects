@@ -8,11 +8,11 @@
 """
 
 import re
-from utils.timeutil import sleep, dt_strftime_with_delta
-from utils.timeutil import dt_strftime
-from page.webpage import WebPage
-from common.readelement import Element
 from config.conf import cm
+from page.webpage import WebPage
+from utils.timeutil import dt_strftime
+from common.readelement import Element
+from utils.timeutil import sleep, dt_strftime_with_delta
 from page_object.house.writtenentrustmentagreementpage import WrittenEntrustmentAgreementPage
 from page_object.house.keyentrustmentcertificatepage import KeyEntrustmentCertificatePage
 from page_object.house.vipserviceentrustmentagreementpage import VipServiceEntrustmentAgreementPage
@@ -29,6 +29,13 @@ class HouseDetailPage(WebPage):
     def get_house_code(self):  # 获取房源详情房源编号
         value = self.element_text(house_detail['房源编号标签'])
         return re.search(r"：(\d+)", value).group(1)
+
+    def get_house_label(self):  # 获取房源标签
+        label_list = self.find_elements(house_detail['房源所有标签列标签'])
+        labels = []
+        for label_ele in label_list:
+            labels.append(label_ele.text)
+        return labels
 
     def get_house_type(self):  # 获取房源详情户型信息
         value = self.element_text(house_detail['户型标签'])
@@ -107,7 +114,7 @@ class HouseDetailPage(WebPage):
 
     def click_survey_appointment_button(self):  # 点击预约实勘按钮
         self.is_click(house_detail['预约实勘按钮'])
-        sleep()
+        sleep(2)
 
     def click_back_survey_button(self):  # 点击实勘退单按钮
         self.is_click(house_detail['实勘退单按钮'])
@@ -159,11 +166,13 @@ class HouseDetailPage(WebPage):
         ele = self.find_element(house_detail['证件信息展开收起按钮'])
         if ele.text == '展开':
             ele.click()
+            sleep()
 
     def retract_certificates_info(self):  # 收起证书信息
         ele = self.find_element(house_detail['证件信息展开收起按钮'])
         if ele.text == '收起':
             ele.click()
+            sleep()
 
     def click_written_entrustment_agreement_upload_button(self):  # 点击书面委托协议证上传按钮
         self.__click_upload_button('书面委托协议')

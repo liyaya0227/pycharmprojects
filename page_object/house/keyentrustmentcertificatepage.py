@@ -7,6 +7,7 @@
 @time: 2021/06/22
 """
 
+from utils.timeutil import sleep
 from page.webpage import WebPage
 from common.readelement import Element
 from utils.uploadfile import upload_file
@@ -44,3 +45,4 @@ class KeyEntrustmentCertificatePage(WebPage):
 
     def click_save_button(self):
         self.is_click(key_entrustment_certificate['保存按钮'])
+        sleep()

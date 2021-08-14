@@ -11,6 +11,7 @@ import re
 from page.webpage import WebPage
 from common.readelement import Element
 from utils.fileutil import *
+from utils.timeutil import sleep
 from config.conf import cm
 from common.readconfig import ini
 
@@ -39,6 +40,7 @@ class AgreementListPage(WebPage):
             if ini.environment == 'wx':
                 file_path = search_file_in_dir(cm.tmp_dir, '限时委托代理销售协议')
             if file_path == '':
+                sleep()
                 continue
             content = get_docx_file_content(file_path)
             delete_file(file_path)
@@ -50,6 +52,7 @@ class AgreementListPage(WebPage):
         while True:
             file_path = search_file_in_dir(cm.tmp_dir, '钥匙托管协议')
             if file_path == '':
+                sleep()
                 continue
             content = get_docx_file_content(file_path)
             delete_file(file_path)
@@ -61,6 +64,7 @@ class AgreementListPage(WebPage):
         while True:
             file_path = search_file_in_dir(cm.tmp_dir, '房屋出售委托协议VIP版')
             if file_path == '':
+                sleep()
                 continue
             content = get_docx_file_content(file_path)
             delete_file(file_path)
