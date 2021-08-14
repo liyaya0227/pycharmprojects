@@ -23,3 +23,7 @@ class AppMainPage(AndroidPage):
 
     def click_mine_button(self):
         self.is_click(main['我的按钮'])
+
+    def close_top_view(self):
+        if self.find_element(main['经纪人荣誉殿堂_关闭按钮'], wait_time=5):
+            self.is_click(main['经纪人荣誉殿堂_关闭按钮'])

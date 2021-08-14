@@ -10,6 +10,8 @@
 import pytest
 import allure
 from utils.logger import log
+from common.readconfig import ini
+from page_object.login.loginpage import LoginPage
 from page_object.main.upviewpage import MainUpViewPage
 from page_object.main.leftviewpage import MainLeftViewPage
 from page_object.main.rightviewpage import MainRightViewPage
@@ -24,6 +26,15 @@ login_person_phone = ''
 @allure.feature("测试房源模块")
 class TestShare(object):
 
+    @pytest.fixture(scope="class", autouse=True)
+    def test_post_processing(self, web_driver):
+        main_leftview = MainLeftViewPage(web_driver)
+        login = LoginPage(web_driver)
+
+        yield
+        main_leftview.log_out()
+        login.log_in(ini.user_account, ini.user_password)
+
     @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, web_driver):
         global house_code
@@ -35,6 +46,7 @@ class TestShare(object):
         house_table = HouseTablePage(web_driver)
 
         main_leftview.change_role('经纪人')
+        main_leftview.click_homepage_overview_label()
         login_person_name = main_rightview.get_login_person_name()
         login_person_phone = main_rightview.get_login_person_phone()
         house_code = house_table.get_house_code_by_db(flag='买卖')

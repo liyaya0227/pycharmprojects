@@ -12,6 +12,7 @@ import allure
 from config.conf import cm
 from utils.logger import log
 from common.readconfig import ini
+from page_object.login.loginpage import LoginPage
 from page_object.main.topviewpage import MainTopViewPage
 from page_object.main.leftviewpage import MainLeftViewPage
 from page_object.main.upviewpage import MainUpViewPage
@@ -43,6 +44,7 @@ class TestOrderProcess(object):
         house_table = HouseTablePage(web_driver)
         customer_table = CustomerTablePage(web_driver)
         customer_detail = CustomerDetailPage(web_driver)
+        login = LoginPage(web_driver)
 
         main_leftview.change_role('经纪人')
         house_code = house_table.get_house_code_by_db(flag='买卖')
@@ -62,6 +64,9 @@ class TestOrderProcess(object):
         log.info('创建合同的客源编号: ' + customer_code)
         main_upview.clear_all_title()
         main_leftview.click_contract_management_label()
+        yield
+        main_leftview.log_out()
+        login.log_in(ini.user_account, ini.user_password)
 
     @allure.story("测试买卖合同流程")
     @pytest.mark.sale

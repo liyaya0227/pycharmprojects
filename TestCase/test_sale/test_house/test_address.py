@@ -10,7 +10,6 @@
 import pytest
 import allure
 from config.conf import cm
-from page_object.main.upviewpage import MainUpViewPage
 from utils.logger import log
 from common.readconfig import ini
 from utils.jsonutil import get_value
@@ -34,18 +33,15 @@ class TestAddress(object):
 
         main_leftview = MainLeftViewPage(web_driver)
         house_table = HouseTablePage(web_driver)
+        login = LoginPage(web_driver)
 
         main_leftview.change_role('经纪人')
         house_code = house_table.get_house_code_by_db(flag='买卖')
         assert house_code != ''
         log.info('房源编号为：' + house_code)
-
-    # @staticmethod
-    # def teardown_method(web_driver):
-    #     main_upview = MainUpViewPage(web_driver)
-    #
-    #     main_upview.refresh()
-    #     main_upview.clear_all_title()
+        yield
+        main_leftview.log_out()
+        login.log_in(ini.user_account, ini.user_password)
 
     @allure.story("测试房源详情右侧地址用例")
     @pytest.mark.sale
@@ -110,7 +106,7 @@ class TestAddress(object):
                 assert int(new_looked_count) == int(temp) + num + 1
             house_detail.click_address_button()
             dialog_content = main_topview.find_notification_content()
-        assert dialog_content == '今日查看次数已经超过60次'
-        main_leftview.log_out()
-        login.log_in(ini.user_account, ini.user_password)
-        main_leftview.change_role('经纪人')
+        if 'VIP' in house_detail.get_house_label() or '店长力荐' in house_detail.get_house_label():
+            assert dialog_content == '请联系维护人查看相关房源信息'
+        else:
+            assert dialog_content == '今日查看次数已经超过60次'

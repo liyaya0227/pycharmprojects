@@ -33,11 +33,15 @@ class TestPhone(object):
 
         main_leftview = MainLeftViewPage(web_driver)
         house_table = HouseTablePage(web_driver)
+        login = LoginPage(web_driver)
 
         main_leftview.change_role('经纪人')
         house_code = house_table.get_house_code_by_db(flag='买卖')
         assert house_code != ''
         log.info('房源编号为：' + house_code)
+        yield
+        main_leftview.log_out()
+        login.log_in(ini.user_account, ini.user_password)
 
     @allure.story("测试房源详情右侧电话用例")
     @pytest.mark.sale
@@ -92,10 +96,6 @@ class TestPhone(object):
             looked_count = house_detail.dialog_get_looked_count()
             house_detail.phone_dialog_click_check_button()
             house_detail.dialog_click_close_button()
-            # if house_detail.follow_dialog_exist():
-            #     assert house_detail.check_dialog_cancel_button_disabled()
-            #     house_detail.follow_dialog_input_detail_follow('详细跟进信息')
-            #     house_detail.dialog_click_confirm_button()
             temp = looked_count
             for num in range(60 - int(looked_count)):
                 house_detail.click_phone_button()
@@ -105,8 +105,9 @@ class TestPhone(object):
                 assert int(new_looked_count) == int(temp) + num + 1
             house_detail.click_phone_button()
             dialog_content = main_topview.find_notification_content()
-        assert dialog_content == '今日查看次数已经超过60次'
-        house_detail.dialog_click_close_button()
-        main_leftview.log_out()
-        login.log_in(ini.user_account, ini.user_password)
-        main_leftview.change_role('经纪人')
+        if 'VIP' in house_detail.get_house_label() or '店长力荐' in house_detail.get_house_label():
+            assert dialog_content == '请联系维护人查看相关房源信息'
+        else:
+            assert dialog_content == '今日查看次数已经超过60次'
+            house_detail.dialog_click_close_button()
+

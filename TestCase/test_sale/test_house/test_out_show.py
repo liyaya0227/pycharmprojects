@@ -7,9 +7,9 @@
 @date: 2021/8/9 0009
 """
 
-from random import randint
 import pytest
 import allure
+from random import randint
 from utils.logger import log
 from common.readconfig import ini
 from config.conf import cm
@@ -42,6 +42,15 @@ class TestOutShow(object):
     exploration_info = get_value(json_file_path, 'exploration_info')
     written_entrustment_agreement = get_value(json_file_path, 'written_entrustment_agreement')
     survey_person_info = get_value(json_file_path, ini.environment)
+
+    @pytest.fixture(scope="class", autouse=True)
+    def test_post_processing(self, web_driver):
+        main_leftview = MainLeftViewPage(web_driver)
+        login = LoginPage(web_driver)
+
+        yield
+        main_leftview.log_out()
+        login.log_in(ini.user_account, ini.user_password)
 
     @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, web_driver):

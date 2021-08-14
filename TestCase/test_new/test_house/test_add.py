@@ -9,14 +9,19 @@
 
 import pytest
 import allure
-from utils.logger import log
 from config.conf import cm
+from utils.logger import log
+from common.readconfig import ini
 from utils.jsonutil import get_data
+from page_object.login.loginpage import LoginPage
 from page_object.main.topviewpage import MainTopViewPage
+from page_object.main.rightviewpage import MainRightViewPage
 from page_object.main.leftviewpage import MainLeftViewPage
 from page_object.main.upviewpage import MainUpViewPage
 from page_object.house.tablepage import HouseTablePage
 from page_object.house.addnewhousepage import HouseAddNewHousePage
+
+person_info = {}
 
 
 @allure.feature("测试新房源新增楼盘模块")
@@ -27,10 +32,20 @@ class TestAdd(object):
 
     @pytest.fixture(scope="class", autouse=True)
     def test_prepare(self, web_driver):
+        global person_info
+
         main_leftview = MainLeftViewPage(web_driver)
+        main_rightview = MainRightViewPage(web_driver)
+        login = LoginPage(web_driver)
 
         main_leftview.change_role('超级管理员')
+        login_name = main_rightview.get_login_person_name()
+        login_phone = main_rightview.get_login_person_phone()
+        person_info = {'姓名': login_name, '电话': login_phone}
         main_leftview.click_all_house_label()
+        yield
+        main_leftview.log_out()
+        login.log_in(ini.user_account, ini.user_password)
 
     @allure.story("测试新增新房楼盘，查看搜索结果用例")
     @pytest.mark.new
@@ -72,9 +87,9 @@ class TestAdd(object):
         house_add_new_house.input_reported_protect_time(self.test_data['报备保护时间'])
         house_add_new_house.input_take_look_protect_time(self.test_data['带看保护时间'])
         house_add_new_house.input_incentive_policy(self.test_data['激励政策'])
-        house_add_new_house.add_r_person(self.test_data['R新房案场端'])
-        house_add_new_house.add_s_person(self.test_data['S新房经理'])
-        house_add_new_house.add_d_person(self.test_data['D新房总监'])
+        house_add_new_house.add_r_person([person_info])
+        house_add_new_house.add_s_person([person_info])
+        house_add_new_house.add_d_person([person_info])
         house_add_new_house.click_next_step_button()
         house_add_new_house.input_developer(self.test_data['开发商'])
         house_add_new_house.input_building_sale_price(self.test_data['楼盘价格'])

@@ -13,6 +13,7 @@ from utils.logger import log
 from config.conf import cm
 from common.readconfig import ini
 from utils.jsonutil import get_data
+from page_object.login.loginpage import LoginPage
 from page_object.main.topviewpage import MainTopViewPage
 from page_object.main.leftviewpage import MainLeftViewPage
 from page_object.main.upviewpage import MainUpViewPage
@@ -37,6 +38,7 @@ class TestCreateOrder(object):
     def test_prepare(self, web_driver):
         global house_info
         global customer_info
+
         main_topview = MainTopViewPage(web_driver)
         main_leftview = MainLeftViewPage(web_driver)
         main_upview = MainUpViewPage(web_driver)
@@ -45,6 +47,7 @@ class TestCreateOrder(object):
         customer_table = CustomerTablePage(web_driver)
         customer_detail = CustomerDetailPage(web_driver)
         contract_table = ContractTablePage(web_driver)
+        login = LoginPage(web_driver)
 
         main_leftview.change_role('经纪人')
         house_code = house_table.get_house_code_by_db(flag='买卖')
@@ -100,6 +103,9 @@ class TestCreateOrder(object):
             main_leftview.change_role('经纪人')
         main_upview.clear_all_title()
         main_leftview.click_contract_management_label()
+        yield
+        main_leftview.log_out()
+        login.log_in(ini.user_account, ini.user_password)
 
     @allure.story("测试创建买卖合同，查看搜索结果用例")
     @pytest.mark.sale

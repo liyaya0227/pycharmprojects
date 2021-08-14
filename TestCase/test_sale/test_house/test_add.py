@@ -7,22 +7,18 @@
 @time: 2021/06/22
 """
 
-import re
 import pytest
 import allure
 from utils.logger import log
 from common.readconfig import ini
 from config.conf import cm
 from utils.jsonutil import get_data
+from page_object.login.loginpage import LoginPage
 from page_object.main.topviewpage import MainTopViewPage
 from page_object.main.leftviewpage import MainLeftViewPage
-from page_object.main.rightviewpage import MainRightViewPage
 from page_object.main.upviewpage import MainUpViewPage
-from page_object.main.invalidhousepage import InvalidHousePage
 from page_object.house.tablepage import HouseTablePage
 from page_object.house.addpage import HouseAddPage
-from page_object.house.detailpage import HouseDetailPage
-from page_object.contract.tablepage import ContractTablePage
 
 
 @allure.feature("测试房源模块")
@@ -34,9 +30,13 @@ class TestAdd(object):
     @pytest.fixture(scope="class", autouse=True)
     def test_prepare(self, web_driver):
         main_leftview = MainLeftViewPage(web_driver)
+        login = LoginPage(web_driver)
 
         main_leftview.change_role('经纪人')
         main_leftview.click_all_house_label()
+        yield
+        main_leftview.log_out()
+        login.log_in(ini.user_account, ini.user_password)
 
     @allure.story("测试新增买卖房源，查看搜索结果用例")
     @pytest.mark.sale
@@ -47,13 +47,9 @@ class TestAdd(object):
     def test_001(self, web_driver):
         main_topview = MainTopViewPage(web_driver)
         main_leftview = MainLeftViewPage(web_driver)
-        main_rightview = MainRightViewPage(web_driver)
         main_upview = MainUpViewPage(web_driver)
-        house_detail = HouseDetailPage(web_driver)
         house_table = HouseTablePage(web_driver)
-        invalid_house_page = InvalidHousePage(web_driver)
         house_add = HouseAddPage(web_driver)
-        contract_table = ContractTablePage(web_driver)
 
         house_table.click_sale_tab()  # 点击买卖tab
         house_table.click_add_house_button()
@@ -81,6 +77,7 @@ class TestAdd(object):
         dialog_title = main_topview.find_notification_title()
         if dialog_title != '':
             log.info('房源已存在')
+            return
             # house_code = re.search(r"房源编号(\d+?)，", dialog_title).group(1)
             # main_leftview.click_all_house_label()
             # house_table.clear_filter('买卖')
