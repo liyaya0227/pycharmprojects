@@ -13,6 +13,7 @@ from utils.logger import log
 from config.conf import cm
 from common.readconfig import ini
 from utils.jsonutil import get_data
+from utils.jsonutil import get_value
 from page_object.login.loginpage import LoginPage
 from page_object.main.topviewpage import MainTopViewPage
 from page_object.main.leftviewpage import MainLeftViewPage
@@ -28,6 +29,7 @@ class TestAppointmentExploration(object):
 
     json_file_path = cm.test_data_dir + "/test_sale/test_house/test_appointment_exploration.json"
     test_data = get_data(json_file_path)
+    survey_person_info = get_value(json_file_path, ini.environment)
 
     @pytest.fixture(scope="class", autouse=True)
     def test_prepare(self, web_driver):
@@ -71,9 +73,9 @@ class TestAppointmentExploration(object):
             assert main_topview.find_notification_content() == '退单成功'
         house_detail.click_survey_appointment_button()
         house_detail.dialog_choose_normal_survey()
-        house_detail.dialog_choose_photographer(self.test_data['photographer'])
-        house_detail.dialog_choose_exploration_time(self.test_data['exploration_time'])
-        house_detail.dialog_input_appointment_instructions(self.test_data['appointment_instructions'])
+        house_detail.dialog_choose_photographer(self.survey_person_info['photographer'])
+        house_detail.dialog_choose_exploration_time(self.survey_person_info['exploration_time'])
+        house_detail.dialog_input_appointment_instructions(self.survey_person_info['appointment_instructions'])
         house_detail.dialog_click_confirm_button()
         log.info('预约实勘申请已提交')
         main_upview.clear_all_title()

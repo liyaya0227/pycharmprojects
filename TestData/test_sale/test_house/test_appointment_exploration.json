@@ -7,8 +7,8 @@
   "wx":{
     "photographer": "自动化测试AAAASY",
     "photographer_phone": "12800000009",
-    "photographer_password": "Autotest1",
+    "photographer_password": "Autotest1"
   },
-  "explo,ra,tion_time": ["明天", "16:00-17:00"],
+  "exploration_time": ["明天", "16:00-17:00"],
   "appointment_instructions": "预约实勘，请留意"
 }
