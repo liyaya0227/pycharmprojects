@@ -21,14 +21,14 @@ class TransactionDetailPage(WebPage):
             raise Exception("不能办理过户流程")
         self.is_click(transaction_detail['综合办理按钮'])
         self.is_click(transaction_detail['完成按钮'])
-        sleep()
+        sleep(2)
 
     def close_case(self):
         if 'done' not in self.get_element_attribute(transaction_detail['结案按钮'], 'class'):
             raise Exception("不能办理结案流程")
         self.is_click(transaction_detail['结案按钮'])
         self.is_click(transaction_detail['完成按钮'])
-        sleep()
+        sleep(2)
 
     def show_sensitive_info(self):
         flag = self.element_text(transaction_detail['显示隐藏敏感信息按钮'])

@@ -10,10 +10,7 @@
 import pytest
 import allure
 from config.conf import cm
-from utils.logger import log
-from common.readconfig import ini
 from utils.jsonutil import get_data
-from page_object.login.loginpage import LoginPage
 from page_object.main.topviewpage import MainTopViewPage
 from page_object.main.rightviewpage import MainRightViewPage
 from page_object.main.leftviewpage import MainLeftViewPage
@@ -36,16 +33,12 @@ class TestAdd(object):
 
         main_leftview = MainLeftViewPage(web_driver)
         main_rightview = MainRightViewPage(web_driver)
-        login = LoginPage(web_driver)
 
         main_leftview.change_role('超级管理员')
         login_name = main_rightview.get_login_person_name()
         login_phone = main_rightview.get_login_person_phone()
         person_info = {'姓名': login_name, '电话': login_phone}
         main_leftview.click_all_house_label()
-        yield
-        main_leftview.log_out()
-        login.log_in(ini.user_account, ini.user_password)
 
     @allure.story("测试新增新房楼盘，查看搜索结果用例")
     @pytest.mark.new

@@ -13,7 +13,6 @@ from utils.logger import log
 from config.conf import cm
 from common.readconfig import ini
 from utils.jsonutil import get_data
-from page_object.login.loginpage import LoginPage
 from page_object.main.topviewpage import MainTopViewPage
 from page_object.main.leftviewpage import MainLeftViewPage
 from page_object.main.upviewpage import MainUpViewPage
@@ -47,7 +46,6 @@ class TestCreateOrder(object):
         customer_table = CustomerTablePage(web_driver)
         customer_detail = CustomerDetailPage(web_driver)
         contract_table = ContractTablePage(web_driver)
-        login = LoginPage(web_driver)
 
         main_leftview.change_role('经纪人')
         house_code = house_table.get_house_code_by_db(flag='买卖')
@@ -60,13 +58,13 @@ class TestCreateOrder(object):
         house_table.input_house_code_search(house_code)
         house_table.click_search_button()
         house_table.go_house_detail_by_row(1)
-        house_property_address = house_detail.get_address_dialog_house_property_address()
-        house_info = house_property_address
+        house_info = house_detail.get_address_dialog_house_property_address()
         house_info['house_code'] = house_code
         house_info['house_type'] = house_detail.get_house_type()
         house_info['orientations'] = house_detail.get_orientations()
         house_info['floor'] = ini.house_floor
         house_info['inspect_type'] = house_detail.get_inspect_type()
+        house_info['house_state'] = house_detail.get_house_state()
         assert house_info != {}
         log.info('获取房源信息，新建合同校验需要')
         main_upview.clear_all_title()
@@ -103,9 +101,6 @@ class TestCreateOrder(object):
             main_leftview.change_role('经纪人')
         main_upview.clear_all_title()
         main_leftview.click_contract_management_label()
-        yield
-        main_leftview.log_out()
-        login.log_in(ini.user_account, ini.user_password)
 
     @allure.story("测试创建买卖合同，查看搜索结果用例")
     @pytest.mark.sale

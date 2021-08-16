@@ -9,11 +9,10 @@
 
 import pytest
 import allure
+from config.conf import cm
 from utils.logger import log
 from common.readconfig import ini
-from config.conf import cm
 from utils.jsonutil import get_data
-from page_object.login.loginpage import LoginPage
 from page_object.main.topviewpage import MainTopViewPage
 from page_object.main.leftviewpage import MainLeftViewPage
 from page_object.main.upviewpage import MainUpViewPage
@@ -30,13 +29,9 @@ class TestAdd(object):
     @pytest.fixture(scope="class", autouse=True)
     def test_prepare(self, web_driver):
         main_leftview = MainLeftViewPage(web_driver)
-        login = LoginPage(web_driver)
 
         main_leftview.change_role('经纪人')
         main_leftview.click_all_house_label()
-        yield
-        main_leftview.log_out()
-        login.log_in(ini.user_account, ini.user_password)
 
     @allure.story("测试新增买卖房源，查看搜索结果用例")
     @pytest.mark.sale

@@ -11,7 +11,6 @@ import pytest
 import allure
 from utils.logger import log
 from common.readconfig import ini
-from page_object.login.loginpage import LoginPage
 from page_object.main.upviewpage import MainUpViewPage
 from page_object.main.leftviewpage import MainLeftViewPage
 from page_object.main.rightviewpage import MainRightViewPage
@@ -25,15 +24,6 @@ login_person_phone = ''
 
 @allure.feature("测试房源模块")
 class TestShare(object):
-
-    @pytest.fixture(scope="class", autouse=True)
-    def test_post_processing(self, web_driver):
-        main_leftview = MainLeftViewPage(web_driver)
-        login = LoginPage(web_driver)
-
-        yield
-        main_leftview.log_out()
-        login.log_in(ini.user_account, ini.user_password)
 
     @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, web_driver):

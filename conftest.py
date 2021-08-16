@@ -16,6 +16,7 @@ from config.conf import cm
 from selenium import webdriver
 from appium import webdriver as androiddriver
 from common.readconfig import ini
+from page_object.main.leftviewpage import MainLeftViewPage
 from utils.timeutil import dt_strftime
 from page_object.login.loginpage import LoginPage
 from page_object.main.topviewpage import MainTopViewPage
@@ -38,11 +39,11 @@ def web_driver():
     # web_driver = webdriver.Firefox(firefox_binary='C:/Program Files/Mozilla Firefox/firefox.exe')
     wdriver.maximize_window()
     wdriver.get(ini.url)
-    login_page = LoginPage(wdriver)
-    login_page.log_in(ini.user_account, ini.user_password)
-    main_topview = MainTopViewPage(wdriver)
-    main_topview.wait_page_loading_complete()
-    main_topview.click_close_button()
+    # login_page = LoginPage(wdriver)
+    # login_page.log_in(ini.user_account, ini.user_password)
+    # main_topview = MainTopViewPage(wdriver)
+    # main_topview.wait_page_loading_complete()
+    # main_topview.click_close_button()
     yield wdriver
     wdriver.quit()
 
@@ -59,7 +60,7 @@ def android_driver():
         # 'deviceName': '127.0.0.1:62001',  # 夜神
         # 'platformVersion': '7.1.2',  # 操作系统版本
         # 'deviceName': '721QEDRE2H7DT',  # 设备名称。如果是真机，在'设置->关于手机->设备名称'里查看
-        'noReset': True,  # 应用状态是否需要重置，默认true
+        'noReset': False,  # 应用状态是否需要重置，默认true
         'fullReset': False,  # 执行完测试后是否卸载app，默认false
         'appPackage': ini.app_package,  # 应用的包名
         'appActivity': ini.app_package + '.MainActivity',  # 应用的第一个启动Activity
@@ -77,7 +78,21 @@ def android_driver():
     adriver.quit()
 
 
+@pytest.fixture(scope='class', autouse=True)
+def setup_and_teardown(web_driver):
+    login_page = LoginPage(web_driver)
+    login_page.log_in(ini.user_account, ini.user_password)
+    main_topview = MainTopViewPage(web_driver)
+    main_topview.wait_page_loading_complete()
+    main_topview.click_close_button()
+    yield
+    main_leftview = MainLeftViewPage(web_driver)
+    main_leftview.log_out()
+
+
 driver = None
+
+
 @pytest.fixture(scope='session', autouse=False)
 def drivers(request):
     global driver

@@ -182,6 +182,7 @@ class ContractCreateSaleOrderDetailSZPage(WebPage):
             self.is_click(create_sale_order_detail_sz['二_10_2_2_选择框'])
             if second_info['房屋居住权情况'][1][1][0] <= 3:
                 self.__choose_value_in_special_drop_down_box(second_info['房屋居住权情况'][1][1][0])
+                self.input_text(create_sale_order_detail_sz['二_10_2_2_输入框'], second_info['房屋居住权情况'][1][1][1])
             else:
                 raise ValueError('传值错误')
             if second_info['房屋居住权情况'][1][1] == 3:

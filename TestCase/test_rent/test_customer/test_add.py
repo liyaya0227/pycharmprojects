@@ -10,14 +10,13 @@
 import pytest
 import allure
 from config.conf import cm
-from page_object.customer.detailpage import CustomerDetailPage
 from utils.logger import log
 from common.readconfig import ini
 from utils.jsonutil import get_data
 from page_object.main.upviewpage import MainUpViewPage
 from page_object.main.topviewpage import MainTopViewPage
 from page_object.main.leftviewpage import MainLeftViewPage
-from page_object.main.rightviewpage import MainRightViewPage
+from page_object.customer.detailpage import CustomerDetailPage
 from page_object.customer.tablepage import CustomerTablePage
 from page_object.customer.addpage import CustomerAddPage
 
@@ -89,6 +88,7 @@ class TestAdd(object):
         customer_add.choose_floor_year(self.test_data['楼龄'])
         customer_add.click_complete_button()
         assert main_topview.find_notification_content() == '添加客源成功'
+        log.info('添加客源成功')
         main_upview.clear_all_title()
         main_leftview.click_my_customer_label()
         customer_table.click_all_tab()
