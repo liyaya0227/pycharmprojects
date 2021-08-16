@@ -94,20 +94,25 @@ class TestPhone(object):
         dialog_content = main_topview.find_notification_content()
         if dialog_content == '':
             looked_count = house_detail.dialog_get_looked_count()
-            house_detail.phone_dialog_click_check_button()
-            house_detail.dialog_click_close_button()
-            temp = looked_count
-            for num in range(60 - int(looked_count)):
-                house_detail.click_phone_button()
-                new_looked_count = house_detail.dialog_get_looked_count()
+            if looked_count == '60':
+                house_detail.phone_dialog_click_check_button()
+                dialog_content = main_topview.find_notification_content()
+                assert dialog_content == '今日查看次数已经超过60次'
+                house_detail.dialog_click_close_button()
+            else:
                 house_detail.phone_dialog_click_check_button()
                 house_detail.dialog_click_close_button()
-                assert int(new_looked_count) == int(temp) + num + 1
-            house_detail.click_phone_button()
-            dialog_content = main_topview.find_notification_content()
-        if 'VIP' in house_detail.get_house_label() or '店长力荐' in house_detail.get_house_label():
-            assert dialog_content == '请联系维护人查看相关房源信息'
+                temp = looked_count
+                for num in range(60 - int(looked_count)):
+                    house_detail.click_phone_button()
+                    new_looked_count = house_detail.dialog_get_looked_count()
+                    house_detail.phone_dialog_click_check_button()
+                    house_detail.dialog_click_close_button()
+                    assert int(new_looked_count) == int(temp) + num + 1
+                house_detail.click_phone_button()
+                dialog_content = main_topview.find_notification_content()
+                assert dialog_content == '今日查看次数已经超过60次'
         else:
-            assert dialog_content == '今日查看次数已经超过60次'
-            house_detail.dialog_click_close_button()
-
+            house_labels = house_detail.get_house_label()
+            if 'VIP' in house_labels or '店长力荐' in house_labels:
+                assert dialog_content == '请联系维护人查看相关房源信息'

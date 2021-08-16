@@ -69,11 +69,22 @@ class TestShare(object):
         main_upview = MainUpViewPage(web_driver)
         house_detail = HouseDetailPage(web_driver)
 
+        house_type = house_detail.get_house_type()
+        size = house_detail.get_size()
+        orientations = house_detail.get_orientations()
         house_detail.click_share_button()
-        real_name = house_detail.share_dialog_get_name()
-        real_phone = house_detail.share_dialog_get_phone()
+        dialog_community_name = house_detail.share_dialog_get_community_name()
+        dialog_house_type = house_detail.share_dialog_get_house_type()
+        dialog_size = house_detail.share_dialog_get_size()
+        dialog_orientations = house_detail.share_dialog_get_orientations()
+        dialog_name = house_detail.share_dialog_get_name()
+        dialog_phone = house_detail.share_dialog_get_phone()
         house_detail.dialog_click_cancel_button()
         main_upview.clear_all_title()
-        assert login_person_name == real_name
-        assert login_person_phone == real_phone
+        assert ini.house_community_name == dialog_community_name
+        assert house_type == dialog_house_type
+        assert size == dialog_size
+        assert orientations == dialog_orientations
+        assert login_person_name == dialog_name
+        assert login_person_phone == dialog_phone
 

@@ -1,2 +1,3 @@
 搜索按钮: "xpath==//*[@class='android.widget.TextView' and @text='普通实勘']/parent::android.view.ViewGroup/*[@class='android.view.ViewGroup' and @index='2']/*[@class='android.widget.ImageView']"
 搜索输入框: "xpath==//*[@class='android.widget.EditText']"
+日历下拉按钮: "xpath==//*[@class='android.widget.ScrollView' and @index='2']"

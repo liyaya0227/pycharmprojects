@@ -106,7 +106,8 @@ class TestAddress(object):
                 assert int(new_looked_count) == int(temp) + num + 1
             house_detail.click_address_button()
             dialog_content = main_topview.find_notification_content()
-        if 'VIP' in house_detail.get_house_label() or '店长力荐' in house_detail.get_house_label():
+        house_labels = house_detail.get_house_label()
+        if 'VIP' in house_labels or '店长力荐' in house_labels:
             assert dialog_content == '请联系维护人查看相关房源信息'
         else:
             assert dialog_content == '今日查看次数已经超过60次'

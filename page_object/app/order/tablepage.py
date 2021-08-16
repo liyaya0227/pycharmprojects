@@ -35,6 +35,12 @@ class AppOrderTablePage(AndroidPage):
                   "/*[@class='android.view.ViewGroup' and @index='1']/*[@class='android.widget.TextView']"
         return self.get_element_attribute(locator)
 
+    def show_calendar(self):
+        self.is_click(order_table['日历下拉按钮'])
+
+    # def swipe_down_calendar(self):
+    #     self.move_element_to_offset(order_table['搜索输入框'])
+
     def choose_date(self, date):
         month = date.split(' ')[1]
         if month == '01':
@@ -61,6 +67,7 @@ class AppOrderTablePage(AndroidPage):
             date = date.replace(month, '十一月')
         if month == '12':
             date = date.replace(month, '十二月')
+        self.show_calendar()
         locator = 'xpath', \
                   "//*[@class='android.widget.Button' and contains(@content-desc,'" + date + "')]"
         self.is_click(locator)

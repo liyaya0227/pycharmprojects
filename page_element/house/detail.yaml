@@ -1,6 +1,8 @@
 房源编号标签: "xpath==//div[@style='' or not(@style)]/div[@class='houseDetail']/div[@class='ant-row houseTitle']//div[@class='title']/span"
 房源所有标签列标签: "xpath==//div[@style='' or not(@style)]/div[@class='houseDetail']//div[@class='houseTag']/span"
+价格标签: "xpath==//div[@style='' or not(@style)]/div[@class='houseDetail']//div[@class='ant-row houseBaseInfo']//div[@class='informationLeft']//span[@class='price']"
 户型标签: "xpath==//div[@style='' or not(@style)]/div[@class='houseDetail']//div[@class='ant-row houseBaseInfo']//div[@class='mainItemBox']//li[contains(text(), '户型')]/p"
+面积标签: "xpath==//div[@style='' or not(@style)]/div[@class='houseDetail']//div[@class='ant-row houseBaseInfo']//div[@class='mainItemBox']//li[contains(text(), '面积')]/p"
 朝向标签: "xpath==//div[@style='' or not(@style)]/div[@class='houseDetail']//div[@class='ant-row houseBaseInfo']//div[@class='mainItemBox']//li[contains(text(), '朝向')]/p"
 楼层标签: "xpath==//div[@style='' or not(@style)]/div[@class='houseDetail']//div[@class='ant-row houseBaseInfo']//div[@class='mainItemBox']//li[contains(text(), '楼层')]/p"
 外网呈现按钮: "xpath==//div[@style='' or not(@style)]/div[@class='houseDetail']//div[@class='ant-row houseBaseInfo']//div[@class='houseBaseRight']//span[text()='外网呈现']/parent::li/button"
@@ -23,8 +25,8 @@
 右侧_装修情况标签: "xpath==//div[@style='' or not(@style)]/div[@class='houseDetail']/div[@class='houseDetailRight']//li[contains(text(), '装修情况')]"
 右侧_房屋用途标签: "xpath==//div[@style='' or not(@style)]/div[@class='houseDetail']/div[@class='houseDetailRight']//li[contains(text(), '房屋用途')]"
 
-是否预约实勘标签: "xpath==//div[contains(text(), '实勘信息')]//li[2]"
-预约实勘按钮: "xpath==//li[text()='预约实勘']/span"
+是否预约实勘标签: "xpath==//div[@style='' or not(@style)]/div[@class='houseDetail']//div[contains(text(), '实勘信息')]//li[2]"
+预约实勘按钮: "xpath==//div[@style='' or not(@style)]/div[@class='houseDetail']//li[text()='预约实勘']/span"
 选择实勘方式_普通实勘单选: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//span[text()='普通实勘']/parent::label//input[@type='radio']"
 选择实勘方式_VR实勘单选: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//span[text()='VR实勘']/parent::label//input[@type='radio']"
 摄影师输入框: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//input[@id='surveyUserId']"
@@ -47,6 +49,11 @@
 删除证件_取消按钮: "xpath==//div[contains(@class,'ant-popover ant-popconfirm')]//span[text()='取 消']/parent::button[@type='button']"
 
 右侧菜单分享按钮: "xpath==//div[@class='rightMenu']//span[text()='分享']"
+分享弹窗_楼盘名称标签: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//div[@class='posterInfo']//div[@class='textBox']/h1"
+分享弹窗_户型标签: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//div[@class='posterInfo']//div[@class='textBox']/ul/li[1]"
+分享弹窗_面积标签: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//div[@class='posterInfo']//div[@class='textBox']/ul/li[2]"
+分享弹窗_朝向标签: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//div[@class='posterInfo']//div[@class='textBox']/ul/li[3]"
+分享弹窗_价格标签: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//div[@class='posterInfo']//div[@class='textBox']/h2"
 分享弹窗_姓名标签: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//div[@class='posterInfo']//div[@class='bottomBox']//h3"
 分享弹窗_电话标签: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//div[@class='posterInfo']//div[@class='bottomBox']//p"
 

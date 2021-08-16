@@ -6,7 +6,7 @@ Author: zoro ju
 from utils.timeutil import sleep
 from utils.logger import log
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.common.keys import Keys
+from appium.webdriver.common.touch_action import TouchAction
 from selenium.common.exceptions import TimeoutException
 
 
@@ -99,3 +99,9 @@ class AndroidPage(object):
                 return element.text
         except Exception as e:
             raise e
+
+    def move_element_to_offset(self, locator, x, y):
+        element = self.find_element(locator)
+        action = TouchAction(self.driver)
+        action.press(element).wait(1000).move_to(x=x, y=y).release()
+        action.perform()
