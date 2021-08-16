@@ -1,3 +1,5 @@
+房屋所属行政区选择框: "xpath==//input[@id='baseInfo_area']"
+
 房屋出卖人_姓名输入框: "xpath==//div[@style='']//table[@id='P2_self' or @id='p2_self']//input[@id='P2_self_P2_1' or @id='p2_self_p2_1']"
 房屋出卖人_英文名输入框: "xpath==//div[@style='']//table[@id='P2_self' or @id='p2_self']//input[@id='P2_self_P2_2' or @id='p2_self_p2_2']"
 房屋出卖人_性别选择框: "xpath==//div[@style='']//table[@id='P2_self' or @id='p2_self']//input[@id='P2_self_P2_3' or @id='p2_self_p2_3']"

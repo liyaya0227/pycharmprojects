@@ -57,8 +57,11 @@ class WebPage(object):
 
     def find_elements(self, locator, wait_time=10):
         """查找多个相同的元素"""
-        return WebPage.element_locator(lambda *args: WebDriverWait(self.driver, wait_time)
-                                       .until(EC.presence_of_all_elements_located(args)), locator)
+        try:
+            return WebPage.element_locator(lambda *args: WebDriverWait(self.driver, wait_time)
+                                           .until(EC.presence_of_all_elements_located(args)), locator)
+        except TimeoutException:
+            return ''
 
     # def elements_num(self, locator):
     #     """获取相同元素的个数"""

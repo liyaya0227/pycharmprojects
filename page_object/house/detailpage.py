@@ -31,7 +31,7 @@ class HouseDetailPage(WebPage):
         return re.search(r"：(\d+)", value).group(1)
 
     def get_house_label(self):  # 获取房源标签
-        label_list = self.find_elements(house_detail['房源所有标签列标签'])
+        label_list = self.find_elements(house_detail['房源所有标签列标签'], wait_time=2)
         labels = []
         for label_ele in label_list:
             labels.append(label_ele.text)
@@ -40,6 +40,9 @@ class HouseDetailPage(WebPage):
     def get_house_type(self):  # 获取房源详情户型信息
         value = self.element_text(house_detail['户型标签'])
         return re.search(r"(?P<room>\d+?)-(?P<livingroom>\d+?)-(?P<kitchen>\d+?)-(?P<bathroom>\d+)", value).groupdict()
+
+    def get_size(self):  # 获取房源详情朝向信息
+        return self.element_text(house_detail['面积标签'])
 
     def get_orientations(self):  # 获取房源详情朝向信息
         value = self.element_text(house_detail['朝向标签'])
@@ -349,6 +352,23 @@ class HouseDetailPage(WebPage):
 
     def click_share_button(self):  # 点击房源详情右侧分享按钮
         self.is_click(house_detail['右侧菜单分享按钮'])
+
+    def share_dialog_get_community_name(self):  # 获取分享弹窗楼盘名称
+        return self.element_text(house_detail['分享弹窗_楼盘名称标签'])
+
+    def share_dialog_get_house_type(self):  # 获取分享弹窗户型
+        value = self.element_text(house_detail['分享弹窗_户型标签'])
+        return re.search(r"(?P<room>\d+?)-(?P<livingroom>\d+?)-(?P<kitchen>\d+?)-(?P<bathroom>\d+)", value).groupdict()
+
+    def share_dialog_get_size(self):  # 获取分享弹窗面积
+        return self.element_text(house_detail['分享弹窗_面积标签'])
+
+    def share_dialog_get_orientations(self):  # 获取分享弹窗朝向
+        value = self.element_text(house_detail['分享弹窗_朝向标签'])
+        return value.split(',')
+
+    def share_dialog_get_price(self):  # 获取分享弹窗价格
+        return self.element_text(house_detail['分享弹窗_价格标签'])
 
     def share_dialog_get_name(self):  # 获取分享弹窗姓名
         return self.element_text(house_detail['分享弹窗_姓名标签'])
