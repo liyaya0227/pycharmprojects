@@ -8,6 +8,13 @@
 """
 
 import re
+
+from common.readconfig import ini
+from page_object.main.leftviewpage import MainLeftViewPage
+from page_object.main.rightviewpage import MainRightViewPage
+from utils.sqlutil import select_sql
+from utils.timeutil import sleep, dt_strftime_with_delta
+from utils.timeutil import dt_strftime
 from config.conf import cm
 from page.webpage import WebPage
 from utils.timeutil import dt_strftime
@@ -626,3 +633,278 @@ class HouseDetailPage(WebPage):
                           'house_property_limit': '-' if house_property_limit == '' else house_property_limit,
                           'house_usage': '-' if house_usage == '' else house_usage}
         return house_key_info
+
+    def change_role(self, role_name):
+        """切换角色"""
+        global main_leftview
+        main_leftview = MainLeftViewPage(self.driver)
+        main_leftview.change_role(role_name)
+
+    def get_account_name(self):
+        """获取当前账号的名字"""
+        account_name = self.element_text(house_detail['当前账号名字']).split(' ')[0]
+        return account_name
+
+    def get_house_num(self, account_name):
+        """获取当前维护人下的房源数量"""
+        # account_name = self.element_text(house_detail['当前账号名字']).split(' ')[0]
+        house_code = self.get_house_info_by_db(account_name)
+        main_leftview.click_all_house_label()
+        self.input_text(house_detail['房源编号输入框'], house_code)
+        self.is_click(house_detail['搜索按钮'])
+        num = self.element_text(house_detail['搜索结果总数'])[8:][:-1]
+        return num
+
+    def get_house_info_by_db(self, name):
+
+        estate_sql = "select id from estate_new_base_info where [name]='" + ini.house_community_name + "'"
+        estate_id = select_sql(estate_sql)[0][0]
+
+        # house_sql = "select house_code from trade_house where coreinfo_maintainer_name='" + str(name) + \
+        #             "' and location_estate_id='" + str(estate_id) + \
+        #             "' and location_building_number='" + ini.house_building_id + \
+        #             "' and location_building_cell='" + ini.house_building_cell + \
+        #             "' and location_floor='" + ini.house_floor + \
+        #             "' and location_doorplate='" + ini.house_doorplate + "' and is_valid='1' and [status]='0' order by create_time desc"
+
+        house_sql = "select house_code from trade_house where coreinfo_maintainer_name='" + str(name) + \
+                    "' and location_estate_id='" + str(estate_id) + \
+                    "' and location_building_number='" + str(1) + \
+                    "' and location_building_cell='" + str('1') + \
+                    "' and location_floor='" + str('1') + \
+                    "' and location_doorplate='" + str('1006') + "' and is_valid='1' and [status]='0' order by create_time desc"
+        try:
+            print('enter_house_detail', house_sql)
+            house_code = select_sql(house_sql)[0][0]
+            return house_code
+        except IndexError:
+            return ''
+
+    def enter_house_detail(self):
+        """进入房源详情页面，并获取房源编号、房源面积等信息"""
+        self.is_click(house_detail['楼盘名称'])
+        house_no = self.element_text(house_detail['房源详情页面的房源编号'])[5:]
+        initial_price = self.element_text(house_detail['房源初始价格'])[:-1]
+        house_area = self.element_text(house_detail['房源面积']).split('m')[0]
+        # init_maintainer_name = self.element_text(house_detail['角色人名字']).split(' ')[1]
+        init_maintainer_name = self.element_text(house_detail['角色人名字'])
+        self.move_mouse_to_element(house_detail['更多按钮'])
+        # print('enter_house_detail', house_area)
+        return house_no, initial_price, house_area, init_maintainer_name
+
+    # def click_more_btn(self):
+    #     """点击详情页面的更多按钮"""
+    #     self.move_mouse_to_element(house_detail['更多按钮'])
+
+    def view_basic_information(self):
+        """查看房源基础信息"""
+        self.is_click(house_detail['房源基础信息按钮'])
+
+    def verify_can_modify(self):
+        """验证是否可以修改"""
+        self.move_mouse_to_element(house_detail['房源状态按钮'])
+        res = self.is_exists(house_detail['是否可修改状态提示'])
+        return res
+
+    def is_view_success(self):
+        """验证查看房源基础信息是否成功"""
+        res = self.is_exists(house_detail['房源基础信息弹窗title'])
+        self.click_blank_area()
+        return res
+
+    def submit_modify_state_application(self):
+        """提交修改房源状态申请"""
+        self.is_click(house_detail['房源状态按钮'])
+        self.is_click(house_detail['暂缓出售选项'])
+        self.is_click(house_detail['房源状态弹窗确定按钮'])
+
+    def is_submit_success(self):
+        """验证提交申请是否成功"""
+        res = self.is_exists(house_detail['申请提交成功提示'])
+        if res:
+            self.is_click(house_detail['弹窗_确定按钮'])
+        return res
+
+    def is_get_application_success(self, role_name, house_no):
+        """验证商圈经理收到修改房源状态申请"""
+        self.change_role(role_name)
+        main_rightrview = MainRightViewPage(self.driver)
+        main_rightrview.click_review_house_state()
+        self.is_click(house_detail['暂缓房源审核选项'])
+        xpath = "// span[contains(., '" + house_no + "')]"
+        # print('HouseDetailPage1-xpath', xpath)
+        res = self.is_exists(('xpath', xpath))
+        return res
+
+    def is_reject_application_sucess(self):
+        """驳回申请并验证驳回成功"""
+        self.is_click(house_detail['驳回按钮'])
+        self.input_text(house_detail['驳回理由输入框'], '驳回')
+        self.is_click(house_detail['驳回弹窗确定按钮'])
+        res = self.is_exists(house_detail['审核成功驳回提示框'])
+        self.click_blank_area()
+        return res
+
+    def is_modify_house_price_success(self, initial_price):
+        """修改房源价格并验证是否提交成功"""
+        self.is_click(house_detail['调整价格选项'])
+        initial_price2 = self.element_text(house_detail['调价弹窗的房源价格']).split('.')[0] #调整弹窗中的房源初始价格
+        if int(initial_price) == int(initial_price2):  #比较房源详情页面和调整价格弹窗中的价格
+            is_equel = True
+        else:
+            is_equel = False
+
+        final_price = int(initial_price) + random.randint(1,9)
+        self.input_text(house_detail['房源价格输入框'], final_price)
+        self.is_click(house_detail['调价弹窗确定按钮'])
+        is_submit = self.is_exists(house_detail['调价成功提示框'])  #判断调价是否提交成功
+
+        return is_equel, is_submit, str(final_price)
+    def is_modify_success_by_information(self):
+        """从基本信息修改房源价格并验证是否提交成功"""
+        self.is_click(house_detail['房源基础信息按钮'])
+        final_price = int(self.get_element_attribute(house_detail['详情页面售价输入框'], 'value')) + random.randint(1,9)
+        # print('HouseDetailPage-基础详情页面价格', final_price)
+        self.clear_text(house_detail['详情页面售价输入框'])
+        self.input_text(house_detail['详情页面售价输入框'], final_price)
+        self.is_click(house_detail['基础信息弹窗确定按钮'])
+        text = self.find_element(house_detail['右上角弹窗_内容']).text
+        # print('HouseDetailPage1', text)
+        if text == '编辑成功':
+            is_submit = True
+        else:
+            is_submit = False
+
+        return is_submit, str(final_price)
+
+    def is_correct(self, final_price, house_area):
+        """验证调价提交成功后，详情页面的单价和总价正确"""
+        initial_price3 = self.element_text(house_detail['房源初始价格'])[:-1]  #获取详情页面修改后的价格
+        # print('HouseDetailPage-详情页价格', initial_price3)
+        # print('HouseDetailPage-最终价格', final_price)
+        if int(initial_price3) == int(final_price):  #验证修改后详情页面的价格是否更新
+            is_equel2 = True
+        else:
+            is_equel2 = False
+
+        unit_price = int(final_price)*10000/int(house_area)
+        final_unit_price = self.get_house_unit_price(unit_price, 2) #根据修改后的房源价格及房源面积计算单价
+        final_unit_price2 = self.element_text(house_detail['房源初始单价']) #获取详情页面修改后的单价
+        # print('HouseDetailPage-计算出的最终单价', final_unit_price)
+        # print('HouseDetailPage-页面的最终单价', final_unit_price2)
+        if final_unit_price == final_unit_price2: #验证计算出的房源单价是否与详情页面展示的一致
+            is_equel3 = True
+        else:
+            is_equel3 = False
+
+        return is_equel2, is_equel3
+
+    def is_record_correct(self, init_price, final_price):
+        """验证调价记录列表是否更新"""
+        self.is_click(house_detail['调价记录按钮'])
+        xpath = "//p[contains(.,'上涨{increase_price}万元')]".format(increase_price = int(final_price) - int(init_price))
+        res = self.is_exists(('xpath', xpath))
+        if res:
+            self.click_blank_area()
+        # print('HouseDetailPage', res)
+        return res
+
+    def is_log_update(self, account_name):
+        """验证操作日志是否更新"""
+        self.is_click(house_detail['操作日志按钮'])
+        lenth = len(self.find_elements(house_detail['操作人']))
+        # print('HouseDetailPage', lenth)
+        if lenth > 0:
+            if self.is_exists(house_detail['调整价格操作']):
+                return True
+            else:
+                return False
+        else:
+            return False
+
+    def replace_maintainer(self, init_maintainer_name):
+        """更新房源维护人"""
+        self.is_click(house_detail['维护人管理按钮'])
+        self.is_click(house_detail['选择人员输入框'])
+        final_maintainer_name = self.find_elements(house_detail['下拉框'])[0].text
+        # print('HouseDetailPage', final_maintainer_name)
+        self.find_elements(house_detail['下拉框'])[0].click()
+        self.is_click(house_detail['弹窗_确定按钮'])
+        final_maintainer_name2 = self.find_elements(house_detail['角色人名字'])[2].text
+        # print('HouseDetailPage2', final_maintainer_name2)
+        if final_maintainer_name == final_maintainer_name2:
+            return True
+        else:
+            return False
+
+    def verify_can_report(self):
+        """验证是否可以举报"""
+        self.move_mouse_to_element(house_detail['房源举报按钮'])
+        res = self.is_exists(house_detail['是否可举报提示'])
+        return res
+
+    def report_house(self):
+        """举报房源"""
+        self.is_click(house_detail['房源举报按钮'])
+        self.is_click(house_detail['房源不卖选项'])
+        self.is_click(house_detail['举报房源弹窗确认按钮'])
+        text = self.find_element(house_detail['右上角弹窗_内容']).text
+        # print('HouseDetailPage', text)
+        if text == '举报房源提交成功!':
+            return True
+        else:
+            return False
+
+    def is_get_report(self, role_name, house_no):
+        """验证平台品管收到房源举报"""
+        self.change_role(role_name)
+        main_rightrview = MainRightViewPage(self.driver)
+        main_rightrview.click_review_house_report()
+        xpath = "// span[contains(., '" + house_no + "')]"
+        # print('HouseDetailPage1-xpath', xpath)
+        res = self.is_exists(('xpath', xpath))
+        return res
+
+    def reject_report(self):
+        """驳回房源举报并验证驳回成功"""
+        self.is_click(house_detail['驳回按钮'])
+        self.input_text(house_detail['驳回理由输入框'], '驳回')
+        self.is_click(house_detail['驳回弹窗确定按钮'])
+        res = self.is_exists(house_detail['审核成功驳回提示框'])
+        self.click_blank_area()
+        return res
+
+    def get_house_unit_price(self, float_a , n):
+        """根据四舍五入保留2位小数的原则计算房源单价"""
+        string_a = str(float_a)
+        a, b, c = string_a.partition('.')  # 此时的a、b和c的类型均为字符串类型
+        if len(c) > 2:
+            cc = c[:n]
+            if int(c[n]) >= 5:
+                ccc = int(cc) + 1
+            else:
+                ccc = int(cc)
+
+            return a+b+str(ccc)
+        else:
+            c2 = int(c)
+            # print('HouseDetailPage1-xpath', c2)
+            # print('HouseDetailPage1-xpath-len', len(c))
+            if len(c) == 1 and c2 == 0:
+                # print('HouseDetailPage1-xpath', a)
+                return a
+            else:
+                return a + b + c
+
+
+
+
+
+
+
+
+
+
+
+
+

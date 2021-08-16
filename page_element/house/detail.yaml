@@ -109,8 +109,10 @@
 
 
 #更多-房源基础信息
-当前账号名字: "css==.side-header-name"
+当前账号名字: "css==.card-name"
+#当前账号名字: "css==.side-header-name"
 维护人输入框: "xpath==//input[@id='maintainerName']"
+房源编号输入框: "xpath==//input[@id='preOwnedCode']"
 搜索按钮: "xpath==//button[contains(.,'搜 索')]"
 搜索结果总数: "css==.houseTotal .ant-col"
 楼盘名称: "xpath==//div[@id='rc-tabs-3-panel-0']/div/div[3]/div/div/div/div/div/div/table/tbody/tr/td[2]/a/div/p"
@@ -166,6 +168,12 @@
 右上角弹窗_内容: "xpath==//div[@class='ant-notification ant-notification-topRight']//div[@class='ant-notification-notice-description']"
 是否可举报提示: "xpath==//div[text()='存在待审核的记录，不允许再次举报']"
 
-
+#更多-操作日志
+操作日志按钮: "xpath==//li[contains(.,'操作日志')]"
+操作人: "xpath==//span[contains(@class,'userCard-blue')]"
+调整价格操作: "xpath==//p[contains(.,'调整价格')]"
+#举报房源弹窗确认按钮: "xpath==//div[@class='ant-modal-root']//span[text()='确 认']/parent::button[@type='button']"
+#右上角弹窗_内容: "xpath==//div[@class='ant-notification ant-notification-topRight']//div[@class='ant-notification-notice-description']"
+#是否可力荐提示: "xpath==//div[text()='委托/实勘/重点信息未维护全']"
 弹窗显示: "xpath==//div[contains(@class, 'ant-popover-placement-top') and not(contains(@class, 'ant-popover-hidden'))]//div[@class='ant-popover-inner-content']"
 

@@ -169,9 +169,13 @@ def _capture_screenshot():
         os.makedirs(cm.tmp_dir + "\\screen_capture")
 
     if driver is None:
-        wdriver.save_screenshot(path)
+        if adriver is None:
+            wdriver.save_screenshot(path)
+        else:
+            adriver.save_screenshot(path)
     else:
         driver.save_screenshot(path)
+
     # wdriver.save_screenshot(path)
     allure.attach.file(path, "失败截图", allure.attachment_type.PNG)
     with open(path, 'rb') as f:
