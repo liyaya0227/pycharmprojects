@@ -43,15 +43,6 @@ class TestOutShow(object):
     written_entrustment_agreement = get_value(json_file_path, 'written_entrustment_agreement')
     survey_person_info = get_value(json_file_path, ini.environment)
 
-    @pytest.fixture(scope="class", autouse=True)
-    def test_post_processing(self, web_driver):
-        main_leftview = MainLeftViewPage(web_driver)
-        login = LoginPage(web_driver)
-
-        yield
-        main_leftview.log_out()
-        login.log_in(ini.user_account, ini.user_password)
-
     @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, web_driver):
         global house_code

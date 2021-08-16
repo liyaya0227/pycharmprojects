@@ -13,7 +13,6 @@ from config.conf import cm
 from utils.logger import log
 from common.readconfig import ini
 from utils.jsonutil import get_data
-from page_object.login.loginpage import LoginPage
 from page_object.main.upviewpage import MainUpViewPage
 from page_object.main.topviewpage import MainTopViewPage
 from page_object.main.leftviewpage import MainLeftViewPage
@@ -35,7 +34,6 @@ class TestAdd(object):
         main_upview = MainUpViewPage(web_driver)
         customer_table = CustomerTablePage(web_driver)
         customer_detail = CustomerDetailPage(web_driver)
-        login = LoginPage(web_driver)
 
         main_leftview.change_role('经纪人')
         main_leftview.click_my_customer_label()
@@ -53,9 +51,6 @@ class TestAdd(object):
             assert main_topview.find_notification_title() == '客源无效成功'
             main_upview.clear_all_title()
             main_leftview.click_my_customer_label()
-        yield
-        main_leftview.log_out()
-        login.log_in(ini.user_account, ini.user_password)
 
     @allure.story("测试新增租赁房源，查看搜索结果用例")
     @pytest.mark.rent

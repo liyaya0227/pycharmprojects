@@ -33,15 +33,11 @@ class TestPhone(object):
 
         main_leftview = MainLeftViewPage(web_driver)
         house_table = HouseTablePage(web_driver)
-        login = LoginPage(web_driver)
 
         main_leftview.change_role('经纪人')
         house_code = house_table.get_house_code_by_db(flag='买卖')
         assert house_code != ''
         log.info('房源编号为：' + house_code)
-        yield
-        main_leftview.log_out()
-        login.log_in(ini.user_account, ini.user_password)
 
     @allure.story("测试房源详情右侧电话用例")
     @pytest.mark.sale

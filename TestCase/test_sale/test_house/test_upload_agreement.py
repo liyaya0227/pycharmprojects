@@ -13,11 +13,9 @@ from utils.logger import log
 from config.conf import cm
 from common.readconfig import ini
 from utils.jsonutil import get_value
-from page_object.login.loginpage import LoginPage
 from page_object.main.topviewpage import MainTopViewPage
 from page_object.main.leftviewpage import MainLeftViewPage
 from page_object.main.rightviewpage import MainRightViewPage
-from page_object.main.upviewpage import MainUpViewPage
 from page_object.main.certificateexaminepage import CertificateExaminePage
 from page_object.house.tablepage import HouseTablePage
 from page_object.house.detailpage import HouseDetailPage
@@ -44,15 +42,11 @@ class TestUploadAgreement(object):
 
         main_leftview = MainLeftViewPage(web_driver)
         house_table = HouseTablePage(web_driver)
-        login = LoginPage(web_driver)
 
         main_leftview.change_role('经纪人')
         house_code = house_table.get_house_code_by_db(flag='买卖')
         assert house_code != ''
         log.info('房源编号为：' + house_code)
-        yield
-        main_leftview.log_out()
-        login.log_in(ini.user_account, ini.user_password)
 
     @allure.story("测试房源上传协议用例")
     @pytest.mark.sale

@@ -14,7 +14,6 @@ from decimal import Decimal
 from utils.logger import log
 from common.readconfig import ini
 from utils.jsonutil import get_data
-from page_object.login.loginpage import LoginPage
 from page_object.main.topviewpage import MainTopViewPage
 from page_object.main.upviewpage import MainUpViewPage
 from page_object.main.leftviewpage import MainLeftViewPage
@@ -64,7 +63,6 @@ class TestTransactionOrderContent(object):
         house_detail = HouseDetailPage(web_driver)
         customer_table = CustomerTablePage(web_driver)
         customer_detail = CustomerDetailPage(web_driver)
-        login = LoginPage(web_driver)
 
         main_leftview.change_role('经纪人')
         main_leftview.click_all_house_label()
@@ -90,13 +88,13 @@ class TestTransactionOrderContent(object):
         house_table.input_house_code_search(house_code)
         house_table.click_search_button()
         house_table.go_house_detail_by_row(1)
-        house_property_address = house_detail.get_address_dialog_house_property_address()
-        house_info = house_property_address
+        house_info = house_detail.get_address_dialog_house_property_address()
         house_info['house_code'] = house_code
         house_info['house_type'] = house_detail.get_house_type()
         house_info['orientations'] = house_detail.get_orientations()
         house_info['floor'] = ini.house_floor
         house_info['inspect_type'] = house_detail.get_inspect_type()
+        house_info['house_state'] = house_detail.get_house_state()
         assert house_info != {}
         log.info('获取房源信息，新建合同校验需要')
         main_upview.clear_all_title()
@@ -122,9 +120,6 @@ class TestTransactionOrderContent(object):
         assert customer_info != {}
         log.info('获取客源信息，新建合同校验需要')
         main_upview.clear_all_title()
-        yield
-        main_leftview.log_out()
-        login.log_in(ini.user_account, ini.user_password)
 
     @allure.story("测试全款购买合同，查看权证单显示数据用例")
     @pytest.mark.sale
@@ -343,16 +338,23 @@ class TestTransactionOrderContent(object):
             assert Decimal(transaction_fund_info['户口迁出保证金'][:-1]) == register_transfer_payment
             assert Decimal(transaction_fund_info['物业交割保证金'][:-1]) == property_delivery_payment
         else:
-            for item in contract_data['补充协议']['定金']:
-                deposit = deposit + Decimal(item['金额'])
+            house_money = Decimal('0')
+            if ini.environment == 'sz':
+                for item in contract_data['补充协议']['定金']:
+                    deposit = deposit + Decimal(item['金额'])
+                for item in contract_data['补充协议']['房款']:
+                    house_money = house_money + Decimal(item['金额'])
+            if ini.environment == 'ks':
+                for item in contract_data['补充协议']['首期款支付分期']:
+                    deposit = deposit + Decimal(item['金额'])
             house_payment = Decimal(contract_data['第三条信息']['房屋价款'])
             house_delivery_payment = Decimal(contract_data['补充协议']['交房保证金']['金额'])
             register_transfer_payment = Decimal(contract_data['补充协议']['户口迁出保证金']['金额'])
             assert Decimal(transaction_fund_info['成交总价'][:-1]) == house_payment + deposit + house_delivery_payment \
-                   + register_transfer_payment
+                   + register_transfer_payment + house_money
             assert Decimal(transaction_fund_info['网签价'][:-1]) == house_payment
             assert Decimal(transaction_fund_info['首期款总额'][:-1]) == deposit + house_delivery_payment \
-                   + register_transfer_payment
+                   + register_transfer_payment + house_money
             if ini.environment == 'ks':
                 assert Decimal(transaction_fund_info['定金总额'][:-1]) == \
                        Decimal(contract_data['第四条信息']['购房定金'])
@@ -365,9 +367,9 @@ class TestTransactionOrderContent(object):
                     if contract_data['第四条信息']['支付方式'][1] == 2:
                         assert Decimal(transaction_fund_info['首付款总金额'][:-1]) == \
                                Decimal(self.full_payment_contract_data2['第四条信息']['支付方式'][2][2])
-                else:
+                if ini.environment == 'sz':
                     assert Decimal(transaction_fund_info['首付款总金额'][:-1]) == house_payment + house_delivery_payment \
-                           + register_transfer_payment
+                           + register_transfer_payment + house_money
                 assert Decimal(transaction_fund_info['购房款/首付款（第一笔）'][:-1]) == house_payment
             if transaction_info['交易管理'] == '商贷':
                 if ini.environment == 'ks':
@@ -377,11 +379,11 @@ class TestTransactionOrderContent(object):
                            Decimal(contract_data['第四条信息']['支付方式'][2][1])
                     assert Decimal(transaction_fund_info['拟贷款金额'][:-1]) == \
                            Decimal(contract_data['第四条信息']['支付方式'][3][0])
-                else:
+                if ini.environment == 'ks':
                     assert Decimal(transaction_fund_info['首付款总金额'][:-1]) == Decimal(
                         contract_data['第四条信息']['选项'][1][1])
                     assert Decimal(transaction_fund_info['购房款/首付款（第一笔）'][:-1]) == deposit + house_delivery_payment \
-                           + register_transfer_payment
+                           + register_transfer_payment + house_money
                     assert Decimal(transaction_fund_info['拟贷款金额'][:-1]) == house_payment \
                            - Decimal(contract_data['第四条信息']['选项'][1][1])
             assert Decimal(transaction_fund_info['交房保证金'][:-1]) == house_delivery_payment
@@ -467,7 +469,10 @@ class TestTransactionOrderContent(object):
         assert transaction_house_info['房屋现状'] == house_key_info['house_state']
         assert transaction_house_info['物业地址'] == ini.house_community_name + ini.house_building_id + '-' + \
                ini.house_building_cell + '-' + ini.house_floor + '-' + house_info['door_name']
-        assert transaction_house_info['行政区域'] == '-'
+        if ini.environment == 'wx':
+            assert transaction_house_info['行政区域'] == '-'
+        else:
+            assert transaction_house_info['行政区域'] == contract_data['第一条信息']['区']
         if ini.environment == 'wx':
             if contract_data['第二条信息']['三'][0] == 1:
                 assert transaction_house_info['是否有抵押'] == '无抵押'
@@ -698,7 +703,6 @@ class TestTransactionOrderContent(object):
             else:
                 assert transaction_info['合同约定贷款审批通过日期'] == '-'
         assert transaction_info['备注'] == '-'
-
         deposit = Decimal('0')
         if ini.environment == 'wx':
             for item in contract_data['第五条信息']['二_1']:
@@ -728,16 +732,23 @@ class TestTransactionOrderContent(object):
             assert Decimal(transaction_fund_info['户口迁出保证金'][:-1]) == register_transfer_payment
             assert Decimal(transaction_fund_info['物业交割保证金'][:-1]) == property_delivery_payment
         else:
-            for item in contract_data['补充协议']['定金']:
-                deposit = deposit + Decimal(item['金额'])
+            house_money = Decimal('0')
+            if ini.environment == 'sz':
+                for item in contract_data['补充协议']['定金']:
+                    deposit = deposit + Decimal(item['金额'])
+                for item in contract_data['补充协议']['房款']:
+                    house_money = house_money + Decimal(item['金额'])
+            if ini.environment == 'ks':
+                for item in contract_data['补充协议']['首期款支付分期']:
+                    deposit = deposit + Decimal(item['金额'])
             house_payment = Decimal(contract_data['第三条信息']['房屋价款'])
             house_delivery_payment = Decimal(contract_data['补充协议']['交房保证金']['金额'])
             register_transfer_payment = Decimal(contract_data['补充协议']['户口迁出保证金']['金额'])
             assert Decimal(transaction_fund_info['成交总价'][:-1]) == house_payment + deposit + house_delivery_payment \
-                   + register_transfer_payment
+                   + register_transfer_payment + house_money
             assert Decimal(transaction_fund_info['网签价'][:-1]) == house_payment
             assert Decimal(transaction_fund_info['首期款总额'][:-1]) == deposit + house_delivery_payment \
-                   + register_transfer_payment
+                   + register_transfer_payment + house_money
             if ini.environment == 'ks':
                 assert Decimal(transaction_fund_info['定金总额'][:-1]) == \
                        Decimal(contract_data['第四条信息']['购房定金'])
@@ -750,9 +761,9 @@ class TestTransactionOrderContent(object):
                     if contract_data['第四条信息']['支付方式'][1] == 2:
                         assert Decimal(transaction_fund_info['首付款总金额'][:-1]) == \
                                Decimal(self.full_payment_contract_data2['第四条信息']['支付方式'][2][2])
-                else:
+                if ini.environment == 'sz':
                     assert Decimal(transaction_fund_info['首付款总金额'][:-1]) == house_payment + house_delivery_payment \
-                           + register_transfer_payment
+                           + register_transfer_payment + house_money
                 assert Decimal(transaction_fund_info['购房款/首付款（第一笔）'][:-1]) == house_payment
             if transaction_info['交易管理'] == '商贷':
                 if ini.environment == 'ks':
@@ -762,11 +773,11 @@ class TestTransactionOrderContent(object):
                            Decimal(contract_data['第四条信息']['支付方式'][2][1])
                     assert Decimal(transaction_fund_info['拟贷款金额'][:-1]) == \
                            Decimal(contract_data['第四条信息']['支付方式'][3][0])
-                else:
+                if ini.environment == 'ks':
                     assert Decimal(transaction_fund_info['首付款总金额'][:-1]) == Decimal(
                         contract_data['第四条信息']['选项'][1][1])
                     assert Decimal(transaction_fund_info['购房款/首付款（第一笔）'][:-1]) == deposit + house_delivery_payment \
-                           + register_transfer_payment
+                           + register_transfer_payment + house_money
                     assert Decimal(transaction_fund_info['拟贷款金额'][:-1]) == house_payment \
                            - Decimal(contract_data['第四条信息']['选项'][1][1])
             assert Decimal(transaction_fund_info['交房保证金'][:-1]) == house_delivery_payment
