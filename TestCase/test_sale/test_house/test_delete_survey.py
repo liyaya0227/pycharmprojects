@@ -15,8 +15,8 @@ from utils.logger import log
 from common.readconfig import ini
 from utils.jsonutil import get_value
 from page_object.login.loginpage import LoginPage
-from page_object.main.leftviewpage import MainLeftViewPage
 from page_object.main.upviewpage import MainUpViewPage
+from page_object.main.leftviewpage import MainLeftViewPage
 from page_object.main.topviewpage import MainTopViewPage
 from page_object.house.tablepage import HouseTablePage
 from page_object.house.detailpage import HouseDetailPage
@@ -60,7 +60,7 @@ class TestDeleteSurvey(object):
         house_table.click_search_button()
         house_table.go_house_detail_by_row(1)
 
-    @allure.story("测试房源外网呈现用例")
+    @allure.story("测试房源删除实勘")
     @pytest.mark.sale
     @pytest.mark.house
     @pytest.mark.run(order=12)
@@ -81,7 +81,7 @@ class TestDeleteSurvey(object):
         app_order_detail = AppOrderDetailPage(android_driver)
 
         if house_detail.check_survey_status() == '已预约':
-            log.info('未预约实勘，进行实勘预约')
+            log.info('未预约实勘，进行实勘预约')  # 须优化实勘已上传的情况
             house_detail.click_back_survey_button()
             house_detail.dialog_choose_back_exploration_reason('其他')
             house_detail.dialog_click_back_exploration_return_button()
@@ -114,8 +114,10 @@ class TestDeleteSurvey(object):
         house_detail.dialog_choose_exploration_time(self.exploration_info['exploration_time'])
         house_detail.dialog_input_appointment_instructions(self.exploration_info['appointment_instructions'])
         house_detail.dialog_click_confirm_button()
-        app_main.click_mine_button()
-        app_mine.log_out()
+        if not app_login.check_login_page():
+            app_main.close_top_view()
+            app_main.click_mine_button()
+            app_mine.log_out()
         app_login.log_in(self.person_info['实勘人员']['电话'], self.person_info['实勘人员']['密码'])
         app_main.click_mine_button()
         if '实勘人员' not in app_mine.get_user_role():

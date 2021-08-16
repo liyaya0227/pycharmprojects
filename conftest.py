@@ -7,6 +7,7 @@
 @time: 2021/06/22
 """
 
+import os
 import base64
 import pytest
 import allure
@@ -15,10 +16,10 @@ from config.conf import cm
 from selenium import webdriver
 from appium import webdriver as androiddriver
 from common.readconfig import ini
+from page_object.main.leftviewpage import MainLeftViewPage
 from utils.timeutil import dt_strftime
 from page_object.login.loginpage import LoginPage
 from page_object.main.topviewpage import MainTopViewPage
-from page_object.app.login.loginpage import AppLoginPage
 
 wdriver = None
 adriver = None
@@ -38,11 +39,11 @@ def web_driver():
     # web_driver = webdriver.Firefox(firefox_binary='C:/Program Files/Mozilla Firefox/firefox.exe')
     wdriver.maximize_window()
     wdriver.get(ini.url)
-    login_page = LoginPage(wdriver)
-    login_page.log_in(ini.user_account, ini.user_password)
-    main_topview = MainTopViewPage(wdriver)
-    main_topview.wait_page_loading_complete()
-    main_topview.click_close_button()
+    # login_page = LoginPage(wdriver)
+    # login_page.log_in(ini.user_account, ini.user_password)
+    # main_topview = MainTopViewPage(wdriver)
+    # main_topview.wait_page_loading_complete()
+    # main_topview.click_close_button()
     yield wdriver
     wdriver.quit()
 
@@ -59,7 +60,7 @@ def android_driver():
         # 'deviceName': '127.0.0.1:62001',  # 夜神
         # 'platformVersion': '7.1.2',  # 操作系统版本
         # 'deviceName': '721QEDRE2H7DT',  # 设备名称。如果是真机，在'设置->关于手机->设备名称'里查看
-        'noReset': True,  # 应用状态是否需要重置，默认true
+        'noReset': False,  # 应用状态是否需要重置，默认true
         'fullReset': False,  # 执行完测试后是否卸载app，默认false
         'appPackage': ini.app_package,  # 应用的包名
         'appActivity': ini.app_package + '.MainActivity',  # 应用的第一个启动Activity
@@ -75,6 +76,43 @@ def android_driver():
     # login_page.click_login_button()
     yield adriver
     adriver.quit()
+
+
+@pytest.fixture(scope='class', autouse=True)
+def setup_and_teardown(web_driver):
+    login_page = LoginPage(web_driver)
+    login_page.log_in(ini.user_account, ini.user_password)
+    main_topview = MainTopViewPage(web_driver)
+    main_topview.wait_page_loading_complete()
+    main_topview.click_close_button()
+    yield
+    main_leftview = MainLeftViewPage(web_driver)
+    main_leftview.log_out()
+
+
+driver = None
+
+
+@pytest.fixture(scope='session', autouse=False)
+def drivers(request):
+    global driver
+    if driver is None:
+
+        chrome_options = webdriver.ChromeOptions()
+        prefs = {"download.default_directory": cm.tmp_dir,
+                 "credentials_enable_service": False,
+                 "profile.password_manager_enabled": False}
+        chrome_options.add_experimental_option("prefs", prefs)
+        chrome_options.add_experimental_option('useAutomationExtension', False)
+        chrome_options.add_experimental_option('excludeSwitches', ['enable-automation', 'load-extension'])
+        driver = webdriver.Chrome(options=chrome_options)
+        # web_driver = webdriver.Firefox(firefox_binary='C:/Program Files/Mozilla Firefox/firefox.exe')
+        driver.maximize_window()
+        driver.get(ini.url)
+    def fn():
+        driver.quit()
+    request.addfinalizer(fn)
+    return driver
 
 
 @pytest.hookimpl(hookwrapper=True)
@@ -129,9 +167,9 @@ def _capture_screenshot():
     path = cm.tmp_dir + "\\screen_capture\\" + file_name
     if not os.path.exists(cm.tmp_dir + "\\screen_capture"):
         os.makedirs(cm.tmp_dir + "\\screen_capture")
-    wdriver.save_screenshot(path)
+
     if driver is None:
-        web_driver.save_screenshot(path)
+        wdriver.save_screenshot(path)
     else:
         driver.save_screenshot(path)
     # wdriver.save_screenshot(path)

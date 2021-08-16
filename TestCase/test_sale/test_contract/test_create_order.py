@@ -37,6 +37,7 @@ class TestCreateOrder(object):
     def test_prepare(self, web_driver):
         global house_info
         global customer_info
+
         main_topview = MainTopViewPage(web_driver)
         main_leftview = MainLeftViewPage(web_driver)
         main_upview = MainUpViewPage(web_driver)
@@ -57,13 +58,13 @@ class TestCreateOrder(object):
         house_table.input_house_code_search(house_code)
         house_table.click_search_button()
         house_table.go_house_detail_by_row(1)
-        house_property_address = house_detail.get_address_dialog_house_property_address()
-        house_info = house_property_address
+        house_info = house_detail.get_address_dialog_house_property_address()
         house_info['house_code'] = house_code
         house_info['house_type'] = house_detail.get_house_type()
         house_info['orientations'] = house_detail.get_orientations()
         house_info['floor'] = ini.house_floor
         house_info['inspect_type'] = house_detail.get_inspect_type()
+        house_info['house_state'] = house_detail.get_house_state()
         assert house_info != {}
         log.info('获取房源信息，新建合同校验需要')
         main_upview.clear_all_title()

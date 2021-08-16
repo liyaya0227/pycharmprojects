@@ -14,5 +14,10 @@
     "photographer": "自动化测试AAAASK",
     "photographer_phone": "15800000009",
     "photographer_password": "Autotest1"
+  },
+  "wx": {
+    "photographer": "自动化测试AAAASK",
+    "photographer_phone": "12800000009",
+    "photographer_password": "Autotest1"
   }
 }

@@ -90,23 +90,25 @@ class TestPhone(object):
         dialog_content = main_topview.find_notification_content()
         if dialog_content == '':
             looked_count = house_detail.dialog_get_looked_count()
-            house_detail.phone_dialog_click_check_button()
-            house_detail.dialog_click_close_button()
-            # if house_detail.follow_dialog_exist():
-            #     assert house_detail.check_dialog_cancel_button_disabled()
-            #     house_detail.follow_dialog_input_detail_follow('详细跟进信息')
-            #     house_detail.dialog_click_confirm_button()
-            temp = looked_count
-            for num in range(60 - int(looked_count)):
-                house_detail.click_phone_button()
-                new_looked_count = house_detail.dialog_get_looked_count()
+            if looked_count == '60':
+                house_detail.phone_dialog_click_check_button()
+                dialog_content = main_topview.find_notification_content()
+                assert dialog_content == '今日查看次数已经超过60次'
+                house_detail.dialog_click_close_button()
+            else:
                 house_detail.phone_dialog_click_check_button()
                 house_detail.dialog_click_close_button()
-                assert int(new_looked_count) == int(temp) + num + 1
-            house_detail.click_phone_button()
-            dialog_content = main_topview.find_notification_content()
-        assert dialog_content == '今日查看次数已经超过60次'
-        house_detail.dialog_click_close_button()
-        main_leftview.log_out()
-        login.log_in(ini.user_account, ini.user_password)
-        main_leftview.change_role('经纪人')
+                temp = looked_count
+                for num in range(60 - int(looked_count)):
+                    house_detail.click_phone_button()
+                    new_looked_count = house_detail.dialog_get_looked_count()
+                    house_detail.phone_dialog_click_check_button()
+                    house_detail.dialog_click_close_button()
+                    assert int(new_looked_count) == int(temp) + num + 1
+                house_detail.click_phone_button()
+                dialog_content = main_topview.find_notification_content()
+                assert dialog_content == '今日查看次数已经超过60次'
+        else:
+            house_labels = house_detail.get_house_label()
+            if 'VIP' in house_labels or '店长力荐' in house_labels:
+                assert dialog_content == '请联系维护人查看相关房源信息'
