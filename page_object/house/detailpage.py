@@ -660,19 +660,19 @@ class HouseDetailPage(WebPage):
         estate_sql = "select id from estate_new_base_info where [name]='" + ini.house_community_name + "'"
         estate_id = select_sql(estate_sql)[0][0]
 
-        # house_sql = "select house_code from trade_house where coreinfo_maintainer_name='" + str(name) + \
-        #             "' and location_estate_id='" + str(estate_id) + \
-        #             "' and location_building_number='" + ini.house_building_id + \
-        #             "' and location_building_cell='" + ini.house_building_cell + \
-        #             "' and location_floor='" + ini.house_floor + \
-        #             "' and location_doorplate='" + ini.house_doorplate + "' and is_valid='1' and [status]='0' order by create_time desc"
-
         house_sql = "select house_code from trade_house where coreinfo_maintainer_name='" + str(name) + \
                     "' and location_estate_id='" + str(estate_id) + \
-                    "' and location_building_number='" + str(1) + \
-                    "' and location_building_cell='" + str('1') + \
-                    "' and location_floor='" + str('1') + \
-                    "' and location_doorplate='" + str('1006') + "' and is_valid='1' and [status]='0' order by create_time desc"
+                    "' and location_building_number='" + ini.house_building_id + \
+                    "' and location_building_cell='" + ini.house_building_cell + \
+                    "' and location_floor='" + ini.house_floor + \
+                    "' and location_doorplate='" + ini.house_doorplate + "' and is_valid='1' and [status]='0' order by create_time desc"
+
+        # house_sql = "select house_code from trade_house where coreinfo_maintainer_name='" + str(name) + \
+        #             "' and location_estate_id='" + str(estate_id) + \
+        #             "' and location_building_number='" + str(1) + \
+        #             "' and location_building_cell='" + str('1') + \
+        #             "' and location_floor='" + str('1') + \
+        #             "' and location_doorplate='" + str('1006') + "' and is_valid='1' and [status]='0' order by create_time desc"
         try:
             print('enter_house_detail', house_sql)
             house_code = select_sql(house_sql)[0][0]
