@@ -114,7 +114,7 @@ VIP服务人_姓名标签: "xpath==//div[@style='' or not(@style)]/div[@class='h
 
 #更多-房源基础信息
 当前账号名字: "css==.card-name"
-#当前账号名字: "css==.side-header-name"
+租赁菜单: "xpath==//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//div[@role='tablist']/div[@class='ant-tabs-nav-wrap']//div[text()='租赁']"
 维护人输入框: "xpath==//input[@id='maintainerName']"
 房源编号输入框: "xpath==//input[@id='preOwnedCode']"
 搜索按钮: "xpath==//button[contains(.,'搜 索')]"
@@ -125,8 +125,8 @@ VIP服务人_姓名标签: "xpath==//div[@style='' or not(@style)]/div[@class='h
 房源基础信息按钮: "xpath==//li[contains(.,'房源基础信息')]"
 房源基础信息弹窗title: "xpath==//div[contains(.,'房源基础信息')]"
 基础信息弹窗确定按钮: "xpath==//div[contains(@class,'ant-modal-footer')]//button[contains(@class,'ant-btn ant-btn-primary')]"
-#  "xpath==//div[contains(@class,'ant-modal-footer')]/button"
-
+房源列表: "xpath==//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table"
+列表中的第一条房源: "xpath==//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table/tbody/tr[1]/td[2]"
 
 #更多-提交修改房源状态申请
 是否可修改状态提示: "xpath==//div[text()='存在待审核的记录，不允许再次修改']"
@@ -149,7 +149,7 @@ VIP服务人_姓名标签: "xpath==//div[@style='' or not(@style)]/div[@class='h
 
 #更多-调整价格
 调整价格选项: "xpath==//li[contains(.,'调整价格')]"
-调价弹窗的房源价格: "xpath==//div[2]/ul/li/span"
+调价弹窗的房源价格: "css==.ant-modal-body li > span"
 房源价格输入框: "id==Price"
 调价弹窗确定按钮: "xpath==//div[3]/button[2]"
 调价成功提示框: "xpath==//div[contains(.,'调价成功')]"
