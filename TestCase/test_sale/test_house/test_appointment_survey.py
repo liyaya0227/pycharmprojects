@@ -48,7 +48,6 @@ class TestAppointmentSurvey(object):
     @pytest.mark.house
     @pytest.mark.run(order=11)
     def test_001(self, web_driver):
-        main_upview = MainUpViewPage(web_driver)
         main_topview = MainTopViewPage(web_driver)
         main_leftview = MainLeftViewPage(web_driver)
         house_table = HouseTablePage(web_driver)
@@ -97,4 +96,3 @@ class TestAppointmentSurvey(object):
         house_detail.dialog_input_appointment_instructions(self.test_data['appointment_instructions'])
         house_detail.dialog_click_confirm_button()
         log.info('预约实勘申请已提交')
-        main_upview.clear_all_title()

@@ -25,6 +25,8 @@
 右侧_装修情况标签: "xpath==//div[@style='' or not(@style)]/div[@class='houseDetail']/div[@class='houseDetailRight']//li[contains(text(), '装修情况')]"
 右侧_房屋用途标签: "xpath==//div[@style='' or not(@style)]/div[@class='houseDetail']/div[@class='houseDetailRight']//li[contains(text(), '房屋用途')]"
 
+店长力荐标签: "xpath==//div[@style='' or not(@style)]/div[@class='houseDetail']//div[@class='recommend_bg']"
+
 是否预约实勘标签: "xpath==//div[@style='' or not(@style)]/div[@class='houseDetail']//div[contains(text(), '实勘信息')]//li[2]"
 预约实勘按钮: "xpath==//div[@style='' or not(@style)]/div[@class='houseDetail']//li[text()='预约实勘']/span"
 选择实勘方式_普通实勘单选: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//span[text()='普通实勘']/parent::label//input[@type='radio']"
@@ -106,6 +108,8 @@
 
 下拉框: "xpath==//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'ant-select-dropdown-hidden'))]//div[@class='rc-virtual-list']//div[contains(@class,'ant-select-item ant-select-item-option')]"
 
+
+VIP服务人_姓名标签: "xpath==//div[@style='' or not(@style)]/div[@class='houseDetail']//i[@class='tip' and text()='VIP服务人']/parent::div/div[2]/p[1]"
 
 
 #更多-房源基础信息

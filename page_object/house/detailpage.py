@@ -8,6 +8,7 @@
 """
 
 import re
+from random import randint
 
 from common.readconfig import ini
 from page_object.main.leftviewpage import MainLeftViewPage
@@ -113,6 +114,12 @@ class HouseDetailPage(WebPage):
         except IndexError:
             return ''
 
+    def check_shopowner_recommend(self):
+        if self.find_element(house_detail['店长力荐标签']):
+            return True
+        else:
+            return False
+
     def check_survey_status(self):  # 是否已上传实勘
         value = self.element_text(house_detail['是否预约实勘标签'])
         if '下载实勘图' in value:
@@ -128,6 +135,7 @@ class HouseDetailPage(WebPage):
 
     def click_back_survey_button(self):  # 点击实勘退单按钮
         self.is_click(house_detail['实勘退单按钮'])
+        sleep(2)
 
     def dialog_choose_normal_survey(self):  # 预约实勘弹窗选择普通实勘
         self.is_click(house_detail['选择实勘方式_普通实勘单选'])
@@ -171,6 +179,7 @@ class HouseDetailPage(WebPage):
 
     def dialog_click_back_exploration_return_button(self):  # 点击实勘退单弹窗退单按钮
         self.is_click(house_detail['实勘退单_退单按钮'])
+        sleep(2)
 
     def expand_certificates_info(self):  # 展开证书信息
         ele = self.find_element(house_detail['证件信息展开收起按钮'])
@@ -480,7 +489,12 @@ class HouseDetailPage(WebPage):
 
     def page_refresh(self):
         self.refresh()
-        sleep(2)
+
+    def get_vip_person(self):
+        try:
+            return self.element_text(house_detail['VIP服务人_姓名标签'])
+        except AttributeError:
+            return ''
 
     def click_edit_house_key_info_button(self):  # 点击房源详情维护重点信息按钮
         self.is_click(house_detail['编辑重点维护信息按钮'])
@@ -760,22 +774,23 @@ class HouseDetailPage(WebPage):
     def is_modify_house_price_success(self, initial_price):
         """修改房源价格并验证是否提交成功"""
         self.is_click(house_detail['调整价格选项'])
-        initial_price2 = self.element_text(house_detail['调价弹窗的房源价格']).split('.')[0] #调整弹窗中的房源初始价格
-        if int(initial_price) == int(initial_price2):  #比较房源详情页面和调整价格弹窗中的价格
+        initial_price2 = self.element_text(house_detail['调价弹窗的房源价格']).split('.')[0]  # 调整弹窗中的房源初始价格
+        if int(initial_price) == int(initial_price2):  # 比较房源详情页面和调整价格弹窗中的价格
             is_equel = True
         else:
             is_equel = False
 
-        final_price = int(initial_price) + random.randint(1,9)
+        final_price = int(initial_price) + randint(1, 9)
         self.input_text(house_detail['房源价格输入框'], final_price)
         self.is_click(house_detail['调价弹窗确定按钮'])
-        is_submit = self.is_exists(house_detail['调价成功提示框'])  #判断调价是否提交成功
+        is_submit = self.is_exists(house_detail['调价成功提示框'])  # 判断调价是否提交成功
 
         return is_equel, is_submit, str(final_price)
+
     def is_modify_success_by_information(self):
         """从基本信息修改房源价格并验证是否提交成功"""
         self.is_click(house_detail['房源基础信息按钮'])
-        final_price = int(self.get_element_attribute(house_detail['详情页面售价输入框'], 'value')) + random.randint(1,9)
+        final_price = int(self.get_element_attribute(house_detail['详情页面售价输入框'], 'value')) + randint(1, 9)
         # print('HouseDetailPage-基础详情页面价格', final_price)
         self.clear_text(house_detail['详情页面售价输入框'])
         self.input_text(house_detail['详情页面售价输入框'], final_price)
@@ -791,20 +806,20 @@ class HouseDetailPage(WebPage):
 
     def is_correct(self, final_price, house_area):
         """验证调价提交成功后，详情页面的单价和总价正确"""
-        initial_price3 = self.element_text(house_detail['房源初始价格'])[:-1]  #获取详情页面修改后的价格
+        initial_price3 = self.element_text(house_detail['房源初始价格'])[:-1]  # 获取详情页面修改后的价格
         # print('HouseDetailPage-详情页价格', initial_price3)
         # print('HouseDetailPage-最终价格', final_price)
-        if int(initial_price3) == int(final_price):  #验证修改后详情页面的价格是否更新
+        if int(initial_price3) == int(final_price):  # 验证修改后详情页面的价格是否更新
             is_equel2 = True
         else:
             is_equel2 = False
 
         unit_price = int(final_price)*10000/int(house_area)
-        final_unit_price = self.get_house_unit_price(unit_price, 2) #根据修改后的房源价格及房源面积计算单价
-        final_unit_price2 = self.element_text(house_detail['房源初始单价']) #获取详情页面修改后的单价
+        final_unit_price = self.get_house_unit_price(unit_price, 2)  # 根据修改后的房源价格及房源面积计算单价
+        final_unit_price2 = self.element_text(house_detail['房源初始单价'])  # 获取详情页面修改后的单价
         # print('HouseDetailPage-计算出的最终单价', final_unit_price)
         # print('HouseDetailPage-页面的最终单价', final_unit_price2)
-        if final_unit_price == final_unit_price2: #验证计算出的房源单价是否与详情页面展示的一致
+        if final_unit_price == final_unit_price2:  # 验证计算出的房源单价是否与详情页面展示的一致
             is_equel3 = True
         else:
             is_equel3 = False
