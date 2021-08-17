@@ -25,25 +25,21 @@ wdriver = None
 adriver = None
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope='session', autouse=False)
 def web_driver():
     global wdriver
-    chrome_options = webdriver.ChromeOptions()
-    prefs = {"download.default_directory": cm.tmp_dir,
-             "credentials_enable_service": False,
-             "profile.password_manager_enabled": False}
-    chrome_options.add_experimental_option("prefs", prefs)
-    chrome_options.add_experimental_option('useAutomationExtension', False)
-    chrome_options.add_experimental_option('excludeSwitches', ['enable-automation', 'load-extension'])
-    wdriver = webdriver.Chrome(options=chrome_options)
-    # web_driver = webdriver.Firefox(firefox_binary='C:/Program Files/Mozilla Firefox/firefox.exe')
-    wdriver.maximize_window()
-    wdriver.get(ini.url)
-    # login_page = LoginPage(wdriver)
-    # login_page.log_in(ini.user_account, ini.user_password)
-    # main_topview = MainTopViewPage(wdriver)
-    # main_topview.wait_page_loading_complete()
-    # main_topview.click_close_button()
+    if wdriver is None:
+        chrome_options = webdriver.ChromeOptions()
+        prefs = {"download.default_directory": cm.tmp_dir,
+                 "credentials_enable_service": False,
+                 "profile.password_manager_enabled": False}
+        chrome_options.add_experimental_option("prefs", prefs)
+        chrome_options.add_experimental_option('useAutomationExtension', False)
+        chrome_options.add_experimental_option('excludeSwitches', ['enable-automation', 'load-extension'])
+        wdriver = webdriver.Chrome(options=chrome_options)
+        # web_driver = webdriver.Firefox(firefox_binary='C:/Program Files/Mozilla Firefox/firefox.exe')
+        wdriver.maximize_window()
+        wdriver.get(ini.url)
     yield wdriver
     wdriver.quit()
 
@@ -88,31 +84,6 @@ def setup_and_teardown(web_driver):
     yield
     main_leftview = MainLeftViewPage(web_driver)
     main_leftview.log_out()
-
-
-driver = None
-
-
-@pytest.fixture(scope='session', autouse=False)
-def drivers(request):
-    global driver
-    if driver is None:
-
-        chrome_options = webdriver.ChromeOptions()
-        prefs = {"download.default_directory": cm.tmp_dir,
-                 "credentials_enable_service": False,
-                 "profile.password_manager_enabled": False}
-        chrome_options.add_experimental_option("prefs", prefs)
-        chrome_options.add_experimental_option('useAutomationExtension', False)
-        chrome_options.add_experimental_option('excludeSwitches', ['enable-automation', 'load-extension'])
-        driver = webdriver.Chrome(options=chrome_options)
-        # web_driver = webdriver.Firefox(firefox_binary='C:/Program Files/Mozilla Firefox/firefox.exe')
-        driver.maximize_window()
-        driver.get(ini.url)
-    def fn():
-        driver.quit()
-    request.addfinalizer(fn)
-    return driver
 
 
 @pytest.hookimpl(hookwrapper=True)
@@ -168,14 +139,10 @@ def _capture_screenshot():
     if not os.path.exists(cm.tmp_dir + "\\screen_capture"):
         os.makedirs(cm.tmp_dir + "\\screen_capture")
 
-    if driver is None:
-        if adriver is None:
-            wdriver.save_screenshot(path)
-        else:
-            adriver.save_screenshot(path)
+    if wdriver is None:
+        wdriver.save_screenshot(path)
     else:
-        driver.save_screenshot(path)
-
+        adriver.save_screenshot(path)
     # wdriver.save_screenshot(path)
     allure.attach.file(path, "失败截图", allure.attachment_type.PNG)
     with open(path, 'rb') as f:
