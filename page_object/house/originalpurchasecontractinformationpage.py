@@ -9,6 +9,7 @@
 
 from page.webpage import WebPage
 from common.readelement import Element
+from utils.timeutil import sleep
 from utils.uploadfile import upload_file
 
 original_purchase_contract_information = Element('house/originalpurchasecontractinformation')
@@ -42,6 +43,7 @@ class OriginalPurchaseContractInformationPage(WebPage):
         for file in file_path:
             self.is_click(original_purchase_contract_information['上传图片按钮'])
             upload_file(file)
+            sleep(2)
 
     def click_close_button(self):
         self.is_click(original_purchase_contract_information['关闭按钮'])

@@ -33,7 +33,7 @@ customer_code = ''
 @allure.feature("测试合同模块")
 class TestOrderProcess(object):
 
-    @pytest.fixture(scope="class", autouse=True)
+    @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, web_driver):
         global house_code
         global customer_code

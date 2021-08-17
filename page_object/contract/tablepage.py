@@ -62,6 +62,7 @@ class ContractTablePage(WebPage):
         locator = 'xpath', "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + \
                   str(row) + "]/td[" + str(self.__get_column_by_title('合同编号') + 1) + "]//a"
         self.is_click(locator)
+        sleep()
 
     def pass_examine_by_row(self, row=1):
         locator = 'xpath', "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + \

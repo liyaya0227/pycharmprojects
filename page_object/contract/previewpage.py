@@ -34,6 +34,7 @@ class ContractPreviewPage(WebPage):
         sleep()
 
     def click_print_with_sign_button(self):
+        sleep(2)
         self.is_click(preview['有章打印按钮'])
         sleep()
 

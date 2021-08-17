@@ -39,6 +39,7 @@ class KeyEntrustmentCertificatePage(WebPage):
         for file in file_path:
             self.is_click(key_entrustment_certificate['上传照片按钮'])
             upload_file(file)
+            sleep(2)
 
     def click_close_button(self):
         self.is_click(key_entrustment_certificate['关闭按钮'])

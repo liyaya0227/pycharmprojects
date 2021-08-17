@@ -114,6 +114,7 @@ class TestDeleteSurvey(object):
         house_detail.dialog_choose_exploration_time(self.exploration_info['exploration_time'])
         house_detail.dialog_input_appointment_instructions(self.exploration_info['appointment_instructions'])
         house_detail.dialog_click_confirm_button()
+        main_upview.clear_all_title()
         if not app_login.check_login_page():
             app_main.close_top_view()
             app_main.click_mine_button()

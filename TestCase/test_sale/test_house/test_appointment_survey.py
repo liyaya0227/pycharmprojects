@@ -30,7 +30,7 @@ class TestAppointmentSurvey(object):
     test_data = get_data(json_file_path)
     survey_person_info = get_value(json_file_path, ini.environment)
 
-    @pytest.fixture(scope="class", autouse=True)
+    @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, web_driver):
         global house_code
 

@@ -33,7 +33,7 @@ class TestCreateOrder(object):
     json_file_path = cm.test_data_dir + "/test_sale/test_contract/test_create_order_" + env + ".json"
     test_data = get_data(json_file_path)
 
-    @pytest.fixture(scope="class", autouse=True)
+    @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, web_driver):
         global house_info
         global customer_info
@@ -48,7 +48,8 @@ class TestCreateOrder(object):
         contract_table = ContractTablePage(web_driver)
 
         main_leftview.change_role('经纪人')
-        house_code = house_table.get_house_code_by_db(flag='买卖')
+        # house_code = house_table.get_house_code_by_db(flag='买卖')
+        house_code = '102000000476'
         assert house_code != ''
         log.info('房源编号为：' + house_code)
         main_leftview.click_all_house_label()

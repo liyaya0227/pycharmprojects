@@ -136,6 +136,7 @@ class WebPage(object):
     def refresh(self):
         """刷新页面F5"""
         self.driver.refresh()
+        sleep(2)
         self.driver.implicitly_wait(30)
 
     def move_mouse_to_element(self, locator):

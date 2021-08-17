@@ -267,10 +267,12 @@ class HouseDetailPage(WebPage):
         locator = 'xpath', "//span[text()='" + certificate_name + "']/ancestor::p//span[text()='删除']"
         self.is_click(locator)
         self.is_click(house_detail['删除证件_确定按钮'])
+        sleep()
 
     def upload_written_entrustment_agreement(self, written_entrustment_agreement):  # 上传书面委托协议
         self.click_written_entrustment_agreement_upload_button()
         written_entrustment_agreement_page = WrittenEntrustmentAgreementPage(self.driver)
+        written_entrustment_agreement_page.upload_picture([cm.tmp_picture_file])
         written_entrustment_agreement_page.input_entrustment_agreement_number(
             written_entrustment_agreement.get('委托协议编号'))
         start_date = ''
@@ -282,17 +284,16 @@ class HouseDetailPage(WebPage):
             end_date = dt_strftime_with_delta(10, '%Y-%m-%d')
         written_entrustment_agreement_page.input_entrustment_end_date(end_date)
         written_entrustment_agreement_page.input_remark(written_entrustment_agreement.get('备注'))
-        written_entrustment_agreement_page.upload_picture([cm.tmp_picture_file])
         written_entrustment_agreement_page.click_submit_button()
 
     def upload_key_entrustment_certificate(self, key_entrustment_certificate):  # 上传钥匙委托协议
         self.click_key_entrustment_certificate_upload_button()
         key_entrustment_certificate_page = KeyEntrustmentCertificatePage(self.driver)
+        key_entrustment_certificate_page.upload_picture([cm.tmp_picture_file])
         key_entrustment_certificate_page.input_agreement_number(key_entrustment_certificate.get('协议编号'))
         key_entrustment_certificate_page.choose_key_type(key_entrustment_certificate.get('钥匙'))
         key_entrustment_certificate_page.input_shop_space(key_entrustment_certificate.get('存放店面'))
         key_entrustment_certificate_page.input_remark(key_entrustment_certificate.get('备注说明'))
-        key_entrustment_certificate_page.upload_picture([cm.tmp_picture_file])
         key_entrustment_certificate_page.click_save_button()
 
     def upload_vip_service_entrustment_agreement(self, vip_service_entrustment_agreement):  # 上传VIP服务委托协议
@@ -322,9 +323,9 @@ class HouseDetailPage(WebPage):
     def upload_owner_identification_information(self, owner_identification_information):  # 上传身份证明
         self.click_owner_identification_information_upload_button()
         owner_identification_information_page = OwnerIdentificationInformationPage(self.driver)
+        owner_identification_information_page.upload_picture([cm.tmp_picture_file])
         owner_identification_information_page.choose_seller_type(owner_identification_information.get('卖方类型'))
         owner_identification_information_page.choose_identity_type(owner_identification_information.get('证件类型'))
-        owner_identification_information_page.upload_picture([cm.tmp_picture_file])
         owner_identification_information_page.choose_nationality(owner_identification_information.get('国籍'))
         owner_identification_information_page.input_owner_name(owner_identification_information.get('业主姓名'))
         owner_identification_information_page.input_valid_period_start(
@@ -336,6 +337,7 @@ class HouseDetailPage(WebPage):
     def upload_original_purchase_contract_information(self, original_purchase_contract_information):  # 上传原始购房合同
         self.click_original_purchase_contract_information_upload_button()
         original_purchase_contract_information_page = OriginalPurchaseContractInformationPage(self.driver)
+        original_purchase_contract_information_page.upload_picture([cm.tmp_picture_file])
         original_purchase_contract_information_page.input_contract_registration_date(
             original_purchase_contract_information.get('原始购房合同登记日期'))
         original_purchase_contract_information_page.input_building_area(
@@ -343,7 +345,6 @@ class HouseDetailPage(WebPage):
         original_purchase_contract_information_page.input_room_area(original_purchase_contract_information.get('套内面积'))
         original_purchase_contract_information_page.choose_is_share(original_purchase_contract_information.get('是否共有'))
         original_purchase_contract_information_page.input_remark(original_purchase_contract_information.get('备注'))
-        original_purchase_contract_information_page.upload_picture([cm.tmp_picture_file])
         original_purchase_contract_information_page.click_submit_button()
 
     def upload_property_ownership_certificate(self, property_ownership_certificate):  # 上传房产证
@@ -385,6 +386,7 @@ class HouseDetailPage(WebPage):
 
     def click_address_button(self):  # 点击房源详情右侧地址按钮
         self.is_click(house_detail['右侧菜单地址按钮'])
+        sleep(2)
 
     def dialog_looked_count_exist(self):  # 弹窗返回今日已看是否存在
         if self.find_element(house_detail['弹窗_已看次数标签'], wait_time=1):
@@ -413,9 +415,11 @@ class HouseDetailPage(WebPage):
 
     def click_phone_button(self):  # 点击房源详情右侧电话按钮
         self.is_click(house_detail['右侧菜单电话按钮'])
+        sleep(2)
 
     def phone_dialog_click_check_button(self):  # 电话弹窗点击查看按钮
         self.is_click(house_detail['电话弹窗_查看按钮'])
+        sleep(2)
 
     def phone_dialog_get_phone(self):  # 电话弹窗获取电话
         return self.element_text(house_detail['电话弹窗_电话标签']).split('手机')[1]
@@ -448,11 +452,12 @@ class HouseDetailPage(WebPage):
 
     def get_address_dialog_house_property_address(self):  # 获取房源地址弹窗所有信息
         self.is_click(house_detail['右侧菜单地址按钮'])
+        sleep()
         estate_name = self.element_text(house_detail['房源物业地址_楼盘名称显示框']).split('楼盘名称')[1]
         building_name = self.element_text(house_detail['房源物业地址_楼栋显示框']).split('楼栋')[1]
         unit_name = self.element_text(house_detail['房源物业地址_单元显示框']).split('单元')[1]
         door_name = self.element_text(house_detail['房源物业地址_门牌显示框']).split('门牌')[1]
-        self.is_click(house_detail['房源物业地址_关闭按钮'])
+        self.is_click(house_detail['弹窗_关闭按钮'])
         if self.follow_dialog_exist():
             self.follow_dialog_input_detail_follow('详细跟进信息')
             self.dialog_click_confirm_button()
@@ -462,6 +467,13 @@ class HouseDetailPage(WebPage):
             'unit_name': unit_name,
             'door_name': door_name
         }
+
+    def get_floor_dialog_house_floor(self):  # 获取房源地址弹窗所有信息
+        self.is_click(house_detail['右侧菜单楼层按钮'])
+        sleep()
+        floor = self.element_text(house_detail['楼层弹窗_具体楼层信息']).split('具体楼层')[1]
+        self.is_click(house_detail['弹窗_关闭按钮'])
+        return floor.split('/')[0]
 
     def click_go_top_button(self):  # 点击房源详情右侧顶部按钮
         self.is_click(house_detail['右侧菜单顶部按钮'])

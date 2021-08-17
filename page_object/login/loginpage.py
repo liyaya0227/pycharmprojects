@@ -6,9 +6,8 @@
 @file: loginpage.py
 @time: 2021/06/24
 """
-import random
-
 import cv2
+import random
 import base64
 from io import BytesIO
 from PIL import Image
@@ -105,6 +104,7 @@ class LoginPage(WebPage):
 
     def click_login_button(self):
         self.is_click(login['立即登录按钮'])
+        sleep(2)
 
     def log_in(self, account, password):
         self.input_account(account)
@@ -112,9 +112,3 @@ class LoginPage(WebPage):
         self.click_verify_button()
         self.slide_verification()
         self.click_login_button()
-
-    def log_out(self):
-        """退出登录"""
-        self.is_click(login['功能按钮'])
-        self.is_click(login['退出按钮'])
-

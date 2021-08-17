@@ -13,6 +13,7 @@ from config.conf import cm
 from utils.logger import log
 from common.readconfig import ini
 from utils.jsonutil import get_value
+from page_object.main.upviewpage import MainUpViewPage
 from page_object.main.topviewpage import MainTopViewPage
 from page_object.main.leftviewpage import MainLeftViewPage
 from page_object.login.loginpage import LoginPage
@@ -27,7 +28,7 @@ class TestPhone(object):
     json_file_path = cm.test_data_dir + "/test_sale/test_house/test_phone.json"
     account = get_value(json_file_path, ini.environment)
 
-    @pytest.fixture(scope="class", autouse=True)
+    @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, web_driver):
         global house_code
 
@@ -46,6 +47,7 @@ class TestPhone(object):
     def test_001(self, web_driver):
         house_table = HouseTablePage(web_driver)
         house_detail = HouseDetailPage(web_driver)
+        main_upview = MainUpViewPage(web_driver)
         main_leftview = MainLeftViewPage(web_driver)
 
         main_leftview.change_role('经纪人')
@@ -63,6 +65,7 @@ class TestPhone(object):
         house_detail.click_phone_button()
         assert house_detail.dialog_get_looked_count() == '0'
         house_detail.dialog_click_close_button()
+        main_upview.clear_all_title()
 
     @allure.story("测试房源详情右侧电话用例")
     @pytest.mark.sale
@@ -70,6 +73,7 @@ class TestPhone(object):
     @pytest.mark.run(order=11)
     def test_002(self, web_driver):
         main_topview = MainTopViewPage(web_driver)
+        main_upview = MainUpViewPage(web_driver)
         house_table = HouseTablePage(web_driver)
         house_detail = HouseDetailPage(web_driver)
         main_leftview = MainLeftViewPage(web_driver)
@@ -99,12 +103,13 @@ class TestPhone(object):
                 house_detail.phone_dialog_click_check_button()
                 house_detail.dialog_click_close_button()
                 temp = looked_count
-                for num in range(60 - int(looked_count)):
+                for _ in range(60 - int(looked_count)):
                     house_detail.click_phone_button()
                     new_looked_count = house_detail.dialog_get_looked_count()
                     house_detail.phone_dialog_click_check_button()
                     house_detail.dialog_click_close_button()
-                    assert int(new_looked_count) == int(temp) + num + 1
+                    assert int(new_looked_count) == int(temp) + 1
+                    temp = new_looked_count
                 house_detail.click_phone_button()
                 dialog_content = main_topview.find_notification_content()
                 assert dialog_content == '今日查看次数已经超过60次'
@@ -112,3 +117,4 @@ class TestPhone(object):
             house_labels = house_detail.get_house_label()
             if 'VIP' in house_labels or '店长力荐' in house_labels:
                 assert dialog_content == '请联系维护人查看相关房源信息'
+        main_upview.clear_all_title()

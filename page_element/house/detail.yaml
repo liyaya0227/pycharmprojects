@@ -63,7 +63,7 @@
 房源物业地址_单元显示框: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//span[text()='单元']/parent::li"
 房源物业地址_门牌显示框: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//span[text()='门牌']/parent::li"
 房源物业地址_关闭按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//span[@class='anticon anticon-close ant-modal-close-icon']"
-弹窗_已看次数标签: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//span[@class='addressTimes']/i"
+弹窗_已看次数标签: "xpath==//div[@class='ant-modal-root']/div[@style='' or not(@style)]//span[@class='addressTimes']/i"
 
 跟进弹窗_详细跟进输入框: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//textarea[@id='memo']"
 

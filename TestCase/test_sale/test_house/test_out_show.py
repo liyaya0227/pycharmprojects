@@ -70,6 +70,7 @@ class TestOutShow(object):
     def test_001(self, web_driver):
         main_topview = MainTopViewPage(web_driver)
         house_detail = HouseDetailPage(web_driver)
+        main_upview = MainUpViewPage(web_driver)
 
         house_detail.expand_certificates_info()
         if house_detail.check_upload_written_entrustment_agreement() != '未上传':
@@ -82,6 +83,7 @@ class TestOutShow(object):
         house_detail.click_go_top_button()
         house_detail.choose_out_show()
         assert main_topview.find_notification_content() == '该房源不存在有效的委托协议或者没有上传实勘图'
+        main_upview.clear_all_title()
 
     @allure.story("测试房源外网呈现用例")
     @pytest.mark.sale
@@ -89,6 +91,7 @@ class TestOutShow(object):
     @pytest.mark.run(order=12)
     def test_002(self, web_driver, android_driver):
         login = LoginPage(web_driver)
+        main_upview = MainUpViewPage(web_driver)
         main_topview = MainTopViewPage(web_driver)
         main_leftview = MainLeftViewPage(web_driver)
         house_table = HouseTablePage(web_driver)
@@ -167,6 +170,7 @@ class TestOutShow(object):
         house_detail.click_go_top_button()
         house_detail.choose_out_show()
         assert main_topview.find_notification_content() == '该房源不存在有效的委托协议或者没有上传实勘图'
+        main_upview.clear_all_title()
 
     @allure.story("测试房源外网呈现用例")
     @pytest.mark.sale
@@ -227,6 +231,7 @@ class TestOutShow(object):
         house_detail.click_go_top_button()
         house_detail.choose_out_show()
         assert main_topview.find_notification_content() == '该房源不存在有效的委托协议或者没有上传实勘图'
+        main_upview.clear_all_title()
 
     @allure.story("测试房源外网呈现用例")
     @pytest.mark.sale
@@ -350,3 +355,4 @@ class TestOutShow(object):
         house_detail.click_go_top_button()
         house_detail.choose_out_show()
         assert house_detail.get_out_show()
+        main_upview.clear_all_title()

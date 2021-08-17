@@ -92,7 +92,7 @@ class TestTransactionOrderContent(object):
         house_info['house_code'] = house_code
         house_info['house_type'] = house_detail.get_house_type()
         house_info['orientations'] = house_detail.get_orientations()
-        house_info['floor'] = ini.house_floor
+        house_info['floor'] = house_detail.get_floor_dialog_house_floor()
         house_info['inspect_type'] = house_detail.get_inspect_type()
         house_info['house_state'] = house_detail.get_house_state()
         assert house_info != {}
@@ -248,6 +248,7 @@ class TestTransactionOrderContent(object):
         transaction_buyer_info = transaction_detail.get_buyer_info()
         transaction_seller_info = transaction_detail.get_seller_info()
         transaction_house_info = transaction_detail.get_house_info()
+        main_upview.clear_all_title()
         transaction_management = ''  # 权证单内容的校验
         if ini.environment == 'ks':
             if contract_data['第四条信息']['支付方式'][0] == 1:
@@ -467,8 +468,8 @@ class TestTransactionOrderContent(object):
             assert transaction_house_info['房本类型'] == '-'
             assert transaction_house_info['产权证号'] == contract_data['第一条信息']['房屋所有权证编号']
         assert transaction_house_info['房屋现状'] == house_key_info['house_state']
-        assert transaction_house_info['物业地址'] == ini.house_community_name + ini.house_building_id + '-' + \
-               ini.house_building_cell + '-' + ini.house_floor + '-' + house_info['door_name']
+        assert transaction_house_info['物业地址'] == house_info['estate_name'] + house_info['building_name'] + '-' + \
+               house_info['unit_name'] + '-' + house_info['floor'] + '-' + house_info['door_name']
         if ini.environment == 'wx':
             assert transaction_house_info['行政区域'] == '-'
         else:
@@ -642,6 +643,7 @@ class TestTransactionOrderContent(object):
         transaction_buyer_share_person_info = transaction_detail.get_buyer_share_person()
         transaction_seller_info = transaction_detail.get_seller_info()
         transaction_house_info = transaction_detail.get_house_info()
+        main_upview.clear_all_title()
         transaction_management = ''  # 权证单内容的校验
         if ini.environment == 'ks':
             if contract_data['第四条信息']['支付方式'][0] == 1:
@@ -875,8 +877,8 @@ class TestTransactionOrderContent(object):
             assert transaction_house_info['房本类型'] == '-'
             assert transaction_house_info['产权证号'] == contract_data['第一条信息']['房屋所有权证编号']
         assert transaction_house_info['房屋现状'] == house_key_info['house_state']
-        assert transaction_house_info['物业地址'] == ini.house_community_name + ini.house_building_id + '-' + \
-               ini.house_building_cell + '-' + ini.house_floor + '-' + house_info['door_name']
+        assert transaction_house_info['物业地址'] == house_info['estate_name'] + house_info['building_name'] + '-' + \
+               house_info['unit_name'] + '-' + house_info['floor'] + '-' + house_info['door_name']
         if ini.environment == 'wx':
             assert transaction_house_info['行政区域'] == '-'
         else:
