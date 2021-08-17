@@ -185,3 +185,15 @@ class WebPage(object):
         """点击页面空白区域"""
         actions = ActionChains(self.driver)
         actions.move_by_offset(0, 0).click().perform()
+
+    def alert_exists(self):
+        """判断弹框是否出现，并返回弹框的文字"""
+        alert = EC.alert_is_present()(self.driver)
+        if alert:
+            text = alert.text
+            # log.info("Alert弹窗提示为：%s" % text)
+            alert.accept()
+            return text
+        else :
+            return False
+            log.error("没有Alert弹窗提示!")
