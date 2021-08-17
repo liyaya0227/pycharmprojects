@@ -105,4 +105,75 @@
 弹窗_关闭按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//span[@class='anticon anticon-close ant-modal-close-icon']"
 
 下拉框: "xpath==//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'ant-select-dropdown-hidden'))]//div[@class='rc-virtual-list']//div[contains(@class,'ant-select-item ant-select-item-option')]"
+
+
+
+#更多-房源基础信息
+当前账号名字: "css==.card-name"
+#当前账号名字: "css==.side-header-name"
+维护人输入框: "xpath==//input[@id='maintainerName']"
+房源编号输入框: "xpath==//input[@id='preOwnedCode']"
+搜索按钮: "xpath==//button[contains(.,'搜 索')]"
+搜索结果总数: "css==.houseTotal .ant-col"
+楼盘名称: "xpath==//div[@id='rc-tabs-3-panel-0']/div/div[3]/div/div/div/div/div/div/table/tbody/tr/td[2]/a/div/p"
+房源编号: "xpath==//span[contains(.,'房源编号：')]"
+更多按钮: "xpath==//span[contains(.,'更多')]"
+房源基础信息按钮: "xpath==//li[contains(.,'房源基础信息')]"
+房源基础信息弹窗title: "xpath==//div[contains(.,'房源基础信息')]"
+基础信息弹窗确定按钮: "xpath==//div[contains(@class,'ant-modal-footer')]//button[contains(@class,'ant-btn ant-btn-primary')]"
+#  "xpath==//div[contains(@class,'ant-modal-footer')]/button"
+
+
+#更多-提交修改房源状态申请
+是否可修改状态提示: "xpath==//div[text()='存在待审核的记录，不允许再次修改']"
+房源状态按钮: "xpath==//li[contains(.,'房源状态')]"
+暂缓出售选项: "xpath==//span[contains(.,'暂缓出售（房东暂时不卖了）')]"
+房源状态弹窗确定按钮: "css==.ant-modal-footer > .ant-btn-primary"
+申请提交成功提示: "xpath==//h1[contains(.,'申请提交成功！')]"
+申请提交成功弹窗确定按钮: "xpath==//span[contains(.,'确定')]"
+
+#更多-审核修改房源状态申请
+暂缓房源审核选项: "xpath==//div[@id='rc-tabs-2-tab-1']"
+房源详情页面的房源编号: "xpath==//span[contains(.,'房源编号：')]"
+房源初始价格: "css==.price"
+房源初始单价: "css==.pricing > i"
+房源面积: "xpath==//li[2]/p"
+驳回按钮: "xpath==//a[contains(text(),'驳回')]"
+驳回理由输入框: "xpath==//textarea[@id='remark']"
+驳回弹窗确定按钮: "xpath==//button[contains(.,'确 定')]"
+审核成功驳回提示框: "xpath==//div[contains(.,'审核已驳回')]"
+
+#更多-调整价格
+调整价格选项: "xpath==//li[contains(.,'调整价格')]"
+调价弹窗的房源价格: "xpath==//div[2]/ul/li/span"
+房源价格输入框: "id==Price"
+调价弹窗确定按钮: "xpath==//div[3]/button[2]"
+调价成功提示框: "xpath==//div[contains(.,'调价成功')]"
+详情页面售价输入框: "xpath==//input[@id='salePrice']"
+调价记录按钮: "xpath==//span[contains(.,'调价记录')]"
+详情编辑成功提示框: "xpath==//div[contains(@class,'ant-notification-notice-with-icon')]//div[contains(.,'编辑成功')]"
+调价记录弹窗关闭按钮: "css==.ant-modal-close-x"
+
+#更多-维护人管理
+维护人管理按钮: "xpath==//li[contains(.,'维护人管理')]"
+选择人员输入框: "id==userId"
+人员选项: "css==.ant-select-item-option-active > .ant-select-item-option-content"
+分配弹窗确定按钮: "xpath==//button[contains(.,'确 定')]"
+角色人名字: "xpath==//p[contains(@class,'card-text-p')]"
+
+#更多-房源举报
+房源举报按钮: "xpath==//li[contains(.,'房源举报')]"
+房源不卖选项: "xpath==//span[contains(.,'房源不卖')]"
+举报房源弹窗确认按钮: "xpath==//div[@class='ant-modal-root']//span[text()='确 认']/parent::button[@type='button']"
+右上角弹窗_内容: "xpath==//div[@class='ant-notification ant-notification-topRight']//div[@class='ant-notification-notice-description']"
+是否可举报提示: "xpath==//div[text()='存在待审核的记录，不允许再次举报']"
+
+#更多-操作日志
+操作日志按钮: "xpath==//li[contains(.,'操作日志')]"
+操作人: "xpath==//span[contains(@class,'userCard-blue')]"
+调整价格操作: "xpath==//p[contains(.,'调整价格')]"
+#举报房源弹窗确认按钮: "xpath==//div[@class='ant-modal-root']//span[text()='确 认']/parent::button[@type='button']"
+#右上角弹窗_内容: "xpath==//div[@class='ant-notification ant-notification-topRight']//div[@class='ant-notification-notice-description']"
+#是否可力荐提示: "xpath==//div[text()='委托/实勘/重点信息未维护全']"
 弹窗显示: "xpath==//div[contains(@class, 'ant-popover-placement-top') and not(contains(@class, 'ant-popover-hidden'))]//div[@class='ant-popover-inner-content']"
+

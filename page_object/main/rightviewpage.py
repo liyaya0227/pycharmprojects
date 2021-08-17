@@ -30,3 +30,6 @@ class MainRightViewPage(WebPage):
 
     def click_review_house_state(self):
         self.is_click(right_view['房源待办_房源状态审核'])
+
+    def click_review_house_report(self):
+        self.is_click(right_view['房源待办_房源举报审核'])
