@@ -11,7 +11,6 @@ import pytest
 import allure
 from utils.logger import log
 from common.readconfig import ini
-from page_object.main.upviewpage import MainUpViewPage
 from page_object.main.leftviewpage import MainLeftViewPage
 from page_object.main.rightviewpage import MainRightViewPage
 from page_object.house.tablepage import HouseTablePage
@@ -56,7 +55,6 @@ class TestShare(object):
     @pytest.mark.house
     @pytest.mark.run(order=11)
     def test_001(self, web_driver):
-        main_upview = MainUpViewPage(web_driver)
         house_detail = HouseDetailPage(web_driver)
 
         house_type = house_detail.get_house_type()
@@ -70,11 +68,9 @@ class TestShare(object):
         dialog_name = house_detail.share_dialog_get_name()
         dialog_phone = house_detail.share_dialog_get_phone()
         house_detail.dialog_click_cancel_button()
-        main_upview.clear_all_title()
         assert ini.house_community_name == dialog_community_name
         assert house_type == dialog_house_type
         assert size == dialog_size
         assert orientations == dialog_orientations
         assert login_person_name == dialog_name
         assert login_person_phone == dialog_phone
-

@@ -72,7 +72,6 @@ class TestAdd(object):
         dialog_title = main_topview.find_notification_title()
         if dialog_title != '':
             log.info('房源已存在')
-            main_upview.clear_all_title()
             return
             # house_code = re.search(r"房源编号(\d+?)，", dialog_title).group(1)
             # main_leftview.click_all_house_label()
@@ -152,4 +151,3 @@ class TestAdd(object):
         #     house_table.click_search_button()
         assert house_table.get_house_code_by_db(flag='买卖') != ''
         log.info('搜索结果正确')
-        main_upview.clear_all_title()

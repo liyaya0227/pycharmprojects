@@ -165,9 +165,5 @@ class TestDeleteSurvey(object):
         if account[0] == ini.user_account:
             house_detail.dialog_click_confirm_button()
             assert main_topview.find_notification_content() == '删除实勘成功'
-            main_upview.clear_all_title()
         else:
             assert house_detail.get_tooltip_content() == '该房源状态不允许操作'
-            main_leftview.log_out()
-            login.log_in(ini.user_account, ini.user_password)
-            main_leftview.change_role('经纪人')

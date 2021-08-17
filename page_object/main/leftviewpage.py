@@ -39,7 +39,6 @@ class MainLeftViewPage(WebPage):
 
     def log_out(self):
         self.refresh()
-        sleep()
         self.is_click(left_view['功能按钮'])
         self.is_click(left_view['退出登录按钮'])
         sleep(2)
