@@ -27,7 +27,7 @@ class TestAdd(object):
     json_file_path = cm.test_data_dir + "/test_sale/test_customer/test_add_" + ini.environment + ".json"
     test_data = get_data(json_file_path)
 
-    @pytest.fixture(scope="class", autouse=True)
+    @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, web_driver):
         main_topview = MainTopViewPage(web_driver)
         main_leftview = MainLeftViewPage(web_driver)

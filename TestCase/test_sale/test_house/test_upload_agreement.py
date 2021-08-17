@@ -36,7 +36,7 @@ class TestUploadAgreement(object):
     original_purchase_contract_information = get_value(json_file_path, 'original_purchase_contract_information')
     property_ownership_certificate = get_value(json_file_path, 'property_ownership_certificate')
 
-    @pytest.fixture(scope="class", autouse=True)
+    @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, web_driver):
         global house_code
 

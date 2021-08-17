@@ -10,7 +10,7 @@
 from page.webpage import WebPage
 from common.readelement import Element
 from utils.uploadfile import upload_file
-from utils.timeutil import dt_strftime, dt_strftime_with_delta
+from utils.timeutil import dt_strftime, dt_strftime_with_delta, sleep
 
 written_entrustment_agreement = Element('house/writtenentrustmentagreement')
 
@@ -41,9 +41,11 @@ class WrittenEntrustmentAgreementPage(WebPage):
         for file in file_path:
             self.is_click(written_entrustment_agreement['上传图片按钮'])
             upload_file(file)
+            sleep(2)
 
     def click_close_button(self):
         self.is_click(written_entrustment_agreement['关闭按钮'])
 
     def click_submit_button(self):
         self.is_click(written_entrustment_agreement['提交按钮'])
+        sleep()

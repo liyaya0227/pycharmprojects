@@ -13,6 +13,7 @@ from config.conf import cm
 from utils.logger import log
 from common.readconfig import ini
 from utils.jsonutil import get_value
+from page_object.main.upviewpage import MainUpViewPage
 from page_object.main.topviewpage import MainTopViewPage
 from page_object.main.leftviewpage import MainLeftViewPage
 from page_object.login.loginpage import LoginPage
@@ -27,7 +28,7 @@ class TestAddress(object):
     json_file_path = cm.test_data_dir + "/test_sale/test_house/test_address.json"
     account = get_value(json_file_path, ini.environment)
 
-    @pytest.fixture(scope="class", autouse=True)
+    @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, web_driver):
         global house_code
 
@@ -47,6 +48,7 @@ class TestAddress(object):
         house_table = HouseTablePage(web_driver)
         house_detail = HouseDetailPage(web_driver)
         main_leftview = MainLeftViewPage(web_driver)
+        main_upview = MainUpViewPage(web_driver)
 
         main_leftview.change_role('经纪人')
         main_leftview.click_all_house_label()
@@ -60,6 +62,7 @@ class TestAddress(object):
         house_detail.click_address_button()
         assert not house_detail.dialog_looked_count_exist()
         house_detail.dialog_click_close_button()
+        main_upview.clear_all_title()
 
     @allure.story("测试房源详情右侧地址用例")
     @pytest.mark.sale
@@ -71,6 +74,7 @@ class TestAddress(object):
         house_detail = HouseDetailPage(web_driver)
         main_leftview = MainLeftViewPage(web_driver)
         login = LoginPage(web_driver)
+        main_upview = MainUpViewPage(web_driver)
 
         main_leftview.log_out()
         login.log_in(self.account[0], self.account[1])
@@ -94,12 +98,14 @@ class TestAddress(object):
                 assert house_detail.check_dialog_cancel_button_disabled()
                 house_detail.follow_dialog_input_detail_follow('详细跟进信息')
                 house_detail.dialog_click_confirm_button()
+                assert main_topview.find_notification_content() == '编辑成功'
             temp = looked_count
-            for num in range(60 - int(looked_count)):
+            for _ in range(60 - int(looked_count)):
                 house_detail.click_address_button()
                 new_looked_count = house_detail.dialog_get_looked_count()
                 house_detail.dialog_click_close_button()
-                assert int(new_looked_count) == int(temp) + num + 1
+                assert int(new_looked_count) == int(temp) + 1
+                temp = new_looked_count
             house_detail.click_address_button()
             dialog_content = main_topview.find_notification_content()
         house_labels = house_detail.get_house_label()
@@ -107,3 +113,4 @@ class TestAddress(object):
             assert dialog_content == '请联系维护人查看相关房源信息'
         else:
             assert dialog_content == '今日查看次数已经超过60次'
+        main_upview.clear_all_title()

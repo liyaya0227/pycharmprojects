@@ -26,7 +26,7 @@ class TestAdd(object):
     json_file_path = cm.test_data_dir + "/test_sale/test_house/test_add.json"
     test_data = get_data(json_file_path)
 
-    @pytest.fixture(scope="class", autouse=True)
+    @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, web_driver):
         main_leftview = MainLeftViewPage(web_driver)
 
@@ -72,6 +72,7 @@ class TestAdd(object):
         dialog_title = main_topview.find_notification_title()
         if dialog_title != '':
             log.info('房源已存在')
+            main_upview.clear_all_title()
             return
             # house_code = re.search(r"房源编号(\d+?)，", dialog_title).group(1)
             # main_leftview.click_all_house_label()

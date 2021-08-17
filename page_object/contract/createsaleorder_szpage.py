@@ -507,7 +507,7 @@ class ContractCreateSaleOrderDetailSZPage(WebPage):
 
     def input_commission_confirmation_info(self, commission_confirmation_info):
         self.input_text(create_sale_order_detail_sz['佣金确认书_甲方_输入框'], commission_confirmation_info['甲方'])
-        self.input_text(create_sale_order_detail_sz['佣金确认书_乙方_输入框'], commission_confirmation_info['乙方'])
+        # self.input_text(create_sale_order_detail_sz['佣金确认书_乙方_输入框'], commission_confirmation_info['乙方'])
         if commission_confirmation_info['车位'] == '否':
             self.is_click(create_sale_order_detail_sz['佣金确认书_车位_否_单选按钮'])
         elif commission_confirmation_info['车位'] == '是':
@@ -520,7 +520,7 @@ class ContractCreateSaleOrderDetailSZPage(WebPage):
 
     def input_commission_confirmation2_info(self, commission_confirmation_info):
         self.input_text(create_sale_order_detail_sz['佣金确认书二_甲方_输入框'], commission_confirmation_info['甲方'])
-        self.input_text(create_sale_order_detail_sz['佣金确认书二_乙方_输入框'], commission_confirmation_info['乙方'])
+        # self.input_text(create_sale_order_detail_sz['佣金确认书二_乙方_输入框'], commission_confirmation_info['乙方'])
         if commission_confirmation_info['车位'] == '否':
             self.is_click(create_sale_order_detail_sz['佣金确认书二_车位_否_单选按钮'])
         elif commission_confirmation_info['车位'] == '是':

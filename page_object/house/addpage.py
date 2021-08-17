@@ -96,6 +96,7 @@ class HouseAddPage(WebPage):
 
     def click_next_button(self):
         self.is_click(house_add['下一步按钮'])
+        sleep()
 
     def input_house_owner_name(self, house_owner_name):
         self.input_text(house_add['业主姓名输入框'], house_owner_name)

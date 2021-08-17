@@ -20,7 +20,8 @@ def main():
         os.makedirs(result_path)
     shutil.rmtree(result_path)
 
-    pytest_cmd = f'pytest -v ./TestCase/ --alluredir {result_path}'
+    # pytest_cmd = f'pytest -v ./TestCase/test_sale/test_house --alluredir {result_path}'
+    pytest_cmd = f'pytest -m "sale" --alluredir {result_path}'
     p1 = subprocess.Popen(pytest_cmd, shell=True, stdout=subprocess.PIPE)
     out = p1.communicate()[0]
     allure_cmd = f'allure generate {result_path} -o {report_path} --clean'

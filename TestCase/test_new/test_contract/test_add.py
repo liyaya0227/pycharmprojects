@@ -30,7 +30,7 @@ class TestAdd(object):
     json_file_path = cm.test_data_dir + "/test_new/test_contract/test_add.json"
     test_data = get_data(json_file_path)
 
-    @pytest.fixture(scope="class", autouse=True)
+    @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, web_driver):
         global customer_info
 

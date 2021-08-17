@@ -13,6 +13,7 @@ from config.conf import cm
 from utils.logger import log
 from common.readconfig import ini
 from utils.jsonutil import get_value
+from page_object.main.upviewpage import MainUpViewPage
 from page_object.main.leftviewpage import MainLeftViewPage
 from page_object.login.loginpage import LoginPage
 from page_object.house.tablepage import HouseTablePage
@@ -29,7 +30,7 @@ class TestFloor(object):
         account_list.append(value)
     account_list.append([ini.user_account, ini.user_password])
 
-    @pytest.fixture(scope="class", autouse=True)
+    @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, web_driver):
         global house_code
 
@@ -50,6 +51,7 @@ class TestFloor(object):
         house_table = HouseTablePage(web_driver)
         house_detail = HouseDetailPage(web_driver)
         main_leftview = MainLeftViewPage(web_driver)
+        main_upview = MainUpViewPage(web_driver)
         login = LoginPage(web_driver)
 
         main_leftview.log_out()
@@ -68,3 +70,4 @@ class TestFloor(object):
         dialog_detail_floor_info = house_detail.get_floor_dialog_detail_floor()
         house_detail.dialog_click_close_button()
         assert dialog_detail_floor_info != ''
+        main_upview.clear_all_title()

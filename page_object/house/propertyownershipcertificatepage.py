@@ -9,6 +9,7 @@
 
 from page.webpage import WebPage
 from common.readelement import Element
+from utils.timeutil import sleep
 from utils.uploadfile import upload_file
 
 property_ownership_certificate = Element('house/propertyownershipcertificate')
@@ -20,6 +21,7 @@ class PropertyOwnershipCertificatePage(WebPage):
         for file in file_path:
             self.is_click(property_ownership_certificate['上传图片按钮'])
             upload_file(file)
+            sleep(2)
 
     def input_contract_registration_date(self, date):
         self.is_click(property_ownership_certificate['登记日期输入框'])

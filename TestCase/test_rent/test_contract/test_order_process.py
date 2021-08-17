@@ -32,7 +32,7 @@ customer_code = ''
 @allure.feature("测试合同模块")
 class TestOrderProcess(object):
 
-    @pytest.fixture(scope="class", autouse=True)
+    @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, web_driver):
         global house_code
         global customer_code
@@ -83,7 +83,7 @@ class TestOrderProcess(object):
         main_leftview.click_contract_management_label()
 
     @allure.story("测试买卖合同流程")
-    @pytest.mark.sale
+    @pytest.mark.rent
     @pytest.mark.contract
     @pytest.mark.run(order=-3)
     @pytest.mark.flaky(reruns=5, reruns_delay=2)

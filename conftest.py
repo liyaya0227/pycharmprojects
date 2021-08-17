@@ -60,7 +60,7 @@ def android_driver():
         # 'deviceName': '127.0.0.1:62001',  # 夜神
         # 'platformVersion': '7.1.2',  # 操作系统版本
         # 'deviceName': '721QEDRE2H7DT',  # 设备名称。如果是真机，在'设置->关于手机->设备名称'里查看
-        'noReset': False,  # 应用状态是否需要重置，默认true
+        'noReset': True,  # 应用状态是否需要重置，默认true
         'fullReset': False,  # 执行完测试后是否卸载app，默认false
         'appPackage': ini.app_package,  # 应用的包名
         'appActivity': ini.app_package + '.MainActivity',  # 应用的第一个启动Activity
@@ -78,7 +78,7 @@ def android_driver():
     adriver.quit()
 
 
-@pytest.fixture(scope='class', autouse=True)
+@pytest.fixture(scope='function', autouse=True)
 def setup_and_teardown(web_driver):
     login_page = LoginPage(web_driver)
     login_page.log_in(ini.user_account, ini.user_password)
