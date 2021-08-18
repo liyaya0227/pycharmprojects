@@ -45,26 +45,7 @@ class TestOrderProcess(object):
         customer_detail = CustomerDetailPage(web_driver)
 
         main_leftview.change_role('经纪人')
-        main_leftview.click_all_house_label()
-        house_table.click_rent_tab()
-        house_table.click_all_house_tab()
-        house_table.click_reset_button()
-        house_table.clear_filter(flag='租赁')
-        house_table.choose_estate_name_search(ini.house_community_name)
-        house_table.choose_building_name_search(ini.house_building_id)
-        house_table.click_search_button()
-        table_count = house_table.get_house_table_count()
-        assert table_count > 0
-        for row in range(table_count):
-            house_table.go_house_detail_by_row(row + 1)
-            house_property_address = house_detail.get_address_dialog_house_property_address()
-            if house_property_address['estate_name'] == ini.house_community_name \
-                    and house_property_address['building_name'] == ini.house_building_id \
-                    and house_property_address['door_name'] == ini.house_doorplate:
-                house_code = house_detail.get_house_code()
-                main_upview.close_title_by_name(house_property_address['estate_name'])
-                break
-            main_upview.close_title_by_name(house_property_address['estate_name'])
+        house_code = house_table.get_house_code_by_db(flag='租赁')
         assert house_code != ''
         log.info('创建合同的房源编号: ' + house_code)
         main_upview.clear_all_title()

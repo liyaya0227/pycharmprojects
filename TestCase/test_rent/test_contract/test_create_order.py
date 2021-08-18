@@ -47,31 +47,23 @@ class TestCreateOrder(object):
         contract_table = ContractTablePage(web_driver)
 
         main_leftview.change_role('经纪人')
+        house_code = house_table.get_house_code_by_db(flag='租赁')
+        assert house_code != ''
+        log.info('房源编号为：' + house_code)
         main_leftview.click_all_house_label()
         house_table.click_rent_tab()
         house_table.click_reset_button()
         house_table.clear_filter(flag='租赁')
-        house_table.choose_estate_name_search(ini.house_community_name)
-        house_table.choose_building_name_search(ini.house_building_id)
+        house_table.input_house_code_search(house_code)
         house_table.click_search_button()
-        table_count = house_table.get_house_table_count()
-        assert table_count > 0
-        for row in range(table_count):
-            house_table.go_house_detail_by_row(row + 1)
-            house_property_address = house_detail.get_address_dialog_house_property_address()
-            if house_property_address['estate_name'] == ini.house_community_name \
-                    and house_property_address['building_name'] == ini.house_building_id \
-                    and house_property_address['door_name'] == ini.house_doorplate:
-                house_info = house_property_address
-                house_info['house_code'] = house_detail.get_house_code()
-                house_info['house_type'] = house_detail.get_house_type()
-                house_info['orientations'] = house_detail.get_orientations()
-                house_info['floor'] = ini.house_floor
-                house_info['renovation_condition'] = house_detail.get_renovation_condition()
-                house_info['enable_watch_time'] = house_detail.get_enable_watch_time()
-                main_upview.close_title_by_name(house_property_address['estate_name'])
-                break
-            main_upview.close_title_by_name(house_property_address['estate_name'])
+        house_table.go_house_detail_by_row(1)
+        house_info = house_detail.get_address_dialog_house_property_address()
+        house_info['house_code'] = house_detail.get_house_code()
+        house_info['house_type'] = house_detail.get_house_type()
+        house_info['orientations'] = house_detail.get_orientations()
+        house_info['floor'] = ini.house_floor
+        house_info['renovation_condition'] = house_detail.get_renovation_condition()
+        house_info['enable_watch_time'] = house_detail.get_enable_watch_time()
         assert house_info != {}
         log.info('获取房源信息，新建合同校验需要')
         main_upview.clear_all_title()
