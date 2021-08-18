@@ -49,7 +49,6 @@ class TestCreateOrder(object):
 
         main_leftview.change_role('经纪人')
         house_code = house_table.get_house_code_by_db(flag='买卖')
-        # house_code = '102000000476'
         assert house_code != ''
         log.info('房源编号为：' + house_code)
         main_leftview.click_all_house_label()
