@@ -482,7 +482,7 @@ class HouseDetailPage(WebPage):
         sleep()
         floor = self.element_text(house_detail['楼层弹窗_具体楼层信息']).split('具体楼层')[1]
         self.is_click(house_detail['弹窗_关闭按钮'])
-        return floor.split('/')[0]
+        return floor.split('/')[0].replace(' ', '')
 
     def click_go_top_button(self):  # 点击房源详情右侧顶部按钮
         self.is_click(house_detail['右侧菜单顶部按钮'])
@@ -603,6 +603,7 @@ class HouseDetailPage(WebPage):
 
     def dialog_click_confirm_button(self):  # 弹窗确定按钮
         self.is_click(house_detail['弹窗_确定按钮'])
+        sleep(2)
 
     def dialog_click_cancel_button(self):  # 弹窗取消按钮
         self.is_click(house_detail['弹窗_取消按钮'])

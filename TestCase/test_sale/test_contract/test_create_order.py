@@ -140,4 +140,3 @@ class TestCreateOrder(object):
         contract_table.input_customer_code_search(customer_info['customer_code'])
         contract_table.click_search_button()
         assert contract_table.get_contract_table_count() == 1
-        main_upview.clear_all_title()

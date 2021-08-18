@@ -169,6 +169,7 @@ class TestTransactionOrderContent(object):
             contract_create_order.click_confirm_button_in_dialog()
         contract_create_order.input_contract_content(contract_data, '买卖')
         contract_create_order.click_submit_button()
+        main_topview.close_notification()
         log.info('合同创建成功')
         main_upview.clear_all_title()
         main_leftview.click_contract_management_label()
@@ -248,7 +249,6 @@ class TestTransactionOrderContent(object):
         transaction_buyer_info = transaction_detail.get_buyer_info()
         transaction_seller_info = transaction_detail.get_seller_info()
         transaction_house_info = transaction_detail.get_house_info()
-        main_upview.clear_all_title()
         transaction_management = ''  # 权证单内容的校验
         if ini.environment == 'ks':
             if contract_data['第四条信息']['支付方式'][0] == 1:
@@ -315,7 +315,7 @@ class TestTransactionOrderContent(object):
             for item in contract_data['第五条信息']['二_1']:
                 deposit = deposit + Decimal(item[1])
             house_payment = Decimal(contract_data['第五条信息']['一'])
-            house_delivery_payment = Decimal('0')
+            # house_delivery_payment = Decimal('0')
             register_transfer_payment = Decimal(contract_data['第五条信息']['二_4'][0])
             property_delivery_payment = Decimal(contract_data['第五条信息']['二_5'][1])
             first_payment = Decimal('0')
@@ -335,7 +335,7 @@ class TestTransactionOrderContent(object):
             assert Decimal(transaction_fund_info['购房款/首付款（第一笔）'][:-1]) == Decimal(contract_data['第五条信息']['二_2'][0][1])
             if transaction_info['交易管理'] == '商贷':
                 assert Decimal(transaction_fund_info['拟贷款金额'][:-1]) == Decimal(contract_data['第五条信息']['二_3'][1])
-            assert Decimal(transaction_fund_info['交房保证金'][:-1]) == house_delivery_payment
+            # assert Decimal(transaction_fund_info['交房保证金'][:-1]) == house_delivery_payment
             assert Decimal(transaction_fund_info['户口迁出保证金'][:-1]) == register_transfer_payment
             assert Decimal(transaction_fund_info['物业交割保证金'][:-1]) == property_delivery_payment
         else:
@@ -429,7 +429,7 @@ class TestTransactionOrderContent(object):
             if contract_data['第一条信息']['三'][0] == 6:
                 assert transaction_house_info['规划用途'] == '工业'
             if contract_data['第一条信息']['三'][0] == 7:
-                assert transaction_house_info['规划用途'] == '其他'
+                assert transaction_house_info['规划用途'] == '其他' + contract_data['第一条信息']['三'][1]
             assert transaction_house_info['建筑面积'] == contract_data['第一条信息']['建筑面积'] + 'm²'
             assert transaction_house_info['建成年代'] == '-'
             if contract_data['第二条信息']['一_持证方式'][1] == "":
@@ -454,7 +454,7 @@ class TestTransactionOrderContent(object):
             if contract_data['第一条信息']['四'][0] == 4:
                 assert transaction_house_info['房屋性质'] == '向社会公开销售的经济适用住房'
             if contract_data['第一条信息']['四'][0] == 5:
-                assert transaction_house_info['房屋性质'] == '其他性质'
+                assert transaction_house_info['房屋性质'] == '其他房屋' + contract_data['第一条信息']['四'][1]
         else:
             assert transaction_house_info['房屋性质'] == '-'
         assert transaction_house_info['楼盘名称'] == house_info['estate_name']
@@ -563,6 +563,7 @@ class TestTransactionOrderContent(object):
             contract_create_order.click_confirm_button_in_dialog()
         contract_create_order.input_contract_content(contract_data, '买卖')
         contract_create_order.click_submit_button()
+        main_topview.close_notification()
         log.info('合同创建成功')
         main_upview.clear_all_title()
         main_leftview.click_contract_management_label()
@@ -579,8 +580,6 @@ class TestTransactionOrderContent(object):
         main_leftview.change_role('商圈经理')  # 商圈经理审核
         main_leftview.click_contract_management_label()
         contract_table.click_sale_contract_examine_tab()
-        contract_table.click_wait_examine()
-        contract_table.click_reset_button()
         contract_table.input_contract_code_search(contract_code)
         contract_table.click_search_button()
         contract_table.pass_examine_by_row(1)
@@ -643,7 +642,6 @@ class TestTransactionOrderContent(object):
         transaction_buyer_share_person_info = transaction_detail.get_buyer_share_person()
         transaction_seller_info = transaction_detail.get_seller_info()
         transaction_house_info = transaction_detail.get_house_info()
-        main_upview.clear_all_title()
         transaction_management = ''  # 权证单内容的校验
         if ini.environment == 'ks':
             if contract_data['第四条信息']['支付方式'][0] == 1:
@@ -710,7 +708,7 @@ class TestTransactionOrderContent(object):
             for item in contract_data['第五条信息']['二_1']:
                 deposit = deposit + Decimal(item[1])
             house_payment = Decimal(contract_data['第五条信息']['一'])
-            house_delivery_payment = Decimal('0')
+            # house_delivery_payment = Decimal('0')
             register_transfer_payment = Decimal(contract_data['第五条信息']['二_4'][0])
             property_delivery_payment = Decimal(contract_data['第五条信息']['二_5'][1])
             first_payment = Decimal('0')
@@ -730,7 +728,7 @@ class TestTransactionOrderContent(object):
             assert Decimal(transaction_fund_info['购房款/首付款（第一笔）'][:-1]) == Decimal(contract_data['第五条信息']['二_2'][0][1])
             if transaction_info['交易管理'] == '商贷':
                 assert Decimal(transaction_fund_info['拟贷款金额'][:-1]) == Decimal(contract_data['第五条信息']['二_3'][1])
-            assert Decimal(transaction_fund_info['交房保证金'][:-1]) == house_delivery_payment
+            # assert Decimal(transaction_fund_info['交房保证金'][:-1]) == house_delivery_payment
             assert Decimal(transaction_fund_info['户口迁出保证金'][:-1]) == register_transfer_payment
             assert Decimal(transaction_fund_info['物业交割保证金'][:-1]) == property_delivery_payment
         else:
@@ -841,7 +839,7 @@ class TestTransactionOrderContent(object):
             if contract_data['第一条信息']['三'][0] == 6:
                 assert transaction_house_info['规划用途'] == '工业'
             if contract_data['第一条信息']['三'][0] == 7:
-                assert transaction_house_info['规划用途'] == '其他'
+                assert transaction_house_info['规划用途'] == '其他' + contract_data['第一条信息']['三'][1]
             assert transaction_house_info['建筑面积'] == contract_data['第一条信息']['建筑面积'] + 'm²'
             assert transaction_house_info['建成年代'] == '-'
             assert transaction_house_info['共有权证号'] == contract_data['第二条信息']['一_持证方式'][1]
@@ -863,7 +861,7 @@ class TestTransactionOrderContent(object):
             if contract_data['第一条信息']['四'][0] == 4:
                 assert transaction_house_info['房屋性质'] == '向社会公开销售的经济适用住房'
             if contract_data['第一条信息']['四'][0] == 5:
-                assert transaction_house_info['房屋性质'] == '其他性质'
+                assert transaction_house_info['房屋性质'] == '其他房屋' + contract_data['第一条信息']['四'][1]
         else:
             assert transaction_house_info['房屋性质'] == '-'
         assert transaction_house_info['楼盘名称'] == house_info['estate_name']

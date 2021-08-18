@@ -139,7 +139,7 @@ class ContractCreateSaleOrderDetailWXPage(WebPage):
         if first_info['三'][0] > 7:
             raise ValueError('传值错误')
         self.is_click(create_sale_order_detail_wx['一_4_1_选择框'])
-        self.__choose_value_in_special_drop_down_box(first_info['三'][0])
+        self.__choose_value_in_special_drop_down_box(first_info['四'][0])
         if first_info['四'][0] == 5:
             self.input_text(create_sale_order_detail_wx['一_4_1_输入框'], first_info['四'][1])
         if first_info['四'][0] > 5:
@@ -171,7 +171,6 @@ class ContractCreateSaleOrderDetailWXPage(WebPage):
         self.input_text(create_sale_order_detail_wx['二_2_1_输入框'], second_info['二_土地使用权证证号'])
         self.is_click(create_sale_order_detail_wx['二_2_2_选择框'])
         self.__choose_value_in_drop_down_box(second_info['二_获得方式'])
-        self.is_click(create_sale_order_detail_wx['二_2_3_输入框'])
         self.input_text_with_enter(create_sale_order_detail_wx['二_2_3_输入框'], second_info['二_土地使用年限'])
         if second_info['三'][0] == 1:
             self.is_click(create_sale_order_detail_wx['二_3_1_1_单选按钮'])
@@ -234,13 +233,13 @@ class ContractCreateSaleOrderDetailWXPage(WebPage):
         elif second_info['六_房屋居住权情况'][0] == 2:
             self.is_click(create_sale_order_detail_wx['二_6_1_2_单选按钮'])
             self.input_text(create_sale_order_detail_wx['二_6_1_2_输入框'], second_info['六_房屋居住权情况'][1])
+            self.is_click(create_sale_order_detail_wx['二_6_2_1_选择框'])
+            self.__choose_value_in_special_drop_down_box(second_info['六_房屋居住处理方式'][0])
+            if second_info['六_房屋居住处理方式'][0] == 3:
+                self.input_text(create_sale_order_detail_wx['二_6_2_1_输入框'], second_info['六_房屋居住处理方式'][1])
+            if second_info['六_房屋居住处理方式'][0] > 3:
+                raise ValueError('传值错误')
         else:
-            raise ValueError('传值错误')
-        self.is_click(create_sale_order_detail_wx['二_6_2_1_选择框'])
-        self.__choose_value_in_special_drop_down_box(second_info['六_房屋居住处理方式'][0])
-        if second_info['六_房屋居住处理方式'][0] == 3:
-            self.input_text(create_sale_order_detail_wx['二_6_2_1_输入框'], second_info['六_房屋居住处理方式'][1])
-        if second_info['六_房屋居住处理方式'][0] > 3:
             raise ValueError('传值错误')
         # if second_info['六_房屋居住处理方式'][0] == 1:
         #     self.is_click(create_sale_order_detail_wx['二_6_2_1_单选按钮'])
@@ -350,8 +349,10 @@ class ContractCreateSaleOrderDetailWXPage(WebPage):
         #         self.is_click(create_sale_order_detail_wx['五_2_1_1_' + str(flag + 3) + '_3_单选按钮'])
         #     else:
         #         raise ValueError('传值错误')
-        for first_pay in five_info['二_2']:
-            flag = str(five_info['二_2'].index(first_pay) + 1)
+        first_pay_list = five_info['二_2']
+        for i in range(len(first_pay_list)):
+            first_pay = first_pay_list[i]
+            flag = str(first_pay_list.index(first_pay) + 1)
             self.is_click(create_sale_order_detail_wx['五_2_2_' + flag + '_1_选择框'])
             self.__choose_value_in_special_drop_down_box(first_pay[0][0])
             if first_pay[0][0] == 1 or first_pay[0][0] == 4:
@@ -364,16 +365,18 @@ class ContractCreateSaleOrderDetailWXPage(WebPage):
             else:
                 raise ValueError('传值错误')
             self.input_text(create_sale_order_detail_wx['五_2_2_' + flag + '_2_输入框'], first_pay[1])
-            if first_pay[2] == 1:
-                self.is_click(create_sale_order_detail_wx['五_2_2_' + flag + '_4_1_单选按钮'])
-            elif first_pay[2] == 2:
-                self.is_click(create_sale_order_detail_wx['五_2_2_' + flag + '_4_2_单选按钮'])
-            elif first_pay[2] == 3:
-                self.is_click(create_sale_order_detail_wx['五_2_2_' + flag + '_4_3_单选按钮'])
-            elif first_pay[2] == 4:
-                self.is_click(create_sale_order_detail_wx['五_2_2_' + flag + '_4_4_单选按钮'])
-            else:
-                raise ValueError('传值错误')
+            self.is_click(create_sale_order_detail_wx['五_2_2_' + flag + '_4_选择框'])
+            self.__choose_value_in_drop_down_box(first_pay[2])
+            # if first_pay[2] == 1:
+            #     self.is_click(create_sale_order_detail_wx['五_2_2_' + flag + '_4_1_单选按钮'])
+            # elif first_pay[2] == 2:
+            #     self.is_click(create_sale_order_detail_wx['五_2_2_' + flag + '_4_2_单选按钮'])
+            # elif first_pay[2] == 3:
+            #     self.is_click(create_sale_order_detail_wx['五_2_2_' + flag + '_4_3_单选按钮'])
+            # elif first_pay[2] == 4:
+            #     self.is_click(create_sale_order_detail_wx['五_2_2_' + flag + '_4_4_单选按钮'])
+            # else:
+            #     raise ValueError('传值错误')
         # if len(five_info['二_3']) == 0:
         if not five_info['二_3']:
             pass
@@ -428,10 +431,11 @@ class ContractCreateSaleOrderDetailWXPage(WebPage):
         else:
             raise ValueError('传值错误')
         self.is_click(create_sale_order_detail_wx['五_2_4_4_选择框'])
-        if five_info['二_4'][2] <= 5:
-            self.__choose_value_in_special_drop_down_box(five_info['二_4'][2])
-        else:
-            raise ValueError('传值错误')
+        self.__choose_value_in_drop_down_box(five_info['二_4'][2])
+        # if five_info['二_4'][2] <= 5:
+        #     self.__choose_value_in_special_drop_down_box(five_info['二_4'][2])
+        # else:
+        #     raise ValueError('传值错误')
         # if five_info['二_4'][2] == 1:
         #     self.is_click(create_sale_order_detail_wx['五_2_4_4_1_单选按钮'])
         # elif five_info['二_4'][2] == 2:
@@ -462,10 +466,11 @@ class ContractCreateSaleOrderDetailWXPage(WebPage):
         else:
             raise ValueError('传值错误')
         self.is_click(create_sale_order_detail_wx['五_2_5_5_选择框'])
-        if five_info['二_5'][3] <= 5:
-            self.__choose_value_in_special_drop_down_box(five_info['二_5'][3])
-        else:
-            raise ValueError('传值错误')
+        self.__choose_value_in_drop_down_box(five_info['二_5'][3])
+        # if five_info['二_5'][3] <= 5:
+        #     self.__choose_value_in_special_drop_down_box(five_info['二_5'][3])
+        # else:
+        #     raise ValueError('传值错误')
         # if five_info['二_5'][3] == 1:
         #     self.is_click(create_sale_order_detail_wx['五_2_5_5_1_单选按钮'])
         # elif five_info['二_5'][3] == 2:

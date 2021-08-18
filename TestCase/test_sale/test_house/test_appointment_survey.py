@@ -16,7 +16,6 @@ from utils.jsonutil import get_data
 from utils.jsonutil import get_value
 from page_object.main.topviewpage import MainTopViewPage
 from page_object.main.leftviewpage import MainLeftViewPage
-from page_object.main.upviewpage import MainUpViewPage
 from page_object.house.tablepage import HouseTablePage
 from page_object.house.detailpage import HouseDetailPage
 
