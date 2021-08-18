@@ -467,6 +467,8 @@ class TestTransactionOrderContent(object):
         else:
             assert transaction_house_info['房本类型'] == '-'
             assert transaction_house_info['产权证号'] == contract_data['第一条信息']['房屋所有权证编号']
+        if house_key_info['house_state'] == '-':
+            house_key_info['house_state'] = '--'
         assert transaction_house_info['房屋现状'] == house_key_info['house_state']
         assert transaction_house_info['物业地址'] == house_info['estate_name'] + house_info['building_name'] + '-' + \
                house_info['unit_name'] + '-' + house_info['floor'] + '-' + house_info['door_name']
@@ -501,7 +503,7 @@ class TestTransactionOrderContent(object):
         if house_key_info['is_unique'] == '-':
             assert transaction_house_info['是否唯一'] == '-'
         assert transaction_house_info['产证年限'] == house_key_info['house_property_limit']
-        assert transaction_house_info['是否限售房'] == '-'
+        assert transaction_house_info['是否限售房'] == '--'
 
     @allure.story("测试商贷购买合同，查看权证单显示数据用例")
     @pytest.mark.sale
@@ -874,6 +876,8 @@ class TestTransactionOrderContent(object):
         else:
             assert transaction_house_info['房本类型'] == '-'
             assert transaction_house_info['产权证号'] == contract_data['第一条信息']['房屋所有权证编号']
+        if house_key_info['house_state'] == '-':
+            house_key_info['house_state'] = '--'
         assert transaction_house_info['房屋现状'] == house_key_info['house_state']
         assert transaction_house_info['物业地址'] == house_info['estate_name'] + house_info['building_name'] + '-' + \
                house_info['unit_name'] + '-' + house_info['floor'] + '-' + house_info['door_name']
@@ -888,9 +892,9 @@ class TestTransactionOrderContent(object):
             if contract_data['第二条信息']['三'][0] == 2:
                 assert transaction_house_info['是否有抵押'] == '有抵押'
                 assert transaction_house_info['合同约定的注销抵押日期'] == \
-                       contract_data['第二条信息']['三'][2][1].split('-')[0] + '年' \
-                       + contract_data['第二条信息']['三'][2][1].split('-')[1] + '月' \
-                       + contract_data['第二条信息']['三'][2][1].split('-')[2] + '日'
+                       contract_data['第二条信息']['三'][1][1].split('-')[0] + '年' \
+                       + contract_data['第二条信息']['三'][1][1].split('-')[1] + '月' \
+                       + contract_data['第二条信息']['三'][1][1].split('-')[2] + '日'
         else:
             if contract_data['第二条信息']['房屋抵押状况'][0] == 1:
                 assert transaction_house_info['是否有抵押'] == '无抵押'
@@ -908,4 +912,4 @@ class TestTransactionOrderContent(object):
         if house_key_info['is_unique'] == '-':
             assert transaction_house_info['是否唯一'] == '-'
         assert transaction_house_info['产证年限'] == house_key_info['house_property_limit']
-        assert transaction_house_info['是否限售房'] == '-'
+        assert transaction_house_info['是否限售房'] == '--'

@@ -1,3 +1,5 @@
+房屋所属行政区选择框: "xpath==//input[@id='baseInfo_area']"
+
 房屋出租方_姓名输入框: "xpath==//div[@style='' or not(@style)]//table[@id='p2_self']//input[@id='p2_self_p2_1']"
 房屋出租方_英文名输入框: "xpath==//div[@style='' or not(@style)]//table[@id='p2_self']//input[@id='p2_self_p2_2']"
 房屋出租方_性别选择框: "xpath==//div[@style='' or not(@style)]//table[@id='p2_self']//input[@id='p2_self_p2_3']"
