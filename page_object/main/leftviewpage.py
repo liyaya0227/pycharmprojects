@@ -28,14 +28,14 @@ class MainLeftViewPage(WebPage):
             if role_name in role.text:
                 if 'ant-radio-wrapper-checked' in role.get_attribute('class'):
                     self.is_click(left_view['切换角色弹窗_取消按钮'])
+                    sleep()
                     return
                 role.click()
                 self.is_click(left_view['切换角色弹窗_确定按钮'])
                 sleep(3)
                 break
-        if role_name in '经纪人':
-            main_topview = MainTopViewPage(self.driver)
-            main_topview.click_close_button()
+        main_topview = MainTopViewPage(self.driver)
+        main_topview.click_close_button()
 
     def log_out(self):
         self.refresh()

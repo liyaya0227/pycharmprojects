@@ -106,7 +106,7 @@ class TestCreateOrder(object):
     @pytest.mark.sale
     @pytest.mark.contract
     @pytest.mark.run(order=21)
-    @pytest.mark.flaky(reruns=5, reruns_delay=2)
+    # @pytest.mark.flaky(reruns=5, reruns_delay=2)
     def test_001(self, web_driver):
         main_topview = MainTopViewPage(web_driver)
         main_upview = MainUpViewPage(web_driver)
