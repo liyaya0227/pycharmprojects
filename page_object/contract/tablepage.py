@@ -52,11 +52,14 @@ class ContractTablePage(WebPage):
 
     def click_search_button(self):
         self.is_click(table['查询按钮'])
+        sleep(2)
 
     def delete_contract_by_row(self, row=1):
+        self.wait_page_loading_complete()
         locator = 'xpath', "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + \
                   str(row) + "]/td[" + str(self.__get_column_by_title('操作') + 1) + "]//span[contains(text(),'删除')]"
         self.is_click(locator)
+        sleep(2)
 
     def go_contract_detail_by_row(self, row=1):
         locator = 'xpath', "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + \

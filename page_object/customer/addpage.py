@@ -313,3 +313,4 @@ class CustomerAddPage(WebPage):
 
     def click_complete_button(self):
         self.is_click(customer_add_need_info['完成按钮'])
+        sleep(2)

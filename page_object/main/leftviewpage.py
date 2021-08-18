@@ -45,6 +45,7 @@ class MainLeftViewPage(WebPage):
 
     def click_homepage_overview_label(self):
         self.is_click(left_view['首页概览标签'])
+        sleep()
 
     def click_all_house_label(self):
         is_expanded = self.get_element_attribute(left_view['房源管理菜单'], 'aria-expanded')
@@ -52,6 +53,7 @@ class MainLeftViewPage(WebPage):
             self.is_click(left_view['房源管理菜单'])
             sleep()
         self.is_click(left_view['全部房源标签'])
+        sleep()
 
     def click_survey_management_label(self):
         is_expanded = self.get_element_attribute(left_view['房源管理菜单'], 'aria-expanded')
@@ -59,6 +61,7 @@ class MainLeftViewPage(WebPage):
             self.is_click(left_view['房源管理菜单'])
             sleep()
         self.is_click(left_view['实勘管理标签'])
+        sleep()
 
     def click_my_customer_label(self):
         is_expanded = self.get_element_attribute(left_view['客源管理菜单'], 'aria-expanded')
@@ -66,6 +69,7 @@ class MainLeftViewPage(WebPage):
             self.is_click(left_view['客源管理菜单'])
             sleep()
         self.is_click(left_view['我的客户标签'])
+        sleep()
 
     def click_new_house_operation_label(self):
         is_expanded = self.get_element_attribute(left_view['客源管理菜单'], 'aria-expanded')
@@ -73,6 +77,7 @@ class MainLeftViewPage(WebPage):
             self.is_click(left_view['客源管理菜单'])
             sleep()
         self.is_click(left_view['新房作业标签'])
+        sleep()
 
     def click_contract_management_label(self):
         is_expanded = self.get_element_attribute(left_view['签约管理菜单'], 'aria-expanded')
@@ -80,6 +85,7 @@ class MainLeftViewPage(WebPage):
             self.is_click(left_view['签约管理菜单'])
             sleep()
         self.is_click(left_view['签约管理标签'])
+        sleep()
 
     def click_achievement_label(self):
         is_expanded = self.get_element_attribute(left_view['签约管理菜单'], 'aria-expanded')
@@ -87,6 +93,7 @@ class MainLeftViewPage(WebPage):
             self.is_click(left_view['签约管理菜单'])
             sleep()
         self.is_click(left_view['业绩标签'])
+        sleep()
 
     def click_on_way_order_label(self):
         is_expanded = self.get_element_attribute(left_view['交易管理菜单'], 'aria-expanded')
@@ -94,6 +101,7 @@ class MainLeftViewPage(WebPage):
             self.is_click(left_view['交易管理菜单'])
             sleep()
         self.is_click(left_view['在途单标签'])
+        sleep()
 
     def click_completed_order_label(self):
         is_expanded = self.get_element_attribute(left_view['交易管理菜单'], 'aria-expanded')
@@ -101,6 +109,7 @@ class MainLeftViewPage(WebPage):
             self.is_click(left_view['交易管理菜单'])
             sleep()
         self.is_click(left_view['终结单标签'])
+        sleep()
 
     def click_agreement_list_label(self):
         is_expanded = self.get_element_attribute(left_view['协议应用菜单'], 'aria-expanded')
@@ -108,3 +117,4 @@ class MainLeftViewPage(WebPage):
             self.is_click(left_view['协议应用菜单'])
             sleep()
         self.is_click(left_view['协议列表标签'])
+        sleep()

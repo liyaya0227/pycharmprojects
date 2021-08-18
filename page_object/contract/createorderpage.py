@@ -102,7 +102,7 @@ class ContractCreateOrderPage(WebPage):
 
     def click_submit_button(self):
         self.is_click(create_order['提交按钮'])
-        sleep(5)
+        sleep(3)
 
     def input_contract_content(self, test_data, flag='买卖'):
         if flag == '买卖':

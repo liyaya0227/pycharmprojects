@@ -9,6 +9,7 @@
 
 from page.webpage import WebPage
 from common.readelement import Element
+from utils.timeutil import sleep
 
 customer_detail = Element('customer/detail')
 
@@ -39,3 +40,4 @@ class CustomerDetailPage(WebPage):
 
     def click_dialog_confirm_button(self):
         self.is_click(customer_detail['无效客源申请弹窗_确定按钮'])
+        sleep(2)
