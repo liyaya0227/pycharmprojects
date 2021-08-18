@@ -60,31 +60,32 @@ class TestAdd(object):
         dialog_title = main_topview.find_notification_title()  # 若房源已录入，则右上角弹窗显示已录入的房源编号
         if dialog_title != '':
             log.info('房源已存在')
-            house_code = re.search(r"房源编号(\d+?)，", dialog_title).group(1)  # 获取房源编号
-            main_leftview.click_all_house_label()
-            house_table.clear_filter('租赁')
-            house_table.input_house_code_search(house_code)
-            house_table.click_search_button()
-            house_table.go_house_detail_by_row()
-            house_detail.click_invalid_house_button()  # 执行房源无效操作
-            house_detail.input_invalid_reason("测试需要")
-            house_detail.click_invalid_reason_confirm_button()
-            dialog_content = main_topview.find_notification_content()  # 若房源已经提交无效申请，则弹窗显示已提交
-            if '该房源已提交了无效申请' in dialog_content:
-                log.info('无效申请已提交')
-                main_topview.close_notification()
-                house_detail.click_invalid_reason_cancel_button()
-            main_leftview.change_role('超级管理员')  # 切换超管无效房源
-            main_rightview.click_invalid_house()
-            invalid_house_page.click_pass_by_housecode(house_code)
-            invalid_house_page.click_invalid_house_confirm_button()
-            assert main_topview.find_notification_title() == '成功'
-            main_leftview.change_role('经纪人')  # 切回经纪人，重新执行新增操作
-            main_leftview.click_all_house_label()
-            house_table.click_rent_tab()
-            house_table.click_add_house_button()
-            house_add.input_property_address('租赁')
-            assert main_topview.find_notification_content() == ''
+            return
+            # house_code = re.search(r"房源编号(\d+?)，", dialog_title).group(1)  # 获取房源编号
+            # main_leftview.click_all_house_label()
+            # house_table.clear_filter('租赁')
+            # house_table.input_house_code_search(house_code)
+            # house_table.click_search_button()
+            # house_table.go_house_detail_by_row()
+            # house_detail.click_invalid_house_button()  # 执行房源无效操作
+            # house_detail.input_invalid_reason("测试需要")
+            # house_detail.click_invalid_reason_confirm_button()
+            # dialog_content = main_topview.find_notification_content()  # 若房源已经提交无效申请，则弹窗显示已提交
+            # if '该房源已提交了无效申请' in dialog_content:
+            #     log.info('无效申请已提交')
+            #     main_topview.close_notification()
+            #     house_detail.click_invalid_reason_cancel_button()
+            # main_leftview.change_role('超级管理员')  # 切换超管无效房源
+            # main_rightview.click_invalid_house()
+            # invalid_house_page.click_pass_by_housecode(house_code)
+            # invalid_house_page.click_invalid_house_confirm_button()
+            # assert main_topview.find_notification_title() == '成功'
+            # main_leftview.change_role('经纪人')  # 切回经纪人，重新执行新增操作
+            # main_leftview.click_all_house_label()
+            # house_table.click_rent_tab()
+            # house_table.click_add_house_button()
+            # house_add.input_property_address('租赁')
+            # assert main_topview.find_notification_content() == ''
         house_add.input_owner_info_and_house_info(self.test_data, '租赁')
         assert '新增成功' in main_topview.find_notification_content()
         log.info('填写房源信息成功')

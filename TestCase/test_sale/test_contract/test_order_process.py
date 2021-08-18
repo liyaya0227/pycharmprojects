@@ -67,8 +67,8 @@ class TestOrderProcess(object):
     @pytest.mark.sale
     @pytest.mark.contract
     @pytest.mark.run(order=22)
-    @pytest.mark.dependency(depends=['ui/TestCase/test_sale/test_contract/test_create_order.py::TestCreateOrder'
-                                     '::test_001'], scope='session')
+    # @pytest.mark.dependency(depends=['ui/TestCase/test_sale/test_contract/test_create_order.py::TestCreateOrder'
+    #                                  '::test_001'], scope='session')
     @pytest.mark.flaky(reruns=5, reruns_delay=2)
     def test_001(self, web_driver):
         main_topview = MainTopViewPage(web_driver)

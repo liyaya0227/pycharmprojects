@@ -37,8 +37,8 @@ class TestAdd(object):
     @pytest.mark.sale
     @pytest.mark.house
     @pytest.mark.run(order=1)
-    @pytest.mark.dependency()
-    @pytest.mark.flaky(reruns=5, reruns_delay=2)
+    # @pytest.mark.dependency()
+    # @pytest.mark.flaky(reruns=5, reruns_delay=2)
     def test_001(self, web_driver):
         main_topview = MainTopViewPage(web_driver)
         main_leftview = MainLeftViewPage(web_driver)

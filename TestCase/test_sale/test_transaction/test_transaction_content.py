@@ -125,8 +125,8 @@ class TestTransactionOrderContent(object):
     @pytest.mark.sale
     @pytest.mark.transaction
     @pytest.mark.run(order=41)
-    @pytest.mark.dependency()
-    @pytest.mark.flaky(reruns=5, reruns_delay=2)
+    # @pytest.mark.dependency()
+    # @pytest.mark.flaky(reruns=5, reruns_delay=2)
     @pytest.mark.parametrize("contract_data", full_payment_contract_data)
     def test_001(self, web_driver, contract_data):
         main_upview = MainUpViewPage(web_driver)
@@ -506,9 +506,9 @@ class TestTransactionOrderContent(object):
     @allure.story("测试商贷购买合同，查看权证单显示数据用例")
     @pytest.mark.sale
     @pytest.mark.transaction
-    @pytest.mark.run(order=5)
-    @pytest.mark.dependency()
-    @pytest.mark.flaky(reruns=5, reruns_delay=2)
+    @pytest.mark.run(order=41)
+    # @pytest.mark.dependency()
+    # @pytest.mark.flaky(reruns=5, reruns_delay=2)
     @pytest.mark.parametrize("contract_data", commercial_loan_contract_data)
     def test_002(self, web_driver, contract_data):
         main_upview = MainUpViewPage(web_driver)

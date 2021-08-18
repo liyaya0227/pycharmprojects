@@ -14,6 +14,7 @@ from utils.logger import log
 from common.readconfig import ini
 from utils.jsonutil import get_value
 from page_object.main.upviewpage import MainUpViewPage
+from page_object.house.addpage import HouseAddPage
 from page_object.main.topviewpage import MainTopViewPage
 from page_object.main.leftviewpage import MainLeftViewPage
 from page_object.login.loginpage import LoginPage
@@ -33,9 +34,24 @@ class TestAddress(object):
         global house_code
 
         main_leftview = MainLeftViewPage(web_driver)
+        main_upview = MainUpViewPage(web_driver)
+        house_add = HouseAddPage(web_driver)
         house_table = HouseTablePage(web_driver)
 
         main_leftview.change_role('经纪人')
+        house_code = house_table.get_house_code_by_db(flag='买卖')
+        if house_table.get_house_code_by_db(flag='买卖') == '':  # 判断房源是否存在，不存在则新增
+            house_table.click_add_house_button()
+            house_add.choose_sale_radio()
+            house_add.choose_estate_name(ini.house_community_name)  # 填写物业地址信息
+            house_add.choose_building_id(ini.house_building_id)
+            house_add.choose_building_cell(ini.house_building_cell)
+            house_add.choose_floor(ini.house_floor)
+            house_add.choose_doorplate(ini.house_doorplate)
+            house_add.click_next_button()
+            house_add.input_owner_info_and_house_info(self.house_data, '买卖')
+            main_upview.clear_all_title()
+        main_leftview.click_all_house_label()
         house_code = house_table.get_house_code_by_db(flag='买卖')
         assert house_code != ''
         log.info('房源编号为：' + house_code)

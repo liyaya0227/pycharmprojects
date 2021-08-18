@@ -52,14 +52,6 @@ class ReadConfig(object):
             env = self.environment
         return self._get(env.upper() + '_USER', 'PASSWORD')
 
-    # @property
-    def user_account_by_role(self, role_name):
-        if self.environment == 'ks':
-            env = 'sz'
-        else:
-            env = self.environment
-        return self._get(env.upper() + '_USER_' + role_name, 'ACCOUNT'), self._get(env.upper() + '_USER_' + role_name, 'PASSWORD')
-
     @property
     def database_server(self):
         return self._get('DATABASE', 'DATABASE_SERVER')
