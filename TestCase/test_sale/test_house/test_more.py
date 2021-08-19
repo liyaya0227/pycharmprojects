@@ -9,7 +9,6 @@
 import allure
 import pytest
 from page_object.house.detailpage import HouseDetailPage
-from page_object.house.tablepage import HouseTablePage
 from utils.logger import log
 
 
@@ -22,8 +21,7 @@ class TestHouseDetail(object):
     @pytest.mark.run(order=2)  # 保证在新增房源用例后执行
     @pytest.mark.parametrize('flag', ['买卖', '租赁'])
     def test_view_basic_information(self, web_driver, flag):
-        driver = web_driver
-        house_detail = HouseDetailPage(driver)
+        house_detail = HouseDetailPage(web_driver)
         account_name = house_detail.get_account_name()
         house_detail.change_role('经纪人')
         num = house_detail.get_house_num(account_name, flag)
@@ -41,8 +39,7 @@ class TestHouseDetail(object):
     @pytest.mark.run(order=2)  # 保证在新增房源用例后执行
     @pytest.mark.parametrize('flag', ['买卖', '租赁'])
     def test_modify_house_state(self, web_driver, flag):
-        driver = web_driver
-        house_detail = HouseDetailPage(driver)
+        house_detail = HouseDetailPage(web_driver)
         account_name = house_detail.get_account_name()
         house_detail.change_role('经纪人')
         num = house_detail.get_house_num(account_name, flag)
@@ -78,8 +75,7 @@ class TestHouseDetail(object):
     @pytest.mark.run(order=2)  # 保证在新增房源用例后执行
     @pytest.mark.parametrize('flag', ['买卖', '租赁'])
     def test_modify_house_price(self, web_driver, flag):
-        driver = web_driver
-        house_detail = HouseDetailPage(driver)
+        house_detail = HouseDetailPage(web_driver)
         account_name = house_detail.get_account_name()
         house_detail.change_role('经纪人')
         num = house_detail.get_house_num(account_name, flag)
@@ -124,8 +120,7 @@ class TestHouseDetail(object):
     @pytest.mark.run(order=2)  # 保证在新增房源用例后执行
     @pytest.mark.parametrize('flag', ['买卖', '租赁'])
     def test_modify_price_by_information(self, web_driver, flag):
-        driver = web_driver
-        house_detail = HouseDetailPage(driver)
+        house_detail = HouseDetailPage(web_driver)
         account_name = house_detail.get_account_name()
         house_detail.change_role('经纪人')
         num = house_detail.get_house_num(account_name, flag)
@@ -166,6 +161,8 @@ class TestHouseDetail(object):
                         assert True
                     else:
                         log.error(f'{flag}调价记录更新失败'.format(flag = flag))
+
+                    house_detail.is_click(house_detail['操作日志按钮'])
                     if is_update:  # 校验操作日志是否更新
                         house_detail.click_blank_area()
                         assert is_update
@@ -184,8 +181,7 @@ class TestHouseDetail(object):
     @pytest.mark.run(order=2)  # 保证在新增房源用例后执行
     @pytest.mark.parametrize('flag', ['买卖', '租赁'])
     def test_report_house(self, web_driver, flag):
-        driver = web_driver
-        house_detail = HouseDetailPage(driver)
+        house_detail = HouseDetailPage(web_driver)
         account_name = house_detail.get_account_name()
         house_detail.change_role('经纪人')
         num = house_detail.get_house_num(account_name, flag)
@@ -213,8 +209,7 @@ class TestHouseDetail(object):
     @pytest.mark.run(order=3)  # 保证调整价格等用例执行结束后再执行更换房源维护人用例
     @pytest.mark.parametrize('flag', ['买卖', '租赁'])
     def test_replace_maintainer(self, web_driver, flag):
-        driver = web_driver
-        house_detail = HouseDetailPage(driver)
+        house_detail = HouseDetailPage(web_driver)
         account_name = house_detail.get_account_name()
         house_detail.change_role('经纪人')
         num = house_detail.get_house_num(account_name, flag)

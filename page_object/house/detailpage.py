@@ -6,7 +6,7 @@
 @file: detailpage.py
 @time: 2021/06/22
 """
-
+import random
 import re
 from random import randint
 
@@ -672,34 +672,47 @@ class HouseDetailPage(WebPage):
         account_name = self.element_text(house_detail['当前账号名字']).split(' ')[0]
         return account_name
 
-    def get_house_num(self, account_name):
+    def get_house_num(self, account_name, flag):
         """获取当前维护人下的房源数量"""
         # account_name = self.element_text(house_detail['当前账号名字']).split(' ')[0]
-        house_code = self.get_house_info_by_db(account_name)
+        house_code = self.get_house_info_by_db(account_name, flag)
         main_leftview.click_all_house_label()
-        self.input_text(house_detail['房源编号输入框'], house_code)
+        if flag == '买卖':
+            self.input_text(house_detail['房源编号输入框'], house_code)
+        else:
+            self.is_click(house_detail['租赁菜单'])
+            self.input_text(house_detail['房源编号输入框'], house_code)
         self.is_click(house_detail['搜索按钮'])
         num = self.element_text(house_detail['搜索结果总数'])[8:][:-1]
         return num
 
-    def get_house_info_by_db(self, name):
+    def get_house_info_by_db(self, name, flag):
 
         estate_sql = "select id from estate_new_base_info where [name]='" + ini.house_community_name + "'"
         estate_id = select_sql(estate_sql)[0][0]
 
-        house_sql = "select house_code from trade_house where coreinfo_maintainer_name='" + str(name) + \
-                    "' and location_estate_id='" + str(estate_id) + \
-                    "' and location_building_number='" + ini.house_building_id + \
-                    "' and location_building_cell='" + ini.house_building_cell + \
-                    "' and location_floor='" + ini.house_floor + \
-                    "' and location_doorplate='" + ini.house_doorplate + "' and is_valid='1' and [status]='0' order by create_time desc"
+        if flag == '买卖':
+            # house_sql = "select house_code from trade_house where coreinfo_maintainer_name='" + str(name) + \
+            #             "' and location_estate_id='" + str(estate_id) + \
+            #             "' and location_building_number='" + str(1) + \
+            #             "' and location_building_cell='" + str('1') + \
+            #             "' and location_floor='" + str('1') + \
+            #             "' and location_doorplate='" + str(
+            #     '1043') + "' and is_valid='1' and [status]='0' order by create_time desc"
+            house_sql = "select house_code from trade_house where coreinfo_maintainer_name='" + str(name) + \
+                        "' and location_estate_id='" + str(estate_id) + \
+                        "' and location_building_number='" + ini.house_building_id + \
+                        "' and location_building_cell='" + ini.house_building_cell + \
+                        "' and location_floor='" + ini.house_floor + \
+                        "' and location_doorplate='" + ini.house_doorplate + "' and is_valid='1' and [status]='0' order by create_time desc"
+        elif flag == '租赁':
+            house_sql = "select house_code from rent_house where coreinfo_maintainer_name='" + str(name) + \
+                        "' and location_estate_id='" + str(estate_id) + \
+                        "' and location_building_number='" + ini.house_building_id + \
+                        "' and location_building_cell='" + ini.house_building_cell + \
+                        "' and location_floor='" + ini.house_floor + \
+                        "' and location_doorplate='" + ini.house_doorplate + "' and is_valid='1' and [status]='0' order by create_time desc"
 
-        # house_sql = "select house_code from trade_house where coreinfo_maintainer_name='" + str(name) + \
-        #             "' and location_estate_id='" + str(estate_id) + \
-        #             "' and location_building_number='" + str(1) + \
-        #             "' and location_building_cell='" + str('1') + \
-        #             "' and location_floor='" + str('1') + \
-        #             "' and location_doorplate='" + str('1006') + "' and is_valid='1' and [status]='0' order by create_time desc"
         try:
             print('enter_house_detail', house_sql)
             house_code = select_sql(house_sql)[0][0]
@@ -707,11 +720,14 @@ class HouseDetailPage(WebPage):
         except IndexError:
             return ''
 
-    def enter_house_detail(self):
+    def enter_house_detail(self, flag):
         """进入房源详情页面，并获取房源编号、房源面积等信息"""
-        self.is_click(house_detail['楼盘名称'])
+        self.is_click(house_detail['列表中的第一条房源'])
         house_no = self.element_text(house_detail['房源详情页面的房源编号'])[5:]
-        initial_price = self.element_text(house_detail['房源初始价格'])[:-1]
+        if flag == '买卖':
+            initial_price = self.element_text(house_detail['房源初始价格'])[:-1]
+        elif flag == '租赁':
+            initial_price = self.element_text(house_detail['房源初始价格']).split('元')[0]
         house_area = self.element_text(house_detail['房源面积']).split('m')[0]
         # init_maintainer_name = self.element_text(house_detail['角色人名字']).split(' ')[1]
         init_maintainer_name = self.element_text(house_detail['角色人名字'])
@@ -775,23 +791,24 @@ class HouseDetailPage(WebPage):
     def is_modify_house_price_success(self, initial_price):
         """修改房源价格并验证是否提交成功"""
         self.is_click(house_detail['调整价格选项'])
-        initial_price2 = self.element_text(house_detail['调价弹窗的房源价格']).split('.')[0]  # 调整弹窗中的房源初始价格
-        if int(initial_price) == int(initial_price2):  # 比较房源详情页面和调整价格弹窗中的价格
+        initial_price2 = self.element_text(house_detail['调价弹窗的房源价格']).split('.')[0] #调整弹窗中的房源初始价格
+        print('HouseDetailPage-initial_price', initial_price)
+        print('HouseDetailPage-initial_price2', initial_price2)
+        if int(initial_price) == int(initial_price2):  #比较房源详情页面和调整价格弹窗中的价格
             is_equel = True
         else:
             is_equel = False
 
-        final_price = int(initial_price) + randint(1, 9)
+        final_price = int(initial_price) + random.randint(1,9)
         self.input_text(house_detail['房源价格输入框'], final_price)
         self.is_click(house_detail['调价弹窗确定按钮'])
-        is_submit = self.is_exists(house_detail['调价成功提示框'])  # 判断调价是否提交成功
+        is_submit = self.is_exists(house_detail['调价成功提示框'])  #判断调价是否提交成功
 
         return is_equel, is_submit, str(final_price)
-
     def is_modify_success_by_information(self):
         """从基本信息修改房源价格并验证是否提交成功"""
         self.is_click(house_detail['房源基础信息按钮'])
-        final_price = int(self.get_element_attribute(house_detail['详情页面售价输入框'], 'value')) + randint(1, 9)
+        final_price = int(self.get_element_attribute(house_detail['详情页面售价输入框'], 'value')) + random.randint(1,9)
         # print('HouseDetailPage-基础详情页面价格', final_price)
         self.clear_text(house_detail['详情页面售价输入框'])
         self.input_text(house_detail['详情页面售价输入框'], final_price)
@@ -805,32 +822,40 @@ class HouseDetailPage(WebPage):
 
         return is_submit, str(final_price)
 
-    def is_correct(self, final_price, house_area):
+    def is_correct(self, final_price, house_area, flag):
         """验证调价提交成功后，详情页面的单价和总价正确"""
-        initial_price3 = self.element_text(house_detail['房源初始价格'])[:-1]  # 获取详情页面修改后的价格
-        # print('HouseDetailPage-详情页价格', initial_price3)
-        # print('HouseDetailPage-最终价格', final_price)
-        if int(initial_price3) == int(final_price):  # 验证修改后详情页面的价格是否更新
-            is_equel2 = True
-        else:
-            is_equel2 = False
+        if flag == '买卖':
+            initial_price3 = self.element_text(house_detail['房源初始价格'])[:-1] #获取详情页面修改后的价格
+            if int(initial_price3) == int(final_price):  # 验证修改后详情页面的价格是否更新
+                is_equel2 = True
+            else:
+                is_equel2 = False
 
-        unit_price = int(final_price)*10000/int(house_area)
-        final_unit_price = self.get_house_unit_price(unit_price, 2)  # 根据修改后的房源价格及房源面积计算单价
-        final_unit_price2 = self.element_text(house_detail['房源初始单价'])  # 获取详情页面修改后的单价
-        # print('HouseDetailPage-计算出的最终单价', final_unit_price)
-        # print('HouseDetailPage-页面的最终单价', final_unit_price2)
-        if final_unit_price == final_unit_price2:  # 验证计算出的房源单价是否与详情页面展示的一致
-            is_equel3 = True
-        else:
-            is_equel3 = False
+            unit_price = int(final_price) * 10000 / int(house_area)
+            final_unit_price = self.get_house_unit_price(unit_price, 2)  # 根据修改后的房源价格及房源面积计算单价
+            final_unit_price2 = self.element_text(house_detail['房源初始单价'])  # 获取详情页面修改后的单价
+            # print('HouseDetailPage-计算出的最终单价', final_unit_price)
+            # print('HouseDetailPage-页面的最终单价', final_unit_price2)
+            if final_unit_price == final_unit_price2:  # 验证计算出的房源单价是否与详情页面展示的一致
+                is_equel3 = True
+            else:
+                is_equel3 = False
+            return is_equel2, is_equel3
+        elif flag == '租赁':
+            initial_price3 = self.element_text(house_detail['房源初始价格']).split('元')[0]
+            if int(initial_price3) == int(final_price):  # 验证修改后详情页面的价格是否更新
+                is_equel2 = True
+            else:
+                is_equel2 = False
+            return is_equel2
 
-        return is_equel2, is_equel3
-
-    def is_record_correct(self, init_price, final_price):
+    def is_record_correct(self, init_price, final_price, flag):
         """验证调价记录列表是否更新"""
         self.is_click(house_detail['调价记录按钮'])
-        xpath = "//p[contains(.,'上涨{increase_price}万元')]".format(increase_price = int(final_price) - int(init_price))
+        if flag == '买卖':
+            xpath = "//p[contains(.,'上涨{increase_price}万元')]".format(increase_price=int(final_price) - int(init_price))
+        elif flag == '租赁':
+            xpath = "//p[contains(.,'上涨{increase_price}元')]".format(increase_price=int(final_price) - int(init_price))
         res = self.is_exists(('xpath', xpath))
         if res:
             self.click_blank_area()
@@ -839,9 +864,10 @@ class HouseDetailPage(WebPage):
 
     def is_log_update(self, account_name):
         """验证操作日志是否更新"""
+        self.move_mouse_to_element(house_detail['更多按钮'])
         self.is_click(house_detail['操作日志按钮'])
         lenth = len(self.find_elements(house_detail['操作人']))
-        # print('HouseDetailPage', lenth)
+        print('HouseDetailPage', lenth)
         if lenth > 0:
             if self.is_exists(house_detail['调整价格操作']):
                 return True
