@@ -12,18 +12,17 @@ import allure
 from config.conf import cm
 from utils.logger import log
 from common.readconfig import ini
-from page_object.main.topviewpage import MainTopViewPage
-from page_object.main.leftviewpage import MainLeftViewPage
-from page_object.main.upviewpage import MainUpViewPage
-from page_object.house.tablepage import HouseTablePage
-from page_object.house.detailpage import HouseDetailPage
-from page_object.customer.detailpage import CustomerDetailPage
-from page_object.customer.tablepage import CustomerTablePage
-from page_object.contract.tablepage import ContractTablePage
-from page_object.contract.detailpage import ContractDetailPage
-from page_object.contract.previewpage import ContractPreviewPage
-from page_object.achievement.detailpage import AchievementDetailPage
-from page_object.achievement.tablepage import AchievementTablePage
+from page_object.web.main.topviewpage import MainTopViewPage
+from page_object.web.main.leftviewpage import MainLeftViewPage
+from page_object.web.main.upviewpage import MainUpViewPage
+from page_object.web.house.tablepage import HouseTablePage
+from page_object.web.customer.detailpage import CustomerDetailPage
+from page_object.web.customer.tablepage import CustomerTablePage
+from page_object.web.contract.tablepage import ContractTablePage
+from page_object.web.contract.detailpage import ContractDetailPage
+from page_object.web.contract.previewpage import ContractPreviewPage
+from page_object.web.achievement.detailpage import AchievementDetailPage
+from page_object.web.achievement.tablepage import AchievementTablePage
 
 house_code = ''
 customer_code = ''
@@ -40,7 +39,6 @@ class TestOrderProcess(object):
         main_leftview = MainLeftViewPage(web_driver)
         main_upview = MainUpViewPage(web_driver)
         house_table = HouseTablePage(web_driver)
-        house_detail = HouseDetailPage(web_driver)
         customer_table = CustomerTablePage(web_driver)
         customer_detail = CustomerDetailPage(web_driver)
 
@@ -195,7 +193,7 @@ class TestOrderProcess(object):
         contract_table.click_search_button()
         assert contract_table.get_contract_table_count() == 1
         contract_table.pass_examine_by_row(1)
-        # assert main_topview.wait_notification_content_exist() == '操作成功'
+        assert main_topview.find_notification_content() == '操作成功'
         contract_table.click_had_examine()
         contract_table.click_reset_button()
         contract_table.input_contract_code_search(contract_code)

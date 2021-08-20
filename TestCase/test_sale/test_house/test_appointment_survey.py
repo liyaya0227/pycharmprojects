@@ -14,10 +14,11 @@ from config.conf import cm
 from common.readconfig import ini
 from utils.jsonutil import get_data
 from utils.jsonutil import get_value
-from page_object.main.topviewpage import MainTopViewPage
-from page_object.main.leftviewpage import MainLeftViewPage
-from page_object.house.tablepage import HouseTablePage
-from page_object.house.detailpage import HouseDetailPage
+from page_object.web.main.upviewpage import MainUpViewPage
+from page_object.web.main.topviewpage import MainTopViewPage
+from page_object.web.main.leftviewpage import MainLeftViewPage
+from page_object.web.house.tablepage import HouseTablePage
+from page_object.web.house.detailpage import HouseDetailPage
 
 house_code = ''
 
@@ -33,6 +34,7 @@ class TestAppointmentSurvey(object):
     def test_prepare(self, web_driver):
         global house_code
 
+        main_upview = MainUpViewPage(web_driver)
         main_leftview = MainLeftViewPage(web_driver)
         house_table = HouseTablePage(web_driver)
 
@@ -41,6 +43,8 @@ class TestAppointmentSurvey(object):
         assert house_code != ''
         log.info('房源编号为：' + house_code)
         main_leftview.click_all_house_label()
+        yield
+        main_upview.clear_all_title()
 
     @allure.story("测试房源预约实勘用例")
     @pytest.mark.sale

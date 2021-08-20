@@ -14,22 +14,22 @@ from decimal import Decimal
 from utils.logger import log
 from common.readconfig import ini
 from utils.jsonutil import get_data
-from page_object.main.topviewpage import MainTopViewPage
-from page_object.main.upviewpage import MainUpViewPage
-from page_object.main.leftviewpage import MainLeftViewPage
-from page_object.house.addpage import HouseAddPage
-from page_object.house.tablepage import HouseTablePage
-from page_object.house.detailpage import HouseDetailPage
-from page_object.customer.detailpage import CustomerDetailPage
-from page_object.customer.tablepage import CustomerTablePage
-from page_object.achievement.detailpage import AchievementDetailPage
-from page_object.achievement.tablepage import AchievementTablePage
-from page_object.contract.createorderpage import ContractCreateOrderPage
-from page_object.contract.detailpage import ContractDetailPage
-from page_object.contract.previewpage import ContractPreviewPage
-from page_object.contract.tablepage import ContractTablePage
-from page_object.transaction.tablepage import TransactionTablePage
-from page_object.transaction.detailpage import TransactionDetailPage
+from page_object.web.main.topviewpage import MainTopViewPage
+from page_object.web.main.upviewpage import MainUpViewPage
+from page_object.web.main.leftviewpage import MainLeftViewPage
+from page_object.web.house.addpage import HouseAddPage
+from page_object.web.house.tablepage import HouseTablePage
+from page_object.web.house.detailpage import HouseDetailPage
+from page_object.web.customer.detailpage import CustomerDetailPage
+from page_object.web.customer.tablepage import CustomerTablePage
+from page_object.web.achievement.detailpage import AchievementDetailPage
+from page_object.web.achievement.tablepage import AchievementTablePage
+from page_object.web.contract.createorderpage import ContractCreateOrderPage
+from page_object.web.contract.detailpage import ContractDetailPage
+from page_object.web.contract.previewpage import ContractPreviewPage
+from page_object.web.contract.tablepage import ContractTablePage
+from page_object.web.transaction.tablepage import TransactionTablePage
+from page_object.web.transaction.detailpage import TransactionDetailPage
 
 house_info = {}
 customer_info = {}
@@ -125,8 +125,6 @@ class TestTransactionOrderContent(object):
     @pytest.mark.sale
     @pytest.mark.transaction
     @pytest.mark.run(order=41)
-    # @pytest.mark.dependency()
-    # @pytest.mark.flaky(reruns=5, reruns_delay=2)
     @pytest.mark.parametrize("contract_data", full_payment_contract_data)
     def test_001(self, web_driver, contract_data):
         main_upview = MainUpViewPage(web_driver)
@@ -501,7 +499,7 @@ class TestTransactionOrderContent(object):
         if house_key_info['is_unique'] == '唯一':
             assert transaction_house_info['是否唯一'] == '是'
         if house_key_info['is_unique'] == '-':
-            assert transaction_house_info['是否唯一'] == '-'
+            assert transaction_house_info['是否唯一'] == '--'
         assert transaction_house_info['产证年限'] == house_key_info['house_property_limit']
         assert transaction_house_info['是否限售房'] == '--'
 
@@ -509,8 +507,6 @@ class TestTransactionOrderContent(object):
     @pytest.mark.sale
     @pytest.mark.transaction
     @pytest.mark.run(order=41)
-    # @pytest.mark.dependency()
-    # @pytest.mark.flaky(reruns=5, reruns_delay=2)
     @pytest.mark.parametrize("contract_data", commercial_loan_contract_data)
     def test_002(self, web_driver, contract_data):
         main_upview = MainUpViewPage(web_driver)
@@ -910,6 +906,6 @@ class TestTransactionOrderContent(object):
         if house_key_info['is_unique'] == '唯一':
             assert transaction_house_info['是否唯一'] == '是'
         if house_key_info['is_unique'] == '-':
-            assert transaction_house_info['是否唯一'] == '-'
+            assert transaction_house_info['是否唯一'] == '--'
         assert transaction_house_info['产证年限'] == house_key_info['house_property_limit']
         assert transaction_house_info['是否限售房'] == '--'

@@ -13,12 +13,12 @@ from config.conf import cm
 from utils.logger import log
 from common.readconfig import ini
 from utils.jsonutil import get_data
-from page_object.main.upviewpage import MainUpViewPage
-from page_object.main.topviewpage import MainTopViewPage
-from page_object.main.leftviewpage import MainLeftViewPage
-from page_object.customer.detailpage import CustomerDetailPage
-from page_object.customer.tablepage import CustomerTablePage
-from page_object.customer.addpage import CustomerAddPage
+from page_object.web.main.upviewpage import MainUpViewPage
+from page_object.web.main.topviewpage import MainTopViewPage
+from page_object.web.main.leftviewpage import MainLeftViewPage
+from page_object.web.customer.detailpage import CustomerDetailPage
+from page_object.web.customer.tablepage import CustomerTablePage
+from page_object.web.customer.addpage import CustomerAddPage
 
 
 @allure.feature("测试房源模块")

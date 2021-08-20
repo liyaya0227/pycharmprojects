@@ -11,12 +11,12 @@ import pytest
 import allure
 from config.conf import cm
 from utils.jsonutil import get_data
-from page_object.main.topviewpage import MainTopViewPage
-from page_object.main.rightviewpage import MainRightViewPage
-from page_object.main.leftviewpage import MainLeftViewPage
-from page_object.main.upviewpage import MainUpViewPage
-from page_object.house.tablepage import HouseTablePage
-from page_object.house.addnewhousepage import HouseAddNewHousePage
+from page_object.web.main.topviewpage import MainTopViewPage
+from page_object.web.main.rightviewpage import MainRightViewPage
+from page_object.web.main.leftviewpage import MainLeftViewPage
+from page_object.web.main.upviewpage import MainUpViewPage
+from page_object.web.house.tablepage import HouseTablePage
+from page_object.web.house.addnewhousepage import HouseAddNewHousePage
 
 person_info = {}
 
@@ -115,3 +115,4 @@ class TestAdd(object):
         house_table.input_building_name_search(self.test_data['楼盘名称'])
         house_table.click_search_button()
         assert house_table.get_house_table_count() == 1
+        main_upview.clear_all_title()

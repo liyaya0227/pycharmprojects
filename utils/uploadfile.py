@@ -13,7 +13,7 @@ from utils.timeutil import sleep
 
 
 def upload_file(file_path, browser_type='chrome'):
-    sleep(2)
+    sleep(1)
     if browser_type.lower() == "chrome":
         title = '打开'
     elif browser_type.lower() == "firefox":
@@ -29,4 +29,4 @@ def upload_file(file_path, browser_type='chrome'):
     win32gui.SendMessage(edit, win32con.WM_SETTEXT, None, file_path)  # 往输入框输入绝对地址
     button = win32gui.FindWindowEx(dialog, 0, 'Button', None)  # 确认按钮
     win32gui.SendMessage(dialog, win32con.WM_COMMAND, 1, button)  # 点击确认按钮
-    sleep(4)
+    sleep(2)

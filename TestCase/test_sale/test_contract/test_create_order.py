@@ -13,15 +13,15 @@ from utils.logger import log
 from config.conf import cm
 from common.readconfig import ini
 from utils.jsonutil import get_data
-from page_object.main.topviewpage import MainTopViewPage
-from page_object.main.leftviewpage import MainLeftViewPage
-from page_object.main.upviewpage import MainUpViewPage
-from page_object.house.tablepage import HouseTablePage
-from page_object.house.detailpage import HouseDetailPage
-from page_object.customer.detailpage import CustomerDetailPage
-from page_object.customer.tablepage import CustomerTablePage
-from page_object.contract.tablepage import ContractTablePage
-from page_object.contract.createorderpage import ContractCreateOrderPage
+from page_object.web.main.topviewpage import MainTopViewPage
+from page_object.web.main.leftviewpage import MainLeftViewPage
+from page_object.web.main.upviewpage import MainUpViewPage
+from page_object.web.house.tablepage import HouseTablePage
+from page_object.web.house.detailpage import HouseDetailPage
+from page_object.web.customer.detailpage import CustomerDetailPage
+from page_object.web.customer.tablepage import CustomerTablePage
+from page_object.web.contract.tablepage import ContractTablePage
+from page_object.web.contract.createorderpage import ContractCreateOrderPage
 
 house_info = {}
 customer_info = {}
@@ -101,12 +101,13 @@ class TestCreateOrder(object):
             main_leftview.change_role('经纪人')
         main_upview.clear_all_title()
         main_leftview.click_contract_management_label()
+        yield
+        main_upview.clear_all_title()
 
     @allure.story("测试创建买卖合同，查看搜索结果用例")
     @pytest.mark.sale
     @pytest.mark.contract
     @pytest.mark.run(order=21)
-    # @pytest.mark.flaky(reruns=5, reruns_delay=2)
     def test_001(self, web_driver):
         main_topview = MainTopViewPage(web_driver)
         main_upview = MainUpViewPage(web_driver)
