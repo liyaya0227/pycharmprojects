@@ -24,7 +24,6 @@ class WebPage(object):
 
     def open_url(self, url):
         """打开网址并验证"""
-        self.driver.maximize_window()
         self.driver.set_page_load_timeout(60)
         try:
             self.driver.get(url)
@@ -40,12 +39,18 @@ class WebPage(object):
         return func(cm.LOCATE_MODE[name], value)
 
     def find_element(self, locator, wait_time=10):
-        """寻找单个元素"""
+        """
+        寻找单个元素
+        """
+        name, value = locator
+        name = cm.LOCATE_MODE[name]
         try:
-            # element = WebPage.element_locator(lambda *args: WebDriverWait(self.driver, wait_time).
-            #                                   until(EC.presence_of_element_located(args)), locator)
-            name, value = locator
-            element = WebDriverWait(self.driver, wait_time).until(lambda x: x.find_element(cm.LOCATE_MODE[name], value))
+            # WebPage.element_locator(lambda *args: WebDriverWait(self.driver, wait_time).
+            #                         until(EC.visibility_of_element_located(args)), locator)
+            WebPage.element_locator(lambda *args: WebDriverWait(self.driver, timeout=wait_time, poll_frequency=0.4)
+                                    .until(EC.presence_of_element_located(args)), locator)
+            sleep(0.5)
+            element = self.driver.find_element(name, value)
         # size = self.driver.get_window_size()
         # if element.location['y'] < size['height'] / 4:
         #     self.driver.execute_script("arguments[0].scrollIntoView(false);", element)
@@ -53,44 +58,50 @@ class WebPage(object):
         #     self.driver.execute_script("arguments[0].scrollIntoView();", element)
             return element
         except TimeoutException:
-            return False
+            raise TimeoutException("未找到元素")
 
     def find_elements(self, locator, wait_time=10):
         """查找多个相同的元素"""
+        name, value = locator
+        name = cm.LOCATE_MODE[name]
         try:
-            return WebPage.element_locator(lambda *args: WebDriverWait(self.driver, wait_time)
-                                           .until(EC.presence_of_all_elements_located(args)), locator)
+            WebPage.element_locator(lambda *args: WebDriverWait(self.driver, timeout=wait_time, poll_frequency=0.4)
+                                    .until(EC.presence_of_all_elements_located(args)), locator)
+            sleep(0.5)
+            elements = self.driver.find_elements(name, value)
+            return elements
         except TimeoutException:
             return ''
 
-    # def elements_num(self, locator):
-    #     """获取相同元素的个数"""
-    #     number = len(self.find_elements(locator))
-    #     log.info("相同元素：{}".format((locator, number)))
-    #     return number
+    def element_is_exist(self, locator, wait_time=2):
+        try:
+            WebPage.element_locator(lambda *args: WebDriverWait(self.driver, wait_time, 0.5).
+                                    until(EC.presence_of_element_located(args)), locator)
+            return True
+        except TimeoutException:
+            return False
 
-    def input_text(self, locator, txt):
-        """输入(输入前先清空)"""
+    def input_text(self, locator, txt, clear=False, enter=False):
+        """
+        输入
+        clear: False不清空，True清空
+        enter: False不回车，True回车
+        """
         log.info("元素{}输入文本：{}".format(locator, txt))
         ele = self.find_element(locator)
+        if clear:
+            ele.send_keys(Keys.CONTROL + 'A')
+            ele.send_keys(Keys.DELETE)
         ele.send_keys(txt)
-        sleep()
-
-    # def input_text_without_clear(self, locator, txt):
-    #     """输入(输入前先清空)"""
-    #     log.info("元素{}输入文本：{}".format(locator, txt))
-    #     sleep(0.5)
-    #     ele = self.find_element(locator)
-    #     ele.send_keys(txt)
-    #     sleep()
+        if enter:
+            ele.send_keys(Keys.ENTER)
 
     def input_text_with_enter(self, locator, txt):
-        """输入(输入前先清空)"""
+        """输入后回车"""
         log.info("元素{}输入文本：{}".format(locator, txt))
         ele = self.find_element(locator)
         ele.send_keys(txt)
         ele.send_keys(Keys.ENTER)
-        sleep()
 
     def clear_text(self, locator):
         """清空文本"""
@@ -98,21 +109,20 @@ class WebPage(object):
         ele = self.find_element(locator)
         ele.send_keys(Keys.CONTROL + 'A')
         ele.send_keys(Keys.DELETE)
-        sleep()
 
     def send_enter_key(self, locator):  # 按回车键
         """输入回车键"""
         log.info("元素{}输入回车键".format(locator))
         ele = self.find_element(locator)
         ele.send_keys(Keys.ENTER)
-        sleep()
 
-    def is_click(self, locator):
+    def is_click(self, locator, sleep_time=0):
         """点击"""
         log.info("点击元素：{}".format(locator))
         ele = self.find_element(locator)
         ele.click()
-        sleep()
+        if sleep_time != 0:
+            sleep(sleep_time)
 
     def element_text(self, locator):
         """获取当前的text"""
@@ -127,35 +137,32 @@ class WebPage(object):
         _text = ele.get_attribute(attribute)
         log.info("获取元素{}属性的{}：{}".format(locator, attribute, _text))
         return _text
-
-    @property
-    def get_source(self):
-        """获取页面源代码"""
-        return self.driver.page_source
+    #
+    # @property
+    # def get_source(self):
+    #     """获取页面源代码"""
+    #     return self.driver.page_source
 
     def refresh(self):
         """刷新页面F5"""
         self.driver.refresh()
-        sleep(2)
+        sleep()
         self.driver.implicitly_wait(30)
 
     def move_mouse_to_element(self, locator):
         ele = self.find_element(locator)
         action = ActionChains(self.driver)
         action.move_to_element(ele).perform()
-        sleep()
 
     def move_mouse_to_offset(self, x, y):
         action = ActionChains(self.driver)
         action.move_by_offset(x, y).perform()
-        sleep()
 
     def mouse_left_click(self):
         ActionChains(self.driver).click().release().perform()
 
     def keyboard_send_esc(self):
         ActionChains(self.driver).key_down(Keys.ESCAPE).key_up(Keys.ESCAPE).perform()
-        sleep()
 
     def execute_js_script(self, js):
         self.driver.execute_script(js)
@@ -194,6 +201,5 @@ class WebPage(object):
             # log.info("Alert弹窗提示为：%s" % text)
             alert.accept()
             return text
-        else :
+        else:
             return False
-            log.error("没有Alert弹窗提示!")

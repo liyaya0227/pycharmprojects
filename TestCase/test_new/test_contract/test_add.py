@@ -9,17 +9,16 @@
 
 import pytest
 import allure
-
-from common.readconfig import ini
-from utils.logger import log
 from config.conf import cm
+from utils.logger import log
+from common.readconfig import ini
 from utils.jsonutil import get_data
-from page_object.main.topviewpage import MainTopViewPage
-from page_object.main.leftviewpage import MainLeftViewPage
-from page_object.main.upviewpage import MainUpViewPage
-from page_object.customer.detailpage import CustomerDetailPage
-from page_object.customer.tablepage import CustomerTablePage
-from page_object.newhouseoperation.tablepage import NewHouseOperationTablePage
+from page_object.web.main.topviewpage import MainTopViewPage
+from page_object.web.main.leftviewpage import MainLeftViewPage
+from page_object.web.main.upviewpage import MainUpViewPage
+from page_object.web.customer.detailpage import CustomerDetailPage
+from page_object.web.customer.tablepage import CustomerTablePage
+from page_object.web.newhouseoperation.tablepage import NewHouseOperationTablePage
 
 customer_info = {}
 
@@ -56,6 +55,8 @@ class TestAdd(object):
             customer_info['customer_phone'] = self.test_data['客户联系方式'][1]
         log.info('获取客户联系方式')
         main_leftview.click_new_house_operation_label()
+        yield
+        main_upview.clear_all_title()
 
     @allure.story("测试新增新房楼盘，查看搜索结果用例")
     @pytest.mark.new

@@ -13,13 +13,13 @@ from config.conf import cm
 from utils.logger import log
 from common.readconfig import ini
 from utils.jsonutil import get_value
-from page_object.main.upviewpage import MainUpViewPage
-from page_object.house.addpage import HouseAddPage
-from page_object.main.topviewpage import MainTopViewPage
-from page_object.main.leftviewpage import MainLeftViewPage
-from page_object.login.loginpage import LoginPage
-from page_object.house.tablepage import HouseTablePage
-from page_object.house.detailpage import HouseDetailPage
+from page_object.web.main.upviewpage import MainUpViewPage
+from page_object.web.house.addpage import HouseAddPage
+from page_object.web.main.topviewpage import MainTopViewPage
+from page_object.web.main.leftviewpage import MainLeftViewPage
+from page_object.web.login.loginpage import LoginPage
+from page_object.web.house.tablepage import HouseTablePage
+from page_object.web.house.detailpage import HouseDetailPage
 
 house_code = ''
 
@@ -41,6 +41,8 @@ class TestAddress(object):
         main_leftview.change_role('经纪人')
         house_code = house_table.get_house_code_by_db(flag='买卖')
         if house_table.get_house_code_by_db(flag='买卖') == '':  # 判断房源是否存在，不存在则新增
+            main_leftview.click_all_house_label()
+            house_table.click_sale_tab()
             house_table.click_add_house_button()
             house_add.choose_sale_radio()
             house_add.choose_estate_name(ini.house_community_name)  # 填写物业地址信息
@@ -55,6 +57,8 @@ class TestAddress(object):
         house_code = house_table.get_house_code_by_db(flag='买卖')
         assert house_code != ''
         log.info('房源编号为：' + house_code)
+        yield
+        main_upview.clear_all_title()
 
     @allure.story("测试房源详情右侧地址用例")
     @pytest.mark.sale

@@ -16,10 +16,10 @@ from config.conf import cm
 from selenium import webdriver
 from appium import webdriver as androiddriver
 from common.readconfig import ini
-from page_object.main.leftviewpage import MainLeftViewPage
 from utils.timeutil import dt_strftime
-from page_object.login.loginpage import LoginPage
-from page_object.main.topviewpage import MainTopViewPage
+from page_object.web.main.leftviewpage import MainLeftViewPage
+from page_object.web.login.loginpage import LoginPage
+from page_object.web.main.topviewpage import MainTopViewPage
 
 wdriver = None
 adriver = None
@@ -28,18 +28,25 @@ adriver = None
 @pytest.fixture(scope='session', autouse=False)
 def web_driver():
     global wdriver
-    if wdriver is None:
-        chrome_options = webdriver.ChromeOptions()
-        prefs = {"download.default_directory": cm.tmp_dir,
-                 "credentials_enable_service": False,
-                 "profile.password_manager_enabled": False}
-        chrome_options.add_experimental_option("prefs", prefs)
-        chrome_options.add_experimental_option('useAutomationExtension', False)
-        chrome_options.add_experimental_option('excludeSwitches', ['enable-automation', 'load-extension'])
-        wdriver = webdriver.Chrome(options=chrome_options)
-        # web_driver = webdriver.Firefox(firefox_binary='C:/Program Files/Mozilla Firefox/firefox.exe')
-        wdriver.maximize_window()
-        wdriver.get(ini.url)
+    chrome_options = webdriver.ChromeOptions()
+    prefs = {
+        "download.default_directory": cm.tmp_dir,
+        "credentials_enable_service": False,
+        "profile.password_manager_enabled": False
+    }
+    # chrome_options.add_argument('--headless')  # 无头启动，无窗口加载
+    # chrome_options.add_argument('--disable-gpu')  # 不开启gpu加速
+    # chrome_options.add_argument('--no-sandbox')
+    # chrome_options.add_argument('--disable-dev-shm-usage')
+    # chrome_options.add_argument('--hide-scrollbars')  # 隐藏滚动条, 应对一些特殊页面
+    # chrome_options.add_argument('blink-settings=imagesEnabled=false')  # 不加载图片, 提升速度
+    chrome_options.add_experimental_option("prefs", prefs)
+    chrome_options.add_experimental_option('useAutomationExtension', False)
+    chrome_options.add_experimental_option('excludeSwitches', ['enable-automation', 'load-extension'])
+    wdriver = webdriver.Chrome(executable_path="D:/Program Files/Python/chromedriver", options=chrome_options)
+    # web_driver = webdriver.Firefox(firefox_binary='C:/Program Files/Mozilla Firefox/firefox.exe')
+    wdriver.maximize_window()
+    wdriver.get(ini.url)
     yield wdriver
     wdriver.quit()
 
@@ -74,7 +81,7 @@ def android_driver():
     adriver.quit()
 
 
-@pytest.fixture(scope='function', autouse=True)
+@pytest.fixture(scope='class', autouse=True)
 def setup_and_teardown(web_driver):
     login_page = LoginPage(web_driver)
     login_page.log_in(ini.user_account, ini.user_password)
@@ -138,12 +145,7 @@ def _capture_screenshot():
     path = cm.tmp_dir + "\\screen_capture\\" + file_name
     if not os.path.exists(cm.tmp_dir + "\\screen_capture"):
         os.makedirs(cm.tmp_dir + "\\screen_capture")
-
-    if wdriver is None:
-        wdriver.save_screenshot(path)
-    else:
-        adriver.save_screenshot(path)
-    # wdriver.save_screenshot(path)
+    wdriver.save_screenshot(path)
     allure.attach.file(path, "失败截图", allure.attachment_type.PNG)
     with open(path, 'rb') as f:
         imagebase64 = base64.b64encode(f.read())

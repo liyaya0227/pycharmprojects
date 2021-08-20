@@ -13,11 +13,11 @@ from config.conf import cm
 from utils.logger import log
 from common.readconfig import ini
 from utils.jsonutil import get_data
-from page_object.main.topviewpage import MainTopViewPage
-from page_object.main.leftviewpage import MainLeftViewPage
-from page_object.main.upviewpage import MainUpViewPage
-from page_object.house.tablepage import HouseTablePage
-from page_object.house.addpage import HouseAddPage
+from page_object.web.main.topviewpage import MainTopViewPage
+from page_object.web.main.leftviewpage import MainLeftViewPage
+from page_object.web.main.upviewpage import MainUpViewPage
+from page_object.web.house.tablepage import HouseTablePage
+from page_object.web.house.addpage import HouseAddPage
 
 
 @allure.feature("测试房源模块")
@@ -29,16 +29,18 @@ class TestAdd(object):
     @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, web_driver):
         main_leftview = MainLeftViewPage(web_driver)
+        main_upview = MainUpViewPage(web_driver)
 
         main_leftview.change_role('经纪人')
         main_leftview.click_all_house_label()
+        yield
+        main_upview.clear_all_title()
 
     @allure.story("测试新增买卖房源，查看搜索结果用例")
     @pytest.mark.sale
     @pytest.mark.house
     @pytest.mark.run(order=1)
     # @pytest.mark.dependency()
-    # @pytest.mark.flaky(reruns=5, reruns_delay=2)
     def test_001(self, web_driver):
         main_topview = MainTopViewPage(web_driver)
         main_leftview = MainLeftViewPage(web_driver)

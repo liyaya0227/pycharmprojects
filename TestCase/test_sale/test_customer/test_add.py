@@ -13,12 +13,12 @@ from config.conf import cm
 from utils.logger import log
 from common.readconfig import ini
 from utils.jsonutil import get_data
-from page_object.main.upviewpage import MainUpViewPage
-from page_object.main.topviewpage import MainTopViewPage
-from page_object.main.leftviewpage import MainLeftViewPage
-from page_object.customer.tablepage import CustomerTablePage
-from page_object.customer.addpage import CustomerAddPage
-from page_object.customer.detailpage import CustomerDetailPage
+from page_object.web.main.upviewpage import MainUpViewPage
+from page_object.web.main.topviewpage import MainTopViewPage
+from page_object.web.main.leftviewpage import MainLeftViewPage
+from page_object.web.customer.tablepage import CustomerTablePage
+from page_object.web.customer.addpage import CustomerAddPage
+from page_object.web.customer.detailpage import CustomerDetailPage
 
 
 @allure.feature("测试房源模块")
@@ -56,7 +56,7 @@ class TestAdd(object):
     @pytest.mark.rent
     @pytest.mark.house
     @pytest.mark.run(order=1)
-    @pytest.mark.dependency()
+    # @pytest.mark.dependency()
     @pytest.mark.flaky(reruns=5, reruns_delay=2)
     def test_001(self, web_driver):
         main_topview = MainTopViewPage(web_driver)
@@ -97,3 +97,4 @@ class TestAdd(object):
         customer_table.click_search_button()
         assert customer_table.get_customer_table_count() == 1
         log.info('客源添加成功')
+        main_upview.clear_all_title()

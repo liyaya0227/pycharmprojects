@@ -7,21 +7,16 @@
 @time: 2021/06/22
 """
 
-import re
 import pytest
 import allure
 from utils.logger import log
-from common.readconfig import ini
 from config.conf import cm
 from utils.jsonutil import get_data
-from page_object.main.upviewpage import MainUpViewPage
-from page_object.main.topviewpage import MainTopViewPage
-from page_object.main.leftviewpage import MainLeftViewPage
-from page_object.main.rightviewpage import MainRightViewPage
-from page_object.main.invalidhousepage import InvalidHousePage
-from page_object.house.tablepage import HouseTablePage
-from page_object.house.addpage import HouseAddPage
-from page_object.house.detailpage import HouseDetailPage
+from page_object.web.main.upviewpage import MainUpViewPage
+from page_object.web.main.topviewpage import MainTopViewPage
+from page_object.web.main.leftviewpage import MainLeftViewPage
+from page_object.web.house.tablepage import HouseTablePage
+from page_object.web.house.addpage import HouseAddPage
 
 
 @allure.feature("测试房源模块")
@@ -46,11 +41,8 @@ class TestAdd(object):
     def test_001(self, web_driver):
         main_topview = MainTopViewPage(web_driver)
         main_leftview = MainLeftViewPage(web_driver)
-        main_rightview = MainRightViewPage(web_driver)
         main_upview = MainUpViewPage(web_driver)
-        house_detail = HouseDetailPage(web_driver)
         house_table = HouseTablePage(web_driver)
-        invalid_house_page = InvalidHousePage(web_driver)
         house_add = HouseAddPage(web_driver)
 
         house_table.click_rent_tab()  # 点击租赁标签
@@ -91,23 +83,23 @@ class TestAdd(object):
         log.info('填写房源信息成功')
         main_leftview.click_all_house_label()
         house_table.click_rent_tab()
-        house_table.clear_filter('租赁')
-        house_table.choose_estate_name_search(ini.house_community_name)
-        house_table.choose_building_name_search(ini.house_building_id)
-        house_table.click_search_button()
-        table_count = house_table.get_house_table_count()
-        assert table_count > 0
-        house_code = ''
-        for row in range(table_count):
-            house_table.go_house_detail_by_row(row+1)
-            house_property_address = house_detail.get_address_dialog_house_property_address()
-            if house_property_address['estate_name'] == ini.house_community_name \
-                    and house_property_address['building_name'] == ini.house_building_id \
-                    and house_property_address['door_name'] == ini.house_doorplate:
-                house_code = house_detail.get_house_code()
-                main_upview.close_title_by_name(house_property_address['estate_name'])
-                break
-            main_upview.close_title_by_name(house_property_address['estate_name'])
-        assert house_code != ''
+        # house_table.clear_filter('租赁')
+        # house_table.choose_estate_name_search(ini.house_community_name)
+        # house_table.choose_building_name_search(ini.house_building_id)
+        # house_table.click_search_button()
+        # table_count = house_table.get_house_table_count()
+        # assert table_count > 0
+        # house_code = ''
+        # for row in range(table_count):
+        #     house_table.go_house_detail_by_row(row+1)
+        #     house_property_address = house_detail.get_address_dialog_house_property_address()
+        #     if house_property_address['estate_name'] == ini.house_community_name \
+        #             and house_property_address['building_name'] == ini.house_building_id \
+        #             and house_property_address['door_name'] == ini.house_doorplate:
+        #         house_code = house_detail.get_house_code()
+        #         main_upview.close_title_by_name(house_property_address['estate_name'])
+        #         break
+        #     main_upview.close_title_by_name(house_property_address['estate_name'])
+        assert house_table.get_house_code_by_db(flag='租赁') != ''
         log.info('搜索结果正确')
         main_upview.clear_all_title()

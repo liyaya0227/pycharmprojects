@@ -9,19 +9,19 @@
 
 import pytest
 import allure
-from page_object.customer.detailpage import CustomerDetailPage
-from page_object.customer.tablepage import CustomerTablePage
 from utils.logger import log
 from config.conf import cm
 from common.readconfig import ini
 from utils.jsonutil import get_data
-from page_object.main.topviewpage import MainTopViewPage
-from page_object.main.leftviewpage import MainLeftViewPage
-from page_object.main.upviewpage import MainUpViewPage
-from page_object.house.tablepage import HouseTablePage
-from page_object.house.detailpage import HouseDetailPage
-from page_object.contract.tablepage import ContractTablePage
-from page_object.contract.createorderpage import ContractCreateOrderPage
+from page_object.web.main.topviewpage import MainTopViewPage
+from page_object.web.main.leftviewpage import MainLeftViewPage
+from page_object.web.main.upviewpage import MainUpViewPage
+from page_object.web.customer.detailpage import CustomerDetailPage
+from page_object.web.customer.tablepage import CustomerTablePage
+from page_object.web.house.tablepage import HouseTablePage
+from page_object.web.house.detailpage import HouseDetailPage
+from page_object.web.contract.tablepage import ContractTablePage
+from page_object.web.contract.createorderpage import ContractCreateOrderPage
 
 house_info = {}
 customer_info = {}

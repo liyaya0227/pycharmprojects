@@ -10,23 +10,23 @@
 import pytest
 import allure
 from random import randint
+from config.conf import cm
 from utils.logger import log
 from common.readconfig import ini
-from config.conf import cm
 from utils.jsonutil import get_value
 from utils.timeutil import dt_strftime
 from utils.timeutil import dt_strftime_with_delta
-from page_object.login.loginpage import LoginPage
-from page_object.main.topviewpage import MainTopViewPage
-from page_object.main.upviewpage import MainUpViewPage
-from page_object.main.leftviewpage import MainLeftViewPage
-from page_object.main.rightviewpage import MainRightViewPage
-from page_object.house.tablepage import HouseTablePage
-from page_object.house.detailpage import HouseDetailPage
-from page_object.survey.tablepage import SurveyTablePage
-from page_object.survey.detailpage import SurveyDetailPage
-from page_object.agreement.listpage import AgreementListPage
-from page_object.main.certificateexaminepage import CertificateExaminePage
+from page_object.web.login.loginpage import LoginPage
+from page_object.web.main.topviewpage import MainTopViewPage
+from page_object.web.main.upviewpage import MainUpViewPage
+from page_object.web.main.leftviewpage import MainLeftViewPage
+from page_object.web.main.rightviewpage import MainRightViewPage
+from page_object.web.house.tablepage import HouseTablePage
+from page_object.web.house.detailpage import HouseDetailPage
+from page_object.web.survey.tablepage import SurveyTablePage
+from page_object.web.survey.detailpage import SurveyDetailPage
+from page_object.web.agreement.listpage import AgreementListPage
+from page_object.web.main.certificateexaminepage import CertificateExaminePage
 from page_object.app.login.loginpage import AppLoginPage
 from page_object.app.main.mainpage import AppMainPage
 from page_object.app.mine.minepage import AppMinePage
@@ -48,6 +48,7 @@ class TestOutShow(object):
         global house_code
 
         main_leftview = MainLeftViewPage(web_driver)
+        main_upview = MainUpViewPage(web_driver)
         house_table = HouseTablePage(web_driver)
 
         main_leftview.change_role('经纪人')
@@ -62,6 +63,8 @@ class TestOutShow(object):
         house_table.input_house_code_search(house_code)
         house_table.click_search_button()
         house_table.go_house_detail_by_row(1)
+        yield
+        main_upview.clear_all_title()
 
     @allure.story("测试房源外网呈现用例")
     @pytest.mark.sale

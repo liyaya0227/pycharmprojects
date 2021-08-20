@@ -13,11 +13,12 @@ from config.conf import cm
 from utils.logger import log
 from common.readconfig import ini
 from utils.jsonutil import get_value
-from page_object.main.topviewpage import MainTopViewPage
-from page_object.main.leftviewpage import MainLeftViewPage
-from page_object.login.loginpage import LoginPage
-from page_object.house.tablepage import HouseTablePage
-from page_object.house.detailpage import HouseDetailPage
+from page_object.web.main.upviewpage import MainUpViewPage
+from page_object.web.main.topviewpage import MainTopViewPage
+from page_object.web.main.leftviewpage import MainLeftViewPage
+from page_object.web.login.loginpage import LoginPage
+from page_object.web.house.tablepage import HouseTablePage
+from page_object.web.house.detailpage import HouseDetailPage
 
 house_code = ''
 
@@ -32,12 +33,15 @@ class TestPhone(object):
         global house_code
 
         main_leftview = MainLeftViewPage(web_driver)
+        main_upview = MainUpViewPage(web_driver)
         house_table = HouseTablePage(web_driver)
 
         main_leftview.change_role('经纪人')
         house_code = house_table.get_house_code_by_db(flag='买卖')
         assert house_code != ''
         log.info('房源编号为：' + house_code)
+        yield
+        main_upview.clear_all_title()
 
     @allure.story("测试房源详情右侧电话用例")
     @pytest.mark.sale
@@ -103,12 +107,13 @@ class TestPhone(object):
                     house_detail.click_phone_button()
                     new_looked_count = house_detail.dialog_get_looked_count()
                     house_detail.phone_dialog_click_check_button()
+                    if new_looked_count == '60':
+                        assert main_topview.find_notification_content() == '今日查看次数已经超过60次'
                     house_detail.dialog_click_close_button()
                     assert int(new_looked_count) == int(temp) + 1
                     temp = new_looked_count
                 house_detail.click_phone_button()
-                dialog_content = main_topview.find_notification_content()
-                assert dialog_content == '今日查看次数已经超过60次'
+                assert main_topview.find_notification_content() == '今日查看次数已经超过60次'
         else:
             if house_detail.check_shopowner_recommend() or house_detail.get_vip_person() != '':
                 assert dialog_content == '请联系维护人查看相关房源信息'

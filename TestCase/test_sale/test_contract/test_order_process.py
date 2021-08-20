@@ -12,19 +12,19 @@ import allure
 from config.conf import cm
 from utils.logger import log
 from common.readconfig import ini
-from page_object.main.topviewpage import MainTopViewPage
-from page_object.main.leftviewpage import MainLeftViewPage
-from page_object.main.upviewpage import MainUpViewPage
-from page_object.house.tablepage import HouseTablePage
-from page_object.customer.detailpage import CustomerDetailPage
-from page_object.customer.tablepage import CustomerTablePage
-from page_object.contract.tablepage import ContractTablePage
-from page_object.contract.detailpage import ContractDetailPage
-from page_object.contract.previewpage import ContractPreviewPage
-from page_object.achievement.detailpage import AchievementDetailPage
-from page_object.achievement.tablepage import AchievementTablePage
-from page_object.transaction.tablepage import TransactionTablePage
-from page_object.transaction.detailpage import TransactionDetailPage
+from page_object.web.main.topviewpage import MainTopViewPage
+from page_object.web.main.leftviewpage import MainLeftViewPage
+from page_object.web.main.upviewpage import MainUpViewPage
+from page_object.web.house.tablepage import HouseTablePage
+from page_object.web.customer.detailpage import CustomerDetailPage
+from page_object.web.customer.tablepage import CustomerTablePage
+from page_object.web.contract.tablepage import ContractTablePage
+from page_object.web.contract.detailpage import ContractDetailPage
+from page_object.web.contract.previewpage import ContractPreviewPage
+from page_object.web.achievement.detailpage import AchievementDetailPage
+from page_object.web.achievement.tablepage import AchievementTablePage
+from page_object.web.transaction.tablepage import TransactionTablePage
+from page_object.web.transaction.detailpage import TransactionDetailPage
 
 house_code = ''
 customer_code = ''
@@ -62,6 +62,8 @@ class TestOrderProcess(object):
         log.info('创建合同的客源编号: ' + customer_code)
         main_upview.clear_all_title()
         main_leftview.click_contract_management_label()
+        yield
+        main_upview.clear_all_title()
 
     @allure.story("测试买卖合同流程")
     @pytest.mark.sale
@@ -69,7 +71,6 @@ class TestOrderProcess(object):
     @pytest.mark.run(order=22)
     # @pytest.mark.dependency(depends=['ui/TestCase/test_sale/test_contract/test_create_order.py::TestCreateOrder'
     #                                  '::test_001'], scope='session')
-    @pytest.mark.flaky(reruns=5, reruns_delay=2)
     def test_001(self, web_driver):
         main_topview = MainTopViewPage(web_driver)
         main_leftview = MainLeftViewPage(web_driver)
@@ -124,7 +125,7 @@ class TestOrderProcess(object):
         contract_table.click_search_button()
         assert contract_table.get_contract_table_count() == 1
         contract_table.pass_examine_by_row(1)
-        # assert main_topview.find_notification_content() == '操作成功'
+        assert main_topview.find_notification_content() == '操作成功'
         contract_table.click_had_examine()
         contract_table.click_reset_button()
         contract_table.input_contract_code_search(contract_code)
@@ -225,7 +226,7 @@ class TestOrderProcess(object):
         contract_table.go_contract_detail_by_row(1)
         contract_detail.click_subject_contract()
         contract_detail.upload_two_sign_contract()
-        # assert main_topview.wait_notification_content_exist() == '操作成功'
+        assert main_topview.find_notification_content() == '操作成功'
         main_upview.clear_all_title()
         main_leftview.click_contract_management_label()
         contract_table.click_sale_contract_tab()
@@ -287,7 +288,7 @@ class TestOrderProcess(object):
         achievement_table.click_search_button()
         assert achievement_table.get_achievement_table_count() == 1
         achievement_table.click_pass_examine_button_by_row(1)
-        # assert main_topview.find_notification_content() == '操作成功'
+        assert main_topview.find_notification_content() == '操作成功'
         main_upview.clear_all_title()
         main_leftview.click_achievement_label()
         achievement_table.click_achievement_examine_tab()
@@ -370,4 +371,3 @@ class TestOrderProcess(object):
         contract_table.go_contract_detail_by_row(1)
         assert contract_detail.trade_complete_icon_is_light()
         log.info('权证结案后，状态显示正确')
-        main_upview.clear_all_title()

@@ -14,22 +14,20 @@ from config.conf import cm
 from utils.logger import log
 from common.readconfig import ini
 from utils.jsonutil import get_value
-from page_object.login.loginpage import LoginPage
-from page_object.main.upviewpage import MainUpViewPage
-from page_object.main.leftviewpage import MainLeftViewPage
-from page_object.main.topviewpage import MainTopViewPage
-from page_object.house.tablepage import HouseTablePage
-from page_object.house.detailpage import HouseDetailPage
-from page_object.survey.tablepage import SurveyTablePage
-from page_object.survey.detailpage import SurveyDetailPage
+from page_object.web.login.loginpage import LoginPage
+from page_object.web.main.upviewpage import MainUpViewPage
+from page_object.web.main.leftviewpage import MainLeftViewPage
+from page_object.web.main.topviewpage import MainTopViewPage
+from page_object.web.house.tablepage import HouseTablePage
+from page_object.web.house.detailpage import HouseDetailPage
+from page_object.web.survey.tablepage import SurveyTablePage
+from page_object.web.survey.detailpage import SurveyDetailPage
 from page_object.app.login.loginpage import AppLoginPage
 from page_object.app.main.mainpage import AppMainPage
 from page_object.app.mine.minepage import AppMinePage
 from page_object.app.order.tablepage import AppOrderTablePage
 from page_object.app.order.detailpage import AppOrderDetailPage
 from utils.timeutil import dt_strftime, dt_strftime_with_delta
-
-house_code = ''
 
 
 @allure.feature("测试房源模块")
@@ -42,23 +40,13 @@ class TestDeleteSurvey(object):
 
     @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, web_driver):
-        global house_code
-
+        login = LoginPage(web_driver)
+        main_upview = MainUpViewPage(web_driver)
         main_leftview = MainLeftViewPage(web_driver)
-        house_table = HouseTablePage(web_driver)
-
-        main_leftview.change_role('经纪人')
-        house_code = house_table.get_house_code_by_db(flag='买卖')
-        assert house_code != ''
-        log.info('房源编号为：' + house_code)
-        main_leftview.click_all_house_label()
-        house_table.click_sale_tab()
-        house_table.click_all_house_tab()
-        house_table.click_reset_button()
-        house_table.clear_filter(flag='买卖')
-        house_table.input_house_code_search(house_code)
-        house_table.click_search_button()
-        house_table.go_house_detail_by_row(1)
+        yield
+        main_leftview.log_out()
+        login.log_in(ini.user_account, ini.user_password)
+        main_upview.clear_all_title()
 
     @allure.story("测试房源删除实勘")
     @pytest.mark.sale
@@ -80,6 +68,18 @@ class TestDeleteSurvey(object):
         app_order_table = AppOrderTablePage(android_driver)
         app_order_detail = AppOrderDetailPage(android_driver)
 
+        main_leftview.change_role('经纪人')
+        house_code = house_table.get_house_code_by_db(flag='买卖')
+        assert house_code != ''
+        log.info('房源编号为：' + house_code)
+        main_leftview.click_all_house_label()
+        house_table.click_sale_tab()
+        house_table.click_all_house_tab()
+        house_table.click_reset_button()
+        house_table.clear_filter(flag='买卖')
+        house_table.input_house_code_search(house_code)
+        house_table.click_search_button()
+        house_table.go_house_detail_by_row(1)
         if house_detail.check_survey_status() == '已预约':
             log.info('未预约实勘，进行实勘预约')  # 须优化实勘已上传的情况
             house_detail.click_back_survey_button()
