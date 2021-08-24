@@ -133,12 +133,13 @@ VIP服务人_姓名标签: "xpath==//div[@style='' or not(@style)]/div[@class='h
 房源状态按钮: "xpath==//li[contains(.,'房源状态')]"
 暂缓出售选项: "xpath==//span[contains(.,'暂缓出售（房东暂时不卖了）')]"
 房源状态弹窗确定按钮: "css==.ant-modal-footer > .ant-btn-primary"
-申请提交成功提示: "xpath==//h1[contains(.,'申请提交成功！')]"
 申请提交成功弹窗确定按钮: "xpath==//span[contains(.,'确定')]"
+弹窗_提交成功提示: "xpath==//div[@class='ant-modal-root']//h1[text()='申请提交成功！']"
 
 #更多-审核修改房源状态申请
 暂缓房源审核选项: "xpath==//div[@id='rc-tabs-2-tab-1']"
 房源详情页面的房源编号: "xpath==//span[contains(.,'房源编号：')]"
+列表中第一条房源的编号: "xpath==//div[not(contains(@style,'display'))]//div[@class='invalid-housing-resource']//table/tbody/tr[2]/td[2]/a/span"
 房源初始价格: "css==.price"
 房源初始单价: "css==.pricing > i"
 房源面积: "xpath==//li[2]/p"
@@ -157,13 +158,15 @@ VIP服务人_姓名标签: "xpath==//div[@style='' or not(@style)]/div[@class='h
 调价记录按钮: "xpath==//span[contains(.,'调价记录')]"
 详情编辑成功提示框: "xpath==//div[contains(@class,'ant-notification-notice-with-icon')]//div[contains(.,'编辑成功')]"
 调价记录弹窗关闭按钮: "css==.ant-modal-close-x"
+调价记录第一条价格: "xpath==//div[ @class ='ant-table-content']//table/tbody/tr[1]/td[2]/div/p"
 
 #更多-维护人管理
 维护人管理按钮: "xpath==//li[contains(.,'维护人管理')]"
 选择人员输入框: "id==userId"
 人员选项: "css==.ant-select-item-option-active > .ant-select-item-option-content"
-分配弹窗确定按钮: "xpath==//button[contains(.,'确 定')]"
-角色人名字: "xpath==//p[contains(@class,'card-text-p')]"
+分配弹窗确定按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//span[text()='确 定']/parent::button[@type='button']"
+角色人名字: "xpath==//div[@class='ant-row roleInfo']/div[@class='ant-col ant-col-24 maintenanceInfo']/div/div[2]/div/div[2]/p"
+
 
 #更多-房源举报
 房源举报按钮: "xpath==//li[contains(.,'房源举报')]"
