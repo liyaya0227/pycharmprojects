@@ -44,6 +44,7 @@ def web_driver():
     chrome_options.add_experimental_option('useAutomationExtension', False)
     chrome_options.add_experimental_option('excludeSwitches', ['enable-automation', 'load-extension'])
     wdriver = webdriver.Chrome(executable_path="D:/Program Files/Python/chromedriver", options=chrome_options)
+    # wdriver = webdriver.Chrome(options=chrome_options)
     # web_driver = webdriver.Firefox(firefox_binary='C:/Program Files/Mozilla Firefox/firefox.exe')
     wdriver.maximize_window()
     wdriver.get(ini.url)
