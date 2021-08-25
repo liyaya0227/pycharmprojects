@@ -71,6 +71,13 @@ class HouseTablePage(WebPage):
                 doorplate_ele.click()
                 break
 
+    def choose_option(self, item_name, option): #根item和opiton定位选项
+        option_xpath = "//div[not(contains(@style,'display'))]//label[text()=\'{item_name}\']/ancestor::" \
+                       "div[contains(@class ,'ant-row ant-form-item')]//span[text()=\'{option}\']/parent::label".\
+                        format(item_name=item_name, option=option)
+        locator = ('xpath', option_xpath)
+        self.is_click(locator)
+
     def input_house_code_search(self, house_code):
         self.input_text(house_table['房源编号搜索项'], house_code)
         sleep()
@@ -131,6 +138,20 @@ class HouseTablePage(WebPage):
         self.is_click(locator)
         self.wait_page_loading_complete()
         sleep(2)
+
+    def verify_house_exist(self, building_name):  #验证列表中是否存在当前房源
+        locator = 'xpath', "//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table/tbody/tr/" \
+                  "td[" + str(self.__get_column_by_title('楼盘名称') + 1) + "]/a/span"
+        ele_list = self.find_elements(locator)
+        for ele in ele_list:
+            if ele.text == building_name:
+                return True
+        return False
+
+    def go_new_house_detail_by_row(self, row=1): #从新房列表进入详情
+        locator = 'xpath', "//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table/tbody/tr["\
+                  + str(row) + "]/td[" + str(self.__get_column_by_title('楼盘名称') + 1) + "]/a/span"
+        self.is_click(locator)
 
     def get_house_table_count(self):
         locator = 'xpath', "//div[not(contains(@style,'display'))]/div[@class='ant-row houseManage']//table//tbody/tr"
