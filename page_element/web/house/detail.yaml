@@ -167,7 +167,6 @@ VIP服务人_姓名标签: "xpath==//div[@style='' or not(@style)]/div[@class='h
 分配弹窗确定按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//span[text()='确 定']/parent::button[@type='button']"
 角色人名字: "xpath==//div[@class='ant-row roleInfo']/div[@class='ant-col ant-col-24 maintenanceInfo']/div/div[2]/div/div[2]/p"
 
-
 #更多-房源举报
 房源举报按钮: "xpath==//li[contains(.,'房源举报')]"
 房源不卖选项: "xpath==//span[contains(.,'房源不卖')]"
@@ -179,8 +178,25 @@ VIP服务人_姓名标签: "xpath==//div[@style='' or not(@style)]/div[@class='h
 操作日志按钮: "xpath==//li[contains(.,'操作日志')]"
 操作人: "xpath==//span[contains(@class,'userCard-blue')]"
 调整价格操作: "xpath==//p[contains(.,'调整价格')]"
-#举报房源弹窗确认按钮: "xpath==//div[@class='ant-modal-root']//span[text()='确 认']/parent::button[@type='button']"
-#右上角弹窗_内容: "xpath==//div[@class='ant-notification ant-notification-topRight']//div[@class='ant-notification-notice-description']"
-#是否可力荐提示: "xpath==//div[text()='委托/实勘/重点信息未维护全']"
 弹窗显示: "xpath==//div[contains(@class, 'ant-popover-placement-top') and not(contains(@class, 'ant-popover-hidden'))]//div[@class='ant-popover-inner-content']"
 
+#新房详情-楼盘相册
+查看更多按钮: "xpath==//p[@class='showMorePic']"
+上传图片按钮: "xpath==//div[@style='']/div[@class='newHouseDetail']//span[text()='上 传']/parent::button"
+上传首图按钮: "xpath==//p[contains(.,'上传图片')]"
+弹窗_上传按钮: "xpath==//div[@class='ant-modal-wrap uploadModal']//span[text()='上 传']/parent::button"
+实景图选项: "xpath==//div[@class='ant-modal-wrap uploadModal']//span[text()='实景图']"
+批量删除按钮: "xpath==//div[@style='']/div[@class='newHouseDetail']//div[@class='houseAlumn']//span[text()='批量删除']/parent::button"
+弹窗_全选按钮: "xpath==//div[@class='ant-modal-content']//span[text()='全 选']/parent::button"
+弹窗_删除按钮: "xpath==//div[@class='ant-modal-content']//span[contains(.,'删除')]/parent::button"
+
+
+#新房详情-楼盘动态
+发布动态按钮: "xpath==//h2[contains(.,'发布动态')]"
+动态标题输入框: "id==dynamicTitle"
+动态说明输入框: "id==dynamicNote"
+动态弹窗_确定按钮: "xpath==//div[@class='ant-modal-content']//span[text()='确 定']/parent::button"
+#实景图选项: "xpath==//div[@class='ant-modal-wrap uploadModal']//span[text()='实景图']"
+#批量删除按钮: "xpath==//div[@style='']/div[@class='newHouseDetail']//div[@class='houseAlumn']//span[text()='批量删除']/parent::button"
+#弹窗_全选按钮: "xpath==//div[@class='ant-modal-content']//span[text()='全 选']/parent::button"
+#弹窗_删除按钮: "xpath==//div[@class='ant-modal-content']//span[contains(.,'删除')]/parent::button"
