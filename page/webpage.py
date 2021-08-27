@@ -177,6 +177,11 @@ class WebPage(object):
         self.execute_js_script("var q=document.documentElement.scrollTop=0")
         sleep()
 
+    def scroll_to_bottom(self):
+        self.execute_js_script("var q=document.documentElement.scrollTop=100000")
+        sleep()
+
+
     def is_exists(self, locator):
         """
         元素是否存在(DOM)
