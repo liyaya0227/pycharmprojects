@@ -8,7 +8,7 @@
 """
 from common.readconfig import ini
 from utils.timeutil import sleep
-from utils.sqlutil import select_sql
+from utils.sqlutil import select_sql, update_sql
 from page.webpage import WebPage
 from common.readelement import Element
 from page_object.web.house.detailpage import HouseDetailPage
@@ -104,7 +104,8 @@ class HouseTablePage(WebPage):
             if 'ant-radio-button-wrapper-checked' not in self.get_element_attribute(house_table['户型筛选_不限'], 'class'):
                 self.is_click(house_table['户型筛选_不限'])
             if flag == '买卖':
-                if 'ant-radio-button-wrapper-checked' not in self.get_element_attribute(house_table['标签筛选_不限'], 'class'):
+                if 'ant-radio-button-wrapper-checked' not in self.get_element_attribute(house_table['标签筛选_不限'],
+                                                                                        'class'):
                     self.is_click(house_table['标签筛选_不限'])
             if 'ant-radio-button-wrapper-checked' not in self.get_element_attribute(house_table['装修筛选_不限'], 'class'):
                 self.is_click(house_table['装修筛选_不限'])
@@ -210,3 +211,13 @@ class HouseTablePage(WebPage):
             return house_code
         except IndexError:
             return ''
+
+    @staticmethod
+    def update_house_create_time_by_db(house_code, create_time, flag='买卖'):
+        if flag == '买卖':
+            sql = "update trade_house set create_time='" + create_time + "' where house_code='" + house_code + "'"
+        elif flag == '租赁':
+            sql = "update rent_house set create_time='" + create_time + "' where house_code='" + house_code + "'"
+        else:
+            raise "传值错误"
+        update_sql(sql)

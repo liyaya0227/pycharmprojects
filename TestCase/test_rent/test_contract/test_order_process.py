@@ -60,6 +60,8 @@ class TestOrderProcess(object):
         log.info('创建合同的客源编号: ' + customer_code)
         main_upview.clear_all_title()
         main_leftview.click_contract_management_label()
+        yield
+        main_upview.clear_all_title()
 
     @allure.story("测试买卖合同流程")
     @pytest.mark.rent
@@ -271,4 +273,3 @@ class TestOrderProcess(object):
         assert contract_details['agency_fee_status'] == '已收齐'
         assert contract_details['achievement_status'] == '审核通过'
         log.info('代理费收取后，状态显示正确')
-        main_upview.clear_all_title()

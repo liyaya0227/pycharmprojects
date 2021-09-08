@@ -1,12 +1,17 @@
 合同详情标签: "xpath==//div[@class='order-detail-less']//div[text()='合同详情']"
 业绩详情标签: "xpath==//div[@class='order-detail-less']//div[text()='业绩详情']"
+财务详情标签: "xpath==//div[@class='order-detail-less']//div[text()='财务详情']"
+
 修改按钮: "xpath==//div[@class='order-detail-less']//a[text()='修改']/parent::button"
 无效按钮: "xpath==//div[@class='order-detail-less']//span[text()='无 效']/parent::button"
 预览按钮: "xpath==//div[@class='order-detail-less']//a[text()='预览']/parent::button"
 去提审按钮: "xpath==//div[@class='order-detail-less']//span[text()='去提审']/parent::button"
 
+合同价格标签: "xpath==//div[@class='order-detail-less']//div[contains(text(),'合同价格')]/span"
 创建时间标签: "xpath==//div[@class='order-detail-less']//div[contains(text(),'创建时间')]/span"
 签约时间标签: "xpath==//div[@class='order-detail-less']//div[contains(text(),'签约时间')]/span"
+
+最新一次盖章时间标签: "xpath==//div[@class='order-detail-less']//div[text()='最新一次盖章']/parent::div/div[contains(@class, 'description')]"
 
 流程_创建合同图标: "xpath==//div[@class='order-detail-less']//div[text()='创建合同']/ancestor::div[contains(@class, 'ant-steps-item-custom')]"
 流程_提交签前审核图标: "xpath==//div[@class='order-detail-less']//div[text()='提交签前审核']/ancestor::div[contains(@class, 'ant-steps-item-custom')]"

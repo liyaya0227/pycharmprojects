@@ -1,0 +1,15 @@
+应收列表标签: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'finance')]//div[@role='tablist']//div[text()='应收列表']"
+经纪人业绩报表标签: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'finance')]//div[@role='tablist']//div[text()='经纪人业绩报表']"
+分账数据表标签: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'finance')]//div[@role='tablist']//div[text()='分账数据表']"
+
+合同编号搜索框: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'finance')]//input[@id='contractNo']"
+分账时间_开始搜索框: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'finance')]//input[@id='date']"
+分账时间_清除按钮: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'finance')]//label[text()='分账时间']//ancestor::div[@class='ant-row ant-form-item']//span[@class='ant-picker-clear']"
+查询按钮: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'finance')]//span[text()='查 询']/parent::button"
+重置按钮: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'finance')]//span[text()='重 置']/parent::button"
+
+列表头: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'finance')]//table/thead/tr/th"
+列表行数: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'finance')]//table/tbody/tr[@data-row-key]"
+上一页按钮: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'finance')]//li[contains(@class, 'ant-pagination-prev') and @title='上一页']"
+最后页数: "xpath==(//div[@style='' or not(@style)]/div[contains(@class,'finance')]//li[contains(@class, 'ant-pagination-item')])[last()]"
+下一页按钮: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'finance')]//li[contains(@class, 'ant-pagination-next') and @title='下一页']"

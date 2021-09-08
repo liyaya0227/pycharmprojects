@@ -1,0 +1,12 @@
+合同编号搜索框: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'brandList')]//input[@id='contractNo']"
+
+清空分账时间按钮: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'brandList')]//label[text()='分账时间']/ancestor::div[@class='ant-row ant-form-item']//span[@class='ant-picker-clear']"
+
+查询按钮: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'brandList')]//span[text()='查 询']/parent::button"
+重置按钮: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'brandList')]//span[text()='重 置']/parent::button"
+
+列表头: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'brandList')]//table/thead/tr/th"
+列表行数: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'brandList')]//table/tbody/tr[@data-row-key]"
+上一页按钮: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'brandList')]//li[contains(@class, 'ant-pagination-prev') and @title='上一页']"
+最后页数: "xpath==(//div[@style='' or not(@style)]/div[contains(@class,'brandList')]//li[contains(@class, 'ant-pagination-item')])[last()]"
+下一页按钮: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'brandList')]//li[contains(@class, 'ant-pagination-next') and @title='下一页']"

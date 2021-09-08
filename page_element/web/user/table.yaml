@@ -1,0 +1,6 @@
+电话搜索框: "xpath==//div[@style='' or not(@style)]/div[@class='user-management-less']//input[@id='phone']"
+
+搜索按钮: "xpath==//div[@style='' or not(@style)]/div[@class='user-management-less']//span[text()='搜索']/ancestor::button"
+重置按钮: "xpath==//div[@style='' or not(@style)]/div[@class='user-management-less']//span[text()='重置']/ancestor::button"
+
+列表头: "xpath==//div[@style='' or not(@style)]/div[@class='user-management-less']/div[@class='user-management-list']//table/thead//th"

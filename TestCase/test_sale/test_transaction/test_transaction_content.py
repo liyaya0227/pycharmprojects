@@ -57,6 +57,7 @@ class TestTransactionOrderContent(object):
         global customer_info
 
         main_upview = MainUpViewPage(web_driver)
+        main_topview = MainTopViewPage(web_driver)
         main_leftview = MainLeftViewPage(web_driver)
         house_table = HouseTablePage(web_driver)
         house_add = HouseAddPage(web_driver)
@@ -76,6 +77,7 @@ class TestTransactionOrderContent(object):
             house_add.choose_doorplate(ini.house_doorplate)
             house_add.click_next_button()
             house_add.input_owner_info_and_house_info(self.house_data, '买卖')
+            main_topview.close_notification()
         main_upview.clear_all_title()
         main_leftview.click_all_house_label()
         house_code = house_table.get_house_code_by_db(flag='买卖')
@@ -248,66 +250,72 @@ class TestTransactionOrderContent(object):
         transaction_seller_info = transaction_detail.get_seller_info()
         transaction_house_info = transaction_detail.get_house_info()
         transaction_management = ''  # 权证单内容的校验
-        if ini.environment == 'ks':
-            if contract_data['第四条信息']['支付方式'][0] == 1:
-                transaction_management = '全款'
-            if contract_data['第四条信息']['支付方式'][0] == 2:
-                transaction_management = '商贷'
-        if ini.environment == 'wx':
-            if contract_data['第五条信息']['二'] == 1:
-                transaction_management = '全款'
-            if contract_data['第五条信息']['二'] == 2:
-                transaction_management = '商贷'
-        else:
+        if ini.environment == 'sz':
             if contract_data['第四条信息']['选项'][0] == 1:
                 transaction_management = '全款'
-            if contract_data['第四条信息']['选项'][0] == 2:
+            elif contract_data['第四条信息']['选项'][0] == 2:
                 transaction_management = '商贷'
-        assert transaction_info['交易管理'] == transaction_management
-        assert transaction_info['交易编号'] == contract_code.replace('HE', 'QZ')
-        assert transaction_info['合同编号'] == contract_code
-        assert transaction_info['创建日期'] == contract_info['create_time']
-        assert transaction_info['签约日期'] == contract_info['sign_time']
-        if ini.environment == 'ks':
-            assert transaction_info['合同约定办理资金托管日期'] == '-'
+        elif ini.environment == 'ks':
+            if contract_data['第四条信息']['支付方式'][0] == 1:
+                transaction_management = '全款'
+            elif contract_data['第四条信息']['支付方式'][0] == 2:
+                transaction_management = '商贷'
+        elif ini.environment == 'wx':
+            if contract_data['第五条信息']['二'] == 1:
+                transaction_management = '全款'
+            elif contract_data['第五条信息']['二'] == 2:
+                transaction_management = '商贷'
+        elif ini.environment == 'hz':
+            if contract_data['第四条信息']['支付方式'] == 1:
+                transaction_management = '全款'
+            elif contract_data['第四条信息']['支付方式'] == 2:
+                transaction_management = '商贷'
+        pytest.assume(transaction_info['交易管理'] == transaction_management)
+        pytest.assume(transaction_info['交易编号'] == contract_code.replace('HE', 'QZ'))
+        pytest.assume(transaction_info['合同编号'] == contract_code)
+        pytest.assume(transaction_info['创建日期'] == contract_info['create_time'])
+        pytest.assume(transaction_info['签约日期'] == contract_info['sign_time'])
+        if ini.environment == 'sz':
+            if transaction_info['交易管理'] == '全款':
+                pytest.assume(transaction_info['合同约定办理资金托管日期'] == contract_data['第四条信息']['选项'][1][1].split('-')[0] + '年'
+                              + contract_data['第四条信息']['选项'][1][1].split('-')[1] + '月'
+                              + contract_data['第四条信息']['选项'][1][1].split('-')[2] + '日')
+            elif transaction_info['交易管理'] == '商贷':
+                pytest.assume(transaction_info['合同约定办理资金托管日期'] == contract_data['第四条信息']['选项'][1][0].split('-')[0] + '年'
+                              + contract_data['第四条信息']['选项'][1][0].split('-')[1] + '月'
+                              + contract_data['第四条信息']['选项'][1][0].split('-')[2] + '日')
+        elif ini.environment == 'ks' or ini.environment == 'hz':
+            pytest.assume(transaction_info['合同约定办理资金托管日期'] == '-')
         elif ini.environment == 'wx':
             if contract_data['第五条信息']['二_2'][0][0][0] == 1:
-                assert transaction_info['合同约定办理资金托管日期'] == '办理权属转移登记前'
-            if contract_data['第五条信息']['二_2'][0][0][0] == 2:
-                assert transaction_info['合同约定办理资金托管日期'] == '办理权属转移登记后' + contract_data['第五条信息']['二_2'][0][0][1] + '日内'
-            if contract_data['第五条信息']['二_2'][0][0][0] == 3:
-                assert transaction_info['合同约定办理资金托管日期'] == \
-                       contract_data['第五条信息']['二_2'][0][0][1].split('-')[0] + '年' \
-                       + contract_data['第五条信息']['二_2'][0][0][1].split('-')[1] + '月' \
-                       + contract_data['第五条信息']['二_2'][0][0][1].split('-')[2] + '日' + '前'
-            if contract_data['第五条信息']['二_2'][0][0][0] == 4:
-                assert transaction_info['合同约定办理资金托管日期'] == '本合同签订当日'
-            if contract_data['第五条信息']['二_2'][0][0][0] == 5:
-                assert transaction_info['合同约定办理资金托管日期'] == '本合同签订后' + contract_data['第五条信息']['二_2'][0][0][1] + '日内'
-            if contract_data['第五条信息']['二_2'][0][0][0] == 6:
-                assert transaction_info['合同约定办理资金托管日期'] == '办理网签手续后' + contract_data['第五条信息']['二_2'][0][0][1] + '日内'
-            if contract_data['第五条信息']['二_2'][0][0][0] == 6:
-                assert transaction_info['合同约定办理资金托管日期'] == '办理资金托管手续后' + contract_data['第五条信息']['二_2'][0][0][1] + '日内'
-        else:
-            if transaction_info['交易管理'] == '全款':
-                assert transaction_info['合同约定办理资金托管日期'] == \
-                       contract_data['第四条信息']['选项'][1][1].split('-')[0] + '年' \
-                       + contract_data['第四条信息']['选项'][1][1].split('-')[1] + '月' \
-                       + contract_data['第四条信息']['选项'][1][1].split('-')[2] + '日'
-            if transaction_info['交易管理'] == '商贷':
-                assert transaction_info['合同约定办理资金托管日期'] == \
-                       contract_data['第四条信息']['选项'][1][0].split('-')[0] + '年' \
-                       + contract_data['第四条信息']['选项'][1][0].split('-')[1] + '月' \
-                       + contract_data['第四条信息']['选项'][1][0].split('-')[2] + '日'
+                pytest.assume(transaction_info['合同约定办理资金托管日期'] == '办理权属转移登记前')
+            elif contract_data['第五条信息']['二_2'][0][0][0] == 2:
+                pytest.assume(transaction_info['合同约定办理资金托管日期'] == '办理权属转移登记后' + contract_data['第五条信息']['二_2'][0][0][1]
+                              + '日内')
+            elif contract_data['第五条信息']['二_2'][0][0][0] == 3:
+                pytest.assume(transaction_info['合同约定办理资金托管日期'] == contract_data['第五条信息']['二_2'][0][0][1].split('-')[0]
+                              + '年' + contract_data['第五条信息']['二_2'][0][0][1].split('-')[1] + '月'
+                              + contract_data['第五条信息']['二_2'][0][0][1].split('-')[2] + '日' + '前')
+            elif contract_data['第五条信息']['二_2'][0][0][0] == 4:
+                pytest.assume(transaction_info['合同约定办理资金托管日期'] == '本合同签订当日')
+            elif contract_data['第五条信息']['二_2'][0][0][0] == 5:
+                pytest.assume(transaction_info['合同约定办理资金托管日期'] == '本合同签订后' + contract_data['第五条信息']['二_2'][0][0][1]
+                              + '日内')
+            elif contract_data['第五条信息']['二_2'][0][0][0] == 6:
+                pytest.assume(transaction_info['合同约定办理资金托管日期'] == '办理网签手续后' + contract_data['第五条信息']['二_2'][0][0][1]
+                              + '日内')
+            elif contract_data['第五条信息']['二_2'][0][0][0] == 6:
+                pytest.assume(transaction_info['合同约定办理资金托管日期'] == '办理资金托管手续后' + contract_data['第五条信息']['二_2'][0][0][1]
+                              + '日内')
         if transaction_info['交易管理'] == '商贷':
             if ini.environment == 'sz':
-                assert transaction_info['合同约定贷款审批通过日期'] == \
-                       contract_data['第四条信息']['选项'][1][3].split('-')[0] + '年' \
-                       + contract_data['第四条信息']['选项'][1][3].split('-')[1] + '月' \
-                       + contract_data['第四条信息']['选项'][1][3].split('-')[2] + '日'
+                pytest.assume(transaction_info['合同约定贷款审批通过日期'] == contract_data['第四条信息']['选项'][1][3].split('-')[0] + '年'
+                              + contract_data['第四条信息']['选项'][1][3].split('-')[1] + '月'
+                              + contract_data['第四条信息']['选项'][1][3].split('-')[2] + '日')
             else:
-                assert transaction_info['合同约定贷款审批通过日期'] == '-'
-        assert transaction_info['备注'] == '-'
+                pytest.assume(transaction_info['合同约定贷款审批通过日期'] == '-')
+        pytest.assume(transaction_info['备注'] == '-')
+
         deposit = Decimal('0')
         if ini.environment == 'wx':
             for item in contract_data['第五条信息']['二_1']:
@@ -320,22 +328,48 @@ class TestTransactionOrderContent(object):
             for item in contract_data['第五条信息']['二_2']:
                 first_payment = first_payment + Decimal(item[1])
             if transaction_info['交易管理'] == '全款':
-                assert Decimal(transaction_fund_info['成交总价'][:-1]) == deposit + first_payment + \
-                       property_delivery_payment + register_transfer_payment
+                pytest.assume(Decimal(transaction_fund_info['成交总价'][:-1]) == deposit + first_payment
+                              + property_delivery_payment + register_transfer_payment)
             if transaction_info['交易管理'] == '商贷':
-                assert Decimal(transaction_fund_info['成交总价'][:-1]) == deposit + first_payment + \
-                       Decimal(contract_data['第五条信息']['二_3'][1]) + property_delivery_payment + register_transfer_payment
-            assert Decimal(transaction_fund_info['网签价'][:-1]) == house_payment
-            assert Decimal(transaction_fund_info['首期款总额'][:-1]) == deposit + first_payment + register_transfer_payment \
-                   + property_delivery_payment
-            assert Decimal(transaction_fund_info['定金总额'][:-1]) == deposit
-            assert Decimal(transaction_fund_info['首付款总金额'][:-1]) == first_payment
-            assert Decimal(transaction_fund_info['购房款/首付款（第一笔）'][:-1]) == Decimal(contract_data['第五条信息']['二_2'][0][1])
+                pytest.assume(Decimal(transaction_fund_info['成交总价'][:-1]) == deposit + first_payment
+                              + Decimal(contract_data['第五条信息']['二_3'][1]) + property_delivery_payment
+                              + register_transfer_payment)
+            pytest.assume(Decimal(transaction_fund_info['网签价'][:-1]) == house_payment)
+            pytest.assume(Decimal(transaction_fund_info['首期款总额'][:-1]) == deposit + first_payment
+                          + register_transfer_payment + property_delivery_payment)
+            pytest.assume(Decimal(transaction_fund_info['定金总额'][:-1]) == deposit)
+            pytest.assume(Decimal(transaction_fund_info['首付款总金额'][:-1]) == first_payment)
+            pytest.assume(Decimal(transaction_fund_info['购房款/首付款（第一笔）'][:-1]) ==
+                          Decimal(contract_data['第五条信息']['二_2'][0][1]))
             if transaction_info['交易管理'] == '商贷':
-                assert Decimal(transaction_fund_info['拟贷款金额'][:-1]) == Decimal(contract_data['第五条信息']['二_3'][1])
-            # assert Decimal(transaction_fund_info['交房保证金'][:-1]) == house_delivery_payment
-            assert Decimal(transaction_fund_info['户口迁出保证金'][:-1]) == register_transfer_payment
-            assert Decimal(transaction_fund_info['物业交割保证金'][:-1]) == property_delivery_payment
+                pytest.assume(Decimal(transaction_fund_info['拟贷款金额'][:-1]) == Decimal(contract_data['第五条信息']['二_3'][1]))
+            # pytest.assume(Decimal(transaction_fund_info['交房保证金'][:-1]) == house_delivery_payment
+            pytest.assume(Decimal(transaction_fund_info['户口迁出保证金'][:-1]) == register_transfer_payment)
+            pytest.assume(Decimal(transaction_fund_info['物业交割保证金'][:-1]) == property_delivery_payment)
+        elif ini.environment == 'hz':
+            house_money = Decimal('0')
+            deposit_list = contract_data['补充协议']['一_定金']
+            for m in range(len(deposit_list)):
+                deposit = deposit + Decimal(deposit_list[m]['金额'])
+            house_money_list = contract_data['补充协议']['一_房款']
+            for n in range(len(house_money_list)):
+                house_money = house_money + Decimal(house_money_list[n]['金额'])
+            house_payment = Decimal(contract_data['第三条信息'])
+            house_delivery_payment = Decimal(contract_data['补充协议']['一_交房保证金']['金额'])
+            register_transfer_payment = Decimal(contract_data['补充协议']['一_户口迁出保证金']['金额'])
+            pytest.assume(Decimal(transaction_fund_info['成交总价'][:-1]) == house_payment + deposit +
+                          house_delivery_payment + register_transfer_payment + house_money)
+            pytest.assume(Decimal(transaction_fund_info['网签价'][:-1]) == house_payment)
+            pytest.assume(Decimal(transaction_fund_info['首期款总额'][:-1]) == deposit + house_delivery_payment
+                          + register_transfer_payment + house_money)
+            pytest.assume(Decimal(transaction_fund_info['定金总额'][:-1]) == deposit)
+            pytest.assume(transaction_fund_info['首付款总金额'] == '无')
+            if transaction_info['交易管理'] == '全款':
+                pytest.assume(Decimal(transaction_fund_info['购房款/首付款（第一笔）'][:-1]) == house_payment)
+            elif transaction_info['交易管理'] == '商贷':
+                pytest.assume(Decimal(transaction_fund_info['购房款/首付款（第一笔）'][:-1]) == house_payment)
+            pytest.assume(Decimal(transaction_fund_info['交房保证金'][:-1]) == house_delivery_payment)
+            pytest.assume(Decimal(transaction_fund_info['户口迁出保证金'][:-1]) == register_transfer_payment)
         else:
             house_money = Decimal('0')
             if ini.environment == 'sz':
@@ -343,165 +377,206 @@ class TestTransactionOrderContent(object):
                     deposit = deposit + Decimal(item['金额'])
                 for item in contract_data['补充协议']['房款']:
                     house_money = house_money + Decimal(item['金额'])
-            if ini.environment == 'ks':
+            elif ini.environment == 'ks':
                 for item in contract_data['补充协议']['首期款支付分期']:
                     deposit = deposit + Decimal(item['金额'])
             house_payment = Decimal(contract_data['第三条信息']['房屋价款'])
             house_delivery_payment = Decimal(contract_data['补充协议']['交房保证金']['金额'])
             register_transfer_payment = Decimal(contract_data['补充协议']['户口迁出保证金']['金额'])
-            assert Decimal(transaction_fund_info['成交总价'][:-1]) == house_payment + deposit + house_delivery_payment \
-                   + register_transfer_payment + house_money
-            assert Decimal(transaction_fund_info['网签价'][:-1]) == house_payment
-            assert Decimal(transaction_fund_info['首期款总额'][:-1]) == deposit + house_delivery_payment \
-                   + register_transfer_payment + house_money
+            pytest.assume(Decimal(transaction_fund_info['成交总价'][:-1]) == house_payment + deposit +
+                          house_delivery_payment + register_transfer_payment + house_money)
+            pytest.assume(Decimal(transaction_fund_info['网签价'][:-1]) == house_payment)
+            pytest.assume(Decimal(transaction_fund_info['首期款总额'][:-1]) == deposit + house_delivery_payment
+                          + register_transfer_payment + house_money)
             if ini.environment == 'ks':
-                assert Decimal(transaction_fund_info['定金总额'][:-1]) == \
-                       Decimal(contract_data['第四条信息']['购房定金'])
+                pytest.assume(Decimal(transaction_fund_info['定金总额'][:-1]) == Decimal(contract_data['第四条信息']['购房定金']))
             else:
-                assert Decimal(transaction_fund_info['定金总额'][:-1]) == deposit
+                pytest.assume(Decimal(transaction_fund_info['定金总额'][:-1]) == deposit)
             if transaction_info['交易管理'] == '全款':
                 if ini.environment == 'ks':
                     if contract_data['第四条信息']['支付方式'][1] == 1:
-                        assert transaction_fund_info['首付款总金额'] == '无'
+                        pytest.assume(transaction_fund_info['首付款总金额'] == '无')
                     if contract_data['第四条信息']['支付方式'][1] == 2:
-                        assert Decimal(transaction_fund_info['首付款总金额'][:-1]) == \
-                               Decimal(self.full_payment_contract_data2['第四条信息']['支付方式'][2][2])
+                        pytest.assume(Decimal(transaction_fund_info['首付款总金额'][:-1]) ==
+                                      Decimal(self.full_payment_contract_data2['第四条信息']['支付方式'][2][2]))
                 if ini.environment == 'sz':
-                    assert Decimal(transaction_fund_info['首付款总金额'][:-1]) == house_payment + house_delivery_payment \
-                           + register_transfer_payment + house_money
-                assert Decimal(transaction_fund_info['购房款/首付款（第一笔）'][:-1]) == house_payment
+                    pytest.assume(Decimal(transaction_fund_info['首付款总金额'][:-1]) == house_payment
+                                  + house_delivery_payment + register_transfer_payment + house_money)
+                pytest.assume(Decimal(transaction_fund_info['购房款/首付款（第一笔）'][:-1]) == house_payment)
             if transaction_info['交易管理'] == '商贷':
                 if ini.environment == 'ks':
-                    assert Decimal(transaction_fund_info['首付款总金额'][:-1]) == \
-                           Decimal(contract_data['第四条信息']['支付方式'][2][1])
-                    assert Decimal(transaction_fund_info['购房款/首付款（第一笔）'][:-1]) == \
-                           Decimal(contract_data['第四条信息']['支付方式'][2][1])
-                    assert Decimal(transaction_fund_info['拟贷款金额'][:-1]) == \
-                           Decimal(contract_data['第四条信息']['支付方式'][3][0])
+                    pytest.assume(Decimal(transaction_fund_info['首付款总金额'][:-1]) ==
+                                  Decimal(contract_data['第四条信息']['支付方式'][2][1]))
+                    pytest.assume(Decimal(transaction_fund_info['购房款/首付款（第一笔）'][:-1]) ==
+                                  Decimal(contract_data['第四条信息']['支付方式'][2][1]))
+                    pytest.assume(Decimal(transaction_fund_info['拟贷款金额'][:-1]) ==
+                                  Decimal(contract_data['第四条信息']['支付方式'][3][0]))
                 if ini.environment == 'ks':
-                    assert Decimal(transaction_fund_info['首付款总金额'][:-1]) == Decimal(
-                        contract_data['第四条信息']['选项'][1][1])
-                    assert Decimal(transaction_fund_info['购房款/首付款（第一笔）'][:-1]) == deposit + house_delivery_payment \
-                           + register_transfer_payment + house_money
-                    assert Decimal(transaction_fund_info['拟贷款金额'][:-1]) == house_payment \
-                           - Decimal(contract_data['第四条信息']['选项'][1][1])
-            assert Decimal(transaction_fund_info['交房保证金'][:-1]) == house_delivery_payment
-            assert Decimal(transaction_fund_info['户口迁出保证金'][:-1]) == register_transfer_payment
-        assert transaction_buyer_info['姓名'] == contract_data['房屋买受人信息']['房屋买受人']['房屋买受人_姓名']
-        assert transaction_buyer_info['性质'] == '-'
-        assert transaction_buyer_info['性别'] == contract_data['房屋买受人信息']['房屋买受人']['房屋买受人_性别']
-        assert transaction_buyer_info['国籍'] == contract_data['房屋买受人信息']['房屋买受人']['房屋买受人_国籍']
-        assert transaction_buyer_info['证件类型'] == contract_data['房屋买受人信息']['房屋买受人']['房屋买受人_证件名称']
-        assert transaction_buyer_info['证件号码'] == contract_data['房屋买受人信息']['房屋买受人']['房屋买受人_证件号码']
-        assert transaction_buyer_info['联系电话'] == contract_data['房屋买受人信息']['房屋买受人']['房屋买受人_联系电话']
-        assert transaction_buyer_info['其他联系方式'] == '--'
-        assert transaction_buyer_info['户籍'] == '--'
-        assert transaction_buyer_info['婚姻状况'] == '--'
-        assert transaction_buyer_info['买方家庭住房套数'] == '--'
-        assert transaction_seller_info['姓名'] == contract_data['房屋出卖人信息']['房屋出卖人_姓名']
-        assert transaction_seller_info['性质'] == '-'
-        assert transaction_seller_info['性别'] == contract_data['房屋出卖人信息']['房屋出卖人_性别']
-        assert transaction_seller_info['国籍'] == contract_data['房屋出卖人信息']['房屋出卖人_国籍']
-        assert transaction_seller_info['证件类型'] == contract_data['房屋出卖人信息']['房屋出卖人_证件名称']
-        assert transaction_seller_info['证件号码'] == contract_data['房屋出卖人信息']['房屋出卖人_证件号码']
-        assert transaction_seller_info['联系电话'] == contract_data['房屋出卖人信息']['房屋出卖人_联系电话']
-        assert transaction_seller_info['其他联系方式'] == '--'
-        assert transaction_seller_info['婚姻状况'] == '--'
-        assert transaction_house_info['房源编号'] == house_info['house_code']
+                    pytest.assume(Decimal(transaction_fund_info['首付款总金额'][:-1]) == Decimal(
+                        contract_data['第四条信息']['选项'][1][1]))
+                    pytest.assume(Decimal(transaction_fund_info['购房款/首付款（第一笔）'][:-1]) == deposit
+                                  + house_delivery_payment + register_transfer_payment + house_money)
+                    pytest.assume(Decimal(transaction_fund_info['拟贷款金额'][:-1]) == house_payment
+                                  - Decimal(contract_data['第四条信息']['选项'][1][1]))
+            pytest.assume(Decimal(transaction_fund_info['交房保证金'][:-1]) == house_delivery_payment)
+            pytest.assume(Decimal(transaction_fund_info['户口迁出保证金'][:-1]) == register_transfer_payment)
+        pytest.assume(transaction_buyer_info['姓名'] == contract_data['房屋买受人信息']['房屋买受人']['房屋买受人_姓名'])
+        pytest.assume(transaction_buyer_info['性质'] == '-')
+        pytest.assume(transaction_buyer_info['性别'] == contract_data['房屋买受人信息']['房屋买受人']['房屋买受人_性别'])
+        pytest.assume(transaction_buyer_info['国籍'] == contract_data['房屋买受人信息']['房屋买受人']['房屋买受人_国籍'])
+        pytest.assume(transaction_buyer_info['证件类型'] == contract_data['房屋买受人信息']['房屋买受人']['房屋买受人_证件名称'])
+        pytest.assume(transaction_buyer_info['证件号码'] == contract_data['房屋买受人信息']['房屋买受人']['房屋买受人_证件号码'])
+        pytest.assume(transaction_buyer_info['联系电话'] == contract_data['房屋买受人信息']['房屋买受人']['房屋买受人_联系电话'])
+        pytest.assume(transaction_buyer_info['其他联系方式'] == '--')
+        pytest.assume(transaction_buyer_info['户籍'] == '--')
+        pytest.assume(transaction_buyer_info['婚姻状况'] == '--')
+        pytest.assume(transaction_buyer_info['买方家庭住房套数'] == '--')
+        # pytest.assume(transaction_buyer_share_person_info['姓名'] == contract_data['房屋买受人信息']['共同买受人'][0]['共同买受人_姓名'])
+        # pytest.assume(transaction_buyer_share_person_info['性质'] == '-')
+        # pytest.assume(transaction_buyer_share_person_info['性别'] == contract_data['房屋买受人信息']['共同买受人'][0]['共同买受人_性别'])
+        # pytest.assume(transaction_buyer_share_person_info['国籍'] == contract_data['房屋买受人信息']['共同买受人'][0]['共同买受人_国籍'])
+        # pytest.assume(transaction_buyer_share_person_info['证件类型'] ==
+        # contract_data['房屋买受人信息']['共同买受人'][0]['共同买受人_证件名称'])
+        # pytest.assume(transaction_buyer_share_person_info['证件号码'] ==
+        # contract_data['房屋买受人信息']['共同买受人'][0]['共同买受人_证件号码'])
+        # pytest.assume(transaction_buyer_share_person_info['联系电话'] ==
+        # contract_data['房屋买受人信息']['共同买受人'][0]['共同买受人_联系电话'])
+        # pytest.assume(transaction_buyer_share_person_info['其他联系方式'] == '--')
+        # pytest.assume(transaction_buyer_share_person_info['户籍'] == '--')
+        # pytest.assume(transaction_buyer_share_person_info['婚姻状况'] == '--')
+        # pytest.assume(transaction_buyer_share_person_info['买方家庭住房套数'] == '--')
+        pytest.assume(transaction_seller_info['姓名'] == contract_data['房屋出卖人信息']['房屋出卖人_姓名'])
+        pytest.assume(transaction_seller_info['性质'] == '-')
+        pytest.assume(transaction_seller_info['性别'] == contract_data['房屋出卖人信息']['房屋出卖人_性别'])
+        pytest.assume(transaction_seller_info['国籍'] == contract_data['房屋出卖人信息']['房屋出卖人_国籍'])
+        pytest.assume(transaction_seller_info['证件类型'] == contract_data['房屋出卖人信息']['房屋出卖人_证件名称'])
+        pytest.assume(transaction_seller_info['证件号码'] == contract_data['房屋出卖人信息']['房屋出卖人_证件号码'])
+        pytest.assume(transaction_seller_info['联系电话'] == contract_data['房屋出卖人信息']['房屋出卖人_联系电话'])
+        pytest.assume(transaction_seller_info['其他联系方式'] == '--')
+        pytest.assume(transaction_seller_info['婚姻状况'] == '--')
+        pytest.assume(transaction_house_info['房源编号'] == house_info['house_code'])
         if ini.environment == 'ks':
-            assert transaction_house_info['规划用途'] == '-'
-            assert transaction_house_info['建筑面积'] == contract_data['第一条信息']['产权登记面积'] + 'm²'
-            assert transaction_house_info['建成年代'] == '-'
-            assert transaction_house_info['共有权证号'] == '-'
+            pytest.assume(transaction_house_info['规划用途'] == '-')
+            pytest.assume(transaction_house_info['建筑面积'] == contract_data['第一条信息']['产权登记面积'] + 'm²')
+            pytest.assume(transaction_house_info['建成年代'] == '-')
+            pytest.assume(transaction_house_info['共有权证号'] == '-')
         elif ini.environment == 'wx':
             if contract_data['第一条信息']['三'][0] == 1:
-                assert transaction_house_info['规划用途'] == '住宅'
-            if contract_data['第一条信息']['三'][0] == 2:
-                assert transaction_house_info['规划用途'] == '公寓'
-            if contract_data['第一条信息']['三'][0] == 3:
-                assert transaction_house_info['规划用途'] == '别墅'
-            if contract_data['第一条信息']['三'][0] == 4:
-                assert transaction_house_info['规划用途'] == '办公'
-            if contract_data['第一条信息']['三'][0] == 5:
-                assert transaction_house_info['规划用途'] == '商业'
-            if contract_data['第一条信息']['三'][0] == 6:
-                assert transaction_house_info['规划用途'] == '工业'
-            if contract_data['第一条信息']['三'][0] == 7:
-                assert transaction_house_info['规划用途'] == '其他' + contract_data['第一条信息']['三'][1]
-            assert transaction_house_info['建筑面积'] == contract_data['第一条信息']['建筑面积'] + 'm²'
-            assert transaction_house_info['建成年代'] == '-'
+                pytest.assume(transaction_house_info['规划用途'] == '住宅')
+            elif contract_data['第一条信息']['三'][0] == 2:
+                pytest.assume(transaction_house_info['规划用途'] == '公寓')
+            elif contract_data['第一条信息']['三'][0] == 3:
+                pytest.assume(transaction_house_info['规划用途'] == '别墅')
+            elif contract_data['第一条信息']['三'][0] == 4:
+                pytest.assume(transaction_house_info['规划用途'] == '办公')
+            elif contract_data['第一条信息']['三'][0] == 5:
+                pytest.assume(transaction_house_info['规划用途'] == '商业')
+            elif contract_data['第一条信息']['三'][0] == 6:
+                pytest.assume(transaction_house_info['规划用途'] == '工业')
+            elif contract_data['第一条信息']['三'][0] == 7:
+                pytest.assume(transaction_house_info['规划用途'] == '其他' + contract_data['第一条信息']['三'][1])
+            pytest.assume(transaction_house_info['建筑面积'] == contract_data['第一条信息']['建筑面积'] + 'm²')
+            pytest.assume(transaction_house_info['建成年代'] == '-')
             if contract_data['第二条信息']['一_持证方式'][1] == "":
-                assert transaction_house_info['共有权证号'] == "-"
+                pytest.assume(transaction_house_info['共有权证号'] == "-")
             else:
-                assert transaction_house_info['共有权证号'] == contract_data['第二条信息']['一_持证方式'][1]
+                pytest.assume(transaction_house_info['共有权证号'] == contract_data['第二条信息']['一_持证方式'][1])
+        elif ini.environment == 'hz':
+            pytest.assume(transaction_house_info['规划用途'] == contract_data['第一条信息']['四'])
+            pytest.assume(transaction_house_info['建筑面积'] == contract_data['第一条信息']['三'] + 'm²')
+            pytest.assume(transaction_house_info['建成年代'] == '-')
+            if contract_data['第二条信息']['二'][0] == 1:
+                pytest.assume(transaction_house_info['共有权证号'] == '-')
+            elif contract_data['第二条信息']['二'][0] == 2:
+                pytest.assume(transaction_house_info['共有权证号'] == contract_data['第二条信息']['二'][1])
         else:
-            assert transaction_house_info['规划用途'] == contract_data['第一条信息']['房屋用途']
-            assert transaction_house_info['建筑面积'] == contract_data['第一条信息']['产权登记建筑面积'] + 'm²'
-            assert transaction_house_info['建成年代'] == contract_data['第一条信息']['房屋建成年份']
+            pytest.assume(transaction_house_info['规划用途'] == contract_data['第一条信息']['房屋用途'])
+            pytest.assume(transaction_house_info['建筑面积'] == contract_data['第一条信息']['产权登记建筑面积'] + 'm²')
+            pytest.assume(transaction_house_info['建成年代'] == contract_data['第一条信息']['房屋建成年份'])
             if contract_data['第二条信息']['房屋权证状况'][0] == 1:
-                assert transaction_house_info['共有权证号'] == '-'
-            if contract_data['第二条信息']['房屋权证状况'][0] == 2:
-                assert transaction_house_info['共有权证号'] == contract_data['第二条信息']['房屋权证状况'][1]
+                pytest.assume(transaction_house_info['共有权证号'] == '-')
+            elif contract_data['第二条信息']['房屋权证状况'][0] == 2:
+                pytest.assume(transaction_house_info['共有权证号'] == contract_data['第二条信息']['房屋权证状况'][1])
         if ini.environment == 'wx':
             if contract_data['第一条信息']['四'][0] == 1:
-                assert transaction_house_info['房屋性质'] == '商品房'
-            if contract_data['第一条信息']['四'][0] == 2:
-                assert transaction_house_info['房屋性质'] == '房改房'
-            if contract_data['第一条信息']['四'][0] == 3:
-                assert transaction_house_info['房屋性质'] == '安置房'
-            if contract_data['第一条信息']['四'][0] == 4:
-                assert transaction_house_info['房屋性质'] == '向社会公开销售的经济适用住房'
-            if contract_data['第一条信息']['四'][0] == 5:
-                assert transaction_house_info['房屋性质'] == '其他房屋' + contract_data['第一条信息']['四'][1]
+                pytest.assume(transaction_house_info['房屋性质'] == '商品房')
+            elif contract_data['第一条信息']['四'][0] == 2:
+                pytest.assume(transaction_house_info['房屋性质'] == '房改房')
+            elif contract_data['第一条信息']['四'][0] == 3:
+                pytest.assume(transaction_house_info['房屋性质'] == '安置房')
+            elif contract_data['第一条信息']['四'][0] == 4:
+                pytest.assume(transaction_house_info['房屋性质'] == '向社会公开销售的经济适用住房')
+            elif contract_data['第一条信息']['四'][0] == 5:
+                pytest.assume(transaction_house_info['房屋性质'] == '其他房屋' + contract_data['第一条信息']['四'][1])
+        elif ini.environment == 'hz':
+            pytest.assume(transaction_house_info['房屋性质'] == contract_data['第一条信息']['二'])
         else:
-            assert transaction_house_info['房屋性质'] == '-'
-        assert transaction_house_info['楼盘名称'] == house_info['estate_name']
+            pytest.assume(transaction_house_info['房屋性质'] == '-')
+        pytest.assume(transaction_house_info['楼盘名称'] == house_info['estate_name'])
         if ini.environment == 'wx':
             if contract_data['第二条信息']['一_权属状况'][0] == 1:
-                assert transaction_house_info['房本类型'] == '不动产权证'
+                pytest.assume(transaction_house_info['房本类型'] == '不动产权证')
             if contract_data['第二条信息']['一_权属状况'][0] == 2:
-                assert transaction_house_info['房本类型'] == '房屋所有权证'
-            assert transaction_house_info['产权证号'] == contract_data['第二条信息']['一_权属状况'][1]
+                pytest.assume(transaction_house_info['房本类型'] == '房屋所有权证')
+            pytest.assume(transaction_house_info['产权证号'] == contract_data['第二条信息']['一_权属状况'][1])
+        elif ini.environment == 'hz':
+            pytest.assume(transaction_house_info['房本类型'] == '无')
+            pytest.assume(transaction_house_info['产权证号'] == contract_data['第一条信息']['五'])
         else:
-            assert transaction_house_info['房本类型'] == '-'
-            assert transaction_house_info['产权证号'] == contract_data['第一条信息']['房屋所有权证编号']
+            pytest.assume(transaction_house_info['房本类型'] == '-')
+            pytest.assume(transaction_house_info['产权证号'] == contract_data['第一条信息']['房屋所有权证编号'])
         if house_key_info['house_state'] == '-':
             house_key_info['house_state'] = '--'
-        assert transaction_house_info['房屋现状'] == house_key_info['house_state']
-        assert transaction_house_info['物业地址'] == house_info['estate_name'] + house_info['building_name'] + '-' + \
-               house_info['unit_name'] + '-' + house_info['floor'] + '-' + house_info['door_name']
+        pytest.assume(transaction_house_info['房屋现状'] == house_key_info['house_state'])
+        pytest.assume(transaction_house_info['物业地址'] == house_info['estate_name'] + house_info['building_name'] + '-'
+                      + house_info['unit_name'] + '-' + house_info['floor'] + '-' + house_info['door_name'])
         if ini.environment == 'wx':
-            assert transaction_house_info['行政区域'] == '-'
+            pytest.assume(transaction_house_info['行政区域'] == '-')
+        elif ini.environment == 'hz':
+            pytest.assume(transaction_house_info['行政区域'] == contract_data['房屋所属行政区'])
         else:
-            assert transaction_house_info['行政区域'] == contract_data['第一条信息']['区']
+            pytest.assume(transaction_house_info['行政区域'] == contract_data['第一条信息']['区'])
         if ini.environment == 'wx':
             if contract_data['第二条信息']['三'][0] == 1:
-                assert transaction_house_info['是否有抵押'] == '无抵押'
-                assert transaction_house_info['合同约定的注销抵押日期'] == '-'
-            if contract_data['第二条信息']['三'][0] == 2:
-                assert transaction_house_info['是否有抵押'] == '有抵押'
-                assert transaction_house_info['合同约定的注销抵押日期'] == \
-                       contract_data['第二条信息']['三'][2][1].split('-')[0] + '年' \
-                       + contract_data['第二条信息']['三'][2][1].split('-')[1] + '月' \
-                       + contract_data['第二条信息']['三'][2][1].split('-')[2] + '日'
+                pytest.assume(transaction_house_info['是否有抵押'] == '无抵押')
+                pytest.assume(transaction_house_info['合同约定的注销抵押日期'] == '-')
+            elif contract_data['第二条信息']['三'][0] == 2:
+                pytest.assume(transaction_house_info['是否有抵押'] == '有抵押')
+                pytest.assume(transaction_house_info['合同约定的注销抵押日期'] == contract_data['第二条信息']['三'][1][1].split('-')[0]
+                              + '年' + contract_data['第二条信息']['三'][1][1].split('-')[1] + '月'
+                              + contract_data['第二条信息']['三'][1][1].split('-')[2] + '日')
+        elif ini.environment == 'hz':
+            if contract_data['第二条信息']['二'][0] == 1:
+                pytest.assume(transaction_house_info['是否有抵押'] == '无抵押')
+                pytest.assume(transaction_house_info['合同约定的注销抵押日期'] == '-')
+            elif contract_data['第二条信息']['二'][0] == 2:
+                pytest.assume(transaction_house_info['是否有抵押'] == '有抵押')
+                pytest.assume(transaction_house_info['合同约定的注销抵押日期'] == '-')
+                # if contract_data['第二条信息']['二'][4][0] == 1:
+                #     pytest.assume(transaction_house_info['合同约定的注销抵押日期'] == '-')
+                # elif contract_data['第二条信息']['二'][4][0] == 2:
+                #     pytest.assume(transaction_house_info['合同约定的注销抵押日期'] ==
+                #                   contract_data['第二条信息']['二'][4][1][1].split('-')[0] + '年'
+                #                   + contract_data['第二条信息']['二'][4][1][1].split('-')[1] + '月'
+                #                   + contract_data['第二条信息']['二'][4][1][1].split('-')[2] + '日')
         else:
             if contract_data['第二条信息']['房屋抵押状况'][0] == 1:
-                assert transaction_house_info['是否有抵押'] == '无抵押'
-                assert transaction_house_info['合同约定的注销抵押日期'] == '-'
-            if contract_data['第二条信息']['房屋抵押状况'][0] == 2:
-                assert transaction_house_info['是否有抵押'] == '有抵押'
-                assert transaction_house_info['合同约定的注销抵押日期'] == \
-                       contract_data['第二条信息']['房屋抵押状况'][1][1].split('-')[0] + '年' \
-                       + contract_data['第二条信息']['房屋抵押状况'][1][1].split('-')[1] + '月' \
-                       + contract_data['第二条信息']['房屋抵押状况'][1][1].split('-')[2] + '日'
+                pytest.assume(transaction_house_info['是否有抵押'] == '无抵押')
+                pytest.assume(transaction_house_info['合同约定的注销抵押日期'] == '-')
+            elif contract_data['第二条信息']['房屋抵押状况'][0] == 2:
+                pytest.assume(transaction_house_info['是否有抵押'] == '有抵押')
+                pytest.assume(transaction_house_info['合同约定的注销抵押日期'] ==
+                              contract_data['第二条信息']['房屋抵押状况'][1][1].split('-')[0] + '年'
+                              + contract_data['第二条信息']['房屋抵押状况'][1][1].split('-')[1] + '月'
+                              + contract_data['第二条信息']['房屋抵押状况'][1][1].split('-')[2] + '日')
         if house_key_info['is_unique'] == '不唯一':
-            assert transaction_house_info['是否唯一'] == '否'
-        if house_key_info['is_unique'] == '唯一':
-            assert transaction_house_info['是否唯一'] == '是'
-        if house_key_info['is_unique'] == '-':
-            assert transaction_house_info['是否唯一'] == '--'
-        assert transaction_house_info['产证年限'] == house_key_info['house_property_limit']
-        assert transaction_house_info['是否限售房'] == '--'
+            pytest.assume(transaction_house_info['是否唯一'] == '否')
+        elif house_key_info['is_unique'] == '唯一':
+            pytest.assume(transaction_house_info['是否唯一'] == '是')
+        elif house_key_info['is_unique'] == '-':
+            pytest.assume(transaction_house_info['是否唯一'] == '--')
+        pytest.assume(transaction_house_info['产证年限'] == house_key_info['house_property_limit'])
+        pytest.assume(transaction_house_info['是否限售房'] == '--')
 
     @allure.story("测试商贷购买合同，查看权证单显示数据用例")
     @pytest.mark.sale
@@ -554,7 +629,7 @@ class TestTransactionOrderContent(object):
         log.info('房源信息校验通过')
         contract_create_order.input_customer_code(customer_info['customer_code'])
         contract_create_order.click_get_customer_info_button()
-        assert contract_create_order.get_customer_name() == customer_info['customer_name']
+        pytest.assume(contract_create_order.get_customer_name() == customer_info['customer_name'])
         contract_create_order.click_next_step_button()
         if ini.environment == 'sz' or ini.environment == 'ks':
             contract_create_order.choose_district_contract()
@@ -641,66 +716,72 @@ class TestTransactionOrderContent(object):
         transaction_seller_info = transaction_detail.get_seller_info()
         transaction_house_info = transaction_detail.get_house_info()
         transaction_management = ''  # 权证单内容的校验
-        if ini.environment == 'ks':
-            if contract_data['第四条信息']['支付方式'][0] == 1:
-                transaction_management = '全款'
-            if contract_data['第四条信息']['支付方式'][0] == 2:
-                transaction_management = '商贷'
-        if ini.environment == 'wx':
-            if contract_data['第五条信息']['二'] == 1:
-                transaction_management = '全款'
-            if contract_data['第五条信息']['二'] == 2:
-                transaction_management = '商贷'
-        else:
+        if ini.environment == 'sz':
             if contract_data['第四条信息']['选项'][0] == 1:
                 transaction_management = '全款'
-            if contract_data['第四条信息']['选项'][0] == 2:
+            elif contract_data['第四条信息']['选项'][0] == 2:
                 transaction_management = '商贷'
-        assert transaction_info['交易管理'] == transaction_management
-        assert transaction_info['交易编号'] == contract_code.replace('HE', 'QZ')
-        assert transaction_info['合同编号'] == contract_code
-        assert transaction_info['创建日期'] == contract_info['create_time']
-        assert transaction_info['签约日期'] == contract_info['sign_time']
-        if ini.environment == 'ks':
-            assert transaction_info['合同约定办理资金托管日期'] == '-'
+        elif ini.environment == 'ks':
+            if contract_data['第四条信息']['支付方式'][0] == 1:
+                transaction_management = '全款'
+            elif contract_data['第四条信息']['支付方式'][0] == 2:
+                transaction_management = '商贷'
+        elif ini.environment == 'wx':
+            if contract_data['第五条信息']['二'] == 1:
+                transaction_management = '全款'
+            elif contract_data['第五条信息']['二'] == 2:
+                transaction_management = '商贷'
+        elif ini.environment == 'hz':
+            if contract_data['第四条信息']['支付方式'] == 1:
+                transaction_management = '全款'
+            elif contract_data['第四条信息']['支付方式'] == 2:
+                transaction_management = '商贷'
+        pytest.assume(transaction_info['交易管理'] == transaction_management)
+        pytest.assume(transaction_info['交易编号'] == contract_code.replace('HE', 'QZ'))
+        pytest.assume(transaction_info['合同编号'] == contract_code)
+        pytest.assume(transaction_info['创建日期'] == contract_info['create_time'])
+        pytest.assume(transaction_info['签约日期'] == contract_info['sign_time'])
+        if ini.environment == 'sz':
+            if transaction_info['交易管理'] == '全款':
+                pytest.assume(transaction_info['合同约定办理资金托管日期'] == contract_data['第四条信息']['选项'][1][1].split('-')[0] + '年'
+                              + contract_data['第四条信息']['选项'][1][1].split('-')[1] + '月'
+                              + contract_data['第四条信息']['选项'][1][1].split('-')[2] + '日')
+            elif transaction_info['交易管理'] == '商贷':
+                pytest.assume(transaction_info['合同约定办理资金托管日期'] == contract_data['第四条信息']['选项'][1][0].split('-')[0] + '年'
+                              + contract_data['第四条信息']['选项'][1][0].split('-')[1] + '月'
+                              + contract_data['第四条信息']['选项'][1][0].split('-')[2] + '日')
+        elif ini.environment == 'ks' or ini.environment == 'hz':
+            pytest.assume(transaction_info['合同约定办理资金托管日期'] == '-')
         elif ini.environment == 'wx':
             if contract_data['第五条信息']['二_2'][0][0][0] == 1:
-                assert transaction_info['合同约定办理资金托管日期'] == '办理权属转移登记前'
-            if contract_data['第五条信息']['二_2'][0][0][0] == 2:
-                assert transaction_info['合同约定办理资金托管日期'] == '办理权属转移登记后' + contract_data['第五条信息']['二_2'][0][0][1] + '日内'
-            if contract_data['第五条信息']['二_2'][0][0][0] == 3:
-                assert transaction_info['合同约定办理资金托管日期'] == \
-                       contract_data['第五条信息']['二_2'][0][0][1].split('-')[0] + '年' \
-                       + contract_data['第五条信息']['二_2'][0][0][1].split('-')[1] + '月' \
-                       + contract_data['第五条信息']['二_2'][0][0][1].split('-')[2] + '日' + '前'
-            if contract_data['第五条信息']['二_2'][0][0][0] == 4:
-                assert transaction_info['合同约定办理资金托管日期'] == '本合同签订当日'
-            if contract_data['第五条信息']['二_2'][0][0][0] == 5:
-                assert transaction_info['合同约定办理资金托管日期'] == '本合同签订后' + contract_data['第五条信息']['二_2'][0][0][1] + '日内'
-            if contract_data['第五条信息']['二_2'][0][0][0] == 6:
-                assert transaction_info['合同约定办理资金托管日期'] == '办理网签手续后' + contract_data['第五条信息']['二_2'][0][0][1] + '日内'
-            if contract_data['第五条信息']['二_2'][0][0][0] == 6:
-                assert transaction_info['合同约定办理资金托管日期'] == '办理资金托管手续后' + contract_data['第五条信息']['二_2'][0][0][1] + '日内'
-        else:
-            if transaction_info['交易管理'] == '全款':
-                assert transaction_info['合同约定办理资金托管日期'] == \
-                       contract_data['第四条信息']['选项'][1][1].split('-')[0] + '年' \
-                       + contract_data['第四条信息']['选项'][1][1].split('-')[1] + '月' \
-                       + contract_data['第四条信息']['选项'][1][1].split('-')[2] + '日'
-            if transaction_info['交易管理'] == '商贷':
-                assert transaction_info['合同约定办理资金托管日期'] == \
-                       contract_data['第四条信息']['选项'][1][0].split('-')[0] + '年' \
-                       + contract_data['第四条信息']['选项'][1][0].split('-')[1] + '月' \
-                       + contract_data['第四条信息']['选项'][1][0].split('-')[2] + '日'
+                pytest.assume(transaction_info['合同约定办理资金托管日期'] == '办理权属转移登记前')
+            elif contract_data['第五条信息']['二_2'][0][0][0] == 2:
+                pytest.assume(transaction_info['合同约定办理资金托管日期'] == '办理权属转移登记后' + contract_data['第五条信息']['二_2'][0][0][1]
+                              + '日内')
+            elif contract_data['第五条信息']['二_2'][0][0][0] == 3:
+                pytest.assume(transaction_info['合同约定办理资金托管日期'] == contract_data['第五条信息']['二_2'][0][0][1].split('-')[0]
+                              + '年' + contract_data['第五条信息']['二_2'][0][0][1].split('-')[1] + '月'
+                              + contract_data['第五条信息']['二_2'][0][0][1].split('-')[2] + '日' + '前')
+            elif contract_data['第五条信息']['二_2'][0][0][0] == 4:
+                pytest.assume(transaction_info['合同约定办理资金托管日期'] == '本合同签订当日')
+            elif contract_data['第五条信息']['二_2'][0][0][0] == 5:
+                pytest.assume(transaction_info['合同约定办理资金托管日期'] == '本合同签订后' + contract_data['第五条信息']['二_2'][0][0][1]
+                              + '日内')
+            elif contract_data['第五条信息']['二_2'][0][0][0] == 6:
+                pytest.assume(transaction_info['合同约定办理资金托管日期'] == '办理网签手续后' + contract_data['第五条信息']['二_2'][0][0][1]
+                              + '日内')
+            elif contract_data['第五条信息']['二_2'][0][0][0] == 6:
+                pytest.assume(transaction_info['合同约定办理资金托管日期'] == '办理资金托管手续后' + contract_data['第五条信息']['二_2'][0][0][1]
+                              + '日内')
         if transaction_info['交易管理'] == '商贷':
             if ini.environment == 'sz':
-                assert transaction_info['合同约定贷款审批通过日期'] == \
-                       contract_data['第四条信息']['选项'][1][3].split('-')[0] + '年' \
-                       + contract_data['第四条信息']['选项'][1][3].split('-')[1] + '月' \
-                       + contract_data['第四条信息']['选项'][1][3].split('-')[2] + '日'
+                pytest.assume(transaction_info['合同约定贷款审批通过日期'] == contract_data['第四条信息']['选项'][1][3].split('-')[0] + '年'
+                              + contract_data['第四条信息']['选项'][1][3].split('-')[1] + '月'
+                              + contract_data['第四条信息']['选项'][1][3].split('-')[2] + '日')
             else:
-                assert transaction_info['合同约定贷款审批通过日期'] == '-'
-        assert transaction_info['备注'] == '-'
+                pytest.assume(transaction_info['合同约定贷款审批通过日期'] == '-')
+        pytest.assume(transaction_info['备注'] == '-')
+
         deposit = Decimal('0')
         if ini.environment == 'wx':
             for item in contract_data['第五条信息']['二_1']:
@@ -713,22 +794,48 @@ class TestTransactionOrderContent(object):
             for item in contract_data['第五条信息']['二_2']:
                 first_payment = first_payment + Decimal(item[1])
             if transaction_info['交易管理'] == '全款':
-                assert Decimal(transaction_fund_info['成交总价'][:-1]) == deposit + first_payment + \
-                       property_delivery_payment + register_transfer_payment
+                pytest.assume(Decimal(transaction_fund_info['成交总价'][:-1]) == deposit + first_payment
+                              + property_delivery_payment + register_transfer_payment)
             if transaction_info['交易管理'] == '商贷':
-                assert Decimal(transaction_fund_info['成交总价'][:-1]) == deposit + first_payment + \
-                       Decimal(contract_data['第五条信息']['二_3'][1]) + property_delivery_payment + register_transfer_payment
-            assert Decimal(transaction_fund_info['网签价'][:-1]) == house_payment
-            assert Decimal(transaction_fund_info['首期款总额'][:-1]) == deposit + first_payment + register_transfer_payment \
-                   + property_delivery_payment
-            assert Decimal(transaction_fund_info['定金总额'][:-1]) == deposit
-            assert Decimal(transaction_fund_info['首付款总金额'][:-1]) == first_payment
-            assert Decimal(transaction_fund_info['购房款/首付款（第一笔）'][:-1]) == Decimal(contract_data['第五条信息']['二_2'][0][1])
+                pytest.assume(Decimal(transaction_fund_info['成交总价'][:-1]) == deposit + first_payment
+                              + Decimal(contract_data['第五条信息']['二_3'][1]) + property_delivery_payment
+                              + register_transfer_payment)
+            pytest.assume(Decimal(transaction_fund_info['网签价'][:-1]) == house_payment)
+            pytest.assume(Decimal(transaction_fund_info['首期款总额'][:-1]) == deposit + first_payment
+                          + register_transfer_payment + property_delivery_payment)
+            pytest.assume(Decimal(transaction_fund_info['定金总额'][:-1]) == deposit)
+            pytest.assume(Decimal(transaction_fund_info['首付款总金额'][:-1]) == first_payment)
+            pytest.assume(Decimal(transaction_fund_info['购房款/首付款（第一笔）'][:-1]) ==
+                          Decimal(contract_data['第五条信息']['二_2'][0][1]))
             if transaction_info['交易管理'] == '商贷':
-                assert Decimal(transaction_fund_info['拟贷款金额'][:-1]) == Decimal(contract_data['第五条信息']['二_3'][1])
-            # assert Decimal(transaction_fund_info['交房保证金'][:-1]) == house_delivery_payment
-            assert Decimal(transaction_fund_info['户口迁出保证金'][:-1]) == register_transfer_payment
-            assert Decimal(transaction_fund_info['物业交割保证金'][:-1]) == property_delivery_payment
+                pytest.assume(Decimal(transaction_fund_info['拟贷款金额'][:-1]) == Decimal(contract_data['第五条信息']['二_3'][1]))
+            # pytest.assume(Decimal(transaction_fund_info['交房保证金'][:-1]) == house_delivery_payment
+            pytest.assume(Decimal(transaction_fund_info['户口迁出保证金'][:-1]) == register_transfer_payment)
+            pytest.assume(Decimal(transaction_fund_info['物业交割保证金'][:-1]) == property_delivery_payment)
+        elif ini.environment == 'hz':
+            house_money = Decimal('0')
+            deposit_list = contract_data['补充协议']['一_定金']
+            for m in range(len(deposit_list)):
+                deposit = deposit + Decimal(deposit_list[m]['金额'])
+            house_money_list = contract_data['补充协议']['一_房款']
+            for n in range(len(house_money_list)):
+                house_money = house_money + Decimal(house_money_list[n]['金额'])
+            house_payment = Decimal(contract_data['第三条信息'])
+            house_delivery_payment = Decimal(contract_data['补充协议']['一_交房保证金']['金额'])
+            register_transfer_payment = Decimal(contract_data['补充协议']['一_户口迁出保证金']['金额'])
+            pytest.assume(Decimal(transaction_fund_info['成交总价'][:-1]) == house_payment + deposit +
+                          house_delivery_payment + register_transfer_payment + house_money)
+            pytest.assume(Decimal(transaction_fund_info['网签价'][:-1]) == house_payment)
+            pytest.assume(Decimal(transaction_fund_info['首期款总额'][:-1]) == deposit + house_delivery_payment
+                          + register_transfer_payment + house_money)
+            pytest.assume(Decimal(transaction_fund_info['定金总额'][:-1]) == deposit)
+            pytest.assume(transaction_fund_info['首付款总金额'] == '无')
+            if transaction_info['交易管理'] == '全款':
+                pytest.assume(Decimal(transaction_fund_info['购房款/首付款（第一笔）'][:-1]) == house_payment)
+            elif transaction_info['交易管理'] == '商贷':
+                pytest.assume(Decimal(transaction_fund_info['购房款/首付款（第一笔）'][:-1]) == house_payment)
+            pytest.assume(Decimal(transaction_fund_info['交房保证金'][:-1]) == house_delivery_payment)
+            pytest.assume(Decimal(transaction_fund_info['户口迁出保证金'][:-1]) == register_transfer_payment)
         else:
             house_money = Decimal('0')
             if ini.environment == 'sz':
@@ -736,176 +843,200 @@ class TestTransactionOrderContent(object):
                     deposit = deposit + Decimal(item['金额'])
                 for item in contract_data['补充协议']['房款']:
                     house_money = house_money + Decimal(item['金额'])
-            if ini.environment == 'ks':
+            elif ini.environment == 'ks':
                 for item in contract_data['补充协议']['首期款支付分期']:
                     deposit = deposit + Decimal(item['金额'])
             house_payment = Decimal(contract_data['第三条信息']['房屋价款'])
             house_delivery_payment = Decimal(contract_data['补充协议']['交房保证金']['金额'])
             register_transfer_payment = Decimal(contract_data['补充协议']['户口迁出保证金']['金额'])
-            assert Decimal(transaction_fund_info['成交总价'][:-1]) == house_payment + deposit + house_delivery_payment \
-                   + register_transfer_payment + house_money
-            assert Decimal(transaction_fund_info['网签价'][:-1]) == house_payment
-            assert Decimal(transaction_fund_info['首期款总额'][:-1]) == deposit + house_delivery_payment \
-                   + register_transfer_payment + house_money
+            pytest.assume(Decimal(transaction_fund_info['成交总价'][:-1]) == house_payment + deposit +
+                          house_delivery_payment + register_transfer_payment + house_money)
+            pytest.assume(Decimal(transaction_fund_info['网签价'][:-1]) == house_payment)
+            pytest.assume(Decimal(transaction_fund_info['首期款总额'][:-1]) == deposit + house_delivery_payment
+                          + register_transfer_payment + house_money)
             if ini.environment == 'ks':
-                assert Decimal(transaction_fund_info['定金总额'][:-1]) == \
-                       Decimal(contract_data['第四条信息']['购房定金'])
+                pytest.assume(Decimal(transaction_fund_info['定金总额'][:-1]) == Decimal(contract_data['第四条信息']['购房定金']))
             else:
-                assert Decimal(transaction_fund_info['定金总额'][:-1]) == deposit
+                pytest.assume(Decimal(transaction_fund_info['定金总额'][:-1]) == deposit)
             if transaction_info['交易管理'] == '全款':
                 if ini.environment == 'ks':
                     if contract_data['第四条信息']['支付方式'][1] == 1:
-                        assert transaction_fund_info['首付款总金额'] == '无'
+                        pytest.assume(transaction_fund_info['首付款总金额'] == '无')
                     if contract_data['第四条信息']['支付方式'][1] == 2:
-                        assert Decimal(transaction_fund_info['首付款总金额'][:-1]) == \
-                               Decimal(self.full_payment_contract_data2['第四条信息']['支付方式'][2][2])
+                        pytest.assume(Decimal(transaction_fund_info['首付款总金额'][:-1]) ==
+                                      Decimal(self.full_payment_contract_data2['第四条信息']['支付方式'][2][2]))
                 if ini.environment == 'sz':
-                    assert Decimal(transaction_fund_info['首付款总金额'][:-1]) == house_payment + house_delivery_payment \
-                           + register_transfer_payment + house_money
-                assert Decimal(transaction_fund_info['购房款/首付款（第一笔）'][:-1]) == house_payment
+                    pytest.assume(Decimal(transaction_fund_info['首付款总金额'][:-1]) == house_payment
+                                  + house_delivery_payment + register_transfer_payment + house_money)
+                pytest.assume(Decimal(transaction_fund_info['购房款/首付款（第一笔）'][:-1]) == house_payment)
             if transaction_info['交易管理'] == '商贷':
                 if ini.environment == 'ks':
-                    assert Decimal(transaction_fund_info['首付款总金额'][:-1]) == \
-                           Decimal(contract_data['第四条信息']['支付方式'][2][1])
-                    assert Decimal(transaction_fund_info['购房款/首付款（第一笔）'][:-1]) == \
-                           Decimal(contract_data['第四条信息']['支付方式'][2][1])
-                    assert Decimal(transaction_fund_info['拟贷款金额'][:-1]) == \
-                           Decimal(contract_data['第四条信息']['支付方式'][3][0])
+                    pytest.assume(Decimal(transaction_fund_info['首付款总金额'][:-1]) ==
+                                  Decimal(contract_data['第四条信息']['支付方式'][2][1]))
+                    pytest.assume(Decimal(transaction_fund_info['购房款/首付款（第一笔）'][:-1]) ==
+                                  Decimal(contract_data['第四条信息']['支付方式'][2][1]))
+                    pytest.assume(Decimal(transaction_fund_info['拟贷款金额'][:-1]) ==
+                                  Decimal(contract_data['第四条信息']['支付方式'][3][0]))
                 if ini.environment == 'ks':
-                    assert Decimal(transaction_fund_info['首付款总金额'][:-1]) == Decimal(
-                        contract_data['第四条信息']['选项'][1][1])
-                    assert Decimal(transaction_fund_info['购房款/首付款（第一笔）'][:-1]) == deposit + house_delivery_payment \
-                           + register_transfer_payment + house_money
-                    assert Decimal(transaction_fund_info['拟贷款金额'][:-1]) == house_payment \
-                           - Decimal(contract_data['第四条信息']['选项'][1][1])
-            assert Decimal(transaction_fund_info['交房保证金'][:-1]) == house_delivery_payment
-            assert Decimal(transaction_fund_info['户口迁出保证金'][:-1]) == register_transfer_payment
-        assert transaction_buyer_info['姓名'] == contract_data['房屋买受人信息']['房屋买受人']['房屋买受人_姓名']
-        assert transaction_buyer_info['性质'] == '-'
-        assert transaction_buyer_info['性别'] == contract_data['房屋买受人信息']['房屋买受人']['房屋买受人_性别']
-        assert transaction_buyer_info['国籍'] == contract_data['房屋买受人信息']['房屋买受人']['房屋买受人_国籍']
-        assert transaction_buyer_info['证件类型'] == contract_data['房屋买受人信息']['房屋买受人']['房屋买受人_证件名称']
-        assert transaction_buyer_info['证件号码'] == contract_data['房屋买受人信息']['房屋买受人']['房屋买受人_证件号码']
-        assert transaction_buyer_info['联系电话'] == contract_data['房屋买受人信息']['房屋买受人']['房屋买受人_联系电话']
-        assert transaction_buyer_info['其他联系方式'] == '--'
-        assert transaction_buyer_info['户籍'] == '--'
-        assert transaction_buyer_info['婚姻状况'] == '--'
-        assert transaction_buyer_info['买方家庭住房套数'] == '--'
-        assert transaction_buyer_share_person_info['姓名'] == \
-               contract_data['房屋买受人信息']['共同买受人'][0]['共同买受人_姓名']
-        assert transaction_buyer_share_person_info['性质'] == '-'
-        assert transaction_buyer_share_person_info['性别'] == \
-               contract_data['房屋买受人信息']['共同买受人'][0]['共同买受人_性别']
-        assert transaction_buyer_share_person_info['国籍'] == \
-               contract_data['房屋买受人信息']['共同买受人'][0]['共同买受人_国籍']
-        assert transaction_buyer_share_person_info['证件类型'] == \
-               contract_data['房屋买受人信息']['共同买受人'][0]['共同买受人_证件名称']
-        assert transaction_buyer_share_person_info['证件号码'] == \
-               contract_data['房屋买受人信息']['共同买受人'][0]['共同买受人_证件号码']
-        assert transaction_buyer_share_person_info['联系电话'] == \
-               contract_data['房屋买受人信息']['共同买受人'][0]['共同买受人_联系电话']
-        assert transaction_buyer_share_person_info['其他联系方式'] == '--'
-        assert transaction_buyer_share_person_info['户籍'] == '--'
-        assert transaction_buyer_share_person_info['婚姻状况'] == '--'
-        assert transaction_buyer_share_person_info['买方家庭住房套数'] == '--'
-        assert transaction_seller_info['姓名'] == contract_data['房屋出卖人信息']['房屋出卖人_姓名']
-        assert transaction_seller_info['性质'] == '-'
-        assert transaction_seller_info['性别'] == contract_data['房屋出卖人信息']['房屋出卖人_性别']
-        assert transaction_seller_info['国籍'] == contract_data['房屋出卖人信息']['房屋出卖人_国籍']
-        assert transaction_seller_info['证件类型'] == contract_data['房屋出卖人信息']['房屋出卖人_证件名称']
-        assert transaction_seller_info['证件号码'] == contract_data['房屋出卖人信息']['房屋出卖人_证件号码']
-        assert transaction_seller_info['联系电话'] == contract_data['房屋出卖人信息']['房屋出卖人_联系电话']
-        assert transaction_seller_info['其他联系方式'] == '--'
-        assert transaction_seller_info['婚姻状况'] == '--'
-        assert transaction_house_info['房源编号'] == house_info['house_code']
+                    pytest.assume(Decimal(transaction_fund_info['首付款总金额'][:-1]) == Decimal(
+                        contract_data['第四条信息']['选项'][1][1]))
+                    pytest.assume(Decimal(transaction_fund_info['购房款/首付款（第一笔）'][:-1]) == deposit
+                                  + house_delivery_payment + register_transfer_payment + house_money)
+                    pytest.assume(Decimal(transaction_fund_info['拟贷款金额'][:-1]) == house_payment
+                                  - Decimal(contract_data['第四条信息']['选项'][1][1]))
+            pytest.assume(Decimal(transaction_fund_info['交房保证金'][:-1]) == house_delivery_payment)
+            pytest.assume(Decimal(transaction_fund_info['户口迁出保证金'][:-1]) == register_transfer_payment)
+        pytest.assume(transaction_buyer_info['姓名'] == contract_data['房屋买受人信息']['房屋买受人']['房屋买受人_姓名'])
+        pytest.assume(transaction_buyer_info['性质'] == '-')
+        pytest.assume(transaction_buyer_info['性别'] == contract_data['房屋买受人信息']['房屋买受人']['房屋买受人_性别'])
+        pytest.assume(transaction_buyer_info['国籍'] == contract_data['房屋买受人信息']['房屋买受人']['房屋买受人_国籍'])
+        pytest.assume(transaction_buyer_info['证件类型'] == contract_data['房屋买受人信息']['房屋买受人']['房屋买受人_证件名称'])
+        pytest.assume(transaction_buyer_info['证件号码'] == contract_data['房屋买受人信息']['房屋买受人']['房屋买受人_证件号码'])
+        pytest.assume(transaction_buyer_info['联系电话'] == contract_data['房屋买受人信息']['房屋买受人']['房屋买受人_联系电话'])
+        pytest.assume(transaction_buyer_info['其他联系方式'] == '--')
+        pytest.assume(transaction_buyer_info['户籍'] == '--')
+        pytest.assume(transaction_buyer_info['婚姻状况'] == '--')
+        pytest.assume(transaction_buyer_info['买方家庭住房套数'] == '--')
+        pytest.assume(transaction_buyer_share_person_info['姓名'] == contract_data['房屋买受人信息']['共同买受人'][0]['共同买受人_姓名'])
+        pytest.assume(transaction_buyer_share_person_info['性质'] == '-')
+        pytest.assume(transaction_buyer_share_person_info['性别'] == contract_data['房屋买受人信息']['共同买受人'][0]['共同买受人_性别'])
+        pytest.assume(transaction_buyer_share_person_info['国籍'] == contract_data['房屋买受人信息']['共同买受人'][0]['共同买受人_国籍'])
+        pytest.assume(transaction_buyer_share_person_info['证件类型'] == contract_data['房屋买受人信息']['共同买受人'][0]['共同买受人_证件名称'])
+        pytest.assume(transaction_buyer_share_person_info['证件号码'] == contract_data['房屋买受人信息']['共同买受人'][0]['共同买受人_证件号码'])
+        pytest.assume(transaction_buyer_share_person_info['联系电话'] == contract_data['房屋买受人信息']['共同买受人'][0]['共同买受人_联系电话'])
+        pytest.assume(transaction_buyer_share_person_info['其他联系方式'] == '--')
+        pytest.assume(transaction_buyer_share_person_info['户籍'] == '--')
+        pytest.assume(transaction_buyer_share_person_info['婚姻状况'] == '--')
+        pytest.assume(transaction_buyer_share_person_info['买方家庭住房套数'] == '--')
+        pytest.assume(transaction_seller_info['姓名'] == contract_data['房屋出卖人信息']['房屋出卖人_姓名'])
+        pytest.assume(transaction_seller_info['性质'] == '-')
+        pytest.assume(transaction_seller_info['性别'] == contract_data['房屋出卖人信息']['房屋出卖人_性别'])
+        pytest.assume(transaction_seller_info['国籍'] == contract_data['房屋出卖人信息']['房屋出卖人_国籍'])
+        pytest.assume(transaction_seller_info['证件类型'] == contract_data['房屋出卖人信息']['房屋出卖人_证件名称'])
+        pytest.assume(transaction_seller_info['证件号码'] == contract_data['房屋出卖人信息']['房屋出卖人_证件号码'])
+        pytest.assume(transaction_seller_info['联系电话'] == contract_data['房屋出卖人信息']['房屋出卖人_联系电话'])
+        pytest.assume(transaction_seller_info['其他联系方式'] == '--')
+        pytest.assume(transaction_seller_info['婚姻状况'] == '--')
+        pytest.assume(transaction_house_info['房源编号'] == house_info['house_code'])
         if ini.environment == 'ks':
-            assert transaction_house_info['规划用途'] == '-'
-            assert transaction_house_info['建筑面积'] == contract_data['第一条信息']['产权登记面积'] + 'm²'
-            assert transaction_house_info['建成年代'] == '-'
-            assert transaction_house_info['共有权证号'] == '-'
+            pytest.assume(transaction_house_info['规划用途'] == '-')
+            pytest.assume(transaction_house_info['建筑面积'] == contract_data['第一条信息']['产权登记面积'] + 'm²')
+            pytest.assume(transaction_house_info['建成年代'] == '-')
+            pytest.assume(transaction_house_info['共有权证号'] == '-')
         elif ini.environment == 'wx':
             if contract_data['第一条信息']['三'][0] == 1:
-                assert transaction_house_info['规划用途'] == '住宅'
-            if contract_data['第一条信息']['三'][0] == 2:
-                assert transaction_house_info['规划用途'] == '公寓'
-            if contract_data['第一条信息']['三'][0] == 3:
-                assert transaction_house_info['规划用途'] == '别墅'
-            if contract_data['第一条信息']['三'][0] == 4:
-                assert transaction_house_info['规划用途'] == '办公'
-            if contract_data['第一条信息']['三'][0] == 5:
-                assert transaction_house_info['规划用途'] == '商业'
-            if contract_data['第一条信息']['三'][0] == 6:
-                assert transaction_house_info['规划用途'] == '工业'
-            if contract_data['第一条信息']['三'][0] == 7:
-                assert transaction_house_info['规划用途'] == '其他' + contract_data['第一条信息']['三'][1]
-            assert transaction_house_info['建筑面积'] == contract_data['第一条信息']['建筑面积'] + 'm²'
-            assert transaction_house_info['建成年代'] == '-'
-            assert transaction_house_info['共有权证号'] == contract_data['第二条信息']['一_持证方式'][1]
+                pytest.assume(transaction_house_info['规划用途'] == '住宅')
+            elif contract_data['第一条信息']['三'][0] == 2:
+                pytest.assume(transaction_house_info['规划用途'] == '公寓')
+            elif contract_data['第一条信息']['三'][0] == 3:
+                pytest.assume(transaction_house_info['规划用途'] == '别墅')
+            elif contract_data['第一条信息']['三'][0] == 4:
+                pytest.assume(transaction_house_info['规划用途'] == '办公')
+            elif contract_data['第一条信息']['三'][0] == 5:
+                pytest.assume(transaction_house_info['规划用途'] == '商业')
+            elif contract_data['第一条信息']['三'][0] == 6:
+                pytest.assume(transaction_house_info['规划用途'] == '工业')
+            elif contract_data['第一条信息']['三'][0] == 7:
+                pytest.assume(transaction_house_info['规划用途'] == '其他' + contract_data['第一条信息']['三'][1])
+            pytest.assume(transaction_house_info['建筑面积'] == contract_data['第一条信息']['建筑面积'] + 'm²')
+            pytest.assume(transaction_house_info['建成年代'] == '-')
+            if contract_data['第二条信息']['一_持证方式'][1] == "":
+                pytest.assume(transaction_house_info['共有权证号'] == "-")
+            else:
+                pytest.assume(transaction_house_info['共有权证号'] == contract_data['第二条信息']['一_持证方式'][1])
+        elif ini.environment == 'hz':
+            pytest.assume(transaction_house_info['规划用途'] == contract_data['第一条信息']['四'])
+            pytest.assume(transaction_house_info['建筑面积'] == contract_data['第一条信息']['三'] + 'm²')
+            pytest.assume(transaction_house_info['建成年代'] == '-')
+            if contract_data['第二条信息']['二'][0] == 1:
+                pytest.assume(transaction_house_info['共有权证号'] == '-')
+            elif contract_data['第二条信息']['二'][0] == 2:
+                pytest.assume(transaction_house_info['共有权证号'] == contract_data['第二条信息']['二'][1])
         else:
-            assert transaction_house_info['规划用途'] == contract_data['第一条信息']['房屋用途']
-            assert transaction_house_info['建筑面积'] == contract_data['第一条信息']['产权登记建筑面积'] + 'm²'
-            assert transaction_house_info['建成年代'] == contract_data['第一条信息']['房屋建成年份']
+            pytest.assume(transaction_house_info['规划用途'] == contract_data['第一条信息']['房屋用途'])
+            pytest.assume(transaction_house_info['建筑面积'] == contract_data['第一条信息']['产权登记建筑面积'] + 'm²')
+            pytest.assume(transaction_house_info['建成年代'] == contract_data['第一条信息']['房屋建成年份'])
             if contract_data['第二条信息']['房屋权证状况'][0] == 1:
-                assert transaction_house_info['共有权证号'] == '-'
-            if contract_data['第二条信息']['房屋权证状况'][0] == 2:
-                assert transaction_house_info['共有权证号'] == contract_data['第二条信息']['房屋权证状况'][1]
+                pytest.assume(transaction_house_info['共有权证号'] == '-')
+            elif contract_data['第二条信息']['房屋权证状况'][0] == 2:
+                pytest.assume(transaction_house_info['共有权证号'] == contract_data['第二条信息']['房屋权证状况'][1])
         if ini.environment == 'wx':
             if contract_data['第一条信息']['四'][0] == 1:
-                assert transaction_house_info['房屋性质'] == '商品房'
-            if contract_data['第一条信息']['四'][0] == 2:
-                assert transaction_house_info['房屋性质'] == '房改房'
-            if contract_data['第一条信息']['四'][0] == 3:
-                assert transaction_house_info['房屋性质'] == '安置房'
-            if contract_data['第一条信息']['四'][0] == 4:
-                assert transaction_house_info['房屋性质'] == '向社会公开销售的经济适用住房'
-            if contract_data['第一条信息']['四'][0] == 5:
-                assert transaction_house_info['房屋性质'] == '其他房屋' + contract_data['第一条信息']['四'][1]
+                pytest.assume(transaction_house_info['房屋性质'] == '商品房')
+            elif contract_data['第一条信息']['四'][0] == 2:
+                pytest.assume(transaction_house_info['房屋性质'] == '房改房')
+            elif contract_data['第一条信息']['四'][0] == 3:
+                pytest.assume(transaction_house_info['房屋性质'] == '安置房')
+            elif contract_data['第一条信息']['四'][0] == 4:
+                pytest.assume(transaction_house_info['房屋性质'] == '向社会公开销售的经济适用住房')
+            elif contract_data['第一条信息']['四'][0] == 5:
+                pytest.assume(transaction_house_info['房屋性质'] == '其他房屋' + contract_data['第一条信息']['四'][1])
+        elif ini.environment == 'hz':
+            pytest.assume(transaction_house_info['房屋性质'] == contract_data['第一条信息']['二'])
         else:
-            assert transaction_house_info['房屋性质'] == '-'
-        assert transaction_house_info['楼盘名称'] == house_info['estate_name']
+            pytest.assume(transaction_house_info['房屋性质'] == '-')
+        pytest.assume(transaction_house_info['楼盘名称'] == house_info['estate_name'])
         if ini.environment == 'wx':
             if contract_data['第二条信息']['一_权属状况'][0] == 1:
-                assert transaction_house_info['房本类型'] == '不动产权证'
+                pytest.assume(transaction_house_info['房本类型'] == '不动产权证')
             if contract_data['第二条信息']['一_权属状况'][0] == 2:
-                assert transaction_house_info['房本类型'] == '房屋所有权证'
-            assert transaction_house_info['产权证号'] == contract_data['第二条信息']['一_权属状况'][1]
+                pytest.assume(transaction_house_info['房本类型'] == '房屋所有权证')
+            pytest.assume(transaction_house_info['产权证号'] == contract_data['第二条信息']['一_权属状况'][1])
+        elif ini.environment == 'hz':
+            pytest.assume(transaction_house_info['房本类型'] == '无')
+            pytest.assume(transaction_house_info['产权证号'] == contract_data['第一条信息']['五'])
         else:
-            assert transaction_house_info['房本类型'] == '-'
-            assert transaction_house_info['产权证号'] == contract_data['第一条信息']['房屋所有权证编号']
+            pytest.assume(transaction_house_info['房本类型'] == '-')
+            pytest.assume(transaction_house_info['产权证号'] == contract_data['第一条信息']['房屋所有权证编号'])
         if house_key_info['house_state'] == '-':
             house_key_info['house_state'] = '--'
-        assert transaction_house_info['房屋现状'] == house_key_info['house_state']
-        assert transaction_house_info['物业地址'] == house_info['estate_name'] + house_info['building_name'] + '-' + \
-               house_info['unit_name'] + '-' + house_info['floor'] + '-' + house_info['door_name']
+        pytest.assume(transaction_house_info['房屋现状'] == house_key_info['house_state'])
+        pytest.assume(transaction_house_info['物业地址'] == house_info['estate_name'] + house_info['building_name'] + '-'
+                      + house_info['unit_name'] + '-' + house_info['floor'] + '-' + house_info['door_name'])
         if ini.environment == 'wx':
-            assert transaction_house_info['行政区域'] == '-'
+            pytest.assume(transaction_house_info['行政区域'] == '-')
+        elif ini.environment == 'hz':
+            pytest.assume(transaction_house_info['行政区域'] == contract_data['房屋所属行政区'])
         else:
-            assert transaction_house_info['行政区域'] == contract_data['第一条信息']['区']
+            pytest.assume(transaction_house_info['行政区域'] == contract_data['第一条信息']['区'])
         if ini.environment == 'wx':
             if contract_data['第二条信息']['三'][0] == 1:
-                assert transaction_house_info['是否有抵押'] == '无抵押'
-                assert transaction_house_info['合同约定的注销抵押日期'] == '-'
-            if contract_data['第二条信息']['三'][0] == 2:
-                assert transaction_house_info['是否有抵押'] == '有抵押'
-                assert transaction_house_info['合同约定的注销抵押日期'] == \
-                       contract_data['第二条信息']['三'][1][1].split('-')[0] + '年' \
-                       + contract_data['第二条信息']['三'][1][1].split('-')[1] + '月' \
-                       + contract_data['第二条信息']['三'][1][1].split('-')[2] + '日'
+                pytest.assume(transaction_house_info['是否有抵押'] == '无抵押')
+                pytest.assume(transaction_house_info['合同约定的注销抵押日期'] == '-')
+            elif contract_data['第二条信息']['三'][0] == 2:
+                pytest.assume(transaction_house_info['是否有抵押'] == '有抵押')
+                pytest.assume(transaction_house_info['合同约定的注销抵押日期'] == contract_data['第二条信息']['三'][1][1].split('-')[0]
+                              + '年' + contract_data['第二条信息']['三'][1][1].split('-')[1] + '月'
+                              + contract_data['第二条信息']['三'][1][1].split('-')[2] + '日')
+        elif ini.environment == 'hz':
+            if contract_data['第二条信息']['二'][0] == 1:
+                pytest.assume(transaction_house_info['是否有抵押'] == '无抵押')
+                pytest.assume(transaction_house_info['合同约定的注销抵押日期'] == '-')
+            elif contract_data['第二条信息']['二'][0] == 2:
+                pytest.assume(transaction_house_info['是否有抵押'] == '有抵押')
+                pytest.assume(transaction_house_info['合同约定的注销抵押日期'] == '-')
+                # if contract_data['第二条信息']['二'][4][0] == 1:
+                #     pytest.assume(transaction_house_info['合同约定的注销抵押日期'] == '-')
+                # elif contract_data['第二条信息']['二'][4][0] == 2:
+                #     pytest.assume(transaction_house_info['合同约定的注销抵押日期'] ==
+                #                   contract_data['第二条信息']['二'][4][1][1].split('-')[0] + '年'
+                #                   + contract_data['第二条信息']['二'][4][1][1].split('-')[1] + '月'
+                #                   + contract_data['第二条信息']['二'][4][1][1].split('-')[2] + '日')
         else:
             if contract_data['第二条信息']['房屋抵押状况'][0] == 1:
-                assert transaction_house_info['是否有抵押'] == '无抵押'
-                assert transaction_house_info['合同约定的注销抵押日期'] == '-'
-            if contract_data['第二条信息']['房屋抵押状况'][0] == 2:
-                assert transaction_house_info['是否有抵押'] == '有抵押'
-                assert transaction_house_info['合同约定的注销抵押日期'] == \
-                       contract_data['第二条信息']['房屋抵押状况'][1][1].split('-')[0] + '年' \
-                       + contract_data['第二条信息']['房屋抵押状况'][1][1].split('-')[1] + '月' \
-                       + contract_data['第二条信息']['房屋抵押状况'][1][1].split('-')[2] + '日'
+                pytest.assume(transaction_house_info['是否有抵押'] == '无抵押')
+                pytest.assume(transaction_house_info['合同约定的注销抵押日期'] == '-')
+            elif contract_data['第二条信息']['房屋抵押状况'][0] == 2:
+                pytest.assume(transaction_house_info['是否有抵押'] == '有抵押')
+                pytest.assume(transaction_house_info['合同约定的注销抵押日期'] ==
+                              contract_data['第二条信息']['房屋抵押状况'][1][1].split('-')[0] + '年'
+                              + contract_data['第二条信息']['房屋抵押状况'][1][1].split('-')[1] + '月'
+                              + contract_data['第二条信息']['房屋抵押状况'][1][1].split('-')[2] + '日')
         if house_key_info['is_unique'] == '不唯一':
-            assert transaction_house_info['是否唯一'] == '否'
-        if house_key_info['is_unique'] == '唯一':
-            assert transaction_house_info['是否唯一'] == '是'
-        if house_key_info['is_unique'] == '-':
-            assert transaction_house_info['是否唯一'] == '--'
-        assert transaction_house_info['产证年限'] == house_key_info['house_property_limit']
-        assert transaction_house_info['是否限售房'] == '--'
+            pytest.assume(transaction_house_info['是否唯一'] == '否')
+        elif house_key_info['is_unique'] == '唯一':
+            pytest.assume(transaction_house_info['是否唯一'] == '是')
+        elif house_key_info['is_unique'] == '-':
+            pytest.assume(transaction_house_info['是否唯一'] == '--')
+        pytest.assume(transaction_house_info['产证年限'] == house_key_info['house_property_limit'])
+        pytest.assume(transaction_house_info['是否限售房'] == '--')

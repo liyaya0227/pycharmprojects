@@ -1,0 +1,6 @@
+运营大区显示框: "xpath==//div[@style='' or not(@style)]/div[@class='filiale-management-add']//input[@id='regionId']/ancestor::div[@class='ant-select-selector']/span[@class='ant-select-selection-item']"
+OD显示标签: "xpath==//div[@style='' or not(@style)]/div[@class='filiale-management-add']//input[@id='regionId']/ancestor::div[contains(@class,'ant-form-item-control')]//div[@role='alert']/div"
+运营商圈显示框: "xpath==//div[@style='' or not(@style)]/div[@class='filiale-management-add']//input[@id='districtId']/ancestor::div[@class='ant-select-selector']/span[@class='ant-select-selection-item']"
+OM显示标签: "xpath==//div[@style='' or not(@style)]/div[@class='filiale-management-add']//input[@id='districtId']/ancestor::div[contains(@class,'ant-form-item-control')]//div[@role='alert']/div"
+
+取消按钮: "xpath==//div[@style='' or not(@style)]/div[@class='filiale-management-add']//span[text()='取 消']/parent::button"

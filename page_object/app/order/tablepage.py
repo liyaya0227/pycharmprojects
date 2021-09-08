@@ -42,31 +42,34 @@ class AppOrderTablePage(AndroidPage):
     #     self.move_element_to_offset(order_table['搜索输入框'])
 
     def choose_date(self, date):
+        day = int(date.split(' ')[0])
         month = date.split(' ')[1]
+        year = date.split(' ')[2]
         if month == '01':
-            date = date.replace(month, '一月')
-        if month == '02':
-            date = date.replace(month, '二月')
-        if month == '03':
-            date = date.replace(month, '三月')
-        if month == '04':
-            date = date.replace(month, '四月')
-        if month == '05':
-            date = date.replace(month, '五月')
-        if month == '06':
-            date = date.replace(month, '六月')
-        if month == '07':
-            date = date.replace(month, '七月')
-        if month == '08':
-            date = date.replace(month, '八月')
-        if month == '09':
-            date = date.replace(month, '九月')
-        if month == '10':
-            date = date.replace(month, '十月')
-        if month == '11':
-            date = date.replace(month, '十一月')
-        if month == '12':
-            date = date.replace(month, '十二月')
+            month = '一月'
+        elif month == '02':
+            month = '二月'
+        elif month == '03':
+            month = '三月'
+        elif month == '04':
+            month = '四月'
+        elif month == '05':
+            month = '五月'
+        elif month == '06':
+            month = '六月'
+        elif month == '07':
+            month = '七月'
+        elif month == '08':
+            month = '八月'
+        elif month == '09':
+            month = '九月'
+        elif month == '10':
+            month = '十月'
+        elif month == '11':
+            month = '十一月'
+        elif month == '12':
+            month = '十二月'
+        date = str(day) + ' ' + month + ' ' + year
         self.show_calendar()
         locator = 'xpath', \
                   "//*[@class='android.widget.Button' and contains(@content-desc,'" + date + "')]"

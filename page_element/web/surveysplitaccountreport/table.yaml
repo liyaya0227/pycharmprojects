@@ -1,0 +1,18 @@
+待分账标签: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'shikanList')]//div[@role='tablist']//div[text()='待分账']"
+分账完成标签: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'shikanList')]//div[@role='tablist']//div[text()='分账完成']"
+
+合同编号搜索框: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'shikanList')]//input[@id='contractNo']"
+清空分账时间按钮: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'shikanList')]//label[text()='分账时间']/ancestor::div[@class='ant-row ant-form-item']//span[@class='ant-picker-clear']"
+清空付款时间按钮: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'shikanList')]//label[text()='付款时间']/ancestor::div[@class='ant-row ant-form-item']//span[@class='ant-picker-clear']"
+
+查询按钮: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'shikanList')]//span[text()='查 询']/parent::button"
+重置按钮: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'shikanList')]//span[text()='重 置']/parent::button"
+
+列表头: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'shikanList')]//table/thead/tr/th"
+列表行数: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'shikanList')]//table/tbody/tr[@data-row-key]"
+上一页按钮: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'shikanList')]//li[contains(@class, 'ant-pagination-prev') and @title='上一页']"
+最后页数: "xpath==(//div[@style='' or not(@style)]/div[contains(@class,'shikanList')]//li[contains(@class, 'ant-pagination-item')])[last()]"
+下一页按钮: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'shikanList')]//li[contains(@class, 'ant-pagination-next') and @title='下一页']"
+
+弹窗_确认分账按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and (@style='' or not(@style))]//span[text()='确认分账']/parent::button"
+弹窗_取消按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and (@style='' or not(@style))]//span[text()='取 消']/parent::button"

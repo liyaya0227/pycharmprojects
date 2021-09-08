@@ -10,6 +10,15 @@
 
 首页概览标签: "xpath==//li[@title='首页概览']"
 
+数据报表菜单: "xpath==//span[text()='数据报表']/parent::div[@class='ant-menu-submenu-title']"
+合同报表标签: "xpath==//li[@title='合同报表']"
+实收业绩报表标签: "xpath==//a[@href='/dataReport/achievementReport']/ancestor::li[@style]"
+流水标签: "xpath==//a[@href='/dataReport/paymentFlow']/ancestor::li[@style]"
+
+系统管理菜单: "xpath==//span[text()='系统管理']/parent::div[@class='ant-menu-submenu-title']"
+门店管理标签: "xpath==//li[@title='门店管理']"
+用户管理标签: "xpath==//li[@title='用户管理']"
+
 房源管理菜单: "xpath==//span[text()='房源管理']/parent::div[@class='ant-menu-submenu-title']"
 全部房源标签: "xpath==//li[@title='全部房源']"
 实勘管理标签: "xpath==//li[@title='实勘管理']"
@@ -21,6 +30,12 @@
 签约管理菜单: "xpath==//span[text()='签约管理']/parent::div[@class='ant-menu-submenu-title']"
 签约管理标签: "xpath==//li[@title='签约管理']"
 业绩标签: "xpath==//li[@title='业绩']"
+财务标签: "xpath==//li[@title='财务']"
+门店分账数据表标签: "xpath==//li[@title='门店分账数据表']"
+品牌返佣数据表标签: "xpath==//li[@title='品牌返佣数据表']"
+品牌返佣分账数据表标签: "xpath==//li[@title='品牌返佣分账数据表']"
+财务报表标签: "xpath==//li[@title='财务报表']"
+实勘部业绩分账标签: "xpath==//li[@title='实勘部业绩分账']"
 
 交易管理菜单: "xpath==//span[text()='交易管理']/parent::div[@class='ant-menu-submenu-title']"
 在途单标签: "xpath==//li[@title='在途单']"

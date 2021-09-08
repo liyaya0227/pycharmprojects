@@ -34,11 +34,10 @@ class AgreementListPage(WebPage):
     @staticmethod
     def get_written_entrustment_agreement_number():
         while True:
-            file_path = ''
-            if ini.environment == 'sz' or ini.environment == 'ks':
-                file_path = search_file_in_dir(cm.tmp_dir, '一般委托书')
             if ini.environment == 'wx':
                 file_path = search_file_in_dir(cm.tmp_dir, '限时委托代理销售协议')
+            else:
+                file_path = search_file_in_dir(cm.tmp_dir, '一般委托书')
             if file_path == '':
                 sleep()
                 continue

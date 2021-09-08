@@ -28,9 +28,12 @@ class TestAdd(object):
     @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, web_driver):
         main_leftview = MainLeftViewPage(web_driver)
+        main_upview = MainUpViewPage(web_driver)
 
         main_leftview.change_role('经纪人')
         main_leftview.click_all_house_label()
+        yield
+        main_upview.clear_all_title()
 
     @allure.story("测试新增租赁房源，查看搜索结果用例")
     @pytest.mark.rent

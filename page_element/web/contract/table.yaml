@@ -16,5 +16,17 @@
 合同列表总数: "xpath==//div[@style='' or not(@style)]/div[@class='sign-less']/p[@style]/span"
 合同列表: "xpath==//div[@style='' or not(@style)]/div[@class='sign-less']//div[@class='ant-table-content']/table"
 
-弹窗_取消按钮: "xpath==//div[contains(@class,'ant-popover ant-popconfirm ant-popover-placement-top') and not(contains(@class,'ant-popover-hidden'))]//span[text()='取 消']/parent::button"
-弹窗_确认按钮: "xpath==//div[contains(@class,'ant-popover ant-popconfirm ant-popover-placement-top') and not(contains(@class,'ant-popover-hidden'))]//span[text()='确 定']/parent::button"
+提示_取消按钮: "xpath==//div[contains(@class,'ant-popover ant-popconfirm ant-popover-placement-top') and not(contains(@class,'ant-popover-hidden'))]//span[text()='取 消']/parent::button"
+提示_确定按钮: "xpath==//div[contains(@class,'ant-popover ant-popconfirm ant-popover-placement-top') and not(contains(@class,'ant-popover-hidden'))]//span[text()='确 定']/parent::button"
+
+线下收款弹窗_请选择付款方选择框: "xpath==//div[contains(@class,'payModal') and not(@style='display: none;')]//div[@class='ant-modal-body']//input[@id='payer']"
+线下收款弹窗_支付金额输入框: "xpath==//div[contains(@class,'payModal') and not(@style='display: none;')]//div[@class='ant-modal-body']//input[@id='payPrice']"
+线下收款弹窗_支付时间输入框: "xpath==//div[contains(@class,'payModal') and not(@style='display: none;')]//div[@class='ant-modal-body']//input[@id='payTime']"
+线下收款弹窗_银行流水号输入框: "xpath==//div[contains(@class,'payModal') and not(@style='display: none;')]//div[@class='ant-modal-body']//input[@id='serial']"
+线下收款弹窗_银行回单_上传图片按钮: "xpath==//div[contains(@class,'payModal') and not(@style='display: none;')]//div[@class='ant-modal-body']//p[text()='上传图片']/ancestor::span[@role='button']/input"
+线下收款弹窗_收款说明: "xpath==//div[contains(@class,'payModal') and not(@style='display: none;')]//div[@class='ant-modal-body']//textarea[@id='msg']"
+
+弹窗_取消按钮: "xpath==//div[not(@style='display: none;') and @role='dialog']//div[@class='ant-modal-footer']//span[text()='取 消']/parent::button"
+弹窗_确定按钮: "xpath==//div[not(@style='display: none;') and @role='dialog']//div[@class='ant-modal-footer']//span[text()='确 定']/parent::button"
+
+下拉框: "xpath==//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'ant-select-dropdown-hidden'))]//div[@class='rc-virtual-list']//div[contains(@class,'ant-select-item ant-select-item-option')]"
