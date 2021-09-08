@@ -1,1 +1,13 @@
-提交按钮: "xpath==//div[@class='ant-row achievementDetail']//span[text()='提 交']/parent::button"
+比例列表头: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'achievementDetail')]//div[contains(@class,'roleTable')]//table/thead//th"
+比例列表行数: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'achievementDetail')]//div[contains(@class,'roleTable')]//table/tbody/tr"
+新增角色人按钮: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'achievementDetail')]//span[contains(text(),'新增角色人')]"
+提交按钮: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'achievementDetail')]//span[text()='提 交']/parent::button"
+
+审核时间标签: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'achievementDetail')]//span[text()='审核时间：']/parent::div"
+
+应收业绩标签: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'achievementDetail')]//div[contains(@class,'achievementTable')]//div[text()='应收业绩' and @role='tab']"
+实收业绩标签: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'achievementDetail')]//div[contains(@class,'achievementTable')]//div[text()='实收业绩' and @role='tab']"
+业绩列表头: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'achievementDetail')]//div[contains(@class,'achievementTable')]//div[@role='tabpanel' and @aria-hidden='false']//table/thead//th"
+业绩列表行数: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'achievementDetail')]//div[contains(@class,'achievementTable')]//div[@role='tabpanel' and @aria-hidden='false']//table/tbody/tr"
+
+下拉框: "xpath==//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'ant-select-dropdown-hidden'))]//div[@class='rc-virtual-list']//div[@class='ant-select-item-option-content']"

@@ -101,6 +101,8 @@ class TestCreateOrder(object):
             main_leftview.change_role('经纪人')
         log.info('删除房源客源相关合同，保证新建的唯一')
         main_leftview.click_contract_management_label()
+        yield
+        main_upview.clear_all_title()
 
     @allure.story("测试创建买卖合同，查看搜索结果用例")
     @pytest.mark.rent
@@ -138,4 +140,3 @@ class TestCreateOrder(object):
         contract_table.input_customer_code_search(customer_info['customer_code'])
         contract_table.click_search_button()
         assert contract_table.get_contract_table_count() == 1
-        main_upview.clear_all_title()

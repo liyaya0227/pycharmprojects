@@ -44,6 +44,36 @@ class MainLeftViewPage(WebPage):
     def click_homepage_overview_label(self):
         self.is_click(left_view['首页概览标签'], sleep_time=0.5)
 
+    def click_shop_management_label(self):
+        is_expanded = self.get_element_attribute(left_view['系统管理菜单'], 'aria-expanded')
+        if is_expanded == 'false':
+            self.is_click(left_view['系统管理菜单'], sleep_time=0.5)
+        self.is_click(left_view['门店管理标签'], sleep_time=0.5)
+
+    def click_user_management_label(self):
+        is_expanded = self.get_element_attribute(left_view['系统管理菜单'], 'aria-expanded')
+        if is_expanded == 'false':
+            self.is_click(left_view['系统管理菜单'], sleep_time=0.5)
+        self.is_click(left_view['用户管理标签'], sleep_time=0.5)
+
+    def click_contract_report_label(self):
+        is_expanded = self.get_element_attribute(left_view['数据报表菜单'], 'aria-expanded')
+        if is_expanded == 'false':
+            self.is_click(left_view['数据报表菜单'], sleep_time=0.5)
+        self.is_click(left_view['合同报表标签'], sleep_time=0.5)
+
+    def click_received_achievement_report_label(self):
+        is_expanded = self.get_element_attribute(left_view['数据报表菜单'], 'aria-expanded')
+        if is_expanded == 'false':
+            self.is_click(left_view['数据报表菜单'], sleep_time=0.5)
+        self.is_click(left_view['实收业绩报表标签'], sleep_time=0.5)
+
+    def click_payment_flow_label(self):
+        is_expanded = self.get_element_attribute(left_view['数据报表菜单'], 'aria-expanded')
+        if is_expanded == 'false':
+            self.is_click(left_view['数据报表菜单'], sleep_time=0.5)
+        self.is_click(left_view['流水标签'], sleep_time=0.5)
+
     def click_all_house_label(self):
         is_expanded = self.get_element_attribute(left_view['房源管理菜单'], 'aria-expanded')
         if is_expanded == 'false':
@@ -79,6 +109,42 @@ class MainLeftViewPage(WebPage):
         if is_expanded == 'false':
             self.is_click(left_view['签约管理菜单'], sleep_time=0.5)
         self.is_click(left_view['业绩标签'], sleep_time=0.5)
+
+    def click_finance_label(self):
+        is_expanded = self.get_element_attribute(left_view['签约管理菜单'], 'aria-expanded')
+        if is_expanded == 'false':
+            self.is_click(left_view['签约管理菜单'], sleep_time=0.5)
+        self.is_click(left_view['财务标签'], sleep_time=0.5)
+
+    def click_shop_split_account_data_table_label(self):
+        is_expanded = self.get_element_attribute(left_view['签约管理菜单'], 'aria-expanded')
+        if is_expanded == 'false':
+            self.is_click(left_view['签约管理菜单'], sleep_time=0.5)
+        self.is_click(left_view['门店分账数据表标签'], sleep_time=0.5)
+
+    def click_brand_rebate_data_table_label(self):
+        is_expanded = self.get_element_attribute(left_view['签约管理菜单'], 'aria-expanded')
+        if is_expanded == 'false':
+            self.is_click(left_view['签约管理菜单'], sleep_time=0.5)
+        self.is_click(left_view['品牌返佣数据表标签'], sleep_time=0.5)
+
+    def click_brand_rebate_split_account_data_table_label(self):
+        is_expanded = self.get_element_attribute(left_view['签约管理菜单'], 'aria-expanded')
+        if is_expanded == 'false':
+            self.is_click(left_view['签约管理菜单'], sleep_time=0.5)
+        self.is_click(left_view['品牌返佣分账数据表标签'], sleep_time=0.5)
+
+    def click_finance_report_label(self):
+        is_expanded = self.get_element_attribute(left_view['签约管理菜单'], 'aria-expanded')
+        if is_expanded == 'false':
+            self.is_click(left_view['签约管理菜单'], sleep_time=0.5)
+        self.is_click(left_view['财务报表标签'], sleep_time=0.5)
+
+    def click_survey_department_split_account_label(self):
+        is_expanded = self.get_element_attribute(left_view['签约管理菜单'], 'aria-expanded')
+        if is_expanded == 'false':
+            self.is_click(left_view['签约管理菜单'], sleep_time=0.5)
+        self.is_click(left_view['实勘部业绩分账标签'], sleep_time=0.5)
 
     def click_on_way_order_label(self):
         is_expanded = self.get_element_attribute(left_view['交易管理菜单'], 'aria-expanded')

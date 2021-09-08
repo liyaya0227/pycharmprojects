@@ -12,7 +12,6 @@ from utils.timeutil import sleep
 from utils.uploadfile import upload_file
 from page.webpage import WebPage
 from common.readelement import Element
-from selenium.common.exceptions import TimeoutException
 
 detail = Element('web/contract/detail')
 
@@ -25,11 +24,26 @@ class ContractDetailPage(WebPage):
     def click_achievement_detail_tab(self):
         self.is_click(detail['业绩详情标签'])
 
+    def click_finance_detail_tab(self):
+        self.is_click(detail['财务详情标签'])
+
     def click_preview_button(self):
         self.is_click(detail['预览按钮'])
 
     def click_go_examine_button(self):
         self.is_click(detail['去提审按钮'], sleep_time=2)
+
+    def get_contract_price(self):  # 获取合同价格
+        return self.element_text(detail['合同价格标签'])[:-1]
+
+    def get_last_seal_time(self):  # 获取最新一次盖章时间
+        return self.element_text(detail['最新一次盖章时间标签'])
+
+    def get_sign_time(self):  # 获取签约时间
+        return self.element_text(detail['签约时间标签'])
+
+    def get_create_time(self):  # 获取创建时间
+        return self.element_text(detail['创建时间标签'])
 
     def create_contract_icon_is_light(self):
         value = self.get_element_attribute(detail['流程_创建合同图标'], 'class')
@@ -105,6 +119,7 @@ class ContractDetailPage(WebPage):
         self.is_click(detail['主体合同标签'])
 
     def upload_two_sign_contract(self):
+        sleep()
         self.is_click(detail['上传双方签字合同按钮'])
         self.is_click(detail['选择签约时间输入框'])
         time = dt_strftime('%Y-%m-%d %H:%M:%S')

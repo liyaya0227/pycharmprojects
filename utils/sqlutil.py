@@ -45,7 +45,7 @@ def select_sql(sql):
 
 
 if __name__ == '__main__':
-    result = select_sql("select id from estate_new_base_info where [name]='" + ini.house_community_name + "'")
+    result = update_sql("update trade_house set create_time='2021-07-20 10:55:45.3590000' where house_code='102000000622'")
     print(str(result[0][0]))
     result1 = select_sql("select house_code from trade_house where location_estate_id='" + str(result[0][0]) + "' "
                          "and location_building_number='1' and location_building_cell='1' and location_floor='1' "

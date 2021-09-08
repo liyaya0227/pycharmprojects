@@ -1,0 +1,12 @@
+已支付标签: "xpath==//div[@class='financial-statements']//div[@role='tablist']//div[text()='已支付']"
+未支付标签: "xpath==//div[@class='financial-statements']//div[@role='tablist']//div[text()='未支付']"
+
+合同编号搜索框: "xpath==//div[@class='financial-statements']/div[contains(@class,'search')]//input[@id='contractNo']"
+搜索按钮: "xpath==//div[@class='financial-statements']/div[contains(@class,'search')]//span[text()='搜 索']/parent::button"
+重置按钮: "xpath==//div[@class='financial-statements']/div[contains(@class,'search')]//span[text()='重 置']/parent::button"
+
+列表头: "xpath==//div[@class='financial-statements']/div[contains(@class,'table')]//table/thead/tr/th"
+列表行数: "xpath==//div[@class='financial-statements']/div[contains(@class,'table')]//table/tbody/tr[@data-row-key]"
+上一页按钮: "xpath==//div[@class='financial-statements']/div[contains(@class,'table')]//li[contains(@class, 'ant-pagination-prev') and @title='上一页']"
+最后页数: "xpath==(//div[@class='financial-statements']/div[contains(@class,'table')]//li[contains(@class, 'ant-pagination-item')])[last()]"
+下一页按钮: "xpath==//div[@class='financial-statements']/div[contains(@class,'table')]//li[contains(@class, 'ant-pagination-next') and @title='下一页']"

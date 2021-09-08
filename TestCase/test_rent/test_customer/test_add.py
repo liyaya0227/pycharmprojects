@@ -51,6 +51,8 @@ class TestAdd(object):
             assert main_topview.find_notification_title() == '客源无效成功'
             main_upview.clear_all_title()
             main_leftview.click_my_customer_label()
+        yield
+        main_upview.clear_all_title()
 
     @allure.story("测试新增租赁房源，查看搜索结果用例")
     @pytest.mark.rent

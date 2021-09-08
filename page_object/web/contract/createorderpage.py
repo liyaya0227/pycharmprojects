@@ -8,12 +8,12 @@
 """
 
 from common.readconfig import ini
-from utils.timeutil import sleep
 from page.webpage import WebPage
 from common.readelement import Element
 from page_object.web.contract.createsaleorder_szpage import ContractCreateSaleOrderDetailSZPage
 from page_object.web.contract.createsaleorder_kspage import ContractCreateSaleOrderDetailKSPage
 from page_object.web.contract.createsaleorder_wxpage import ContractCreateSaleOrderDetailWXPage
+from page_object.web.contract.createsaleorder_hzpage import ContractCreateSaleOrderDetailHZPage
 from page_object.web.contract.createrentorderpage import ContractCreateRentOrderPage
 
 create_order = Element('web/contract/createorder')
@@ -99,7 +99,7 @@ class ContractCreateOrderPage(WebPage):
         self.is_click(create_order['保存按钮'])
 
     def click_submit_button(self):
-        self.is_click(create_order['提交按钮'], sleep_time=3)
+        self.is_click(create_order['提交按钮'], sleep_time=4)
 
     def input_contract_content(self, test_data, flag='买卖'):
         if flag == '买卖':
@@ -111,6 +111,8 @@ class ContractCreateOrderPage(WebPage):
                 ContractCreateSaleOrderDetailWXPage(self.driver).input_contract_content(test_data)
             elif ini.environment == 'cz':
                 ContractCreateSaleOrderDetailWXPage(self.driver).input_contract_content(test_data)
+            elif ini.environment == 'hz':
+                ContractCreateSaleOrderDetailHZPage(self.driver).input_contract_content(test_data)
             else:
                 raise ValueError('传值错误')
         elif flag == '租赁':

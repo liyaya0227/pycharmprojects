@@ -8,11 +8,10 @@
 """
 import random
 import re
-from random import randint
 from config.conf import cm
 from common.readconfig import ini
 from page.webpage import WebPage
-from utils.sqlutil import select_sql
+from utils.sqlutil import select_sql,update_sql
 from utils.timeutil import dt_strftime
 from common.readelement import Element
 from selenium.common.exceptions import TimeoutException
@@ -120,12 +119,13 @@ class HouseDetailPage(WebPage):
             return ''
 
     def check_survey_status(self):  # 是否已上传实勘
-        value = self.element_text(house_detail['是否预约实勘标签'])
-        if '下载实勘图' in value:
-            return '已上传'
-        if '已预约实勘' in value:
-            return '已预约'
-        if '预约实勘' in value:
+        try:
+            self.find_element(house_detail['实勘状态标签'], wait_time=2)
+            if self.element_text(house_detail['实勘状态标签']) == '下载实勘图':
+                return '已上传'
+            elif '已预约实勘' in self.element_text(house_detail['实勘状态标签']):
+                return '已预约'
+        except TimeoutException:
             return '未预约'
 
     def click_survey_appointment_button(self):  # 点击预约实勘按钮
@@ -176,6 +176,41 @@ class HouseDetailPage(WebPage):
 
     def dialog_click_back_exploration_return_button(self):  # 点击实勘退单弹窗退单按钮
         self.is_click(house_detail['实勘退单_退单按钮'], sleep_time=1)
+
+    @staticmethod
+    def update_survey_claim_create_time_by_db(house_code, create_time, flag='买卖'):
+        if flag == '买卖':
+            sql = "select id from trade_house where house_code='" + house_code + "'"
+        elif flag == '租赁':
+            sql = "select id from rent_house where house_code='" + house_code + "'"
+        else:
+            raise "传值错误"
+        house_id = select_sql(sql)[0][0]
+        update_survey_sql = "update survey_claim set create_time = '" + create_time + "' where house_id = '" \
+                            + str(house_id) + "' and claim_status=30"
+        update_sql(update_survey_sql)
+
+    @staticmethod
+    def update_approval_records_update_time_by_db(house_code, update_time, certificate_name, flag='买卖'):
+        if flag == '买卖':
+            sql = "select id from trade_house where house_code='" + house_code + "'"
+        elif flag == '租赁':
+            sql = "select id from rent_house where house_code='" + house_code + "'"
+        else:
+            raise "传值错误"
+        house_id = select_sql(sql)[0][0]
+        if certificate_name == '书面委托协议':
+            update_survey_sql = "update approval_records set update_time = '" + update_time + "' where house_id = '" \
+                            + str(house_id) + "' and is_valid = 1 and certificate_type = 3"
+        elif certificate_name == '钥匙委托凭证':
+            update_survey_sql = "update approval_records set update_time = '" + update_time + "' where house_id = '" \
+                            + str(house_id) + "' and is_valid = 1 and certificate_type = 2"
+        elif certificate_name == 'VIP服务委托协议':
+            update_survey_sql = "update approval_records set update_time = '" + update_time + "' where house_id = '" \
+                            + str(house_id) + "' and is_valid = 1 and certificate_type = 0"
+        else:
+            raise ValueError('传值错误')
+        update_sql(update_survey_sql)
 
     def expand_certificates_info(self):  # 展开证书信息
         ele = self.find_element(house_detail['证件信息展开收起按钮'])
@@ -237,14 +272,14 @@ class HouseDetailPage(WebPage):
 
     def __check_upload_certificate(self, certificate_name):  # 查看证书是否已上传
         locator = 'xpath', "//span[text()='" + certificate_name + "']/ancestor::p//span[@class='blue']"
-        if self.element_text(locator) == '查看':
-            certificate_locator = 'xpath', "//span[text()='" + certificate_name + "']/ancestor::li" \
-                                                                                  "//em[contains(text(),'证书')]/i"
-            try:
-                return self.element_text(certificate_locator)
-            except TimeoutException:
+        text = self.element_text(locator)
+        if text == '查看':
+            certificate_locator = 'xpath', "//span[text()='" + certificate_name + "']/ancestor::li//em[last()]"
+            if '登记日期' in self.element_text(certificate_locator):
                 return '审核通过'
-        if self.element_text(locator) == '上传':
+            else:
+                return '待审核'
+        elif text == '上传':
             return '未上传'
 
     def delete_written_entrustment_agreement(self):  # 删除书面委托协议
@@ -479,6 +514,41 @@ class HouseDetailPage(WebPage):
             return self.element_text(house_detail['VIP服务人_姓名标签'])
         else:
             return ''
+
+    def get_all_valid_role_info(self):
+        all_role_list = self.find_elements(house_detail['所有角色标签'])
+        role_info_list = {}
+        for role_ele in all_role_list:
+            role = role_ele.text
+            pass_flag_locator = 'xpath', \
+                                "//div[@style='' or not(@style)]/div[@class='houseDetail']" \
+                                "//div[contains(@class,'roleInfo')]//i[@class='tip' and text()='" + role \
+                                + "']/parent::div"
+            if 'backgroundImg' in self.get_element_attribute(pass_flag_locator, 'class'):
+                continue
+            role_info = {}
+            brand_locator = 'xpath', \
+                            "//div[@style='' or not(@style)]/div[@class='houseDetail']" \
+                            "//div[contains(@class,'roleInfo')]//i[@class='tip' and text()='" + role \
+                            + "']/parent::div//i[@class='brand']"
+            role_info['品牌'] = self.element_text(brand_locator)
+            name_locator = 'xpath', \
+                           "//div[@style='' or not(@style)]/div[@class='houseDetail']" \
+                           "//div[contains(@class,'roleInfo')]//i[@class='tip' and text()='" + role \
+                           + "']/parent::div//p[@class='card-text-p']/span/parent::p"
+            role_info['姓名'] = self.element_text(name_locator)
+            shop_group_locator = 'xpath', \
+                                 "(//div[@style='' or not(@style)]/div[@class='houseDetail']" \
+                                 "//div[contains(@class,'roleInfo')]//i[@class='tip' and text()='" + role \
+                                 + "']/parent::div//p[@class='card-text-p'])[2]"
+            role_info['店组'] = self.element_text(shop_group_locator)
+            phone_locator = 'xpath', \
+                            "//div[@style='' or not(@style)]/div[@class='houseDetail']" \
+                            "//div[contains(@class,'roleInfo')]//i[@class='tip' and text()='" + role \
+                            + "']/parent::div//p[contains(text(),'联系电话')]/span"
+            role_info['电话'] = self.element_text(phone_locator)
+            role_info_list['房源' + role] = role_info
+        return role_info_list
 
     def click_edit_house_key_info_button(self):  # 点击房源详情维护重点信息按钮
         self.is_click(house_detail['编辑重点维护信息按钮'])

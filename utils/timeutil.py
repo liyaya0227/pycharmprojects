@@ -59,4 +59,4 @@ def running_time(func):
 
 if __name__ == '__main__':
     # print(dt_strftime("%Y%m%d%H%M%S"))
-    print(dt_strftime('%Y-%m-%d %H:%M:%S'))
+    print(dt_strftime_with_delta(1, '%Y-%m-%d %H:%M:%S'))

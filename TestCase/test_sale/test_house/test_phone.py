@@ -113,6 +113,7 @@ class TestPhone(object):
                     assert int(new_looked_count) == int(temp) + 1
                     temp = new_looked_count
                 house_detail.click_phone_button()
+                house_detail.phone_dialog_click_check_button()
                 assert main_topview.find_notification_content() == '今日查看次数已经超过60次'
         else:
             if house_detail.check_shopowner_recommend() or house_detail.get_vip_person() != '':

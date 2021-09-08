@@ -1,0 +1,10 @@
+合同编号搜索框: "xpath==//div[@style]/div[contains(@class,'achievementReport')]//input[@id='contractNo']"
+
+搜索按钮: "xpath==//div[@style]/div[contains(@class,'achievementReport')]//span[text()='搜 索']/parent::button"
+重置按钮: "xpath==//div[@style]/div[contains(@class,'achievementReport')]//span[text()='重 置']/parent::button"
+
+列表头: "xpath==//div[@style]/div[contains(@class,'achievementReport')]//table/thead//th"
+列表行数: "xpath==//div[@style]/div[contains(@class,'achievementReport')]//table/tbody//tr[not(@aria-hidden)]"
+上一页按钮: "xpath==//div[@style]/div[contains(@class,'achievementReport')]//li[contains(@class, 'ant-pagination-prev') and @title='上一页']"
+最后页数: "xpath==(//div[@style]/div[contains(@class,'achievementReport')]//li[contains(@class, 'ant-pagination-item')])[last()]"
+下一页按钮: "xpath==//div[@style]/div[contains(@class,'achievementReport')]//li[contains(@class, 'ant-pagination-next') and @title='下一页']"

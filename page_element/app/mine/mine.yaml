@@ -8,4 +8,4 @@
 
 退出登录_确认按钮: "xpath==//*[@class='android.widget.TextView' and @text='确认']"
 
-角色标签: "xpath==//*[@class='android.widget.TextView' and contains(@text,'系统号')]/parent::android.view.ViewGroup/*[@class='android.view.ViewGroup' and @index='5']/*[@class='android.widget.TextView']"
+角色标签: "xpath==(//*[@class='android.widget.TextView' and contains(@text,'系统号')]/parent::android.view.ViewGroup/*[@class='android.view.ViewGroup'])[last()]/*[@class='android.widget.TextView']"

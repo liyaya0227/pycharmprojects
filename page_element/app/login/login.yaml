@@ -3,6 +3,6 @@
 登录按钮: "xpath==//*[@class='android.widget.TextView' and @text='登录']"
 协议已阅读勾选: "xpath==//*[@class='android.widget.TextView' and @text='已阅读并同意']/parent::android.view.ViewGroup//*[@class='android.widget.ImageView']"
 
-标题: "xpath==//*[@class='android.widget.TextView' and @text='欢迎来到今日找房']"
+标题: "xpath==//*[@class='android.widget.TextView' and @text='欢迎来到京日找房']"
 协议弹窗: "xpath==//*[@class='android.widget.TextView' and @text='在线服务协议和隐私协议']"
 弹窗_同意按钮: "xpath==//*[@class='android.widget.TextView' and @text='在线服务协议和隐私协议']/parent::android.view.ViewGroup//*[@class='android.widget.TextView' and @text='同意']"
