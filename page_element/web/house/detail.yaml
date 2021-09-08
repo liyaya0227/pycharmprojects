@@ -111,7 +111,6 @@
 
 VIP服务人_姓名标签: "xpath==//div[@style='' or not(@style)]/div[@class='houseDetail']//i[@class='tip' and text()='VIP服务人']/parent::div/div[2]/p[1]"
 
-
 #更多-房源基础信息
 当前账号名字: "css==.card-name"
 租赁菜单: "xpath==//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//div[@role='tablist']/div[@class='ant-tabs-nav-wrap']//div[text()='租赁']"
@@ -165,7 +164,10 @@ VIP服务人_姓名标签: "xpath==//div[@style='' or not(@style)]/div[@class='h
 选择人员输入框: "id==userId"
 人员选项: "css==.ant-select-item-option-active > .ant-select-item-option-content"
 分配弹窗确定按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//span[text()='确 定']/parent::button[@type='button']"
-角色人名字: "xpath==//div[@class='ant-row roleInfo']/div[@class='ant-col ant-col-24 maintenanceInfo']/div/div[2]/div/div[2]/p"
+角色人名字: "xpath==//div[@class='ant-row roleInfo']/div[@class='ant-col ant-col-24 maintenanceInfo']/div/div[2]/div/div[2]/p[1]"
+角色人手机号: "xpath==//div[@class='ant-row roleInfo']/div[@class='ant-col ant-col-24 maintenanceInfo']/div/div[2]/div/div[2]/p[contains(.,'联系电话:')]"
+初始维护人选项: "xpath==//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'ant-select-dropdown-hidden'))]//div[@class='rc-virtual-list']//div[contains(@class,'ant-select-item ant-select-item-option') and @title='自动化测试AAAASY']"
+
 
 #更多-房源举报
 房源举报按钮: "xpath==//li[contains(.,'房源举报')]"
@@ -182,21 +184,53 @@ VIP服务人_姓名标签: "xpath==//div[@style='' or not(@style)]/div[@class='h
 
 #新房详情-楼盘相册
 查看更多按钮: "xpath==//p[@class='showMorePic']"
-上传图片按钮: "xpath==//div[@style='']/div[@class='newHouseDetail']//span[text()='上 传']/parent::button"
+上传图片按钮: "xpath==//div[@style='' or not(@style)]/div[@class='newHouseDetail']//span[text()='上 传']/parent::button"
 上传首图按钮: "xpath==//p[contains(.,'上传图片')]"
 弹窗_上传按钮: "xpath==//div[@class='ant-modal-wrap uploadModal']//span[text()='上 传']/parent::button"
 实景图选项: "xpath==//div[@class='ant-modal-wrap uploadModal']//span[text()='实景图']"
+位置图选项: "xpath==//div[@class='ant-modal-wrap uploadModal']//span[text()='位置图']"
 批量删除按钮: "xpath==//div[@style='']/div[@class='newHouseDetail']//div[@class='houseAlumn']//span[text()='批量删除']/parent::button"
 弹窗_全选按钮: "xpath==//div[@class='ant-modal-content']//span[text()='全 选']/parent::button"
 弹窗_删除按钮: "xpath==//div[@class='ant-modal-content']//span[contains(.,'删除')]/parent::button"
-
+删除弹窗_label: "xpath==//div[@class = 'ant-radio-group ant-radio-group-solid']/label[@style ='display: block;']"
+弹窗_选中图片按钮: "xpath==//input[@class='ant-checkbox-input']"
+相册列表_图片: "xpath==//div[@class='alumnList']//img[@class ='ant-image-img' and (contains(@src, 'https'))]"
 
 #新房详情-楼盘动态
 发布动态按钮: "xpath==//h2[contains(.,'发布动态')]"
 动态标题输入框: "id==dynamicTitle"
 动态说明输入框: "id==dynamicNote"
 动态弹窗_确定按钮: "xpath==//div[@class='ant-modal-content']//span[text()='确 定']/parent::button"
-#实景图选项: "xpath==//div[@class='ant-modal-wrap uploadModal']//span[text()='实景图']"
-#批量删除按钮: "xpath==//div[@style='']/div[@class='newHouseDetail']//div[@class='houseAlumn']//span[text()='批量删除']/parent::button"
-#弹窗_全选按钮: "xpath==//div[@class='ant-modal-content']//span[text()='全 选']/parent::button"
-#弹窗_删除按钮: "xpath==//div[@class='ant-modal-content']//span[contains(.,'删除')]/parent::button"
+编辑卖点按钮: "xpath==//h2[contains(.,'编辑')]"
+一句话推盘输入框: "id==pushPlate"
+详细描述输入框: "id==detailedDescription"
+保存按钮: "xpath==//h2[contains(.,'保存')]"
+卖点列表_推盘: "xpath==//div[@class ='houseEditContent']/ul/li[contains(text(), '一句话推盘：')]"
+
+#新房详情-户型介绍
+上传户型介绍按钮: "xpath==//div[@style='']/div[@class ='newHouseDetail']//span[text() = '上传户型介绍']"
+户型名称输入框: "id==newModelName"
+户型_室输入框: "xpath==//input[@id='rooms']/ancestor::div[@class='ant-select-selector']"
+户型_厅输入框: "xpath==//input[@id='parlor']/ancestor::div[@class='ant-select-selector']"
+户型_卫输入框: "xpath==//input[@id='bathroom']/ancestor::div[@class='ant-select-selector']"
+户型_厨输入框: "xpath==//input[@id='kitchen']/ancestor::div[@class='ant-select-selector']"
+户型下拉框: "xpath==//div[@class='rc-virtual-list']//div[@label ='2']"
+面积输入框: "id==area"
+户型朝向输入框: "id==orientation"
+户型价格待定选项: "xpath==//span[text()='价格待定']"
+户型介绍数量: "xpath==//div[not(@style) or @style ='']//div[@class='newHouseDetailLeft']//div[@class='houseTypeTitle']/span"
+详情页户型: "xpath==//div[@class='newHouseDetail']/div[@class='newHouseDetailLeft']//span[@class='houseTypeDetail']"
+
+#新房详情-分享
+分享按钮: "xpath==//ul[@class ='detailList']/div/li[@class = 'shareHouse']"
+分享弹窗_登录人账号: "xpath==//div[@class='ant-modal-root']//div[@class='bottomBox']/div//h3"
+分享弹窗_登录人手机号: "xpath==//div[@class='ant-modal-root']//div[@class='bottomBox']/div//p"
+分享弹窗_户型: "xpath==//div[@class='ant-modal-root']//div[@class='textBox']/ul/li[1]"
+#动态弹窗_确定按钮: "xpath==//div[@class='ant-modal-content']//span[text()='确 定']/parent::button"
+#编辑卖点按钮: "xpath==//h2[contains(.,'编辑')]"
+#一句话推盘输入框: "id==pushPlate"
+#详细描述输入框: "id==detailedDescription"
+#保存按钮: "xpath==//h2[contains(.,'保存')]"
+#卖点列表_推盘: "xpath==//div[@class ='houseEditContent']/ul/li[contains(text(), '一句话推盘：')]"
+
+
