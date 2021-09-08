@@ -37,5 +37,7 @@
 房源列表总数: "xpath==//div[not(contains(@style,'display'))]//div[@class='ant-col ant-col-24 houseTotal']//span"
 房源列表: "xpath==//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table"
 
+列表中房源名称: "xpath==//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table/tbody"
+
 弹窗_取消按钮: "xpath==//div[@class='ant-modal-root']//span[text()='取 消']/parent::button"
 弹窗_删除按钮: "xpath==//div[@class='ant-modal-root']//span[text()='删 除']/parent::button"
