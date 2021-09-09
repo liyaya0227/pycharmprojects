@@ -3,7 +3,7 @@
 """
 @author: caijj
 @version: V1.0
-@file: test_serch.py
+@file: test_search.py
 @date: 2021/8/24
 """
 
@@ -16,7 +16,7 @@ from utils.jsonutil import get_data
 
 
 @allure.feature("测试新房源搜索功能模块")
-class TestAdd(object):
+class TestSearch(object):
 
     json_file_path = cm.test_data_dir + "/test_new/test_house/test_add.json"
     test_data = get_data(json_file_path)
@@ -28,12 +28,12 @@ class TestAdd(object):
         main_leftview.change_role('超级管理员')
         main_leftview.click_all_house_label()
 
-    @allure.story("测试根据新房类型、区域等字段搜索功能")
+    @allure.story("测试根据新房类型、区域等字段搜索新房功能")
     @pytest.mark.new
     @pytest.mark.house
     @pytest.mark.run(order=2)
-    @pytest.mark.flaky(reruns=2, reruns_delay=2)
-    def test_serch_new(self, web_driver):
+    # @pytest.mark.flaky(reruns=2, reruns_delay=2)
+    def test_serch_new_house(self, web_driver):
         house_table = HouseTablePage(web_driver)
         house_table.click_new_tab()  # 点击新房tab
         if self.test_data['是否外网呈现'] == '是': # 根据创建时是否外网呈现，确定所属种类

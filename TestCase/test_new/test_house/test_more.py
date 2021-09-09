@@ -7,6 +7,7 @@
 @date: 2021/8/24
 """
 
+import random
 import pytest
 import allure
 from config.conf import cm
@@ -25,7 +26,6 @@ class TestMore(object):
 
     @pytest.fixture(scope="function", autouse=True)
     def prepare(self, web_driver):
-        global house_table
         main_leftview = MainLeftViewPage(web_driver)
         main_leftview.change_role('超级管理员')
         main_leftview.click_all_house_label()
@@ -63,27 +63,24 @@ class TestMore(object):
         push_plate = house_detail.edit_house_selling_point('距离地铁二号线100米', '四面通风大平层')
         actual_result = house_detail.verify_celling_point_list_update()
         expect_result = '一句话推盘：' + push_plate
-        if actual_result == expect_result:
-            assert True
+        assert actual_result == expect_result
 
     @allure.story("测试上传户型介绍")
     @pytest.mark.new
     @pytest.mark.house
     @pytest.mark.run(order=2)
     # @pytest.mark.flaky(reruns=2, reruns_delay=2)
-    def test_selling_point(self, web_driver):
+    def test_upload_house_type(self, web_driver):
         house_detail = HouseDetailPage(web_driver)
         initial_house_introduce_number = house_detail.get_house_type_introduce_number()
         house_detail.click_see_more()
         house_detail.switch_tab_by_name('户型介绍')
         house_detail.click_upload_house_type_btn()
-        house_detail.house_type_introduce_content('经济型', '100', '南', [cm.tmp_picture_file])
+        house_detail.house_type_introduce_content('经济型'+ str(random.randint(1,100)), '100', '南', [cm.tmp_picture_file])
         expect_house_introduce_number = initial_house_introduce_number + 1
         house_detail.switch_tab_by_name('楼盘首页')
         actual_house_introduce_number = house_detail.get_house_type_introduce_number()
-        if actual_house_introduce_number == expect_house_introduce_number:
-            assert True
-
+        assert actual_house_introduce_number == expect_house_introduce_number
 
 
 if __name__ == '__main__':

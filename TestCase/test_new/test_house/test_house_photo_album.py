@@ -26,7 +26,6 @@ class TestHousePhotoAlbum(object):
 
     @pytest.fixture(scope="function", autouse=True)
     def prepare(self, web_driver):
-        global house_table
         main_leftview = MainLeftViewPage(web_driver)
         main_leftview.change_role('超级管理员')
         main_leftview.click_all_house_label()
@@ -60,52 +59,37 @@ class TestHousePhotoAlbum(object):
         house_detail.click_upload_btn()
         actual_result = house_detail.get_dialog_text()
         actual_number = house_detail.get_image_list_lenth()
-        # print('test_upload_photo', count)
-        # print('test_upload_photo:actual_number', actual_number)
-        if actual_result == '上传成功':
-            assert True
-        else:
-            log.error('图片上传操作失败')
-            assert False
+
+        pytest.assume(actual_result == '上传成功')
         if initial_number == 0:
-            if actual_number == count:
-                assert True
+            assert actual_number == count
         else:
-            if actual_number == count + initial_number -1:
-                assert True
+            assert actual_number == count + initial_number -1
+
 
     @allure.story("测试批量删除,默认删除第一张")
     @pytest.mark.new
     @pytest.mark.house
-    @pytest.mark.run(order=3)
+    @pytest.mark.run(order=4)
     # @pytest.mark.flaky(reruns=2, reruns_delay=2)
     def test_batch_delete(self, web_driver):
         house_detail = HouseDetailPage(web_driver)
         house_detail.click_see_more()
         initial_number = house_detail.get_image_list_lenth()
-        print('test_batch_delete:initial_number',initial_number)
         house_detail.click_batch_delete_btn()
         house_detail.select_some_image_to_delete()
         deleted_number = house_detail.get_deleted_image_number()
-        print('test_batch_delete:deleted_number', deleted_number)
         house_detail.click_delete_btn()
         actual_result = house_detail.get_dialog_text()
         actual_number = house_detail.get_image_list_lenth()
         expect_number = initial_number - deleted_number
-        print('test_batch_delete:actual_number',actual_number)
-        print('test_batch_delete:expect_number',expect_number)
-        if actual_result == '删除成功':
-            assert True
-        else:
-            log.error('批量删除操作执行失败')
-            assert False
-        if expect_number == actual_number:
-            assert True
+        pytest.assume(actual_result == '删除成功')
+        assert expect_number == actual_number
 
     @allure.story("测试全部删除")
     @pytest.mark.new
     @pytest.mark.house
-    @pytest.mark.run(order=3)
+    @pytest.mark.run(order=4)
     # @pytest.mark.flaky(reruns=2, reruns_delay=2)
     def test_delete_all(self, web_driver):
         house_detail = HouseDetailPage(web_driver)
@@ -115,14 +99,8 @@ class TestHousePhotoAlbum(object):
         house_detail.click_delete_btn()
         actual_result = house_detail.get_dialog_text()
         actual_number = house_detail.get_image_list_lenth()
-        print('test_batch_delete:actual_number', actual_number)
-        if actual_result == '删除成功':
-            assert True
-        if actual_number == 1:
-            assert True
-        else:
-            log.error('相册列表更新失败')
-            assert False
+        pytest.assume(actual_result == '删除成功')
+        assert actual_number == 1
 
 
 if __name__ == '__main__':
