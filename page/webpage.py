@@ -116,6 +116,12 @@ class WebPage(object):
         ele = self.find_element(locator)
         ele.send_keys(Keys.ENTER)
 
+    def send_key(self, locator, file_path):
+        """上传文件"""
+        log.info("元素{}".format(locator))
+        ele = self.find_element(locator)
+        ele.send_keys(file_path)
+
     def is_click(self, locator, sleep_time=0):
         """点击"""
         log.info("点击元素：{}".format(locator))
