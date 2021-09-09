@@ -27,20 +27,19 @@ class TestShare(object):
     @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, web_driver):
         global person_info
-
         main_leftview = MainLeftViewPage(web_driver)
         main_leftview.change_role('超级管理员')
-        main_leftview.click_all_house_label()
         main_rightview = MainRightViewPage(web_driver)
         login_name = main_rightview.get_login_person_name()
         login_phone = main_rightview.get_login_person_phone()
         person_info = {'姓名': login_name, '电话': login_phone}
+        main_leftview.click_all_house_label()
 
     @allure.story("测试分享功能")
     @pytest.mark.new
     @pytest.mark.house
-    @pytest.mark.run(order=2)
-    # @pytest.mark.flaky(reruns=2, reruns_delay=2)
+    @pytest.mark.run(order=3)
+    @pytest.mark.flaky(reruns=1, reruns_delay=2)
     def test_share_house(self, web_driver):
         house_table = HouseTablePage(web_driver)
         house_table.click_new_tab()  # 点击新房tab
@@ -49,8 +48,21 @@ class TestShare(object):
         house_table.click_search_button()
         house_table.go_new_house_detail_by_row()
         house_detail = HouseDetailPage(web_driver)
-        house_detail.get_house_type_in_detail_page()
-        # house_detail.click_share_btn()
+        house_type_in_detail_page = house_detail.get_house_type_in_detail_page()
+        house_detail.click_share_btn()
+        login_name = person_info['姓名']
+        login_phone = person_info['电话']
+        house_type, account_name, account_phone = house_detail.get_information_in_share_page()
+        house_detail.choose_image_in_share_page()
+        house_detail.click_generate_code_btn()
+        res = house_detail.verify_generate_code_success()
+        pytest.assume(house_type_in_detail_page == house_type)
+        pytest.assume(login_phone == account_phone)
+        pytest.assume(login_name == account_name)
+        pytest.assume(res == True)
+
+
+
 
 
 
