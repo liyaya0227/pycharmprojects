@@ -19,5 +19,10 @@
     "photographer": "自动化测试AAAASK",
     "photographer_phone": "12800000009",
     "photographer_password": "Autotest1"
+  },
+  "hz": {
+    "photographer": "自动化测试AAAASK",
+    "photographer_phone": "14800000009",
+    "photographer_password": "Autotest1"
   }
 }

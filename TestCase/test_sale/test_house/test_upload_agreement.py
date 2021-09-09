@@ -67,7 +67,13 @@ class TestUploadAgreement(object):
         certificate_examine = CertificateExaminePage(web_driver)
 
         main_leftview.click_agreement_list_label()  # 获取协议编号
-        if ini.environment == 'sz':
+        if ini.environment == 'wx':
+            agreement_list.input_agreement_name_search('限时委托代理销售协议')
+            agreement_list.click_query_button()
+            agreement_list.click_download_button_by_row(1)
+            written_entrustment_agreement_number = agreement_list.get_written_entrustment_agreement_number()
+            self.written_entrustment_agreement['委托协议编号'] = written_entrustment_agreement_number
+        else:
             agreement_list.input_agreement_name_search('一般委托书')
             agreement_list.click_query_button()
             agreement_list.click_download_button_by_row(1)
@@ -83,12 +89,6 @@ class TestUploadAgreement(object):
             agreement_list.click_download_button_by_row(1)
             vip_service_entrustment_agreement_number = agreement_list.get_vip_service_entrustment_agreement_number()
             self.vip_service_entrustment_agreement['委托协议编号'] = vip_service_entrustment_agreement_number
-        if ini.environment == 'wx':
-            agreement_list.input_agreement_name_search('限时委托代理销售协议')
-            agreement_list.click_query_button()
-            agreement_list.click_download_button_by_row(1)
-            written_entrustment_agreement_number = agreement_list.get_written_entrustment_agreement_number()
-            self.written_entrustment_agreement['委托协议编号'] = written_entrustment_agreement_number
 
         main_leftview.click_all_house_label()  # 进入房源详情
         house_table.click_sale_tab()
@@ -166,7 +166,7 @@ class TestUploadAgreement(object):
         main_rightview.click_certificate_examine()
         assert certificate_examine.get_table_count() > 0
         certificate_examine.pass_written_entrustment_agreement_examine(house_code)
-        if ini.environment == 'sz':
+        if ini.environment != 'wx':
             certificate_examine.pass_key_entrustment_certificate_examine(house_code)
             certificate_examine.pass_vip_service_entrustment_agreement_examine(house_code)
         certificate_examine.pass_property_ownership_certificate_examine(house_code)

@@ -167,7 +167,7 @@ class ContractTablePage(WebPage):
 
             change_rescind_locator = 'xpath', \
                                      "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + \
-                                     str(row) + "]/td[" + str(self.__get_column_by_title('更变/解约') + 1) + "]"
+                                     str(row) + "]/td[" + str(self.__get_column_by_title('变更/解约') + 1) + "]"
             contract_detail['change_rescind'] = self.element_text(change_rescind_locator)
 
         elif flag == '租赁':

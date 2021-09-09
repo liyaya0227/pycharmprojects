@@ -833,7 +833,8 @@ class TestTransactionOrderContent(object):
             if transaction_info['交易管理'] == '全款':
                 pytest.assume(Decimal(transaction_fund_info['购房款/首付款（第一笔）'][:-1]) == house_payment)
             elif transaction_info['交易管理'] == '商贷':
-                pytest.assume(Decimal(transaction_fund_info['购房款/首付款（第一笔）'][:-1]) == house_payment)
+                pytest.assume(Decimal(transaction_fund_info['购房款/首付款（第一笔）'][:-1]) ==
+                              Decimal(contract_data['第四条信息']['贷款付款']['二'][1]))
             pytest.assume(Decimal(transaction_fund_info['交房保证金'][:-1]) == house_delivery_payment)
             pytest.assume(Decimal(transaction_fund_info['户口迁出保证金'][:-1]) == register_transfer_payment)
         else:
@@ -948,10 +949,10 @@ class TestTransactionOrderContent(object):
             pytest.assume(transaction_house_info['规划用途'] == contract_data['第一条信息']['四'])
             pytest.assume(transaction_house_info['建筑面积'] == contract_data['第一条信息']['三'] + 'm²')
             pytest.assume(transaction_house_info['建成年代'] == '-')
-            if contract_data['第二条信息']['二'][0] == 1:
+            if contract_data['第二条信息']['一'][0] == 1:
                 pytest.assume(transaction_house_info['共有权证号'] == '-')
-            elif contract_data['第二条信息']['二'][0] == 2:
-                pytest.assume(transaction_house_info['共有权证号'] == contract_data['第二条信息']['二'][1])
+            elif contract_data['第二条信息']['一'][0] == 2:
+                pytest.assume(transaction_house_info['共有权证号'] == contract_data['第二条信息']['一'][1])
         else:
             pytest.assume(transaction_house_info['规划用途'] == contract_data['第一条信息']['房屋用途'])
             pytest.assume(transaction_house_info['建筑面积'] == contract_data['第一条信息']['产权登记建筑面积'] + 'm²')

@@ -93,7 +93,7 @@ class TestOrderProcess(object):
         contract_code = contract_details['contract_code']
         assert contract_details['contract_status'] == '起草中'
         assert contract_details['pre_examine'] == '未知'
-        assert contract_details['change_rescind'] == '有效'
+        assert contract_details['change_rescind'] == '未知'
         assert contract_details['agency_fee_status'] == '未收齐'
         assert contract_details['achievement_status'] == '未知'
         contract_table.go_contract_detail_by_row(1)
@@ -110,7 +110,7 @@ class TestOrderProcess(object):
         contract_details = contract_table.get_contract_detail_by_row(1)
         assert contract_details['contract_status'] == '审核中'
         assert contract_details['pre_examine'] == '待审核'
-        assert contract_details['change_rescind'] == '有效'
+        assert contract_details['change_rescind'] == '未知'
         assert contract_details['agency_fee_status'] == '未收齐'
         assert contract_details['achievement_status'] == '未知'
         contract_table.go_contract_detail_by_row(1)
@@ -140,7 +140,7 @@ class TestOrderProcess(object):
         contract_details = contract_table.get_contract_detail_by_row(1)
         assert contract_details['contract_status'] == '审核中'
         assert contract_details['pre_examine'] == '审核中'
-        assert contract_details['change_rescind'] == '有效'
+        assert contract_details['change_rescind'] == '未知'
         assert contract_details['agency_fee_status'] == '未收齐'
         assert contract_details['achievement_status'] == '未知'
         contract_table.go_contract_detail_by_row(1)
@@ -175,7 +175,7 @@ class TestOrderProcess(object):
         contract_details = contract_table.get_contract_detail_by_row(1)
         assert contract_details['contract_status'] == '审核通过'
         assert contract_details['pre_examine'] == '通过'
-        assert contract_details['change_rescind'] == '有效'
+        assert contract_details['change_rescind'] == '未知'
         assert contract_details['agency_fee_status'] == '未收齐'
         assert contract_details['achievement_status'] == '未知'
         contract_table.go_contract_detail_by_row(1)
@@ -193,7 +193,7 @@ class TestOrderProcess(object):
         contract_details = contract_table.get_contract_detail_by_row(1)
         assert contract_details['contract_status'] == '已盖章'
         assert contract_details['pre_examine'] == '通过'
-        assert contract_details['change_rescind'] == '有效'
+        assert contract_details['change_rescind'] == '未知'
         assert contract_details['agency_fee_status'] == '未收齐'
         assert contract_details['achievement_status'] == '未知'
         contract_table.go_contract_detail_by_row(1)
@@ -211,7 +211,7 @@ class TestOrderProcess(object):
         contract_details = contract_table.get_contract_detail_by_row(1)
         assert contract_details['contract_status'] == '已盖章'
         assert contract_details['pre_examine'] == '通过'
-        assert contract_details['change_rescind'] == '有效'
+        assert contract_details['change_rescind'] == '未知'
         assert contract_details['agency_fee_status'] == '未收齐'
         assert contract_details['achievement_status'] == '未知'
         contract_table.go_contract_detail_by_row(1)
@@ -236,7 +236,7 @@ class TestOrderProcess(object):
         contract_details = contract_table.get_contract_detail_by_row(1)
         assert contract_details['contract_status'] == '已签约'
         assert contract_details['pre_examine'] == '通过'
-        assert contract_details['change_rescind'] == '有效'
+        assert contract_details['change_rescind'] == '未知'
         assert contract_details['agency_fee_status'] == '未收齐'
         assert contract_details['achievement_status'] == '未知'
         contract_table.go_contract_detail_by_row(1)
@@ -256,7 +256,7 @@ class TestOrderProcess(object):
         contract_details = contract_table.get_contract_detail_by_row(1)
         assert contract_details['contract_status'] == '已签约'
         assert contract_details['pre_examine'] == '通过'
-        assert contract_details['change_rescind'] == '有效'
+        assert contract_details['change_rescind'] == '未知'
         assert contract_details['agency_fee_status'] == '未收齐'
         assert contract_details['achievement_status'] == '未知'
         contract_table.go_contract_detail_by_row(1)
@@ -276,7 +276,7 @@ class TestOrderProcess(object):
         contract_details = contract_table.get_contract_detail_by_row(1)
         assert contract_details['contract_status'] == '已签约'
         assert contract_details['pre_examine'] == '通过'
-        assert contract_details['change_rescind'] == '有效'
+        assert contract_details['change_rescind'] == '未知'
         assert contract_details['agency_fee_status'] == '未收齐'
         assert contract_details['achievement_status'] == '初始'
         log.info('经纪人提交业绩审核后，状态显示正确')
@@ -305,7 +305,7 @@ class TestOrderProcess(object):
         contract_details = contract_table.get_contract_detail_by_row(1)
         assert contract_details['contract_status'] == '已签约'
         assert contract_details['pre_examine'] == '通过'
-        assert contract_details['change_rescind'] == '有效'
+        assert contract_details['change_rescind'] == '未知'
         assert contract_details['agency_fee_status'] == '未收齐'
         assert contract_details['achievement_status'] == '审核通过'
         log.info('商圈经理审核业绩后，状态显示正确')
@@ -319,7 +319,7 @@ class TestOrderProcess(object):
         contract_details = contract_table.get_contract_detail_by_row(1)
         assert contract_details['contract_status'] == '已签约'
         assert contract_details['pre_examine'] == '通过'
-        assert contract_details['change_rescind'] == '有效'
+        assert contract_details['change_rescind'] == '未知'
         assert contract_details['agency_fee_status'] == '已收齐'
         assert contract_details['achievement_status'] == '审核通过'
         log.info('代理费收取后，状态显示正确')
@@ -341,7 +341,7 @@ class TestOrderProcess(object):
         contract_details = contract_table.get_contract_detail_by_row(1)
         assert contract_details['contract_status'] == '过户完成'
         assert contract_details['pre_examine'] == '通过'
-        assert contract_details['change_rescind'] == '有效'
+        assert contract_details['change_rescind'] == '未知'
         assert contract_details['agency_fee_status'] == '已收齐'
         assert contract_details['achievement_status'] == '审核通过'
         contract_table.go_contract_detail_by_row(1)
@@ -365,7 +365,7 @@ class TestOrderProcess(object):
         contract_details = contract_table.get_contract_detail_by_row(1)
         assert contract_details['contract_status'] == '已完结'
         assert contract_details['pre_examine'] == '通过'
-        assert contract_details['change_rescind'] == '有效'
+        assert contract_details['change_rescind'] == '未知'
         assert contract_details['agency_fee_status'] == '已收齐'
         assert contract_details['achievement_status'] == '审核通过'
         contract_table.go_contract_detail_by_row(1)

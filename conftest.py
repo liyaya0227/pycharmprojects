@@ -52,7 +52,7 @@ def web_driver():
     wdriver.quit()
 
 
-@pytest.fixture(scope='class')
+@pytest.fixture(scope='class', autouse=False)
 def android_driver():
     global adriver
     desired_caps = {
