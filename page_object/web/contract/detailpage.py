@@ -129,8 +129,9 @@ class ContractDetailPage(WebPage):
 
     def upload_pictures(self, pictures_path):
         for picture_path in pictures_path:
-            self.is_click(detail['上传图片按钮'])
-            upload_file(picture_path)
+            self.input_text(detail['上传图片输入框'], picture_path)
+            # self.is_click(detail['上传图片按钮'])
+            # upload_file(picture_path)
             sleep()
 
     def click_submit_button(self):

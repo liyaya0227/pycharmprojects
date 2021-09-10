@@ -191,6 +191,7 @@ class TestTransactionOrderContent(object):
         contract_table.input_contract_code_search(contract_code)
         contract_table.click_search_button()
         contract_table.pass_examine_by_row(1)
+        main_topview.close_notification()
         main_leftview.change_role('合同法务')  # 法务审核
         main_leftview.click_contract_management_label()
         contract_table.click_sale_contract_examine_tab()
@@ -200,6 +201,7 @@ class TestTransactionOrderContent(object):
         contract_table.click_search_button()
         contract_table.legal_examine_by_row(1)
         contract_preview.click_pass_button()
+        main_topview.close_notification()
         main_leftview.change_role('经纪人')
         main_leftview.click_contract_management_label()
         contract_table.click_sale_contract_tab()
@@ -221,11 +223,15 @@ class TestTransactionOrderContent(object):
         contract_table.go_contract_detail_by_row(1)
         contract_detail.click_subject_contract()
         contract_detail.upload_two_sign_contract()  # 经纪人签约时间
+        main_topview.close_notification()
+        contract_detail.click_subject_contract()
         contract_detail.upload_pictures([cm.tmp_picture_file])  # 经纪人上传主体合同
+        main_topview.close_notification()
         contract_info = contract_detail.get_contract_info()
         contract_detail.click_submit_button()
         contract_detail.click_report_achievement_button()  # 经纪人提交业绩审核
         achievement_detail.click_submit_button()
+        main_topview.close_notification()
         main_leftview.change_role('商圈经理')  # 商圈经理业绩审核
         main_leftview.click_achievement_label()
         achievement_table.click_achievement_examine_tab()
@@ -233,6 +239,7 @@ class TestTransactionOrderContent(object):
         achievement_table.input_contract_code_search(contract_code)
         achievement_table.click_search_button()
         achievement_table.click_pass_examine_button_by_row(1)
+        main_topview.close_notification()
         contract_table.update_agency_fee(contract_code)  # 数据库修改代理费
         main_leftview.change_role('权证专员')  # 权证专员过户
         main_leftview.click_on_way_order_label()
@@ -241,6 +248,7 @@ class TestTransactionOrderContent(object):
         transaction_table.click_search_button()
         transaction_table.go_to_transaction_detail_by_row(1)
         transaction_detail.complete_transfer_house()
+        main_topview.close_notification()
         transaction_detail.close_case()  # 权证专员结案
         main_topview.close_notification()
         transaction_detail.show_sensitive_info()  # 显示敏感信息
@@ -656,6 +664,7 @@ class TestTransactionOrderContent(object):
         contract_table.input_contract_code_search(contract_code)
         contract_table.click_search_button()
         contract_table.pass_examine_by_row(1)
+        main_topview.close_notification()
         main_leftview.change_role('合同法务')  # 法务审核
         main_leftview.click_contract_management_label()
         contract_table.click_sale_contract_examine_tab()
@@ -665,6 +674,7 @@ class TestTransactionOrderContent(object):
         contract_table.click_search_button()
         contract_table.legal_examine_by_row(1)
         contract_preview.click_pass_button()
+        main_topview.close_notification()
         main_leftview.change_role('经纪人')
         main_leftview.click_contract_management_label()
         contract_table.click_sale_contract_tab()
@@ -686,6 +696,8 @@ class TestTransactionOrderContent(object):
         contract_table.go_contract_detail_by_row(1)
         contract_detail.click_subject_contract()
         contract_detail.upload_two_sign_contract()  # 经纪人签约时间
+        main_topview.close_notification()
+        contract_detail.click_subject_contract()
         contract_detail.upload_pictures([cm.tmp_picture_file])  # 经纪人上传主体合同
         contract_info = contract_detail.get_contract_info()
         contract_detail.click_submit_button()
@@ -698,6 +710,7 @@ class TestTransactionOrderContent(object):
         achievement_table.input_contract_code_search(contract_code)
         achievement_table.click_search_button()
         achievement_table.click_pass_examine_button_by_row(1)
+        main_topview.close_notification()
         contract_table.update_agency_fee(contract_code)  # 数据库修改代理费
         main_leftview.change_role('权证专员')  # 权证专员过户
         main_leftview.click_on_way_order_label()
@@ -706,6 +719,7 @@ class TestTransactionOrderContent(object):
         transaction_table.click_search_button()
         transaction_table.go_to_transaction_detail_by_row(1)
         transaction_detail.complete_transfer_house()
+        main_topview.close_notification()
         transaction_detail.close_case()  # 权证专员结案
         main_topview.close_notification()
         transaction_detail.show_sensitive_info()  # 显示敏感信息

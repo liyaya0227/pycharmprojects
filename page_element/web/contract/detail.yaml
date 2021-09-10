@@ -29,6 +29,7 @@
 备件信息标签: "xpath==//div[@class='order-detail-less']//div[text()='备件信息']"
 上传双方签字合同按钮: "xpath==//div[@class='order-detail-less']//span[text()='上传双方签字合同']/parent::button"
 上传图片按钮: "xpath==//div[@class='ant-tabs-tabpane ant-tabs-tabpane-active']//div[text()='合同基本信息']/parent::div//span[@role='button']"
+上传图片输入框: "xpath==//div[@class='ant-tabs-tabpane ant-tabs-tabpane-active']//div[text()='合同基本信息']/parent::div//div[text()='上传图片']/ancestor::span[@role='button']//input[@type='file']"
 提交按钮: "xpath==//div[@class='ant-tabs-tabpane ant-tabs-tabpane-active']//span[text()='提 交']/parent::button"
 
 出租方_身份证明_上传图片按钮: "xpath==(//div[@class='ant-tabs-tabpane ant-tabs-tabpane-active']//parent::div//div[contains(text(),'身份证明')]/parent::div//span[@role='button'])[1]"
