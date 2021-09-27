@@ -1,4 +1,4 @@
-委托类型_出售单选: "xpath==//form[@class='ant-form ant-form-horizontal edit-house-form add-house']//span[text()='出售']/parent::label/span/input[@type='radio']"
+委托类型_出售单选: "xpath==//form[@class='ant-form ant-form-horizontal edit-house-form add-house']//span[text()='出售']/parent::label"
 委托类型_出租单选: "xpath==//form[@class='ant-form ant-form-horizontal edit-house-form add-house']//span[text()='出租']/parent::label"
 楼盘名称输入框: "xpath==//form[@class='ant-form ant-form-horizontal edit-house-form add-house']//input[@id='locationInfo_communityId']"
 楼盘名称下拉框: "xpath==//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'ant-select-dropdown-hidden'))]//div[@class='rc-virtual-list']//div[@class='global-search-item']/span"

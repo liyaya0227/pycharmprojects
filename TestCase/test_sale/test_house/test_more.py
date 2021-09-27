@@ -19,15 +19,16 @@ sale_house_code = ''
 maintainer_phone = ''
 actual_maintainer_name = ''
 
+
 @allure.feature("买卖房源详情页-更多模块")
 class TestHouseDetail(object):
 
     @pytest.fixture(scope="class", autouse=True)
     def data_prepare_and_recovery(self, web_driver):
-        global rent_house_code
+        global sale_house_code
         house_detail = HouseDetailPage(web_driver)
         account_name = house_detail.get_account_name()
-        rent_house_code = house_detail.get_house_info_by_db(account_name, '买卖')
+        sale_house_code = house_detail.get_house_info_by_db(account_name, '买卖')
         yield
         main_leftview = MainLeftViewPage(web_driver)
         main_leftview.log_out()
@@ -50,14 +51,16 @@ class TestHouseDetail(object):
         yield
         main_upview.clear_all_title()
 
-
     @allure.story("查看买卖房源基本信息")
+    @pytest.mark.sale
+    @pytest.mark.house
     @pytest.mark.run(order=2)  # 保证在新增房源用例后执行
+    @pytest.mark.flaky(reruns=1, reruns_delay=2)
     @pytest.mark.parametrize('flag', ['买卖'])
     def test_view_basic_information(self, web_driver, flag):
         house_detail = HouseDetailPage(web_driver)
         house_detail.change_role('经纪人')
-        num = house_detail.get_house_num(rent_house_code, flag)
+        num = house_detail.get_house_num(sale_house_code, flag)
         if int(num) > 0:
             house_detail.enter_house_detail()
             house_detail.view_basic_information()
@@ -69,11 +72,14 @@ class TestHouseDetail(object):
 
     @allure.story("维护人提交修改买卖房源状态审核，商圈经理驳回审核")
     @pytest.mark.run(order=2)  # 保证在新增房源用例后执行
+    @pytest.mark.flaky(reruns=1, reruns_delay=2)
+    @pytest.mark.sale
+    @pytest.mark.house
     @pytest.mark.parametrize('flag', ['买卖'])
     def test_modify_house_state(self, web_driver, flag):
         house_detail = HouseDetailPage(web_driver)
         house_detail.change_role('经纪人')
-        num = house_detail.get_house_num(rent_house_code, flag)
+        num = house_detail.get_house_num(sale_house_code, flag)
         if int(num) > 0:  # 判断当前用户的房源数量
             house_detail.enter_house_detail()
             house_no = house_detail.get_house_info_in_detail_page(flag)[0]
@@ -93,22 +99,25 @@ class TestHouseDetail(object):
             log.error('当前维护人没有租赁房源')
             assert False
 
-
     @allure.story("修改买卖房源价格-从调整价格进入")
+    @pytest.mark.sale
+    @pytest.mark.house
     @pytest.mark.run(order=2)  # 保证在新增房源用例后执行
+    @pytest.mark.flaky(reruns=1, reruns_delay=2)
     @pytest.mark.parametrize('flag', ['买卖'])
     def test_modify_house_price(self, web_driver, flag):
         house_detail = HouseDetailPage(web_driver)
         house_detail.change_role('经纪人')
-        num = house_detail.get_house_num(rent_house_code, flag)
+        num = house_detail.get_house_num(sale_house_code, flag)
         if int(num) > 0:
             house_detail.enter_house_detail()
             house_no, initial_price, house_area = house_detail.get_house_info_in_detail_page(flag)
             initial_price_in_dialog = house_detail.get_initial_price_in_dialog()
             expect_final_price = house_detail.modify_house_price(initial_price)
             pytest.assume(initial_price == initial_price_in_dialog)  # 校验修改价格弹窗中的初始价格是否正确
-            actual_price_in_detail_page, expect_final_unit_price, actual_unit_price_in_detail_page = house_detail.get_modified_price_in_detail_page(flag, expect_final_price,
-                                                                                         house_area)
+            actual_price_in_detail_page, expect_final_unit_price, actual_unit_price_in_detail_page = house_detail.get_modified_price_in_detail_page(
+                flag, expect_final_price,
+                house_area)
             pytest.assume(expect_final_price == actual_price_in_detail_page)  # 校验修改后详情页面的价格更新
             pytest.assume(expect_final_unit_price == actual_unit_price_in_detail_page)  # 校验修改后详情页面的单价更新
             actual_text, expect_text = house_detail.verify_record_list_update(initial_price, expect_final_price, flag)
@@ -118,36 +127,44 @@ class TestHouseDetail(object):
             assert False
 
     @allure.story("修改买卖房源价格-从房源基础信息进入")
+    @pytest.mark.sale
+    @pytest.mark.house
     @pytest.mark.run(order=2)  # 保证在新增房源用例后执行
+    @pytest.mark.flaky(reruns=1, reruns_delay=2)
     @pytest.mark.parametrize('flag', ['买卖'])
     def test_modify_price_by_information(self, web_driver, flag):
         house_detail = HouseDetailPage(web_driver)
         account_name = house_detail.get_account_name()
         house_detail.change_role('经纪人')
-        num = house_detail.get_house_num(rent_house_code, flag)
+        num = house_detail.get_house_num(sale_house_code, flag)
         if int(num) > 0:
             house_detail.enter_house_detail()
             house_no, initial_price, house_area = house_detail.get_house_info_in_detail_page(flag)
             expect_final_price = house_detail.modify_price_from_basic_information_page()
-            actual_price_in_detail_page, expect_final_unit_price, actual_unit_price_in_detail_page = house_detail.get_modified_price_in_detail_page(flag, expect_final_price,
-                                                                                         house_area)
+            actual_price_in_detail_page, expect_final_unit_price, actual_unit_price_in_detail_page = house_detail.get_modified_price_in_detail_page(
+                flag, expect_final_price,
+                house_area)
             assert (expect_final_price == actual_price_in_detail_page)  # 校验修改后详情页面的价格更新
             assert (expect_final_unit_price == actual_unit_price_in_detail_page)  # 校验修改后详情页面的单价更新
             actual_text, expect_text = house_detail.verify_record_list_update(initial_price, expect_final_price, flag)
             assert (actual_text == expect_text)  # 校验调价记录列表更新
             res = house_detail.verify_log_list_update(account_name)
+            house_detail.click_blank_area()
             assert res  # 校验操作日志列表是否更新
         else:
             log.error('当前维护人没有租赁房源')
             assert False
 
     @allure.story("举报买卖房源并驳回举报")
+    @pytest.mark.sale
+    @pytest.mark.house
+    @pytest.mark.flaky(reruns=1, reruns_delay=2)
     @pytest.mark.run(order=2)  # 保证在新增房源用例后执行
     @pytest.mark.parametrize('flag', ['买卖'])
     def test_report_house(self, web_driver, flag):
         house_detail = HouseDetailPage(web_driver)
         house_detail.change_role('经纪人')
-        num = house_detail.get_house_num(rent_house_code, flag)
+        num = house_detail.get_house_num(sale_house_code, flag)
         if int(num) > 0:
             house_detail.enter_house_detail()
             house_no = house_detail.get_house_info_in_detail_page(flag)[0]
@@ -168,25 +185,22 @@ class TestHouseDetail(object):
             assert False
 
     @allure.story("更换当前买卖房源的维护人")
+    @pytest.mark.sale
+    @pytest.mark.house
+    @pytest.mark.flaky(reruns=1, reruns_delay=2)
     @pytest.mark.run(order=3)  # 保证调整价格等用例执行结束后再执行更换房源维护人用例
     def test_replace_maintainer(self, web_driver):
         global maintainer_phone
         global actual_maintainer_name
         house_detail = HouseDetailPage(web_driver)
         house_detail.change_role('经纪人')
-        num = house_detail.get_house_num(rent_house_code, '租赁')
+        num = house_detail.get_house_num(sale_house_code, '买卖')
         if int(num) > 0:
             house_detail.enter_house_detail()
-            expact_maintainer_name = house_detail.replace_maintainer()
+            expact_maintainer_name = house_detail.replace_maintainer('自动化测试AAAAA')
             actual_maintainer_name, maintainer_phone = house_detail.get_current_maintainer()
             if expact_maintainer_name == actual_maintainer_name:
                 assert True
-
-
-
-
-
-
 
 
 if __name__ == '__main__':

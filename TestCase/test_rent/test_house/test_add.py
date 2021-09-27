@@ -9,7 +9,9 @@
 
 import pytest
 import allure
-from utils.logger import log
+from common.readconfig import ini
+from page_object.web.contract.tablepage import ContractTablePage
+from page_object.web.house.detailpage import HouseDetailPage
 from config.conf import cm
 from utils.jsonutil import get_data
 from page_object.web.main.upviewpage import MainUpViewPage
@@ -24,85 +26,72 @@ class TestAdd(object):
 
     json_file_path = cm.test_data_dir + "/test_rent/test_house/test_add.json"
     test_data = get_data(json_file_path)
+    house_info = None
 
     @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, web_driver):
         main_leftview = MainLeftViewPage(web_driver)
-        main_upview = MainUpViewPage(web_driver)
-
         main_leftview.change_role('经纪人')
-        main_leftview.click_all_house_label()
+        main_upview = MainUpViewPage(web_driver)
+        house_table = HouseTablePage(web_driver)
+        house_detail = HouseDetailPage(web_driver)
+        contract_table = ContractTablePage(web_driver)
+        self.house_info = house_table.get_house_status_by_db('租赁')  #验证房源是否存在
+        if len(self.house_info) !=0:
+            house_id = self.house_info[0][0]
+            house_status = self.house_info[0][1]
+            house_code = self.house_info[0][2]
+            contract_no_list = contract_table.get_contract_no(house_id)
+            if len(contract_no_list) != 0:  #执行删除合同操作
+                main_leftview.change_role('超级管理员')
+                main_leftview.click_contract_management_label()
+                for contract_no in contract_no_list[0]:
+                    contract_table.click_rent_contract_tab()
+                    contract_table.input_contract_code_search(contract_no)
+                    contract_table.click_search_button()
+                    contract_table.delete_contract_by_row()
+                    contract_table.tooltip_click_confirm_button()
+            if house_status == 2:  # 执行转真操作
+                house_type = house_table.get_house_type_in_pool(house_id, '租赁')
+                table_name = house_table.get_tab_name(house_type)
+                main_leftview.click_data_disk_label()
+                house_table.click_rent_tab_in_data_disk()
+                house_table.switch_house_type_tab(table_name)
+                house_table.input_house_code_search(house_code)
+                house_table.enter_rent_house_detail(house_code)
+                house_detail.click_transfer_to_rent_btn()
+                house_detail.transfer_house(ini.super_verify_code)
         yield
         main_upview.clear_all_title()
 
     @allure.story("测试新增租赁房源，查看搜索结果用例")
     @pytest.mark.rent
     @pytest.mark.house
-    @pytest.mark.run(order=-6)
+    @pytest.mark.run(order=1)
     @pytest.mark.dependency()
-    @pytest.mark.flaky(reruns=5, reruns_delay=2)
+    @pytest.mark.flaky(reruns=1, reruns_delay=2)
     def test_001(self, web_driver):
+        house_add = HouseAddPage(web_driver)
+        house_table = HouseTablePage(web_driver)
         main_topview = MainTopViewPage(web_driver)
         main_leftview = MainLeftViewPage(web_driver)
-        main_upview = MainUpViewPage(web_driver)
-        house_table = HouseTablePage(web_driver)
-        house_add = HouseAddPage(web_driver)
-
-        house_table.click_rent_tab()  # 点击租赁标签
-        house_table.click_add_house_button()  # 点击新增房源按钮
-        assert house_add.check_rent_radio()  # 判断新增界面委托类型的默认勾选
-        house_add.input_property_address('租赁')  # 填写物业地址
-        dialog_title = main_topview.find_notification_title()  # 若房源已录入，则右上角弹窗显示已录入的房源编号
-        if dialog_title != '':
-            log.info('房源已存在')
-            return
-            # house_code = re.search(r"房源编号(\d+?)，", dialog_title).group(1)  # 获取房源编号
-            # main_leftview.click_all_house_label()
-            # house_table.clear_filter('租赁')
-            # house_table.input_house_code_search(house_code)
-            # house_table.click_search_button()
-            # house_table.go_house_detail_by_row()
-            # house_detail.click_invalid_house_button()  # 执行房源无效操作
-            # house_detail.input_invalid_reason("测试需要")
-            # house_detail.click_invalid_reason_confirm_button()
-            # dialog_content = main_topview.find_notification_content()  # 若房源已经提交无效申请，则弹窗显示已提交
-            # if '该房源已提交了无效申请' in dialog_content:
-            #     log.info('无效申请已提交')
-            #     main_topview.close_notification()
-            #     house_detail.click_invalid_reason_cancel_button()
-            # main_leftview.change_role('超级管理员')  # 切换超管无效房源
-            # main_rightview.click_invalid_house()
-            # invalid_house_page.click_pass_by_housecode(house_code)
-            # invalid_house_page.click_invalid_house_confirm_button()
-            # assert main_topview.find_notification_title() == '成功'
-            # main_leftview.change_role('经纪人')  # 切回经纪人，重新执行新增操作
-            # main_leftview.click_all_house_label()
-            # house_table.click_rent_tab()
-            # house_table.click_add_house_button()
-            # house_add.input_property_address('租赁')
-            # assert main_topview.find_notification_content() == ''
-        house_add.input_owner_info_and_house_info(self.test_data, '租赁')
-        assert '新增成功' in main_topview.find_notification_content()
-        log.info('填写房源信息成功')
         main_leftview.click_all_house_label()
-        house_table.click_rent_tab()
-        # house_table.clear_filter('租赁')
-        # house_table.choose_estate_name_search(ini.house_community_name)
-        # house_table.choose_building_name_search(ini.house_building_id)
-        # house_table.click_search_button()
-        # table_count = house_table.get_house_table_count()
-        # assert table_count > 0
-        # house_code = ''
-        # for row in range(table_count):
-        #     house_table.go_house_detail_by_row(row+1)
-        #     house_property_address = house_detail.get_address_dialog_house_property_address()
-        #     if house_property_address['estate_name'] == ini.house_community_name \
-        #             and house_property_address['building_name'] == ini.house_building_id \
-        #             and house_property_address['door_name'] == ini.house_doorplate:
-        #         house_code = house_detail.get_house_code()
-        #         main_upview.close_title_by_name(house_property_address['estate_name'])
-        #         break
-        #     main_upview.close_title_by_name(house_property_address['estate_name'])
-        assert house_table.get_house_code_by_db(flag='租赁') != ''
-        log.info('搜索结果正确')
-        main_upview.clear_all_title()
+        house_table.click_rent_tab()  # 点击租赁标签
+        if len(self.house_info) !=0:  #如房源已存在，不执行新增房源的操作
+            assert True
+        else:
+            house_table.click_add_house_button()  # 点击新增房源按钮
+            assert house_add.check_rent_radio()  # 判断新增界面委托类型的默认勾选
+            house_add.input_property_address('租赁')  # 填写物业地址
+            house_add.input_owner_info_and_house_info(self.test_data, '租赁')
+            assert '新增成功' in main_topview.find_notification_content()
+            assert house_table.get_house_code_by_db(flag='租赁') != ''
+        house_code = house_table.get_house_code_by_db(flag='租赁')
+        house_table.choose_estate_name_search(ini.house_community_name)  # 验证搜索
+        house_table.choose_building_name_search(ini.house_building_id)
+        house_table.click_search_button()
+        res = house_table.house_code_in_house_list(house_code)
+        assert res
+
+
+

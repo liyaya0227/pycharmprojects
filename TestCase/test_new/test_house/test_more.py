@@ -42,7 +42,7 @@ class TestMore(object):
     @pytest.mark.new
     @pytest.mark.house
     @pytest.mark.run(order=2)
-    # @pytest.mark.flaky(reruns=2, reruns_delay=2)
+    @pytest.mark.flaky(reruns=1, reruns_delay=2)
     def test_release_house_trend(self, web_driver):
         house_detail = HouseDetailPage(web_driver)
         house_detail.click_see_more()
@@ -55,7 +55,7 @@ class TestMore(object):
     @pytest.mark.new
     @pytest.mark.house
     @pytest.mark.run(order=2)
-    # @pytest.mark.flaky(reruns=2, reruns_delay=2)
+    @pytest.mark.flaky(reruns=1, reruns_delay=2)
     def test_selling_point(self, web_driver):
         house_detail = HouseDetailPage(web_driver)
         house_detail.click_see_more()
@@ -69,7 +69,7 @@ class TestMore(object):
     @pytest.mark.new
     @pytest.mark.house
     @pytest.mark.run(order=2)
-    # @pytest.mark.flaky(reruns=2, reruns_delay=2)
+    @pytest.mark.flaky(reruns=1, reruns_delay=2)
     def test_upload_house_type(self, web_driver):
         house_detail = HouseDetailPage(web_driver)
         initial_house_introduce_number = house_detail.get_house_type_introduce_number()

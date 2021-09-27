@@ -41,3 +41,10 @@
 
 弹窗_取消按钮: "xpath==//div[@class='ant-modal-root']//span[text()='取 消']/parent::button"
 弹窗_删除按钮: "xpath==//div[@class='ant-modal-root']//span[text()='删 除']/parent::button"
+
+#资料盘
+暂缓出售: "xpath==//div[not(contains(@style,'display'))]//div[@role='tablist']//div[text()='暂缓出售']"
+房源编号输入框: "xpath==//div[@style='' or not(@style)]/div[@class='ant-row houseManage']//div[@class='ant-tabs-content-holder']//input[@placeholder='请输入房源编号']"
+资料盘买卖标签: "xpath==//div[not(contains(@style,'display'))]/div[@class='ant-row houseManage']//div[@role='tablist']/div[@class='ant-tabs-nav-wrap']//div[text()='买卖']"
+资料盘租赁标签: "xpath==//div[not(contains(@style,'display'))]/div[@class='ant-row houseManage']//div[@role='tablist']/div[@class='ant-tabs-nav-wrap']//div[text()='租赁']"
+列表中房源编号: "xpath==//div[@class='ant-row dataPlateHouseList']//p[text()='100000066728']"

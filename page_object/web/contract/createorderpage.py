@@ -16,6 +16,7 @@ from page_object.web.contract.createsaleorder_wxpage import ContractCreateSaleOr
 from page_object.web.contract.createsaleorder_hzpage import ContractCreateSaleOrderDetailHZPage
 from page_object.web.contract.createrentorderpage import ContractCreateRentOrderPage
 
+
 create_order = Element('web/contract/createorder')
 
 
@@ -119,3 +120,4 @@ class ContractCreateOrderPage(WebPage):
             ContractCreateRentOrderPage(self.driver).input_contract_content(test_data)
         else:
             raise ValueError('传值错误')
+

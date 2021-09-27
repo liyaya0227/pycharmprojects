@@ -36,7 +36,7 @@ class TestDeleteSurvey(object):
     json_file_path = cm.test_data_dir + "/test_sale/test_house/test_delete_survey.json"
     exploration_info = get_value(json_file_path, 'exploration_info')
     person_info = get_value(json_file_path, ini.environment)
-    account_list = [[person_info['其他经纪人'][0], person_info['其他经纪人'][1]], [ini.user_account, ini.user_password]]
+    account_list = [[ini.user_account, ini.user_password]]
 
     @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, web_driver):
@@ -152,7 +152,7 @@ class TestDeleteSurvey(object):
         survey_detail.click_save_button()
         main_leftview.log_out()
         login.log_in(account[0], account[1])
-        main_leftview.change_role('经纪人')
+        main_leftview.change_role('超级管理员')
         main_leftview.click_all_house_label()
         house_table.click_sale_tab()
         house_table.click_all_house_tab()
