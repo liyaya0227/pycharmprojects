@@ -19,6 +19,7 @@ rent_house_code = ''
 maintainer_phone = ''
 actual_maintainer_name = ''
 
+
 @allure.feature("租赁房源详情页-相关模块")
 class TestHouseDetail(object):
 
@@ -51,7 +52,10 @@ class TestHouseDetail(object):
         main_upview.clear_all_title()
 
     @allure.story("查看租赁房源基本信息")
+    @pytest.mark.rent
+    @pytest.mark.house
     @pytest.mark.run(order=2)  # 保证在新增房源用例后执行
+    @pytest.mark.flaky(reruns=1, reruns_delay=2)
     @pytest.mark.parametrize('flag', ['租赁'])
     def test_view_basic_information(self, web_driver, flag):
         house_detail = HouseDetailPage(web_driver)
@@ -67,6 +71,9 @@ class TestHouseDetail(object):
             assert False
 
     @allure.story("维护人提交修改租赁房源状态审核，商圈经理驳回审核")
+    @pytest.mark.rent
+    @pytest.mark.house
+    @pytest.mark.flaky(reruns=1, reruns_delay=2)
     @pytest.mark.run(order=2)  # 保证在新增房源用例后执行
     @pytest.mark.parametrize('flag', ['租赁'])
     def test_modify_house_state(self, web_driver, flag):
@@ -93,6 +100,9 @@ class TestHouseDetail(object):
             assert False
 
     @allure.story("修改租赁房源价格-从调整价格进入")
+    @pytest.mark.rent
+    @pytest.mark.house
+    @pytest.mark.flaky(reruns=1, reruns_delay=2)
     @pytest.mark.run(order=2)  # 保证在新增房源用例后执行
     @pytest.mark.parametrize('flag', ['租赁'])
     def test_modify_house_price(self, web_driver, flag):
@@ -115,6 +125,9 @@ class TestHouseDetail(object):
 
 
     @allure.story("修改租赁房源价格-从房源基础信息进入")
+    @pytest.mark.rent
+    @pytest.mark.house
+    @pytest.mark.flaky(reruns=1, reruns_delay=2)
     @pytest.mark.run(order=2)  # 保证在新增房源用例后执行
     @pytest.mark.parametrize('flag', ['租赁'])
     def test_modify_price_by_information(self, web_driver, flag):
@@ -139,6 +152,9 @@ class TestHouseDetail(object):
 
 
     @allure.story("举报租赁房源并驳回举报")
+    @pytest.mark.rent
+    @pytest.mark.house
+    @pytest.mark.flaky(reruns=1, reruns_delay=2)
     @pytest.mark.run(order=2)  # 保证在新增房源用例后执行
     @pytest.mark.parametrize('flag', ['租赁'])
     def test_report_house(self, web_driver, flag):
@@ -166,6 +182,9 @@ class TestHouseDetail(object):
 
 
     @allure.story("更换当前租赁房源的维护人")
+    @pytest.mark.rent
+    @pytest.mark.house
+    @pytest.mark.flaky(reruns=1, reruns_delay=2)
     @pytest.mark.run(order=2)  # 保证调整价格等用例执行结束后再执行更换房源维护人用例
     def test_replace_maintainer(self, web_driver):
         global maintainer_phone
@@ -175,7 +194,7 @@ class TestHouseDetail(object):
         num = house_detail.get_house_num(rent_house_code, '租赁')
         if int(num) > 0:
             house_detail.enter_house_detail()
-            expact_maintainer_name = house_detail.replace_maintainer()
+            expact_maintainer_name = house_detail.replace_maintainer('自动化测试AAAAA')
             actual_maintainer_name, maintainer_phone = house_detail.get_current_maintainer()
             assert expact_maintainer_name == actual_maintainer_name
 

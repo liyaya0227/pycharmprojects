@@ -43,7 +43,7 @@ class TestHousePhotoAlbum(object):
     @pytest.mark.new
     @pytest.mark.house
     @pytest.mark.run(order=2)
-    # @pytest.mark.flaky(reruns=2, reruns_delay=2)
+    @pytest.mark.flaky(reruns=1, reruns_delay=2)
     def test_upload_photo(self, web_driver):
         count = 0
         house_detail = HouseDetailPage(web_driver)
@@ -71,7 +71,7 @@ class TestHousePhotoAlbum(object):
     @pytest.mark.new
     @pytest.mark.house
     @pytest.mark.run(order=4)
-    # @pytest.mark.flaky(reruns=2, reruns_delay=2)
+    @pytest.mark.flaky(reruns=1, reruns_delay=2)
     def test_batch_delete(self, web_driver):
         house_detail = HouseDetailPage(web_driver)
         house_detail.click_see_more()
@@ -90,7 +90,7 @@ class TestHousePhotoAlbum(object):
     @pytest.mark.new
     @pytest.mark.house
     @pytest.mark.run(order=4)
-    # @pytest.mark.flaky(reruns=2, reruns_delay=2)
+    @pytest.mark.flaky(reruns=1, reruns_delay=2)
     def test_delete_all(self, web_driver):
         house_detail = HouseDetailPage(web_driver)
         house_detail.click_see_more()

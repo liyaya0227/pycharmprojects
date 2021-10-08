@@ -7,6 +7,7 @@
 @time: 2021/06/22
 """
 from common.readconfig import ini
+from common.readxml import ReadXml
 from utils.timeutil import sleep
 from utils.sqlutil import select_sql, update_sql
 from page.webpage import WebPage
@@ -15,6 +16,7 @@ from page_object.web.house.detailpage import HouseDetailPage
 from page_object.web.main.upviewpage import MainUpViewPage
 
 house_table = Element('web/house/table')
+sql = ReadXml("/test_rent/test_house/house_sql")
 
 
 class HouseTablePage(WebPage):
@@ -24,6 +26,12 @@ class HouseTablePage(WebPage):
 
     def click_rent_tab(self):
         self.is_click(house_table['租赁标签'])
+
+    def click_sale_tab_in_data_disk(self):
+        self.is_click(house_table['资料盘买卖标签'])
+
+    def click_rent_tab_in_data_disk(self):
+        self.is_click(house_table['资料盘租赁标签'])
 
     def click_new_tab(self):
         self.is_click(house_table['新房标签'])
@@ -71,10 +79,10 @@ class HouseTablePage(WebPage):
                 doorplate_ele.click()
                 break
 
-    def choose_option(self, item_name, option): #根item和opiton定位选项
+    def choose_option(self, item_name, option):  # 根item和opiton定位选项
         option_xpath = "//div[not(contains(@style,'display'))]//label[text()=\'{item_name}\']/ancestor::" \
-                       "div[contains(@class ,'ant-row ant-form-item')]//span[text()=\'{option}\']/parent::label".\
-                        format(item_name=item_name, option=option)
+                       "div[contains(@class ,'ant-row ant-form-item')]//span[text()=\'{option}\']/parent::label". \
+            format(item_name=item_name, option=option)
         locator = ('xpath', option_xpath)
         self.is_click(locator)
 
@@ -133,23 +141,23 @@ class HouseTablePage(WebPage):
     def go_house_detail_by_row(self, row=1):
         self.wait_page_loading_complete()
         sleep()
-        locator = 'xpath', "//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table/tbody/tr["\
+        locator = 'xpath', "//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table/tbody/tr[" \
                   + str(row) + "]/td[" + str(self.__get_column_by_title('楼盘名称') + 1) + "]"
         self.is_click(locator)
         self.wait_page_loading_complete()
         sleep(2)
 
-    def verify_house_exist(self, building_name):  #验证列表中是否存在当前房源
+    def verify_house_exist(self, building_name):  # 验证列表中是否存在当前房源
         locator = 'xpath', "//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table/tbody/tr/" \
-                  "td[" + str(self.__get_column_by_title('楼盘名称') + 1) + "]/a/span"
+                           "td[" + str(self.__get_column_by_title('楼盘名称') + 1) + "]/a/span"
         ele_list = self.find_elements(locator)
         for ele in ele_list:
             if ele.text == building_name:
                 return True
         return False
 
-    def go_new_house_detail_by_row(self, row=1): #从新房列表进入详情
-        locator = 'xpath', "//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table/tbody/tr["\
+    def go_new_house_detail_by_row(self, row=1):  # 从新房列表进入详情
+        locator = 'xpath', "//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table/tbody/tr[" \
                   + str(row) + "]/td[" + str(self.__get_column_by_title('楼盘名称') + 1) + "]/a/span"
         self.is_click(locator)
 
@@ -163,7 +171,7 @@ class HouseTablePage(WebPage):
         return len(table_count)
 
     def click_delete_button_by_row(self, row=1):
-        locator = 'xpath', "//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table/tbody/tr["\
+        locator = 'xpath', "//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table/tbody/tr[" \
                   + str(row) + "]/td[" + str(self.__get_column_by_title('操作') + 1) + "]/p[contains(text(),'删除')]"
         self.is_click(locator)
 
@@ -177,6 +185,39 @@ class HouseTablePage(WebPage):
 
     def dialog_click_confirm_button(self):
         self.is_click(house_table['弹窗_删除按钮'])
+
+    # 资料盘
+    def switch_house_type_tab(self, tab_name):  # 资料盘页面切换status_tab
+        tab_xpath = "//div[@style='' or not(@style)]//div[@class='ant-tabs-content-holder']//div[@role='tablist']//div[text()=" \
+                    "\'{tab_name}\']".format(tab_name=tab_name)
+        locator = ('xpath', tab_xpath)
+        self.is_click(locator)
+
+    def enter_rent_house_detail(self, house_code):
+        house_code_xpath = "//div[@class='ant-row dataPlateHouseList']//p[text()=\'{house_code}\']".format(
+            house_code=house_code)
+        locator = ('xpath', house_code_xpath)
+        self.is_click(locator)
+
+    def enter_sale_house_detail(self, estate_name):
+        house_code_xpath = "//div[@class='ant-row dataPlateHouseList']//p[text()=\'{estate_name}\']".format(
+            estate_name=estate_name)
+        locator = ('xpath', house_code_xpath)
+        self.is_click(locator)
+
+    def house_code_in_house_list(self, house_code):  # 房源列表中房源编号
+        house_code_xpath = "//div[@style='' or not(@style)]/div[@class='ant-row houseManage']//div[@class='estateTitle']/" \
+                           "p[text()=\'{house_code}\']".format(house_code=house_code)
+        locator = ('xpath', house_code_xpath)
+        res = self.is_exists(locator)
+        return res
+
+    @staticmethod
+    def get_tab_name(type_id):
+        type_list = ['暂缓出售', '他售', '无效房源', '举报房源', '房源超期未举证']
+        type_id -= 1
+        tab_name = type_list[type_id]
+        return tab_name
 
     def check_house_exist(self, test_data, flag='买卖'):
         table = HouseTablePage(self.driver)
@@ -231,6 +272,39 @@ class HouseTablePage(WebPage):
         try:
             house_code = select_sql(house_sql)[0][0]
             return house_code
+        except IndexError:
+            return ''
+
+    @staticmethod
+    def get_house_status_by_db(flag='买卖'):
+        estate_sql = "select id from estate_new_base_info where [name]='" + ini.house_community_name + "'"
+        estate_id = select_sql(estate_sql)[0][0]
+        if flag == '买卖':
+            table_name = 'trade_house'
+        else:
+            table_name = 'rent_house'
+        try:
+            site = {"table_name": table_name, "location_estate_id": estate_id,
+                    "location_building_number": ini.house_building_id,
+                    "location_building_cell": ini.house_building_cell, "location_floor": ini.house_floor,
+                    "location_doorplate": ini.house_doorplate}
+            get_house_status_sql = sql.get_sql('trade_house', 'get_trade_house_info').format(**site)
+            house_info = select_sql(get_house_status_sql)
+            return house_info
+        except IndexError:
+            return ''
+
+    @staticmethod
+    def get_house_type_in_pool(house_id, flag='买卖'):
+        if flag == '买卖':
+            table_name = 'trade_house_pool'
+        else:
+            table_name = 'rent_house_pool'
+        try:
+            get_house_type_sql = sql.get_sql('trade_house_pool', 'get_house_type_in_pool').format(table_name=table_name,
+                                                                                                  house_id=house_id)
+            house_type = select_sql(get_house_type_sql)[0][0]
+            return house_type
         except IndexError:
             return ''
 

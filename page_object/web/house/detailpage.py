@@ -8,10 +8,11 @@
 """
 import random
 import re
+from common.readxml import ReadXml
 from config.conf import cm
 from common.readconfig import ini
 from page.webpage import WebPage
-from utils.sqlutil import select_sql,update_sql
+from utils.sqlutil import select_sql, update_sql
 from utils.timeutil import dt_strftime
 from common.readelement import Element
 from selenium.common.exceptions import TimeoutException
@@ -25,9 +26,9 @@ from page_object.web.house.deedtaxinvoiceinformationpage import DeedTaxInvoiceIn
 from page_object.web.house.owneridentificationinformationpage import OwnerIdentificationInformationPage
 from page_object.web.house.originalpurchasecontractinformationpage import OriginalPurchaseContractInformationPage
 from page_object.web.house.propertyownershipcertificatepage import PropertyOwnershipCertificatePage
-from utils.uploadfile import upload_file
 
 house_detail = Element('web/house/detail')
+house_sql = ReadXml("/test_rent/test_house/house_sql")
 
 
 class HouseDetailPage(WebPage):
@@ -201,13 +202,13 @@ class HouseDetailPage(WebPage):
         house_id = select_sql(sql)[0][0]
         if certificate_name == '书面委托协议':
             update_survey_sql = "update approval_records set update_time = '" + update_time + "' where house_id = '" \
-                            + str(house_id) + "' and is_valid = 1 and certificate_type = 3"
+                                + str(house_id) + "' and is_valid = 1 and certificate_type = 3"
         elif certificate_name == '钥匙委托凭证':
             update_survey_sql = "update approval_records set update_time = '" + update_time + "' where house_id = '" \
-                            + str(house_id) + "' and is_valid = 1 and certificate_type = 2"
+                                + str(house_id) + "' and is_valid = 1 and certificate_type = 2"
         elif certificate_name == 'VIP服务委托协议':
             update_survey_sql = "update approval_records set update_time = '" + update_time + "' where house_id = '" \
-                            + str(house_id) + "' and is_valid = 1 and certificate_type = 0"
+                                + str(house_id) + "' and is_valid = 1 and certificate_type = 0"
         else:
             raise ValueError('传值错误')
         update_sql(update_survey_sql)
@@ -718,6 +719,7 @@ class HouseDetailPage(WebPage):
         """切换角色"""
         global main_leftview
         main_leftview = MainLeftViewPage(self.driver)
+        sleep(1)
         main_leftview.change_role(role_name)
 
     def get_account_name(self):
@@ -729,9 +731,11 @@ class HouseDetailPage(WebPage):
         """获取当前维护人下的房源数量"""
         main_leftview.click_all_house_label()
         if flag == '买卖':
+            self.is_click(house_detail['买卖区域筛选_不限'])
             self.input_text(house_detail['房源编号输入框'], house_code)
         else:
             self.is_click(house_detail['租赁菜单'])
+            self.is_click(house_detail['买卖区域筛选_不限'])
             self.input_text(house_detail['房源编号输入框'], house_code)
         self.is_click(house_detail['搜索按钮'])
         sleep(2)
@@ -739,8 +743,8 @@ class HouseDetailPage(WebPage):
         sleep(1)
         return num
 
-    def get_house_info_by_db(self, name, flag):
-
+    @staticmethod
+    def get_house_info_by_db(name, flag):
         estate_sql = "select id from estate_new_base_info where [name]='" + ini.house_community_name + "'"
         estate_id = select_sql(estate_sql)[0][0]
         if flag == '买卖':
@@ -756,17 +760,16 @@ class HouseDetailPage(WebPage):
                         "' and location_building_number='" + ini.house_building_id + \
                         "' and location_building_cell='" + ini.house_building_cell + \
                         "' and location_floor='" + ini.house_floor + \
-                        "' and location_doorplate='" + ini.house_doorplate + "' and is_valid='1' and [status]='0' order by create_time desc"
+                        "' and location_doorplate='" + ini.house_doorplate + "' and is_valid='1' and [status]='0' " \
+                                                                             "order by create_time desc "
         elif flag == '租赁':
             house_sql = "select house_code from rent_house where coreinfo_maintainer_name='" + str(name) + \
                         "' and location_estate_id='" + str(estate_id) + \
                         "' and location_building_number='" + ini.house_building_id + \
                         "' and location_building_cell='" + ini.house_building_cell + \
                         "' and location_floor='" + ini.house_floor + \
-                        "' and location_doorplate='" + ini.house_doorplate +"' and is_valid='1' and [status]='0' order by create_time desc"
-
+                        "' and location_doorplate='" + ini.house_doorplate + "' and is_valid='1' and [status]='0' order by create_time desc"
         try:
-            # print('enter_house_detail', house_sql)
             house_code = select_sql(house_sql)[0][0]
             return house_code
         except IndexError:
@@ -788,11 +791,6 @@ class HouseDetailPage(WebPage):
         self.move_mouse_to_element(house_detail['更多按钮'])
         return house_no, initial_price, house_area
 
-
-    # def click_more_btn(self):
-    #     """点击详情页面的更多按钮"""
-    #     self.move_mouse_to_element(house_detail['更多按钮'])
-
     def view_basic_information(self):
         """查看房源基础信息"""
         self.move_mouse_to_element(house_detail['右侧菜单更多按钮'])
@@ -807,10 +805,9 @@ class HouseDetailPage(WebPage):
 
     def verify_view_success(self):
         """验证查看房源基础信息是否成功"""
-        ele = self.find_element(house_detail['房源基础信息弹窗title'])
-        # res = self.is_exists(house_detail['房源基础信息弹窗title'])
-        self.is_click(house_detail['弹窗_关闭按钮'])
-        return ele
+        res = self.is_exists(house_detail['房源基础信息弹窗title'])
+        self.is_click(house_detail['基础信息弹窗_取消按钮'])
+        return res
 
     def submit_modify_state_application(self):
         """提交修改房源状态申请"""
@@ -834,7 +831,6 @@ class HouseDetailPage(WebPage):
         sleep(1)
         locator = 'xpath', "//div[@class='invalid-housing-resource']//td[@class='ant-table-cell']/a/span[text()='" + house_no + "']"
         res = self.is_exists(locator)
-        # actual_house_no = self.element_text(house_detail['列表中第一条房源的编号'])
         return res
 
     def verify_reject_application_sucess(self, house_no):
@@ -846,7 +842,6 @@ class HouseDetailPage(WebPage):
         sleep(1)
         locator = 'xpath', "//div[@class='invalid-housing-resource']//td[@class='ant-table-cell']/a/span[text()='" + house_no + "']"
         res = self.is_exists(locator)
-        # text = self.find_element(house_detail['右上角弹窗_内容']).text
         return res
 
     def get_initial_price_in_dialog(self):
@@ -882,7 +877,8 @@ class HouseDetailPage(WebPage):
         self.is_click(house_detail['调价记录按钮'])
         actual_text = self.element_text(house_detail['调价记录第一条价格']).strip()
         if flag == '买卖':
-            expect_text = '{init_price}万元 - {final_price}万元'.format(init_price=init_price, final_price=expect_final_price)
+            expect_text = '{init_price}万元 - {final_price}万元'.format(init_price=init_price,
+                                                                    final_price=expect_final_price)
         elif flag == '租赁':
             expect_text = '{init_price}元 - {final_price}元'.format(init_price=init_price, final_price=expect_final_price)
         self.is_click(house_detail['弹窗_关闭按钮'])
@@ -917,11 +913,11 @@ class HouseDetailPage(WebPage):
         sleep(1)
         self.is_click(house_detail['弹窗_关闭按钮'])
 
-    def replace_maintainer(self, maintainer_name = ''):
+    def replace_maintainer(self, maintainer_name):
         """更新房源维护人"""
         self.move_mouse_to_element(house_detail['更多按钮'])
-        locator = 'xpath',"//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'ant-select-dropdown-hidden'))]//div[@class='rc-virtual-list']" \
-                          "//div[contains(@class,'ant-select-item ant-select-item-option') and @title='"+ maintainer_name +"']"
+        locator = 'xpath', "//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'ant-select-dropdown-hidden'))]//div[@class='rc-virtual-list']" \
+                           "//div[contains(@class,'ant-select-item ant-select-item-option') and @title='" + maintainer_name + "']"
         self.is_click(house_detail['维护人管理按钮'])
         self.is_click(house_detail['选择人员输入框'])
         if len(maintainer_name) > 0:
@@ -937,9 +933,9 @@ class HouseDetailPage(WebPage):
         """获取角色卡片中的最新房源维护人"""
         sleep(1)
         self.scroll_to_bottom()
-        current_maintainer_name = self.element_text(house_detail['角色人名字'])
+        current_maintainer_name = self.element_text(house_detail['角色人名字']).split(' ')[0]
         current_maintainer_phone = self.element_text(house_detail['角色人手机号']).split(':')[1]
-        return current_maintainer_name,current_maintainer_phone
+        return current_maintainer_name, current_maintainer_phone
 
     def verify_can_report(self):
         """验证是否可以举报"""
@@ -979,8 +975,7 @@ class HouseDetailPage(WebPage):
         res = self.is_exists(locator)
         return res
 
-
-   #新房详情页
+    # 新房详情页
     def click_see_more(self):
         """新房详情查看更多"""
         self.is_click(house_detail['查看更多按钮'])
@@ -997,35 +992,11 @@ class HouseDetailPage(WebPage):
     def upload_image(self, pictures_path, lab_name):
         """楼盘相册-上传图片"""
         self.switch_lab_by_name(lab_name)
-        # for picture_path in pictures_path:
-        #     self.is_click(house_detail['上传首图按钮'])
-        #     upload_file(picture_path)
         for picture_path in pictures_path:
             if lab_name == '效果图':
                 self.send_key(house_detail['首图input'], picture_path)
             else:
                 self.send_key(house_detail['其他图片input'], picture_path)
-
-
-    # def upload_first_image(self, pictures_path):
-    #     """上传首图"""
-    #     for picture_path in pictures_path:
-    #         self.is_click(house_detail['上传首图按钮'])
-    #         upload_file(picture_path)
-    #
-    # def upload_real_map_image(self, pictures_path):
-    #     """上传实景图"""
-    #     self.is_click(house_detail['实景图选项'])
-    #     for picture_path in pictures_path:
-    #         self.is_click(house_detail['上传首图按钮'])
-    #         upload_file(picture_path)
-    #
-    # def upload_location_map_image(self, pictures_path):
-    #     """上传位置图"""
-    #     self.is_click(house_detail['位置图选项'])
-    #     for picture_path in pictures_path:
-    #         self.is_click(house_detail['上传首图按钮'])
-    #         upload_file(picture_path)
 
     def click_upload_btn(self):
         """确定上传"""
@@ -1086,7 +1057,7 @@ class HouseDetailPage(WebPage):
 
     def verify_trend_list_update(self, trend_explain):
         """验证动态列表是否更新"""
-        locator = 'xpath',"//div[@class ='statetimeBox']/div[@class='stateNote' and text()='" + trend_explain + "']"
+        locator = 'xpath', "//div[@class ='statetimeBox']/div[@class='stateNote' and text()='" + trend_explain + "']"
         res = self.is_exists(locator)
         return res
 
@@ -1167,7 +1138,24 @@ class HouseDetailPage(WebPage):
         res = self.is_exists(house_detail['海报二维码弹窗'])
         return res
 
-    def get_house_unit_price(self, float_a, n):
+    # 资料盘
+    def click_transfer_to_rent_btn(self):
+        """点击转出租验证"""
+        self.is_click(house_detail['转出租验真按钮'])
+
+    def click_transfer_to_sale_btn(self):
+        """点击转在售验证"""
+        self.is_click(house_detail['转在售验真按钮'])
+
+    def transfer_house(self, verify_code):
+        """房源转真"""
+        self.is_click(house_detail['发送短信验证码按钮'])
+        self.input_text(house_detail['验证码输入框'], verify_code)
+        self.is_click(house_detail['提交按钮'])
+        self.is_click(house_detail['知道了按钮'])
+
+    @staticmethod
+    def get_house_unit_price(float_a, n):
         """根据四舍五入保留2位小数的原则计算房源单价"""
         string_a = str(float_a)
         a, b, c = string_a.partition('.')  # 此时的a、b和c的类型均为字符串类型
@@ -1177,14 +1165,10 @@ class HouseDetailPage(WebPage):
                 ccc = int(cc) + 1
             else:
                 ccc = int(cc)
-
             return a + b + str(ccc)
         else:
             c2 = int(c)
-            # print('HouseDetailPage1-xpath', c2)
-            # print('HouseDetailPage1-xpath-len', len(c))
             if len(c) == 1 and c2 == 0:
-                # print('HouseDetailPage1-xpath', a)
                 return a
             else:
                 return a + b + c

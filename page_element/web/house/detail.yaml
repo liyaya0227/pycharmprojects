@@ -49,6 +49,7 @@
 证件信息展开收起按钮: "xpath==//div[@class='houseDetailLeft']//div[contains(text(),'证件信息')]/span"
 删除证件_确定按钮: "xpath==//div[contains(@class,'ant-popover ant-popconfirm')]//span[text()='确 定']/parent::button[@type='button']"
 删除证件_取消按钮: "xpath==//div[contains(@class,'ant-popover ant-popconfirm')]//span[text()='取 消']/parent::button[@type='button']"
+证件_上传图片按钮: "xpath==//input[@id='nest-messages_UploadImageIds']"
 
 右侧菜单分享按钮: "xpath==//div[@class='rightMenu']//span[text()='分享']"
 分享弹窗_楼盘名称标签: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//div[@class='posterInfo']//div[@class='textBox']/h1"
@@ -106,6 +107,7 @@
 弹窗_确定按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//span[text()='确 定']/parent::button[@type='button']"
 弹窗_关闭按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//span[@class='anticon anticon-close ant-modal-close-icon']"
 
+
 下拉框: "xpath==//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'ant-select-dropdown-hidden'))]//div[@class='rc-virtual-list']//div[contains(@class,'ant-select-item ant-select-item-option')]"
 
 所有角色标签: "xpath==//div[@style='' or not(@style)]/div[@class='houseDetail']//div[contains(@class,'roleInfo')]//i[@class='tip']"
@@ -127,6 +129,7 @@ VIP服务人_姓名标签: "xpath==//div[@style='' or not(@style)]/div[@class='h
 基础信息弹窗确定按钮: "xpath==//div[contains(@class,'ant-modal-footer')]//button[contains(@class,'ant-btn ant-btn-primary')]"
 房源列表: "xpath==//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table"
 列表中的第一条房源: "xpath==//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table/tbody/tr[1]/td[2]"
+基础信息弹窗_取消按钮: "xpath==//div[@class='ant-modal-root']//span[text()='取 消']/parent::button"
 
 #更多-提交修改房源状态申请
 是否可修改状态提示: "xpath==//div[text()='存在待审核的记录，不允许再次修改']"
@@ -233,8 +236,13 @@ VIP服务人_姓名标签: "xpath==//div[@style='' or not(@style)]/div[@class='h
 分享弹窗_效果图: "xpath==//div[@class='posterSurveyList']/div[@class='posterSurveyItem']//span[@class='ant-badge']"
 生成海报二维码按钮: "xpath==//div[@class='ant-modal-content']/div[@class='ant-modal-footer']//span[text()='点击生成海报二维码']/parent::button"
 海报二维码弹窗: "xpath==//div[@class='ant-modal-content']//div[@class='ant-modal-body']//span[contains(.,'二维码生成成功')]"
-#详细描述输入框: "id==detailedDescription"
-#保存按钮: "xpath==//h2[contains(.,'保存')]"
-#卖点列表_推盘: "xpath==//div[@class ='houseEditContent']/ul/li[contains(text(), '一句话推盘：')]"
+买卖区域筛选_不限: "xpath==//div[not(contains(@style,'display'))]//label[text()='区域']/ancestor::div[contains(@class,'ant-row ant-form-item')]//span[text()='不限']/parent::label"
 
+#资料盘-房源详情
+转出租验真按钮: "xpath==//div[@style='' or not(@style)]/div[@class='dataPlateHouseDetail']//span[text()=' 转出租验真 ']/parent::button"
+转在售验真按钮: "xpath==//div[@style='' or not(@style)]/div[@class='dataPlateHouseDetail']//span[text()=' 转在售验真 ']/parent::button"
+发送短信验证码按钮: "xpath==//div[@class='putProofInfo']//span[text()='发送验证码']/parent::button"
+验证码输入框: "xpath==//div[@class='ant-row ant-form-item']//div[@class='ant-form-item-control-input-content']/input[@placeholder='请输入验证码']"
+提交按钮: "xpath==//div[@class='ant-form-item-control-input']//span[text()='提 交']/parent::button"
+知道了按钮: "xpath==//div[@role='document']//span[text()='知道了']/parent::button"
 

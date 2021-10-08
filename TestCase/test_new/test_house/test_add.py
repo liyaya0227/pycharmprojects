@@ -48,7 +48,7 @@ class TestAdd(object):
     @pytest.mark.house
     @pytest.mark.run(order=1)
     @pytest.mark.dependency()
-    @pytest.mark.flaky(reruns=5, reruns_delay=2)
+    @pytest.mark.flaky(reruns=1, reruns_delay=2)
     def test_001(self, web_driver):
         main_topview = MainTopViewPage(web_driver)
         main_leftview = MainLeftViewPage(web_driver)
@@ -62,7 +62,7 @@ class TestAdd(object):
         house_table.clear_filter(flag='新房')
         house_table.input_building_name_search(self.test_data['楼盘名称'])
         house_table.click_search_button()
-        if house_table.get_house_table_count() != 0:
+        if house_table.get_house_table_count() != 0:   #删除已存在的新房
             house_table.click_delete_button_by_row(1)
             house_table.dialog_click_confirm_button()
             assert main_topview.find_notification_content() == '删除成功'

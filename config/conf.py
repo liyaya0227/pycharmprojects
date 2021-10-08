@@ -84,6 +84,13 @@ class ConfigManager(object):
             raise FileNotFoundError("配置文件%s不存在！" % tmp_picture_file)
         return tmp_picture_file
 
+    def xml_file(self, name):
+        """xml文件"""
+        file_path = os.path.join(self.BASE_DIR, 'TestData', '%s.xml' % name.lstrip('/'))
+        if not os.path.exists(file_path):
+            raise FileNotFoundError("%s 文件不存在！" % file_path)
+        return file_path
+
     @property
     def screen_path(self):
         """截图目录"""

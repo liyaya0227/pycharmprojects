@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<contract_sql>
+     <table name="contract_order">
+        <sql id="get_contract_no">
+            <caption>
+                select contract_no from contract_order where house_id = '{house_id}' and data_flag = 1
+            </caption>
+        </sql>
+    </table>
+</contract_sql>
+

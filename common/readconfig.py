@@ -118,6 +118,10 @@ class ReadConfig(object):
     def custom_telephone(self):
         return self._get('CUSTOM', 'TELEPHONE')
 
+    @property
+    def super_verify_code(self):
+        return self._get('VERIFY_CODE', 'SUPER_VERIFY_CODE')
+
 
 ini = ReadConfig()
 

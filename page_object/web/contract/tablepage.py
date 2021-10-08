@@ -6,13 +6,14 @@
 @file: tablepage.py
 @date: 2021/7/2 0002
 """
-
-from utils.sqlutil import update_sql
+from common.readxml import ReadXml
+from utils.sqlutil import update_sql, select_sql
 from utils.timeutil import sleep
 from page.webpage import WebPage
 from common.readelement import Element
 
 table = Element('web/contract/table')
+contract_sql = ReadXml("/test_rent/test_contract/contract_sql")
 
 
 class ContractTablePage(WebPage):
@@ -243,3 +244,12 @@ class ContractTablePage(WebPage):
         for title_ele in title_list:
             if title_ele.text == title:
                 return title_list.index(title_ele)
+
+    @staticmethod
+    def get_contract_no(house_id):
+        try:
+            get_contract_no_sql = contract_sql.get_sql('contract_order', 'get_contract_no').format(house_id=house_id)
+            contract_no_list = select_sql(get_contract_no_sql)
+            return contract_no_list
+        except IndexError:
+            return ''

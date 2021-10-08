@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<house_sql>
+    <table name="trade_house">
+        <sql id="get_trade_house_info">
+            <caption>
+                select id, status, house_code, Owner_Phone from {table_name} where location_estate_id='{location_estate_id}' and location_building_number='{location_building_number}' and location_building_cell={location_building_cell} and location_floor={location_floor} and location_doorplate={location_doorplate} and is_valid=1 and status !=1
+            </caption>
+        </sql>
+    </table>
+
+     <table name="trade_house_pool">
+        <sql id="get_house_type_in_pool">
+            <caption>
+                select type from {table_name} where house_id = '{house_id}'
+            </caption>
+        </sql>
+    </table>
+
+</house_sql>
+

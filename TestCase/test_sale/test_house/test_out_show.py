@@ -73,6 +73,8 @@ class TestOutShow(object):
     def test_001(self, web_driver):
         main_topview = MainTopViewPage(web_driver)
         house_detail = HouseDetailPage(web_driver)
+        main_leftview = MainLeftViewPage(web_driver)
+        house_table = HouseTablePage(web_driver)
 
         house_detail.expand_certificates_info()
         if house_detail.check_upload_written_entrustment_agreement() != '未上传':
@@ -80,6 +82,18 @@ class TestOutShow(object):
             house_detail.delete_written_entrustment_agreement()
         if house_detail.check_survey_status() == '已上传':
             log.info('实勘已上传,实勘退单')
+            main_leftview.change_role('超级管理员')
+            house_code = house_table.get_house_code_by_db(flag='买卖')
+            assert house_code != ''
+            log.info('房源编号为：' + house_code)
+            main_leftview.click_all_house_label()
+            house_table.click_sale_tab()
+            house_table.click_all_house_tab()
+            house_table.click_reset_button()
+            house_table.clear_filter(flag='买卖')
+            house_table.input_house_code_search(house_code)
+            house_table.click_search_button()
+            house_table.go_house_detail_by_row(1)
             house_detail.click_delete_survey_button()
             house_detail.dialog_click_confirm_button()
         house_detail.click_go_top_button()
@@ -185,6 +199,16 @@ class TestOutShow(object):
         house_detail = HouseDetailPage(web_driver)
         agreement_list = AgreementListPage(web_driver)
         certificate_examine = CertificateExaminePage(web_driver)
+
+        main_leftview.change_role('超级管理员')
+        main_leftview.click_all_house_label()
+        house_table.click_sale_tab()
+        house_table.click_all_house_tab()
+        house_table.click_reset_button()
+        house_table.clear_filter(flag='买卖')
+        house_table.input_house_code_search(house_code)
+        house_table.click_search_button()
+        house_table.go_house_detail_by_row(1)
 
         house_detail.expand_certificates_info()
         if house_detail.check_upload_written_entrustment_agreement() != '审核通过':
@@ -354,3 +378,6 @@ class TestOutShow(object):
         house_detail.click_go_top_button()
         house_detail.choose_out_show()
         assert house_detail.get_out_show()
+
+if __name__ == '__main__':
+    pytest.main(['-q', 'test_out_show.py'])
