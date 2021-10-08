@@ -82,7 +82,7 @@ def android_driver():
     adriver.quit()
 
 
-@pytest.fixture(scope='class', autouse=True)
+@pytest.fixture(scope='session', autouse=True)
 def setup_and_teardown(web_driver):
     login_page = LoginPage(web_driver)
     login_page.log_in(ini.user_account, ini.user_password)

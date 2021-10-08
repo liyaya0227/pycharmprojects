@@ -29,3 +29,4 @@
 
 保存按钮: "xpath==//form[contains(@class,'create-contract-form') or contains(@class,'create-ren-contract-form')]//span[text()='保存']/parent::button"
 提交按钮: "xpath==//form[contains(@class,'create-contract-form') or contains(@class,'create-ren-contract-form')]//span[text()='提交']/parent::button"
+提交变更按钮: "xpath==//form[contains(@class,'create-contract-form') or contains(@class,'create-ren-contract-form')]//span[text()='提交变更']/parent::button"

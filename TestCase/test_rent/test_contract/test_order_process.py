@@ -6,69 +6,54 @@
 @file: test_order_process.py
 @date: 2021/7/6 0006
 """
-
 import pytest
 import allure
+from common.globalvar import GlobalVar
 from config.conf import cm
+from utils.jsonutil import get_data
 from utils.logger import log
 from common.readconfig import ini
 from page_object.web.main.topviewpage import MainTopViewPage
 from page_object.web.main.leftviewpage import MainLeftViewPage
 from page_object.web.main.upviewpage import MainUpViewPage
-from page_object.web.house.tablepage import HouseTablePage
-from page_object.web.customer.detailpage import CustomerDetailPage
-from page_object.web.customer.tablepage import CustomerTablePage
+from page_object.web.contract.createorderpage import ContractCreateOrderPage
 from page_object.web.contract.tablepage import ContractTablePage
 from page_object.web.contract.detailpage import ContractDetailPage
 from page_object.web.contract.previewpage import ContractPreviewPage
 from page_object.web.achievement.detailpage import AchievementDetailPage
 from page_object.web.achievement.tablepage import AchievementTablePage
 
-house_code = ''
-customer_code = ''
 
-
-@allure.feature("测试合同模块")
+@pytest.mark.rent
+@pytest.mark.contract
+@pytest.mark.run(order=-20)
+@allure.feature("测试租赁合同流程模块")
 class TestOrderProcess(object):
+
+    contract_code = ''
 
     @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, web_driver):
-        global house_code
-        global customer_code
-
         main_leftview = MainLeftViewPage(web_driver)
-        main_upview = MainUpViewPage(web_driver)
-        house_table = HouseTablePage(web_driver)
-        customer_table = CustomerTablePage(web_driver)
-        customer_detail = CustomerDetailPage(web_driver)
+        main_topview = MainTopViewPage(web_driver)
+        contract_table = ContractTablePage(web_driver)
 
-        main_leftview.change_role('经纪人')
-        house_code = house_table.get_house_code_by_db(flag='租赁')
-        assert house_code != ''
-        log.info('创建合同的房源编号: ' + house_code)
-        main_upview.clear_all_title()
-        main_leftview.click_my_customer_label()
-        customer_table.click_all_tab()
-        customer_table.choose_customer_wish('不限')
-        customer_table.input_search_text(ini.custom_telephone)
-        customer_table.click_search_button()
-        table_count = customer_table.get_customer_table_count()
-        assert table_count == 1
-        customer_table.go_customer_detail_by_row(1)
-        customer_code = customer_detail.get_customer_code()
-        assert customer_code != ''
-        log.info('创建合同的客源编号: ' + customer_code)
-        main_upview.clear_all_title()
-        main_leftview.click_contract_management_label()
         yield
-        main_upview.clear_all_title()
+        if self.contract_code:
+            main_leftview.change_role('超级管理员')
+            main_leftview.click_contract_management_label()
+            contract_table.click_rent_contract_tab()
+            contract_table.input_contract_code_search(self.contract_code)
+            contract_table.click_search_button()
+            contract_table.delete_contract_by_row(1)
+            contract_table.tooltip_click_confirm_button()
+            main_topview.close_notification()
+        main_leftview.change_role('经纪人')
 
-    @allure.story("测试买卖合同流程")
-    @pytest.mark.rent
-    @pytest.mark.contract
-    @pytest.mark.run(order=-3)
+    @allure.story("测试租赁合同流程用例")
     @pytest.mark.flaky(reruns=5, reruns_delay=2)
-    def test_001(self, web_driver):
+    @pytest.mark.parametrize('env', GlobalVar.city_env[ini.environment])
+    def test_001(self, web_driver, env):
         main_topview = MainTopViewPage(web_driver)
         main_leftview = MainLeftViewPage(web_driver)
         main_upview = MainUpViewPage(web_driver)
@@ -78,14 +63,17 @@ class TestOrderProcess(object):
         achievement_table = AchievementTablePage(web_driver)
         achievement_detail = AchievementDetailPage(web_driver)
 
+        json_file_path = cm.test_data_dir + "/test_rent/test_contract/test_create_order.json"
+        test_data = get_data(json_file_path)
+        self.add_contract(web_driver, env, test_data)
+        main_leftview.click_contract_management_label()  # 经纪人盖章
         contract_table.click_rent_contract_tab()
-        contract_table.click_reset_button()
-        contract_table.input_house_code_search(house_code)
-        contract_table.input_customer_code_search(customer_code)
+        contract_table.input_house_code_search(GlobalVar.house_code)
+        contract_table.input_customer_code_search(GlobalVar.customer_code)
         contract_table.click_search_button()
         assert contract_table.get_contract_table_count() > 0
         contract_details = contract_table.get_contract_detail_by_row(1, flag='租赁')
-        contract_code = contract_details['contract_code']
+        self.contract_code = contract_details['contract_code']
         assert contract_details['contract_status'] == '起草中'
         assert contract_details['attachment_examine'] == '未知'
         assert contract_details['agency_fee_status'] == '未收齐'
@@ -99,8 +87,7 @@ class TestOrderProcess(object):
         main_upview.clear_all_title()
         main_leftview.click_contract_management_label()
         contract_table.click_rent_contract_tab()
-        contract_table.click_reset_button()
-        contract_table.input_contract_code_search(contract_code)
+        contract_table.input_contract_code_search(self.contract_code)
         contract_table.click_search_button()
         contract_details = contract_table.get_contract_detail_by_row(1, flag='租赁')
         assert contract_details['contract_status'] == '已盖章'
@@ -116,8 +103,7 @@ class TestOrderProcess(object):
         main_upview.clear_all_title()
         main_leftview.click_contract_management_label()
         contract_table.click_rent_contract_tab()
-        contract_table.click_reset_button()
-        contract_table.input_contract_code_search(contract_code)
+        contract_table.input_contract_code_search(self.contract_code)
         contract_table.click_search_button()
         contract_details = contract_table.get_contract_detail_by_row(1, flag='租赁')
         assert contract_details['contract_status'] == '已盖章'
@@ -133,8 +119,7 @@ class TestOrderProcess(object):
         main_upview.clear_all_title()
         main_leftview.click_contract_management_label()
         contract_table.click_rent_contract_tab()
-        contract_table.click_reset_button()
-        contract_table.input_contract_code_search(contract_code)
+        contract_table.input_contract_code_search(self.contract_code)
         contract_table.click_search_button()
         contract_details = contract_table.get_contract_detail_by_row(1, flag='租赁')
         assert contract_details['contract_status'] == '已签约'
@@ -148,12 +133,11 @@ class TestOrderProcess(object):
         contract_detail.upload_pictures([cm.tmp_picture_file])
         contract_detail.click_submit_button()
         assert contract_detail.check_dialog_exist()
-        contract_detail.click_close_button()
+        contract_detail.dialog_click_close_button()
         main_upview.clear_all_title()
         main_leftview.click_contract_management_label()
         contract_table.click_rent_contract_tab()
-        contract_table.click_reset_button()
-        contract_table.input_contract_code_search(contract_code)
+        contract_table.input_contract_code_search(self.contract_code)
         contract_table.click_search_button()
         contract_details = contract_table.get_contract_detail_by_row(1, flag='租赁')
         assert contract_details['contract_status'] == '已签约'
@@ -175,8 +159,7 @@ class TestOrderProcess(object):
         main_upview.clear_all_title()
         main_leftview.click_contract_management_label()
         contract_table.click_rent_contract_tab()
-        contract_table.click_reset_button()
-        contract_table.input_contract_code_search(contract_code)
+        contract_table.input_contract_code_search(self.contract_code)
         contract_table.click_search_button()
         contract_details = contract_table.get_contract_detail_by_row(1, flag='租赁')
         assert contract_details['contract_status'] == '已签约'
@@ -190,22 +173,20 @@ class TestOrderProcess(object):
         main_leftview.click_contract_management_label()
         contract_table.click_rent_contract_examine_tab()
         contract_table.click_wait_examine()
-        contract_table.click_reset_button()
-        contract_table.input_contract_code_search(contract_code)
+        contract_table.input_contract_code_search(self.contract_code)
         contract_table.click_search_button()
         assert contract_table.get_contract_table_count() == 1
         contract_table.pass_examine_by_row(1)
         assert main_topview.find_notification_content() == '操作成功'
-        contract_table.click_had_examine()
         contract_table.click_reset_button()
-        contract_table.input_contract_code_search(contract_code)
+        contract_table.click_had_examine()
+        contract_table.input_contract_code_search(self.contract_code)
         contract_table.click_search_button()
         assert contract_table.get_contract_table_count() == 1
         main_leftview.change_role('经纪人')
         main_leftview.click_contract_management_label()
         contract_table.click_rent_contract_tab()
-        contract_table.click_reset_button()
-        contract_table.input_contract_code_search(contract_code)
+        contract_table.input_contract_code_search(self.contract_code)
         contract_table.click_search_button()
         contract_details = contract_table.get_contract_detail_by_row(1, flag='租赁')
         assert contract_details['contract_status'] == '备件审核通过'
@@ -223,8 +204,7 @@ class TestOrderProcess(object):
         main_upview.clear_all_title()
         main_leftview.click_contract_management_label()
         contract_table.click_rent_contract_tab()
-        contract_table.click_reset_button()
-        contract_table.input_contract_code_search(contract_code)
+        contract_table.input_contract_code_search(self.contract_code)
         contract_table.click_search_button()
         contract_details = contract_table.get_contract_detail_by_row(1, flag='租赁')
         assert contract_details['contract_status'] == '备件审核通过'
@@ -236,7 +216,7 @@ class TestOrderProcess(object):
         main_leftview.click_achievement_label()
         achievement_table.click_achievement_examine_tab()
         achievement_table.click_to_examine_tab()
-        achievement_table.input_contract_code_search(contract_code)
+        achievement_table.input_contract_code_search(self.contract_code)
         achievement_table.click_search_button()
         assert achievement_table.get_achievement_table_count() == 1
         achievement_table.click_pass_examine_button_by_row(1)
@@ -245,14 +225,13 @@ class TestOrderProcess(object):
         main_leftview.click_achievement_label()
         achievement_table.click_achievement_examine_tab()
         achievement_table.click_pass_examine_tab()
-        achievement_table.input_contract_code_search(contract_code)
+        achievement_table.input_contract_code_search(self.contract_code)
         achievement_table.click_search_button()
         assert achievement_table.get_achievement_table_count() == 1
         main_leftview.change_role('经纪人')
         main_leftview.click_contract_management_label()
         contract_table.click_rent_contract_tab()
-        contract_table.click_reset_button()
-        contract_table.input_contract_code_search(contract_code)
+        contract_table.input_contract_code_search(self.contract_code)
         contract_table.click_search_button()
         contract_details = contract_table.get_contract_detail_by_row(1, flag='租赁')
         assert contract_details['contract_status'] == '备件审核通过'
@@ -260,12 +239,11 @@ class TestOrderProcess(object):
         assert contract_details['agency_fee_status'] == '未收齐'
         assert contract_details['achievement_status'] == '审核通过'
         log.info('商圈经理审核业绩后，状态显示正确')
-        contract_table.update_agency_fee(contract_code)  # 数据库修改代理费
+        contract_table.update_agency_fee(self.contract_code)  # 数据库修改代理费
         main_upview.clear_all_title()
         main_leftview.click_contract_management_label()
         contract_table.click_rent_contract_tab()
-        contract_table.click_reset_button()
-        contract_table.input_contract_code_search(contract_code)
+        contract_table.input_contract_code_search(self.contract_code)
         contract_table.click_search_button()
         contract_details = contract_table.get_contract_detail_by_row(1, flag='租赁')
         assert contract_details['contract_status'] == '备件审核通过'
@@ -273,3 +251,33 @@ class TestOrderProcess(object):
         assert contract_details['agency_fee_status'] == '已收齐'
         assert contract_details['achievement_status'] == '审核通过'
         log.info('代理费收取后，状态显示正确')
+
+    @staticmethod
+    def add_contract(web_driver, env, test_data):
+        main_upview = MainUpViewPage(web_driver)
+        main_topview = MainTopViewPage(web_driver)
+        main_leftview = MainLeftViewPage(web_driver)
+        contract_table = ContractTablePage(web_driver)
+        contract_create_order = ContractCreateOrderPage(web_driver)
+
+        main_leftview.click_contract_management_label()
+        contract_table.click_sale_contract_tab()
+        contract_table.click_create_order_button()
+        contract_create_order.choose_business_type('租赁')
+        contract_create_order.input_house_code(GlobalVar.house_code)
+        contract_create_order.click_get_house_info_button()
+        contract_create_order.verify_house_info(GlobalVar.house_info)
+        contract_create_order.click_verify_house_button()
+        assert main_topview.find_notification_content() == '房源信息校验通过！'
+        log.info('房源信息校验通过')
+        contract_create_order.input_customer_code(GlobalVar.customer_code)
+        contract_create_order.click_get_customer_info_button()
+        contract_create_order.click_next_step_button()
+        if ini.environment == 'sz':
+            contract_create_order.choose_district_contract(env)
+            contract_create_order.click_confirm_button_in_dialog()
+        contract_create_order.input_rent_contract_content(test_data)
+        contract_create_order.click_submit_button()
+        assert main_topview.find_notification_content() == '提交成功'
+        log.info('合同创建成功')
+        main_upview.clear_all_title()

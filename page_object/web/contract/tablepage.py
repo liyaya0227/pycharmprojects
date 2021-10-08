@@ -29,6 +29,18 @@ class ContractTablePage(WebPage):
     def click_rent_contract_examine_tab(self):  # 点击租赁合同审核列表标签
         self.is_click(table['租赁合同审核列表标签'])
 
+    def click_change_contract_tab(self):  # 点击变更合同列表标签
+        self.is_click(table['变更合同列表标签'])
+
+    def click_change_contract_examine_tab(self):  # 点击变更审核列表标签
+        self.is_click(table['变更审核列表标签'])
+
+    def click_cancel_contract_tab(self):  # 点击解约合同列表标签
+        self.is_click(table['解约合同列表标签'])
+
+    def click_cancel_contract_examine_tab(self):  # 点击解约审核列表标签
+        self.is_click(table['解约审核列表标签'])
+
     def click_create_order_button(self):  # 点击创建订单按钮
         self.is_click(table['创建订单按钮'])
 
@@ -57,6 +69,18 @@ class ContractTablePage(WebPage):
         self.wait_page_loading_complete()
         locator = 'xpath', "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + \
                   str(row) + "]/td[" + str(self.__get_column_by_title('操作') + 1) + "]//span[contains(text(),'删除')]"
+        self.is_click(locator, sleep_time=1)
+
+    def cancel_contract_examine_pass_by_row(self, row=1):  # 根据行数，点击解约合同审核通过按钮
+        self.wait_page_loading_complete()
+        locator = 'xpath', "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + \
+                  str(row) + "]/td[" + str(self.__get_column_by_title('合同解约状态') + 1) + "]//span[contains(text(),'通过')]"
+        self.is_click(locator, sleep_time=1)
+
+    def change_contract_examine_pass_by_row(self, row=1):  # 根据行数，点击变更合同审核通过按钮
+        self.wait_page_loading_complete()
+        locator = 'xpath', "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + \
+                  str(row) + "]/td[" + str(self.__get_column_by_title('合同变更状态') + 1) + "]//span[contains(text(),'通过')]"
         self.is_click(locator, sleep_time=1)
 
     def contract_offline_collection_by_row(self, row=1):  # 根据行数，点击线下付款按钮
@@ -116,6 +140,24 @@ class ContractTablePage(WebPage):
         locator = 'xpath', "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + \
                   str(row) + "]/td[" + str(self.__get_column_by_title('审核状态') + 1) + "]//a[text()='审核']"
         self.is_click(locator)
+
+    def get_contract_code_by_row(self, row=1):  # 根据行数，获取合同编号
+        contract_code_locator = 'xpath', \
+                                "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + \
+                                str(row) + "]/td[" + str(self.__get_column_by_title('合同编号') + 1) + "]//a"
+        return self.element_text(contract_code_locator)
+
+    def get_contract_status_by_row(self, row=1):  # 根据行数，获取合同状态
+        contract_status_locator = 'xpath', \
+                                  "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + \
+                                  str(row) + "]/td[" + str(self.__get_column_by_title('合同状态') + 1) + "]"
+        return self.element_text(contract_status_locator)
+
+    def get_contract_change_status_by_row(self, row=1):  # 根据行数，获取合同变更解约状态
+        change_rescind_locator = 'xpath', \
+                                 "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + \
+                                 str(row) + "]/td[" + str(self.__get_column_by_title('变更/解约') + 1) + "]"
+        return self.element_text(change_rescind_locator)
 
     def get_contract_detail_by_row(self, row=1, flag='买卖'):  # 根据行数，获取合同列表各字段
         contract_detail = {}

@@ -6,8 +6,6 @@
 @file: createorderpage.py
 @date: 2021/7/2 0002
 """
-
-from common.readconfig import ini
 from page.webpage import WebPage
 from common.readelement import Element
 from page_object.web.contract.createsaleorder_szpage import ContractCreateSaleOrderDetailSZPage
@@ -15,6 +13,7 @@ from page_object.web.contract.createsaleorder_kspage import ContractCreateSaleOr
 from page_object.web.contract.createsaleorder_wxpage import ContractCreateSaleOrderDetailWXPage
 from page_object.web.contract.createsaleorder_hzpage import ContractCreateSaleOrderDetailHZPage
 from page_object.web.contract.createrentorderpage import ContractCreateRentOrderPage
+from utils.timeutil import sleep
 
 create_order = Element('web/contract/createorder')
 
@@ -86,11 +85,13 @@ class ContractCreateOrderPage(WebPage):
     def click_next_step_button(self):
         self.is_click(create_order['下一步按钮'])
 
-    def choose_district_contract(self):
-        if ini.environment == 'sz':
+    def choose_district_contract(self, env):
+        if env == 'sz':
             self.is_click(create_order['苏州合同单选按钮'])
-        elif ini.environment == 'ks':
+        elif env == 'ks':
             self.is_click(create_order['昆山合同单选按钮'])
+        else:
+            raise ValueError('暂不支持')
 
     def click_confirm_button_in_dialog(self):  # 选择合同弹窗，点击确定按钮
         self.is_click(create_order['确定按钮'])
@@ -101,21 +102,23 @@ class ContractCreateOrderPage(WebPage):
     def click_submit_button(self):
         self.is_click(create_order['提交按钮'], sleep_time=4)
 
-    def input_contract_content(self, test_data, flag='买卖'):
-        if flag == '买卖':
-            if ini.environment == 'sz':
-                ContractCreateSaleOrderDetailSZPage(self.driver).input_contract_content(test_data)
-            elif ini.environment == 'ks':
-                ContractCreateSaleOrderDetailKSPage(self.driver).input_contract_content(test_data)
-            elif ini.environment == 'wx':
-                ContractCreateSaleOrderDetailWXPage(self.driver).input_contract_content(test_data)
-            elif ini.environment == 'cz':
-                ContractCreateSaleOrderDetailWXPage(self.driver).input_contract_content(test_data)
-            elif ini.environment == 'hz':
-                ContractCreateSaleOrderDetailHZPage(self.driver).input_contract_content(test_data)
-            else:
-                raise ValueError('传值错误')
-        elif flag == '租赁':
-            ContractCreateRentOrderPage(self.driver).input_contract_content(test_data)
+    def click_submit_change_button(self):
+        sleep(2)
+        self.is_click(create_order['提交变更按钮'], sleep_time=4)
+
+    def input_sale_contract_content(self, env, test_data):
+        if env == 'sz':
+            ContractCreateSaleOrderDetailSZPage(self.driver).input_contract_content(test_data)
+        elif env == 'ks':
+            ContractCreateSaleOrderDetailKSPage(self.driver).input_contract_content(test_data)
+        elif env == 'wx':
+            ContractCreateSaleOrderDetailWXPage(self.driver).input_contract_content(test_data)
+        elif env == 'cz':
+            ContractCreateSaleOrderDetailWXPage(self.driver).input_contract_content(test_data)
+        elif env == 'hz':
+            ContractCreateSaleOrderDetailHZPage(self.driver).input_contract_content(test_data)
         else:
             raise ValueError('传值错误')
+
+    def input_rent_contract_content(self, test_data):
+        ContractCreateRentOrderPage(self.driver).input_contract_content(test_data)

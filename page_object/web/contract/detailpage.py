@@ -30,6 +30,18 @@ class ContractDetailPage(WebPage):
     def click_preview_button(self):
         self.is_click(detail['预览按钮'])
 
+    def check_cancel_button_exist(self):
+        return self.element_is_exist(detail['解约按钮'], wait_time=2)
+
+    def click_cancel_button(self):
+        self.is_click(detail['解约按钮'])
+
+    def check_change_button_exist(self):
+        return self.element_is_exist(detail['变更按钮'], wait_time=2)
+
+    def click_change_button(self):
+        self.is_click(detail['变更按钮'])
+
     def click_go_examine_button(self):
         self.is_click(detail['去提审按钮'], sleep_time=2)
 
@@ -125,7 +137,7 @@ class ContractDetailPage(WebPage):
         time = dt_strftime('%Y-%m-%d %H:%M:%S')
         sleep()
         self.input_text_with_enter(detail['选择签约时间输入框'], time)
-        self.click_confirm_button()
+        self.dialog_click_confirm_button()
 
     def upload_pictures(self, pictures_path):
         for picture_path in pictures_path:
@@ -185,13 +197,21 @@ class ContractDetailPage(WebPage):
     def click_report_achievement_button(self):
         self.is_click(detail['报业绩按钮'], sleep_time=1)
 
-    def click_confirm_button(self):
+    def dialog_click_confirm_button(self):
         self.is_click(detail['弹窗_确定按钮'], sleep_time=1)
 
-    def click_close_button(self):
+    def dialog_click_close_button(self):
         self.is_click(detail['弹窗_关闭按钮'])
 
     def get_contract_info(self):
         contract_info = {'create_time': self.element_text(detail['创建时间标签']),
                          'sign_time': self.element_text(detail['签约时间标签'])}
         return contract_info
+
+    def cancel_change_dialog_input_reason(self, reason):  # 解约变更弹窗，输入解约原因
+        self.input_text(detail['弹窗_解约变更_原因'], reason)
+
+    def cancel_change_dialog_upload_picture(self, picture_list):  # 解约变更弹窗，上传图片
+        for picture in picture_list:
+            self.input_text(detail['弹窗_解约变更_上传图片输入框'], picture)
+            sleep()

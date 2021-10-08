@@ -3,6 +3,8 @@
 财务详情标签: "xpath==//div[@class='order-detail-less']//div[text()='财务详情']"
 
 修改按钮: "xpath==//div[@class='order-detail-less']//a[text()='修改']/parent::button"
+变更按钮: "xpath==//div[@class='order-detail-less']//a[text()='变更']/parent::button"
+解约按钮: "xpath==//div[@class='order-detail-less']//span[text()='解 约' or contains(text(), '解约')]/parent::button"
 无效按钮: "xpath==//div[@class='order-detail-less']//span[text()='无 效']/parent::button"
 预览按钮: "xpath==//div[@class='order-detail-less']//a[text()='预览']/parent::button"
 去提审按钮: "xpath==//div[@class='order-detail-less']//span[text()='去提审']/parent::button"
@@ -43,6 +45,10 @@
 弹窗_页面: "xpath==//div[@class='ant-modal-root']//div[@class='ant-modal-content']"
 报业绩按钮: "xpath==//div[@class='ant-modal-root']//a[text()='报业绩']/parent::button"
 选择签约时间输入框: "xpath==//div[@class='ant-modal-root']//label[contains(text(), '选择签约时间')]/parent::div//input"
-弹窗_取消按钮: "xpath==//div[@class='ant-modal-root']//span[text()='取 消']/parent::button"
-弹窗_确定按钮: "xpath==//div[@class='ant-modal-root']//span[text()='确 定']/parent::button"
-弹窗_关闭按钮: "xpath==//div[@class='ant-modal-root']//button[@class='ant-modal-close']"
+
+弹窗_解约变更_原因: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and (not(@style) or @style='')]//label[text()='解约原因' or text()='合同变更原因']/ancestor::div[contains(@class, ant-form-item)]//textarea"
+弹窗_解约变更_上传图片输入框: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and (not(@style) or @style='')]//label[text()='双方签字解约协议影印件' or text()='上传变更协议影印件']/ancestor::div[contains(@class, ant-form-item)]//input['picList']"
+
+弹窗_取消按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and not(@style)]//span[text()='取 消']/parent::button"
+弹窗_确定按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and not(@style)]//span[text()='确 定']/parent::button"
+弹窗_关闭按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and not(@style)]//button[@class='ant-modal-close']"

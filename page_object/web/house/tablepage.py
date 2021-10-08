@@ -88,9 +88,8 @@ class HouseTablePage(WebPage):
 
     def click_search_button(self):
         sleep()
-        self.is_click(house_table['搜索按钮'])
+        self.is_click(house_table['搜索按钮'], sleep_time=2)
         self.wait_page_loading_complete()
-        sleep(2)
 
     def click_reset_button(self):
         self.is_click(house_table['重置按钮'])
@@ -155,7 +154,9 @@ class HouseTablePage(WebPage):
         self.is_click(locator)
 
     def get_house_table_count(self):
-        locator = 'xpath', "//div[not(contains(@style,'display'))]/div[@class='ant-row houseManage']//table//tbody/tr"
+        locator = 'xpath', \
+                  "//div[not(contains(@style,'display'))]/div[@class='ant-row houseManage']//table//tbody" \
+                  "/tr[@data-row-key]"
         table_count = self.find_elements(locator)
         if table_count[0].text == '暂无数据':
             return 0

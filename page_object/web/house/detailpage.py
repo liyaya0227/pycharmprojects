@@ -60,7 +60,7 @@ class HouseDetailPage(WebPage):
 
     def get_detail_floor(self):  # 获取房源详情具体楼层信息
         value = self.element_text(house_detail['楼层标签'])
-        return value
+        return value.split('/')[0]
 
     def get_out_show(self):  # 获取是否外网呈现
         flag = self.get_element_attribute(house_detail['外网呈现按钮'], 'aria-checked')

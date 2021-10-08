@@ -2,10 +2,15 @@
 签前审核列表标签: "xpath==//div[@style='' or not(@style)]/div[@class='sign-less']//div[@role='tablist']/div[@class='ant-tabs-nav-wrap']//div[text()='签前审核列表']"
 租赁合同列表标签: "xpath==//div[@style='' or not(@style)]/div[@class='sign-less']//div[@role='tablist']/div[@class='ant-tabs-nav-wrap']//div[text()='租赁合同列表']"
 租赁合同审核列表标签: "xpath==//div[@style='' or not(@style)]/div[@class='sign-less']//div[@role='tablist']/div[@class='ant-tabs-nav-wrap']//div[text()='租赁合同审核列表']"
+变更合同列表标签: "xpath==//div[@style='' or not(@style)]/div[@class='sign-less']//div[@role='tablist']/div[@class='ant-tabs-nav-wrap']//div[text()='变更合同列表']"
+变更审核列表标签: "xpath==//div[@style='' or not(@style)]/div[@class='sign-less']//div[@role='tablist']/div[@class='ant-tabs-nav-wrap']//div[text()='变更审核列表']"
+解约合同列表标签: "xpath==//div[@style='' or not(@style)]/div[@class='sign-less']//div[@role='tablist']/div[@class='ant-tabs-nav-wrap']//div[text()='解约合同列表']"
+解约审核列表标签: "xpath==//div[@style='' or not(@style)]/div[@class='sign-less']//div[@role='tablist']/div[@class='ant-tabs-nav-wrap']//div[text()='解约审核列表']"
+
 创建订单按钮: "xpath==//div[@style='' or not(@style)]/div[@class='sign-less']//a[text()='创建订单']/parent::button[@type='button']"
 
-待审核标签: "xpath==//div[@style='' or not(@style)]/div[@class='sign-less']//div[@class='ant-tabs-content-holder']//div[@id='examineType']//span[text()='待审核']"
-已处理标签: "xpath==//div[@style='' or not(@style)]/div[@class='sign-less']//div[@class='ant-tabs-content-holder']//div[@id='examineType']//span[text()='已处理']"
+待审核标签: "xpath==//div[@style='' or not(@style)]/div[@class='sign-less']//div[@class='ant-tabs-content-holder']//div[@role='tabpanel' and @aria-hidden='false']//div[@id='examineType' or @id='isHandler']//span[text()='待审核']"
+已处理标签: "xpath==//div[@style='' or not(@style)]/div[@class='sign-less']//div[@class='ant-tabs-content-holder']//div[@role='tabpanel' and @aria-hidden='false']//div[@id='examineType' or @id='isHandler']//span[text()='已处理']"
 合同编号搜索框: "xpath==//div[@style='' or not(@style)]/div[@class='sign-less']//div[@class='ant-tabs-content-holder']//div[@role='tabpanel' and @aria-hidden='false']//input[@id='contractNo']"
 房源编号搜索框: "xpath==//div[@style='' or not(@style)]/div[@class='sign-less']//div[@class='ant-tabs-content-holder']//div[@role='tabpanel' and @aria-hidden='false']//input[@id='houseNo']"
 客源编号搜索框: "xpath==//div[@style='' or not(@style)]/div[@class='sign-less']//div[@class='ant-tabs-content-holder']//div[@role='tabpanel' and @aria-hidden='false']//input[@id='customerNo']"
