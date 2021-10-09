@@ -24,6 +24,7 @@
 
 苏州合同单选按钮: "xpath==//div[@class='ant-modal-root']//div[@class='ant-modal-body']//span[contains(text(),'苏州')]/parent::label"
 昆山合同单选按钮: "xpath==//div[@class='ant-modal-root']//div[@class='ant-modal-body']//span[contains(text(),'昆山')]/parent::label"
+张家港合同单选按钮: "xpath==//div[@class='ant-modal-root']//div[@class='ant-modal-body']//span[contains(text(),'张家港')]/parent::label"
 取消按钮: "xpath==//div[@class='ant-modal-root']//div[@class='ant-modal-footer']//span[text()='取 消']/parent::button"
 确定按钮: "xpath==//div[@class='ant-modal-root']//div[@class='ant-modal-footer']//span[text()='确 定']/parent::button"
 

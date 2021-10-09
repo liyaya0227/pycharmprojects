@@ -3,11 +3,10 @@
 """
 @author: jutao
 @version: V1.0
-@file: createsaleorder_wxpage.py
+@file: createsaleorder_hzpage.py
 @date: 2021/8/20 0002
 """
 import datetime
-
 from utils.timeutil import sleep, dt_strftime, dt_strftime_with_delta
 from page.webpage import WebPage
 from common.readelement import Element

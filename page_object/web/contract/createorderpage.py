@@ -6,14 +6,15 @@
 @file: createorderpage.py
 @date: 2021/7/2 0002
 """
+from utils.timeutil import sleep
 from page.webpage import WebPage
 from common.readelement import Element
 from page_object.web.contract.createsaleorder_szpage import ContractCreateSaleOrderDetailSZPage
 from page_object.web.contract.createsaleorder_kspage import ContractCreateSaleOrderDetailKSPage
+from page_object.web.contract.createsaleorder_zjgpage import ContractCreateSaleOrderDetailZJGPage
 from page_object.web.contract.createsaleorder_wxpage import ContractCreateSaleOrderDetailWXPage
 from page_object.web.contract.createsaleorder_hzpage import ContractCreateSaleOrderDetailHZPage
 from page_object.web.contract.createrentorderpage import ContractCreateRentOrderPage
-from utils.timeutil import sleep
 
 create_order = Element('web/contract/createorder')
 
@@ -90,6 +91,8 @@ class ContractCreateOrderPage(WebPage):
             self.is_click(create_order['苏州合同单选按钮'])
         elif env == 'ks':
             self.is_click(create_order['昆山合同单选按钮'])
+        elif env == 'zjg':
+            self.is_click(create_order['张家港合同单选按钮'])
         else:
             raise ValueError('暂不支持')
 
@@ -111,6 +114,8 @@ class ContractCreateOrderPage(WebPage):
             ContractCreateSaleOrderDetailSZPage(self.driver).input_contract_content(test_data)
         elif env == 'ks':
             ContractCreateSaleOrderDetailKSPage(self.driver).input_contract_content(test_data)
+        elif env == 'zjg':
+            ContractCreateSaleOrderDetailZJGPage(self.driver).input_contract_content(test_data)
         elif env == 'wx':
             ContractCreateSaleOrderDetailWXPage(self.driver).input_contract_content(test_data)
         elif env == 'cz':
