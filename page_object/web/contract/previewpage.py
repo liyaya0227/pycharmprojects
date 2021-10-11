@@ -32,7 +32,7 @@ class ContractPreviewPage(WebPage):
         self.is_click(preview['无章打印按钮'], sleep_time=1)
 
     def click_print_with_sign_button(self):
-        self.is_click(preview['有章打印按钮'], sleep_time=2)
+        self.is_click(preview['有章打印按钮'], sleep_time=4)
 
     def click_signature_button(self):
         self.is_click(preview['签章按钮'], sleep_time=2)

@@ -28,7 +28,7 @@ class MainTopViewPage(WebPage):
             return ''
 
     def find_notification_content(self):
-        if self.element_is_exist(top_view['右上角弹窗_内容'], wait_time=6):
+        if self.element_is_exist(top_view['右上角弹窗_内容'], wait_time=15):
             value = self.element_text(top_view['右上角弹窗_内容'])
             self.is_click(top_view['右上角弹窗_关闭按钮'])
             return value

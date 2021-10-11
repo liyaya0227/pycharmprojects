@@ -25,7 +25,7 @@ from page_object.web.contract.previewpage import ContractPreviewPage
 
 @pytest.mark.sale
 @pytest.mark.contract
-@pytest.mark.run(order=23)
+@pytest.mark.run(order=22)
 @pytest.mark.skipif(ini.environment != 'sz', reason='只支持苏州')
 @allure.feature("测试买卖合同变更模块")
 class TestOrderChange(object):

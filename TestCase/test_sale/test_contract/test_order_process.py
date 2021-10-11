@@ -28,7 +28,7 @@ from page_object.web.transaction.detailpage import TransactionDetailPage
 
 @pytest.mark.sale
 @pytest.mark.contract
-@pytest.mark.run(order=22)
+@pytest.mark.run(order=21)
 @allure.feature("测试买卖合同模块")
 class TestOrderProcess(object):
 

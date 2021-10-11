@@ -26,7 +26,7 @@ from page_object.web.contract.previewpage import ContractPreviewPage
 
 @pytest.mark.rent
 @pytest.mark.contract
-@pytest.mark.run(order=-20)
+@pytest.mark.run(order=-22)
 @pytest.mark.skipif(ini.environment != 'sz', reason='只支持苏州')
 @allure.feature("测试租赁合同解约模块")
 class TestOrderCancel(object):
@@ -78,6 +78,7 @@ class TestOrderCancel(object):
         contract_table.go_contract_detail_by_row(1)
         contract_detail.click_preview_button()
         contract_preview.click_signature_button()
+        main_topview.close_notification()
         contract_preview.click_print_with_sign_button()  # 经纪人有章打印
         contract_preview.cancel_print()
         main_upview.clear_all_title()

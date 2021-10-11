@@ -78,13 +78,13 @@ class ContractCreateOrderPage(WebPage):
         self.input_text(create_order['客源编号输入框'], customer_code)
 
     def click_get_customer_info_button(self):
-        self.is_click(create_order['获取客源信息按钮'])
+        self.is_click(create_order['获取客源信息按钮'], sleep_time=1)
 
     def get_customer_name(self):
         return self.element_text(create_order['客源信息标签'])
 
     def click_next_step_button(self):
-        self.is_click(create_order['下一步按钮'])
+        self.is_click(create_order['下一步按钮'], sleep_time=1)
 
     def choose_district_contract(self, env):
         if env == 'sz':

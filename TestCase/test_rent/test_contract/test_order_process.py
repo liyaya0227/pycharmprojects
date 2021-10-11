@@ -26,7 +26,7 @@ from page_object.web.achievement.tablepage import AchievementTablePage
 
 @pytest.mark.rent
 @pytest.mark.contract
-@pytest.mark.run(order=-20)
+@pytest.mark.run(order=-21)
 @allure.feature("测试租赁合同流程模块")
 class TestOrderProcess(object):
 
