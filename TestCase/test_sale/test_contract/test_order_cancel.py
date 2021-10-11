@@ -63,6 +63,9 @@ class TestOrderCancel(object):
         contract_detail = ContractDetailPage(web_driver)
         contract_preview = ContractPreviewPage(web_driver)
 
+        if env == 'zjg':
+            log.info('暂不支持张家港')
+            pytest.skip('暂不支持张家港')
         json_file_path = cm.test_data_dir + "/test_sale/test_contract/create_order_" + env + ".json"
         test_data = get_data(json_file_path)
         self.add_contract(web_driver, env, test_data)
