@@ -1,0 +1,20 @@
+首页概览标签: "xpath==//span[text()='首页概览']/ancestor::li"
+
+系统管理标签: "xpath==//span[text()='系统管理']/ancestor::li"
+用户管理标签: "xpath==//span[text()='用户管理']/ancestor::li[not(contains(@class, 'ivu-menu-submenu'))]"
+角色管理标签: "xpath==//span[text()='角色管理']/ancestor::li[not(contains(@class, 'ivu-menu-submenu'))]"
+菜单管理标签: "xpath==//span[text()='菜单管理']/ancestor::li[not(contains(@class, 'ivu-menu-submenu'))]"
+
+商户管理标签: "xpath==//span[text()='商户管理']/ancestor::li"
+门店/商户管理标签: "xpath==//span[text()='门店/商户管理']/ancestor::li[not(contains(@class, 'ivu-menu-submenu'))]"
+
+客户结算管理标签: "xpath==//span[text()='客户结算管理']/ancestor::li"
+销售单标签: "xpath==//span[text()='销售单']/ancestor::li[not(contains(@class, 'ivu-menu-submenu'))]"
+
+结算中心标签: "xpath==//span[text()='结算中心']/ancestor::li"
+结算单标签: "xpath==//span[text()='结算单']/ancestor::li[not(contains(@class, 'ivu-menu-submenu'))]"
+对账单标签: "xpath==//span[text()='对账单']/ancestor::li[not(contains(@class, 'ivu-menu-submenu'))]"
+
+资金管理标签: "xpath==//span[text()='资金管理']/ancestor::li"
+收款单标签: "xpath==//span[text()='收款单']/ancestor::li[not(contains(@class, 'ivu-menu-submenu'))]"
+付款单标签: "xpath==//span[text()='付款单']/ancestor::li[not(contains(@class, 'ivu-menu-submenu'))]"

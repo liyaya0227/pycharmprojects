@@ -21,7 +21,6 @@ class ReadXml:
         except Exception as e:
             print("Error: 无法打开文件，{}！", format(e))
 
-
     def get_sql(self, table_name, sql_id):
         """获取sql"""
         for table in self.root.getElementsByTagName('table'):

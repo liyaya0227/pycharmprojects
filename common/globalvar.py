@@ -19,5 +19,4 @@ class GlobalVar(object):
     house_code = ''
     customer_code = ''
     customer_name = ''
-    contract_code = ''
     house_info = {}

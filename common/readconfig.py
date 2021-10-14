@@ -33,36 +33,56 @@ class ReadConfig(object):
         return self._get('HOST', 'HOST')
 
     @property
+    def job_url(self):
+        return self._get('HOST', 'JOB_HOST')
+
+    @property
     def app_package(self):
         return self._get('APP', 'PACKAGE')
 
     @property
+    def cw_user_account(self):
+        return self._get('CW_USER', 'ACCOUNT')
+
+    @property
+    def cw_user_password(self):
+        return self._get('CW_USER', 'PASSWORD')
+
+    @property
+    def job_user_account(self):
+        return self._get('JOB_USER', 'ACCOUNT')
+
+    @property
+    def job_user_password(self):
+        return self._get('JOB_USER', 'PASSWORD')
+
+    @property
     def user_account(self):
-        if self.environment == 'ks':
+        if self.environment in ['ks', 'zjg']:
             env = 'sz'
         else:
             env = self.environment
         return self._get(env.upper() + '_USER', 'ACCOUNT')
 
     @property
-    def s_user_account(self):
-        return self._get(self.environment.upper() + '_USER', 'S_ACCOUNT')
-
-    @property
-    def od_user_account(self):
-        return self._get(self.environment.upper() + '_USER', 'OD_ACCOUNT')
-
-    @property
     def user_password(self):
-        if self.environment == 'ks':
+        if self.environment in ['ks', 'zjg']:
             env = 'sz'
         else:
             env = self.environment
         return self._get(env.upper() + '_USER', 'PASSWORD')
 
     @property
+    def s_user_account(self):
+        return self._get(self.environment.upper() + '_USER', 'S_ACCOUNT')
+
+    @property
     def s_user_password(self):
         return self._get(self.environment.upper() + '_USER', 'S_PASSWORD')
+
+    @property
+    def od_user_account(self):
+        return self._get(self.environment.upper() + '_USER', 'OD_ACCOUNT')
 
     @property
     def od_user_password(self):
@@ -82,7 +102,7 @@ class ReadConfig(object):
 
     @property
     def database_name(self):
-        if self.environment == 'ks':
+        if self.environment in ['ks', 'zjg']:
             env = 'sz'
         else:
             env = self.environment
