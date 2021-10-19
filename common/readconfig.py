@@ -33,6 +33,10 @@ class ReadConfig(object):
         return self._get('HOST', 'HOST')
 
     @property
+    def xf_url(self):
+        return self._get('HOST', 'XF_HOST')
+
+    @property
     def job_url(self):
         return self._get('HOST', 'JOB_HOST')
 

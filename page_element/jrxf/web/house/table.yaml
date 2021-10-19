@@ -1,0 +1,47 @@
+#楼盘管理页面
+待办楼盘菜单: "xpath==//div[@style='' or not(@style)]/div[@class='estateManage']/div[@class='tabs']//span[contains(text(), '待办楼盘')]"
+合同审核菜单: "xpath==//div[@style='' or not(@style)]/div[@class='estateManage']/div[@class='tabs']//span[contains(text(), '合同审核')]"
+待上架楼盘菜单: "xpath==//div[@style='' or not(@style)]/div[@class='estateManage']/div[@class='tabs']//span[contains(text(), '待上架楼盘')]"
+
+#待办楼盘tab页
+合作楼盘菜单: "xpath==//div[@style='' or not(@style)]/div[@class='estateManage']/div[@class='tabs']//span[contains(text(), '合作楼盘')]"
+非合作楼盘菜单: "xpath==//div[@style='' or not(@style)]/div[@class='estateManage']/div[@class='tabs']//span[contains(text(), '非合作楼盘')]"
+新增楼盘按钮: "xpath==//div[@style='' or not(@style)]/div[@class='estateManage']/div[@class='tabs']//span[contains(text(), '新增楼盘')]"
+楼盘名称输入框: "xpath==//div[@style='' or not(@style)]/div[@class='estateManage']//input[@id='newHouseName']"
+搜索按钮: "xpath==//div[@style='' or not(@style)]/div[@class='estateManage']//span[text()='搜索']/parent::button[@type='submit']"
+重置按钮: "xpath==//div[@style='' or not(@style)]/div[@class='estateManage']//span[text()='重置']/parent::button[@type='button']"
+搜索结果: "xpath==//div[@style='' or not(@style)]/div[@class='estateManage']//div[text()='符合要求的房源共 ']/span"
+弹窗_确定按钮: "xpath==//div[@style='' or not(@style)]//div[@role='dialog']//span[text()='确 定']/parent::button[@type='button']"
+
+#合作楼盘tab页
+#合作楼盘tab_楼盘名称输入框: "xpath==//div[@style='' or not(@style)]/div[@class='estateManage']//input[@id='newHouseName']"
+
+
+#待办楼盘列表
+删除按钮: "xpath==//div[@style='' or not(@style)]/div[@class='estateManage']//span[text()=' 编辑 ']"
+
+#上架审核列表
+上架_审核状态_待维护基础信息: "xpath==//span[text()='自动化楼盘']/parent::td/following-sibling::td/child::span[contains(text(),'待维护基础信息')]"
+上架_审核状态_待审核: "xpath==//span[text()='自动化楼盘']/parent::td/following-sibling::td/child::span[contains(text(),'待审核')]"
+上架_审核状态_审核通过: "xpath==//span[text()='自动化楼盘']/parent::td/following-sibling::td/child::span[contains(text(),'审核通过')]"
+
+#合同审核列表
+合同_审核状态_待审核: "xpath==//span[text()='自动化楼盘']/parent::td/following-sibling::td/child::span[contains(text(),'待审核')]"
+合同_审核状态_审核驳回: "xpath==//span[text()='自动化楼盘']/parent::td/following-sibling::td/child::span[contains(text(),'审核驳回')]"
+合同_审核状态_审核通过: "xpath==//span[text()='自动化楼盘']/parent::td/following-sibling::td/child::span[contains(text(),'审核通过')]"
+
+#楼盘合同审核页面
+合同_楼盘名称输入框: "xpath==//div[@class='estateContractCheck']//input[@id='newHouseName']"
+合同_搜索按钮: "xpath==//div[@class='estateContractCheck']//span[text()='搜索']/parent::button[@type='submit']"
+
+#审核合同
+审核通过按钮: "xpath==//div[@style='' or not(@style)]//div[@class='ant-modal-footer']//span[text()='审核通过']/parent::button"
+上传合同tab: "xpath==//div[@style='' or not(@style)]//div[@class='ant-modal-body']//div[@role='tablist']//div[text()='上传合同']"
+审核确定按钮: "xpath==//div[@style='' or not(@style)]//div[@role='dialog']//span[text()='知道了']/parent::button"
+
+#上架楼盘审核页面
+上架_楼盘名称输入框: "xpath==//div[@class='estateCheck']//input[@id='newHouseName']"
+上架_搜索按钮: "xpath==//div[@class='estateCheck']//span[text()='搜索']/parent::button[@type='submit']"
+弹窗_删除按钮: "xpath==//div[@style='' or not(@style)]//div[@role='dialog']//span[text()='删 除']/parent::button[@type='button']"
+
+#合同_审核状态_审核驳回: "xpath==//span[text()='自动化楼盘']/parent::td/following-sibling::td/child::span[contains(text(),'审核驳回')]"

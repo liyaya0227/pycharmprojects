@@ -10,7 +10,6 @@
 from config.conf import cm
 from utils.logger import log
 from utils.timeutil import sleep
-from selenium.webdriver.support.select import Select
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
@@ -139,12 +138,26 @@ class WebPage(object):
         return _text
 
     def get_element_attribute(self, locator, attribute):
-        """获取当前的text"""
+        """获取元素属性"""
         ele = self.find_element(locator)
         _text = ele.get_attribute(attribute)
         log.info("获取元素{}属性的{}：{}".format(locator, attribute, _text))
         return _text
-    #
+
+    def remove_element_attribute(self, locator, attribute):
+        """移除元素属性"""
+        ele = self.find_element(locator)
+        self.driver.execute_script("arguments[0].setAttribute(arguments[1],arguments[2])", ele, 'class',
+                                   'ant-input')
+        self.driver.execute_script("arguments[0].removeAttribute(arguments[1])",
+                                   ele, attribute)
+
+    def set_element_attribute(self, locator, attribute, value):
+        """修改元素属性"""
+        ele = self.find_element(locator)
+        self.driver.execute_script("arguments[0].setAttribute(arguments[1],arguments[2])", ele, attribute,
+                                   value)
+
     # @property
     # def get_source(self):
     #     """获取页面源代码"""
@@ -188,11 +201,6 @@ class WebPage(object):
         self.execute_js_script("var q=document.documentElement.scrollTop=100000")
         sleep()
 
-    def select_element_choose_by_value(self, locator, value):
-        """Select元素选择"""
-        self.is_click(locator)
-        ele = self.find_element(locator)
-        Select(ele).select_by_value(value)
 
     def is_exists(self, locator):
         """

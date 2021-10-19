@@ -10,12 +10,13 @@
 import pytest
 import allure
 from config.conf import cm
+from page_object.common.web.login.loginpage import LoginPage
 from utils.logger import log
 from common.readconfig import ini
 from utils.jsonutil import get_value
 from page_object.jrgj.web.main.upviewpage import MainUpViewPage
 from page_object.jrgj.web.main.leftviewpage import MainLeftViewPage
-from page_object.common.web.login import LoginPage
+
 from page_object.jrgj.web.house.tablepage import HouseTablePage
 from page_object.jrgj.web.house.detailpage import HouseDetailPage
 

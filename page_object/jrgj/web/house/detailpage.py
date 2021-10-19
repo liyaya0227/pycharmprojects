@@ -929,6 +929,26 @@ class HouseDetailPage(WebPage):
         self.is_click(house_detail['分配弹窗确定按钮'])
         return expact_maintainer_name
 
+    def hz_replace_maintainer(self, maintainer_name):
+        """hz更新房源维护人"""
+        self.move_mouse_to_element(house_detail['更多按钮'])
+        locator = 'xpath', "//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, " \
+                           "'ant-select-dropdown-hidden'))]//div[@class='rc-virtual-list']" \
+                           "//div[contains(@class,'ant-select-item ant-select-item-option') and @title='" + maintainer_name + "']"
+
+        self.is_click(house_detail['维护人管理按钮'])
+        self.is_click(house_detail['选择人员输入框'])
+        target = self.find_element(locator)
+        self.driver.execute_script("arguments[0].scrollIntoView();", target)  # 拖动到可见的元素去
+        if len(maintainer_name) > 0:
+            expact_maintainer_name = self.element_text(locator)
+            self.is_click(locator)
+        else:
+            expact_maintainer_name = self.find_elements(house_detail['下拉框'])[0].text
+            self.find_elements(house_detail['下拉框'])[0].click()
+        self.is_click(house_detail['分配弹窗确定按钮'])
+        return expact_maintainer_name
+
     def get_current_maintainer(self):
         """获取角色卡片中的最新房源维护人"""
         sleep(1)
