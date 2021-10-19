@@ -10,6 +10,7 @@
 from config.conf import cm
 from utils.logger import log
 from utils.timeutil import sleep
+from selenium.webdriver.support.select import Select
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
@@ -187,6 +188,11 @@ class WebPage(object):
         self.execute_js_script("var q=document.documentElement.scrollTop=100000")
         sleep()
 
+    def select_element_choose_by_value(self, locator, value):
+        """Select元素选择"""
+        self.is_click(locator)
+        ele = self.find_element(locator)
+        Select(ele).select_by_value(value)
 
     def is_exists(self, locator):
         """

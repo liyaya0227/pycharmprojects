@@ -1,0 +1,23 @@
+对账单据号标签: "xpath==//div[@class='ivu-layout']//div[contains(@class, 'reconciliationdetail')]//div[contains(text(), '对账单据号')]/span"
+
+对账单信息_对账单号标签: "xpath==//div[@class='ivu-layout']//div[contains(@class, 'reconciliationdetail')]//div[text()='对账单信息']/parent::div/div[@class='detail ivu-row']//span[contains(text(), '对账单号')]/parent::div/a"
+对账单信息_创建人标签: "xpath==//div[@class='ivu-layout']//div[contains(@class, 'reconciliationdetail')]//div[text()='对账单信息']/parent::div/div[@class='detail ivu-row']//span[contains(text(), '创建人')]/parent::div"
+对账单信息_单据生成日期标签: "xpath==//div[@class='ivu-layout']//div[contains(@class, 'reconciliationdetail')]//div[text()='对账单信息']/parent::div/div[@class='detail ivu-row']//span[contains(text(), '单据生成日期')]/parent::div"
+对账单信息_对账状态标签: "xpath==//div[@class='ivu-layout']//div[contains(@class, 'reconciliationdetail')]//div[text()='对账单信息']/parent::div/div[@class='detail ivu-row']//span[contains(text(), '对账状态')]/parent::div"
+对账单信息_结算模式标签: "xpath==//div[@class='ivu-layout']//div[contains(@class, 'reconciliationdetail')]//div[text()='对账单信息']/parent::div/div[@class='detail ivu-row']//span[contains(text(), '结算模式')]/parent::div/span[2]"
+对账单信息_财务审核人标签: "xpath==//div[@class='ivu-layout']//div[contains(@class, 'reconciliationdetail')]//div[text()='对账单信息']/parent::div/div[@class='detail ivu-row']//span[contains(text(), '财务审核人')]/parent::div"
+对账单信息_财务审核时间标签: "xpath==//div[@class='ivu-layout']//div[contains(@class, 'reconciliationdetail')]//div[text()='对账单信息']/parent::div/div[@class='detail ivu-row']//span[contains(text(), '财务审核时间')]/parent::div"
+对账单信息_核算模式标签: "xpath==//div[@class='ivu-layout']//div[contains(@class, 'reconciliationdetail')]//div[text()='对账单信息']/parent::div/div[@class='detail ivu-row']//span[contains(text(), '核算模式')]/parent::div"
+
+对账单金额_应收对账总金额标签: "xpath==//div[@class='ivu-layout']//div[contains(@class, 'reconciliationdetail')]//span[text()='对账单金额']/parent::div/parent::div/div[@class='detail ivu-row']//span[contains(text(), '应收对账总金额')]/parent::div/span[2]"
+对账单金额_应付对账总金额标签: "xpath==//div[@class='ivu-layout']//div[contains(@class, 'reconciliationdetail')]//span[text()='对账单金额']/parent::div/parent::div/div[@class='detail ivu-row']//span[contains(text(), '应付对账总金额')]/parent::div/span[2]"
+
+门店/商户账户信息_门店/商户标签: "xpath==//div[@class='ivu-layout']//div[contains(@class, 'reconciliationdetail')]//div[text()='门店/商户账户信息']/parent::div/div[@class='detail ivu-row']//span[contains(text(), '门店/商户')]/parent::div"
+门店/商户账户信息_账户类型标签: "xpath==//div[@class='ivu-layout']//div[contains(@class, 'reconciliationdetail')]//div[text()='门店/商户账户信息']/parent::div/div[@class='detail ivu-row']//span[contains(text(), '账户类型')]/parent::div"
+门店/商户账户信息_支付方式标签: "xpath==//div[@class='ivu-layout']//div[contains(@class, 'reconciliationdetail')]//div[text()='门店/商户账户信息']/parent::div/div[@class='detail ivu-row']//span[contains(text(), '支付方式')]/parent::div"
+门店/商户账户信息_公司标签: "xpath==//div[@class='ivu-layout']//div[contains(@class, 'reconciliationdetail')]//div[text()='门店/商户账户信息']/parent::div/div[@class='detail ivu-row']//span[contains(text(), '公司')]/parent::div"
+门店/商户账户信息_开户行银行标签: "xpath==//div[@class='ivu-layout']//div[contains(@class, 'reconciliationdetail')]//div[text()='门店/商户账户信息']/parent::div/div[@class='detail ivu-row']//span[contains(text(), '开户行银行')]/parent::div"
+门店/商户账户信息_开户行所在地标签: "xpath==//div[@class='ivu-layout']//div[contains(@class, 'reconciliationdetail')]//div[text()='门店/商户账户信息']/parent::div/div[@class='detail ivu-row']//span[contains(text(), '开户行所在地')]/parent::div"
+门店/商户账户信息_开户行账户名称标签: "xpath==//div[@class='ivu-layout']//div[contains(@class, 'reconciliationdetail')]//div[text()='门店/商户账户信息']/parent::div/div[@class='detail ivu-row']//span[contains(text(), '开户行账户名称')]/parent::div"
+门店/商户账户信息_城市标签: "xpath==//div[@class='ivu-layout']//div[contains(@class, 'reconciliationdetail')]//div[text()='门店/商户账户信息']/parent::div/div[@class='detail ivu-row']//span[contains(text(), '城市')]/parent::div"
+门店/商户账户信息_开户行账号标签: "xpath==//div[@class='ivu-layout']//div[contains(@class, 'reconciliationdetail')]//div[text()='门店/商户账户信息']/parent::div/div[@class='detail ivu-row']//span[contains(text(), '开户行账号')]/parent::div"

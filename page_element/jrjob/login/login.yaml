@@ -1,0 +1,3 @@
+账号输入框: "xpath==//p[text()='任务调度中心']/parent::div//input[@name='userName']"
+密码输入框: "xpath==//p[text()='任务调度中心']/parent::div//input[@name='password']"
+登录按钮: "xpath==//p[text()='任务调度中心']/parent::div//button[text()='登录']"

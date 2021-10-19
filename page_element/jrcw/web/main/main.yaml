@@ -18,3 +18,6 @@
 资金管理标签: "xpath==//span[text()='资金管理']/ancestor::li"
 收款单标签: "xpath==//span[text()='收款单']/ancestor::li[not(contains(@class, 'ivu-menu-submenu'))]"
 付款单标签: "xpath==//span[text()='付款单']/ancestor::li[not(contains(@class, 'ivu-menu-submenu'))]"
+
+登录用户名标签: "xpath==//div[@class='ivu-layout']//div[@class='user-info']/div[@class='ivu-dropdown']//span"
+退出登录按钮: "xpath==//div[@class='ivu-layout']//div[@class='user-info']/div[@class='ivu-dropdown']//a[contains(text(),'退出登录')]"

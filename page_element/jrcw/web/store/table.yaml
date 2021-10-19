@@ -1,0 +1,9 @@
+门店/商户名称搜索输入框: "xpath==//div[@class='ivu-layout']//div[contains(@class, 'storelist')]//label[contains(text(), '门店/商户名称')]/parent::div//input"
+类型下拉框: "xpath==//div[@class='ivu-layout']//div[contains(@class, 'storelist')]//label[contains(text(), '类型')]/parent::div//span"
+公司搜索输入框: "xpath==//div[@class='ivu-layout']//div[contains(@class, 'storelist')]//label[contains(text(), '公司')]/parent::div//input"
+商圈搜索输入框: "xpath==//div[@class='ivu-layout']//div[contains(@class, 'storelist')]//label[contains(text(), '商圈')]/parent::div//input"
+大区搜索输入框: "xpath==//div[@class='ivu-layout']//div[contains(@class, 'storelist')]//label[contains(text(), '大区')]/parent::div//input"
+查询按钮: "xpath==//div[@class='ivu-layout']//div[contains(@class, 'storelist')]//span[text()='查询']/ancestor::button"
+重置按钮: "xpath==//div[@class='ivu-layout']//div[contains(@class, 'storelist')]//span[text()='重置']/ancestor::button"
+
+列表头: "xpath==//div[@class='ivu-layout']//div[contains(@class, 'storelist')]//div//div[@class='ivu-table-header']//table/thead/tr/th//span"

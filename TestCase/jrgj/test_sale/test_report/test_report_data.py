@@ -50,8 +50,8 @@
 # from page_object.web.survey.tablepage import SurveyTablePage
 # from page_object.web.survey.detailpage import SurveyDetailPage
 # from page_object.web.user.tablepage import UserTablePage
-# from page_object.web.shop.tablepage import ShopTablePage
-# from page_object.web.shop.detailpage import ShopDetailPage
+# from page_object.web.store.tablepage import ShopTablePage
+# from page_object.web.store.detailpage import ShopDetailPage
 # from page_object.app.login.loginpage import AppLoginPage
 # from page_object.app.main.mainpage import AppMainPage
 # from page_object.app.mine.minepage import AppMinePage

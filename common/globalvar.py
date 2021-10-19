@@ -12,6 +12,8 @@ class GlobalVar(object):
 
     city_env = {  # 城市包含的地区
         'sz': ['sz', 'ks', 'zjg'],
+        'ks': ['ks'],
+        'zjg': ['zjg'],
         'wx': ['wx'],
         'hz': ['hz']
     }

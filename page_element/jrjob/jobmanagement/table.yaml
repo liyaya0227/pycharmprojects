@@ -1,0 +1,10 @@
+执行器选择框: "id==jobGroup"
+
+任务描述搜索输入框: "id==jobDesc"
+JobHandler搜索输入框: "id==executorHandler"
+
+搜索按钮: "id==searchBtn"
+
+弹窗_任务参数输入框: "xpath==//div[@id='jobTriggerModal']//textarea[@name='executorParam']"
+弹窗_保存按钮: "xpath==//div[@id='jobTriggerModal']//button[text()='保存']"
+弹窗_取消按钮: "xpath==//div[@id='jobTriggerModal']//button[text()='取消']"

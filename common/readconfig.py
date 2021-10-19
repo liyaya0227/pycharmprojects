@@ -111,6 +111,22 @@ class ReadConfig(object):
         return database_name
 
     @property
+    def mysql_database_host(self):
+        return self._get('MYSQL_DATABASE', 'DATABASE_HOST')
+
+    @property
+    def mysql_database_port(self):
+        return self._get('MYSQL_DATABASE', 'DATABASE_PORT')
+
+    @property
+    def mysql_database_account(self):
+        return self._get('MYSQL_DATABASE', 'DATABASE_ACCOUNT')
+
+    @property
+    def mysql_database_password(self):
+        return self._get('MYSQL_DATABASE', 'DATABASE_PASSWORD')
+
+    @property
     def environment(self):
         return self._get('ENVIRONMENT', 'ENVIRONMENT')
 

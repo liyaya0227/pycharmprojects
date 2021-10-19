@@ -10,7 +10,7 @@
 from page.webpage import WebPage
 from common.readelement import Element
 
-table = Element('jrgj/web/shop/table')
+table = Element('jrgj/web/store/table')
 
 
 class ShopTablePage(WebPage):

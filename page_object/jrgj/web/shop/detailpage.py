@@ -10,7 +10,7 @@
 from page.webpage import WebPage
 from common.readelement import Element
 
-detail = Element('jrgj/web/shop/detail')
+detail = Element('jrgj/web/store/detail')
 
 
 class ShopDetailPage(WebPage):

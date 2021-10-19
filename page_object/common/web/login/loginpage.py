@@ -106,7 +106,7 @@ class LoginPage(WebPage):
             self.slide_verification(count)
 
     def click_login_button(self):
-        self.is_click(login['立即登录按钮'], sleep_time=2)
+        self.is_click(login['立即登录按钮'], sleep_time=6)
 
     def check_choose_app_dialog_exist(self):
         return self.element_is_exist(login['立即登录按钮'], wait_time=4)
@@ -117,7 +117,7 @@ class LoginPage(WebPage):
             app_locator = 'xpath', "//div[contains(@class, 'ant-select-dropdown') " \
                                    "and not(contains(@class, 'ant-select-dropdown-hidden'))]" \
                                    "//div[@class='rc-virtual-list']" \
-                                   "//div[@class='ant-select-item-option-content' and text()=" + app + "]"
+                                   "//div[@class='ant-select-item-option-content' and text()='" + app + "']"
             self.is_click(app_locator, sleep_time=0.5)
         if city is not None:
             self.is_click(login['城市选择框'])
