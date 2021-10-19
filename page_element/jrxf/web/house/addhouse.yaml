@@ -1,0 +1,78 @@
+#楼盘基本信息
+楼盘名称输入框: "xpath==//div[@style='' or not(@style)]//div[@role='document']//textarea[@id='newHouseName']"
+开发商输入框: "xpath==//div[@style='' or not(@style)]//div[@role='document']//textarea[@id='developers']"
+楼盘状态输入框: "xpath==//div[@style='' or not(@style)]//div[@role='document']//input[@id='status']"
+楼盘价格输入框: "xpath==//div[@style='' or not(@style)]//div[@role='document']//input[@id='salePrice']"
+开盘时间输入框: "xpath==//div[@style='' or not(@style)]//div[@role='document']//input[@id='startSaleTime']"
+开盘时间_暂无勾选框: "xpath==//div[@style='' or not(@style)]//input[@id='startSaleTime']/ancestor::div[@class='ant-form-item-control-input-content']/parent::div//input[@type='checkbox']"
+开盘时间_今天选项: "xpath==//div[@style='' or not(@style)]//input[@id='startSaleTime']/ancestor::div[@class='ant-form-item-control-input-content']//a[@class='ant-picker-today-btn' and text()='今天']"
+交房时间输入框: "xpath==//div[@style='' or not(@style)]//div[@role='document']//input[@id='makingRoomTime']"
+交房时间_暂无勾选框: "xpath==//div[@style='' or not(@style)]//input[@id='makingRoomTime']/ancestor::div[@class='ant-form-item-control-input-content']/parent::div//input[@type='checkbox']"
+交房时间_今天选项: "xpath==//div[@style='' or not(@style)]//input[@id='makingRoomTime']/ancestor::div[@class='ant-form-item-control-input-content']//a[@class='ant-picker-today-btn' and text()='今天']"
+物业类型输入框: "xpath==//div[@style='' or not(@style)]//div[@role='document']//input[@id='houseKeeperType']"
+行政区域_市输入框: "xpath==//div[@style='' or not(@style)]//div[@role='document']//input[@id='cityAreaId']"
+行政区域_区输入框: "xpath==//div[@style='' or not(@style)]//div[@role='document']//input[@id='countryAreaId']"
+行政区域_商圈输入框: "xpath==//div[@style='' or not(@style)]//div[@role='document']//input[@id='tradeAreaId']"
+楼盘地址输入框: "xpath==//div[@style='' or not(@style)]//div[@role='document']//textarea[@id='newHouseAddress']"
+售楼处地址输入框: "xpath==//div[@style='' or not(@style)]//div[@role='document']//textarea[@id='saleAddress']"
+地图选点按钮: "xpath==//div[@style='' or not(@style)]//div[@role='document']//span[text()='地图选点']/parent::button"
+地图选点弹窗_确定按钮: "xpath==//div[@class='ant-modal-wrap mapModal ant-modal-centered']/div[not(contains(@style,'display'))]//span[text()='确 定']/parent::button"
+弹窗_确定按钮: "xpath==//div[@class='ant-modal-content']/div[not(contains(@style,'display'))]//span[text()='确 定']/parent::button"
+经度输入框: "xpath==//div[@style='' or not(@style)]//div[@role='document']//input[@id='longitude']"
+纬度输入框: "xpath==//div[@style='' or not(@style)]//div[@role='document']//input[@id='latitude']"
+
+#跟进信息
+跟进信息tab: "xpath==//div[@style='' or not(@style)]//div[@class='ant-modal-body']//div[text()='跟进信息']"
+写跟进按钮: "xpath==//div[@style='' or not(@style)]//div[@class='ant-modal-content']//div[not(contains(@style,'display'))]//span[text()='写跟进']/parent::button"
+跟进信息输入框: "xpath==//div[@style='' or not(@style)]//div[@role='dialog']//textarea[@id='followUp']"
+跟进弹窗_确定按钮: "xpath==//div[@style='' or not(@style)]//div[@class='ant-modal-footer']//span[text()='确 定']/parent::button"
+
+#上传合同
+上传合同tab: "xpath==//div[@style='' or not(@style)]//div[@class='ant-modal-body']//div[@role='tablist']//div[text()='上传合同']"
+合同图片input: "xpath==//div[@style='' or not(@style)]//input[@id='contractImgList']"
+预售许可证图片input: "xpath==//div[@style='' or not(@style)]//input[@id='salesLicense']"
+提交审核按钮: "xpath==//div[@style='' or not(@style)]//div[@role='dialog']//span[text()='提交审核']/parent::button"
+
+#审核合同
+审核通过按钮: "xpath==//div[@style='' or not(@style)]//div[@class='ant-modal-footer']//span[text()='审核通过']/parent::button"
+审核驳回按钮: "xpath==//div[@style='' or not(@style)]//div[@class='ant-modal-footer']//span[text()='审核驳回']/parent::button"
+驳回理由输入框输入框: "xpath==//div[@style='' or not(@style)]//form[@class='ant-form ant-form-horizontal']//textarea[@id='remark']"
+
+#楼盘详细信息
+楼盘优惠输入框: "xpath==//div[@class='editHouseInfo']//input[@id='newHousePreferential']"
+提前报备时间输入框: "xpath==//div[@class='editHouseInfo']//input[@id='advanceReportedTime']"
+报备保护时间输入框: "xpath==//div[@class='editHouseInfo']//input[@id='reportedProtectTime']"
+带看保护时间输入框: "xpath==//div[@class='editHouseInfo']//input[@id='takeLookTime']"
+规划信息card_title: "xpath==//div[@class='editHouseInfo']//div[@class='ant-card-body']/h1[text()='规划信息']"
+建筑类型输入框: "xpath==//div[@class='editHouseInfo']//input[@id='newHouseType']"
+产权年限输入框: "xpath==//div[@class='editHouseInfo']//input[@id='propertyFixedYear']"
+容积率输入框: "xpath==//div[@class='editHouseInfo']//input[@id='plotRatio']"
+绿化率输入框: "xpath==//div[@class='editHouseInfo']//input[@id='afforestationRate']"
+规划户数输入框: "xpath==//div[@class='editHouseInfo']//input[@id='planningNumber']"
+规划车位输入框: "xpath==//div[@class='editHouseInfo']//input[@id='planningParkingSpace']"
+水电燃气输入框: "xpath==//div[@class='editHouseInfo']//input[@id='waterElectricity']"
+物业公司输入框: "xpath==//div[@class='editHouseInfo']//input[@id='houseKeeperCompany']"
+物业费上线输入框: "xpath==//div[@class='editHouseInfo']//input[@id='houseKeeperPriceStart']"
+物业费下线输入框: "xpath==//div[@class='editHouseInfo']//input[@id='houseKeeperPriceEnd']"
+供暖方式输入框: "xpath==//div[@class='editHouseInfo']//input[@id='heatingType']"
+新增联系人card_title: "xpath==//div[@class='editHouseInfo']//div[@class='ant-card-body']/h1[text()='R新房案场端']"
+新房案场_新增联系人: "xpath==//h1[text()='R新房案场端']/following-sibling::div/child::ul/li[@class='addNewPerson']"
+新房经理_新增联系人: "xpath==//h1[text()='S新房经理']/following-sibling::div/child::ul/li[@class='addNewPerson']"
+新房总监_新增联系人: "xpath==//h1[text()='D新房总监']/following-sibling::div/child::ul/li[@class='addNewPerson']"
+联系人姓名输入框: "xpath==//div[@style='' or not(@style)]//div[@class='ant-modal-content']//input[@id='user']"
+保存按钮: "xpath==//div[@class='editHouseInfo']//div[@class='ant-card ant-card-bordered _content']//span[text()='保 存']/parent::button"
+
+#审核上架
+上架_审核通过按钮: "xpath==//div[@class='editHouseInfo']//div[@class='ant-card-body']//span[text()='审核通过']/parent::button"
+审核确定按钮: "xpath==//div[@style='' or not(@style)]//div[@role='dialog']//span[text()='知道了']/parent::button"
+
+
+
+
+
+
+
+
+
+
+

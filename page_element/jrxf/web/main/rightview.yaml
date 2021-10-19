@@ -1,0 +1,4 @@
+#登录人品牌标签: "xpath==//div[@class='home']/div[@class='homeRight']//div[@class='avatar']/i"
+#登录人姓名标签: "xpath==//div[@class='home']/div[@class='homeRight']//div[@class='card-name']"
+#登录人店组标签: "xpath==//div[@class='home']/div[@class='homeRight']//div[@class='card-groupName']"
+#登录人电话标签: "xpath==//div[@class='home']/div[@class='homeRight']//div[@class='card-phone']/span"

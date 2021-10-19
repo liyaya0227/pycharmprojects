@@ -11,8 +11,8 @@ import pytest
 from config.conf import cm
 from selenium import webdriver
 from common.readconfig import ini
+from page_object.common.web.login.loginpage import LoginPage
 from page_object.jrgj.web.main.leftviewpage import MainLeftViewPage
-from page_object.common.web.login import LoginPage
 from page_object.jrgj.web.main.topviewpage import MainTopViewPage
 
 

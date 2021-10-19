@@ -65,4 +65,4 @@ D新房总监_新增联系人按钮: "xpath==//div[contains(@class,'addNewHouse'
 
 弹窗_姓名输入框: "xpath==//div[@class='ant-modal-root']/div[not(contains(@style,'display'))]//input[@id='basic_userName']"
 弹窗_取消按钮: "xpath==//div[@class='ant-modal-root']/div[not(contains(@style,'display'))]//span[text()='取 消']/parent::button"
-弹窗_确定按钮: "xpath==//div[@class='ant-modal-root']/div[not(contains(@style,'display'))]//span[text()='确 定']/parent::button"
+弹窗_确定按钮: "xpath==//div[@class='ant-modal-wrap']/div[not(contains(@style,'display'))]//span[text()='确 定']/parent::button"

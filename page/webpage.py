@@ -51,11 +51,11 @@ class WebPage(object):
                                     .until(EC.presence_of_element_located(args)), locator)
             sleep(0.5)
             element = self.driver.find_element(name, value)
-        # size = self.driver.get_window_size()
-        # if element.location['y'] < size['height'] / 4:
-        #     self.driver.execute_script("arguments[0].scrollIntoView(false);", element)
-        # if element.location['y'] > size['height'] - size['height'] / 10:
-        #     self.driver.execute_script("arguments[0].scrollIntoView();", element)
+            # size = self.driver.get_window_size()
+            # if element.location['y'] < size['height'] / 4:
+            #     self.driver.execute_script("arguments[0].scrollIntoView(false);", element)
+            # if element.location['y'] > size['height'] - size['height'] / 10:
+            #     self.driver.execute_script("arguments[0].scrollIntoView();", element)
             return element
         except TimeoutException:
             raise TimeoutException("未找到元素")
@@ -138,12 +138,26 @@ class WebPage(object):
         return _text
 
     def get_element_attribute(self, locator, attribute):
-        """获取当前的text"""
+        """获取元素属性"""
         ele = self.find_element(locator)
         _text = ele.get_attribute(attribute)
         log.info("获取元素{}属性的{}：{}".format(locator, attribute, _text))
         return _text
-    #
+
+    def remove_element_attribute(self, locator, attribute):
+        """获取元素属性"""
+        ele = self.find_element(locator)
+        self.driver.execute_script("arguments[0].setAttribute(arguments[1],arguments[2])", ele, 'class',
+                                   'ant-input')
+        self.driver.execute_script("arguments[0].removeAttribute(arguments[1])",
+                                   ele, attribute)
+
+    def set_element_attribute(self, locator, attribute, value):
+        """修改元素属性"""
+        ele = self.find_element(locator)
+        self.driver.execute_script("arguments[0].setAttribute(arguments[1],arguments[2])", ele, attribute,
+                                   value)
+
     # @property
     # def get_source(self):
     #     """获取页面源代码"""
@@ -186,7 +200,6 @@ class WebPage(object):
     def scroll_to_bottom(self):
         self.execute_js_script("var q=document.documentElement.scrollTop=100000")
         sleep()
-
 
     def is_exists(self, locator):
         """

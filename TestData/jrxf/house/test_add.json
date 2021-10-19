@@ -1,0 +1,29 @@
+{"tc01_add_house_base_info": [
+    {
+      "house_name": "自动化楼盘",
+      "developers": "恒大",
+      "house_status": "即将开盘",
+      "sale_price": 2000,
+      "start_sale_time": "今天",
+      "making_room_time": "今天",
+      "house_keeper_type": "住宅",
+      "city": "苏州市",
+      "country": "工业园区",
+      "trade": "湖东",
+      "house_address": "工业园区湖东",
+      "sale_address": "恒大售楼处"
+    }
+  ],
+  "tc01_add_house_followup": [
+    {
+      "hid": "4f725c48-6043-4e9e-b35d-7e725abdf777",
+      "memo": "跟进"
+    }
+  ],
+  "tc01_edit_house_base_info": [
+    {
+      "contract_name": "自动化测试AAAASK",
+      "contract_phone": "15800000009"
+    }
+  ]
+}

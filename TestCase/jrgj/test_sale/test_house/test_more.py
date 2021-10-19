@@ -8,8 +8,10 @@
 """
 import allure
 import pytest
+
+from common.readconfig import ini
+from page_object.common.web.login.loginpage import LoginPage
 from page_object.jrgj.web.house.detailpage import HouseDetailPage
-from page_object.common.web.login import LoginPage
 from page_object.jrgj.web.main.leftviewpage import MainLeftViewPage
 from page_object.jrgj.web.main.topviewpage import MainTopViewPage
 from page_object.jrgj.web.main.upviewpage import MainUpViewPage
@@ -43,7 +45,10 @@ class TestHouseDetail(object):
         num = house_detail.get_house_num(rent_house_code, '买卖')
         if int(num) > 0:
             house_detail.enter_house_detail()
-            house_detail.replace_maintainer(account_name)
+            if ini.environment == 'hz':
+                house_detail.hz_replace_maintainer(account_name)
+            else:
+                house_detail.replace_maintainer(account_name)
 
     @pytest.fixture(scope="function", autouse=True)
     def teardown(self, web_driver):
