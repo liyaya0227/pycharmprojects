@@ -6,12 +6,16 @@
 @file: tablepage.py
 @time: 2021/10/14
 """
+from common.readconfig import ini
+from common.readxml import ReadXml
 from page_object.jrxf.web.main.leftviewpage import MainLeftViewPage
+from utils.databaseutil import DataBaseUtil
 from utils.timeutil import sleep
 from page.webpage import WebPage
 from common.readelement import Element
 
 house_table = Element('jrxf/web/house/table')
+house_sql = ReadXml("jrxf/house/house_sql")
 
 
 class HouseTablePage(WebPage):
@@ -103,11 +107,13 @@ class HouseTablePage(WebPage):
     def check_contract_approved_status(self):
         return self.is_exists(house_table['合同_审核状态_审核通过'])
 
-    def check_release_audit_status(self):
-        return self.is_exists(house_table['上架_审核状态_待维护基础信息'])
+    def check_release_audit_status(self, house_name):
+        locator = "xpath", "//span[text()='" + house_name + "']/parent::td/following-sibling::td/child::span[contains(text(),'待维护基础信息')]"
+        return self.is_exists(locator)
 
-    def check_release_to_audit_status(self):
-        return self.is_exists(house_table['上架_审核状态_待审核'])
+    def check_release_to_audit_status(self, house_name):
+        locator = "xpath", "//span[text()='" + house_name + "']/parent::td/following-sibling::td/child::span[contains(text(),'待审核')]"
+        return self.is_exists(locator)
 
     def check_release_approved_status(self):
         return self.is_exists(house_table['上架_审核状态_审核通过'])
@@ -118,30 +124,17 @@ class HouseTablePage(WebPage):
         house_number = self.element_text(house_table['搜索结果'])
         return house_number
 
+    @staticmethod
+    def get_house_status_by_db(house_name):
+        database_util = DataBaseUtil('Xf My SQL', ini.xf_database_name)
+        get_house_info = house_sql.get_sql('new_house', 'get_house_info').format(new_house_name=house_name)
+        house_info = database_util.select_sql(get_house_info)
+        if len(house_info) > 0:
+            house_status = house_info[0][1]
+            return house_status
 
 
-    # def check_house_status(self, house_name):  # 验证房源是否存在,如存在删除
-    #     main_left_view = MainLeftViewPage(self.driver)
-    #     tab_list = [house_table['待办楼盘菜单'], house_table['合同审核菜单'], house_table['待上架楼盘菜单'], house_table['合作楼盘菜单'],
-    #                 house_table['非合作楼盘菜单']]
-    #     for tab in tab_list:
-    #         self.is_click(tab)
-    #         self.serch_unhandle_house(house_name)
-    #         house_number = int(self.get_serch_result())
-    #         if house_number >= 1:
-    #             if tab == house_table['待办楼盘菜单']:
-    #                 self.del_unhandle_house(house_name)
-    #             elif tab == house_table['合作楼盘菜单']:
-    #                 self.del_released_house(house_name)
-    #             elif tab == house_table['合同审核菜单']:
-    #                 if self.is_exists(house_table['合同_审核状态_待审核']):
-    #                     main_left_view.click_house_contract_audit_label()
-    #                     self.serch_contract_audit_records(house_name)
-    #                     self.click_audit_contract_btn(house_name)
-    #                     self.audit_contract()
-    #             else:
-    #                 # 上架审核
-    #                 pass
-    #             break
+
+
 
 

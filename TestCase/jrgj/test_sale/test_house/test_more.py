@@ -45,10 +45,11 @@ class TestHouseDetail(object):
         num = house_detail.get_house_num(rent_house_code, '买卖')
         if int(num) > 0:
             house_detail.enter_house_detail()
-            if ini.environment == 'hz':
-                house_detail.hz_replace_maintainer(account_name)
-            else:
-                house_detail.replace_maintainer(account_name)
+            house_detail.hz_replace_maintainer(account_name)
+            # if ini.environment == 'hz':
+            #     house_detail.hz_replace_maintainer(account_name)
+            # else:
+            #     house_detail.replace_maintainer(account_name)
 
     @pytest.fixture(scope="function", autouse=True)
     def teardown(self, web_driver):

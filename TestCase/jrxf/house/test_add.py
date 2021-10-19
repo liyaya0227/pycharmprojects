@@ -14,6 +14,7 @@ from page_object.jrxf.web.house.audithousepage import AuditHousePage
 from page_object.jrxf.web.house.tablepage import HouseTablePage
 from page_object.jrxf.web.main.leftviewpage import MainLeftViewPage
 from utils.jsonutil import get_data
+from utils.logger import log
 
 web_driver = None
 
@@ -36,55 +37,94 @@ class TestAdd(object):
         self.house_table_page = HouseTablePage(web_driver)
         self.audit_house_page = AuditHousePage(web_driver)
 
+    # @allure.step("验证房源状态")
+    # def check_house_state(self, house_name):
+    #     self.main_left_view.change_role('平台管理员')
+    #     self.main_left_view.click_house_management_label()
+    #     tab_list = ['待办楼盘菜单', '合作楼盘菜单', '合同审核菜单', '待上架楼盘菜单', '非合作楼盘菜单']
+    #     for tab in tab_list:
+    #         if tab == '待办楼盘菜单':
+    #             self.house_table_page.click_unhandle_house_tab()
+    #             house_number = int(self.house_table_page.get_house_number_by_name(house_name))
+    #             if house_number >= 1:
+    #                 self.self.house_table_page.del_unhandle_house(house_name)
+    #                 break
+    #         elif tab == '合作楼盘菜单':
+    #             self.house_table_page.click_coop_house_tab()
+    #             house_number = int(self.house_table_page.get_house_number_by_name(house_name))
+    #             if house_number >= 1:
+    #                 self.house_table_page.del_released_house(house_name)
+    #                 break
+    #         elif tab == '合同审核菜单':
+    #             self.house_table_page.click_audit_house_contract_tab()
+    #             house_number = int(self.house_table_page.get_house_number_by_name(house_name))
+    #             if house_number >= 1:
+    #                 if self.house_table_page.check_contract_approved_status():
+    #                     pass
+    #                 else:
+    #                     if self.house_table_page.check_contract_audit_status():
+    #                         self.audit_house_contract(house_name)
+    #                         self.release_house(house_name)
+    #                         self.audit_release_house(house_name)
+    #                         self.main_left_view.click_house_management_label()  # 删除
+    #                         self.house_table_page.click_coop_house_tab()
+    #                         self.house_table_page.serch_released_audit_records(house_name)
+    #                         self.house_table_page.del_released_house(house_name)
+    #                         break
+    #         elif tab == '待上架楼盘菜单':
+    #             self.house_table_page.click_unreleased_house_tab()
+    #             house_number = int(self.house_table_page.get_house_number_by_name(house_name))
+    #             if house_number >= 1:
+    #                 if self.house_table_page.check_release_approved_status():
+    #                     pass
+    #                 else:
+    #                     if self.house_table_page.check_release_audit_status():
+    #                         self.release_house(house_name)
+    #                     self.audit_release_house(house_name)
+    #                     self.main_left_view.click_house_management_label()  # 删除
+    #                     self.house_table_page.click_coop_house_tab()
+    #                     self.house_table_page.serch_unhandle_house(house_name)
+    #                     self.house_table_page.del_released_house(house_name)
+    #                     break
+
     @allure.step("验证房源状态")
     def check_house_state(self, house_name):
         self.main_left_view.change_role('平台管理员')
         self.main_left_view.click_house_management_label()
-        tab_list = ['待办楼盘菜单', '合作楼盘菜单', '合同审核菜单', '待上架楼盘菜单', '非合作楼盘菜单']
-        for tab in tab_list:
-            if tab == '待办楼盘菜单':
-                self.house_table_page.click_unhandle_house_tab()
-                house_number = int(self.house_table_page.get_house_number_by_name(house_name))
-                if house_number >= 1:
-                    self.self.house_table_page.del_unhandle_house(house_name)
-                    break
-            elif tab == '合作楼盘菜单':
-                self.house_table_page.click_coop_house_tab()
-                house_number = int(self.house_table_page.get_house_number_by_name(house_name))
-                if house_number >= 1:
-                    self.house_table_page.del_released_house(house_name)
-                    break
-            elif tab == '合同审核菜单':
+        house_status = self.house_table_page.get_house_status_by_db(house_name)
+        if house_status:
+            if house_status == 1:  # 待办
+                self.house_table_page.serch_unhandle_house(house_name)
+                self.self.house_table_page.del_unhandle_house(house_name)
+            elif house_status == 2:  # 合同审核
                 self.house_table_page.click_audit_house_contract_tab()
-                house_number = int(self.house_table_page.get_house_number_by_name(house_name))
-                if house_number >= 1:
-                    if self.house_table_page.check_contract_approved_status():
-                        pass
-                    else:
-                        if self.house_table_page.check_contract_audit_status():
-                            self.audit_house_contract(house_name)
-                            self.release_house(house_name)
-                            self.audit_release_house(house_name)
-                            self.main_left_view.click_house_management_label()  # 删除
-                            self.house_table_page.click_coop_house_tab()
-                            self.house_table_page.serch_released_audit_records(house_name)
-                            self.house_table_page.del_released_house(house_name)
-                            break
-            elif tab == '待上架楼盘菜单':
+                self.house_table_page.serch_unhandle_house(house_name)
+                if self.house_table_page.check_contract_audit_status():
+                    self.audit_house_contract(house_name)
+                    self.release_house(house_name)
+                    self.audit_release_house(house_name)
+                    self.main_left_view.click_house_management_label()  # 删除
+                    self.house_table_page.click_coop_house_tab()
+                    self.house_table_page.serch_released_audit_records(house_name)
+                    self.house_table_page.del_released_house(house_name)
+            elif house_status == 3:  # 待上架楼盘
                 self.house_table_page.click_unreleased_house_tab()
-                house_number = int(self.house_table_page.get_house_number_by_name(house_name))
-                if house_number >= 1:
-                    if self.house_table_page.check_release_approved_status():
-                        pass
-                    else:
-                        if self.house_table_page.check_release_audit_status():
-                            self.release_house(house_name)
-                        self.audit_release_house(house_name)
-                        self.main_left_view.click_house_management_label()  # 删除
-                        self.house_table_page.click_coop_house_tab()
-                        self.house_table_page.serch_unhandle_house(house_name)
-                        self.house_table_page.del_released_house(house_name)
-                        break
+                self.house_table_page.serch_unhandle_house(house_name)
+                if self.house_table_page.check_release_audit_status(house_name):
+                    self.release_house(house_name)
+                self.audit_release_house(house_name)
+                self.main_left_view.click_house_management_label()  # 删除
+                self.house_table_page.click_coop_house_tab()
+                self.house_table_page.serch_unhandle_house(house_name)
+                self.house_table_page.del_released_house(house_name)
+            elif house_status == 4:  # 合作楼盘
+                self.house_table_page.click_coop_house_tab()
+                self.house_table_page.serch_unhandle_house(house_name)
+                self.house_table_page.del_released_house(house_name)
+            elif house_status == 5:  # 非合作楼盘
+                pass
+            else:
+                log.info('不需要处理')
 
     @allure.step("增加房源基础信息")
     def add_house_base_info(self):

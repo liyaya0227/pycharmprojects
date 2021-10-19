@@ -33,6 +33,17 @@ class DataBaseUtil(object):
                 'charset': 'utf8'
             }
             self.conn = pymysql.connect(**db_info)
+
+        elif db_type == 'Xf My SQL':
+            db_info = {
+                'host': ini.xf_database_host,
+                'port': int(ini.mysql_database_port),
+                'user': ini.xf_database_account,
+                'password': ini.xf_database_password,
+                'database': database_name,
+                'charset': 'utf8'
+            }
+            self.conn = pymysql.connect(**db_info)
         else:
             raise ValueError('传值错误')
 
