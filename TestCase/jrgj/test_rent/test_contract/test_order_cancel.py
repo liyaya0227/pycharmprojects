@@ -13,7 +13,7 @@ from config.conf import cm
 from utils.jsonutil import get_data
 from utils.logger import log
 from common.readconfig import ini
-from page_object.common.web.login import LoginPage
+from page_object.common.web.login.loginpage import LoginPage
 from page_object.jrgj.web.main.topviewpage import MainTopViewPage
 from page_object.jrgj.web.main.leftviewpage import MainLeftViewPage
 from page_object.jrgj.web.main.upviewpage import MainUpViewPage
