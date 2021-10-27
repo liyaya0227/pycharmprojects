@@ -3,14 +3,14 @@
 """
 @author: caijj
 @version: V1.0
-@file: addhousepage.py
+@file: add_page.py
 @time: 2021/10/14
 """
 from page.webpage import WebPage
 from common.readelement import Element
 
 
-add_house = Element('jrxf/web/house/addhouse')
+add_house = Element('jrxf/web/house/add')
 
 
 class AddHousePage(WebPage):

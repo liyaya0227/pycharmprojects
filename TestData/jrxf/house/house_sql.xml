@@ -7,5 +7,12 @@
             </caption>
         </sql>
     </table>
+     <table name="sys_framework_users">
+        <sql id="get_user_info">
+            <caption>
+                select name,cell_phone from sys_framework_users where it_code = '{it_code}'
+            </caption>
+        </sql>
+    </table>
 
 </house_sql>

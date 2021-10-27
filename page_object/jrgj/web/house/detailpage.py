@@ -755,7 +755,7 @@ class HouseDetailPage(WebPage):
             #             "' and location_floor='" + str('1') + \
             #             "' and location_doorplate='" + str(
             #     '1043') + "' and is_valid='1' and [status]='0' order by create_time desc"
-            house_sql = "select house_code from trade_house where coreinfo_maintainer_name='" + str(name) + \
+            get_house_info_sql = "select house_code from trade_house where coreinfo_maintainer_name='" + str(name) + \
                         "' and location_estate_id='" + str(estate_id) + \
                         "' and location_building_number='" + ini.house_building_id + \
                         "' and location_building_cell='" + ini.house_building_cell + \
@@ -763,14 +763,14 @@ class HouseDetailPage(WebPage):
                         "' and location_doorplate='" + ini.house_doorplate + "' and is_valid='1' and [status]='0' " \
                                                                              "order by create_time desc "
         elif flag == '租赁':
-            house_sql = "select house_code from rent_house where coreinfo_maintainer_name='" + str(name) + \
+            get_house_info_sql = "select house_code from rent_house where coreinfo_maintainer_name='" + str(name) + \
                         "' and location_estate_id='" + str(estate_id) + \
                         "' and location_building_number='" + ini.house_building_id + \
                         "' and location_building_cell='" + ini.house_building_cell + \
                         "' and location_floor='" + ini.house_floor + \
                         "' and location_doorplate='" + ini.house_doorplate + "' and is_valid='1' and [status]='0' order by create_time desc"
         try:
-            house_code = select_sql(house_sql)[0][0]
+            house_code = select_sql(get_house_info_sql)[0][0]
             return house_code
         except IndexError:
             return ''
@@ -806,8 +806,12 @@ class HouseDetailPage(WebPage):
     def verify_view_success(self):
         """验证查看房源基础信息是否成功"""
         res = self.is_exists(house_detail['房源基础信息弹窗title'])
-        self.is_click(house_detail['基础信息弹窗_取消按钮'])
+        # self.is_click(house_detail['基础信息弹窗_取消按钮'])
         return res
+
+    def close_dialog(self):
+        """关闭弹窗"""
+        self.is_click(house_detail['基础信息弹窗_关闭按钮'])
 
     def submit_modify_state_application(self):
         """提交修改房源状态申请"""
@@ -913,24 +917,24 @@ class HouseDetailPage(WebPage):
         sleep(1)
         self.is_click(house_detail['弹窗_关闭按钮'])
 
+    # def replace_maintainer(self, maintainer_name):
+    #     """更新房源维护人"""
+    #     self.move_mouse_to_element(house_detail['更多按钮'])
+    #     locator = 'xpath', "//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'ant-select-dropdown-hidden'))]//div[@class='rc-virtual-list']" \
+    #                        "//div[contains(@class,'ant-select-item ant-select-item-option') and @title='" + maintainer_name + "']"
+    #     self.is_click(house_detail['维护人管理按钮'])
+    #     self.is_click(house_detail['选择人员输入框'])
+    #     if len(maintainer_name) > 0:
+    #         expact_maintainer_name = self.element_text(locator)
+    #         self.is_click(locator)
+    #     else:
+    #         expact_maintainer_name = self.find_elements(house_detail['下拉框'])[0].text
+    #         self.find_elements(house_detail['下拉框'])[0].click()
+    #     self.is_click(house_detail['分配弹窗确定按钮'])
+    #     return expact_maintainer_name
+
     def replace_maintainer(self, maintainer_name):
         """更新房源维护人"""
-        self.move_mouse_to_element(house_detail['更多按钮'])
-        locator = 'xpath', "//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'ant-select-dropdown-hidden'))]//div[@class='rc-virtual-list']" \
-                           "//div[contains(@class,'ant-select-item ant-select-item-option') and @title='" + maintainer_name + "']"
-        self.is_click(house_detail['维护人管理按钮'])
-        self.is_click(house_detail['选择人员输入框'])
-        if len(maintainer_name) > 0:
-            expact_maintainer_name = self.element_text(locator)
-            self.is_click(locator)
-        else:
-            expact_maintainer_name = self.find_elements(house_detail['下拉框'])[0].text
-            self.find_elements(house_detail['下拉框'])[0].click()
-        self.is_click(house_detail['分配弹窗确定按钮'])
-        return expact_maintainer_name
-
-    def hz_replace_maintainer(self, maintainer_name):
-        """hz更新房源维护人"""
         self.move_mouse_to_element(house_detail['更多按钮'])
         locator = 'xpath', "//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, " \
                            "'ant-select-dropdown-hidden'))]//div[@class='rc-virtual-list']" \
@@ -953,7 +957,11 @@ class HouseDetailPage(WebPage):
         """获取角色卡片中的最新房源维护人"""
         sleep(1)
         self.scroll_to_bottom()
-        current_maintainer_name = self.element_text(house_detail['角色人名字']).split(' ')[0]
+        str_list = self.element_text(house_detail['角色人名字']).split(' ')
+        if len(str_list) > 1:
+            current_maintainer_name = str_list[1]
+        else:
+            current_maintainer_name = str_list[0]
         current_maintainer_phone = self.element_text(house_detail['角色人手机号']).split(':')[1]
         return current_maintainer_name, current_maintainer_phone
 

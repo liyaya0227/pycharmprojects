@@ -3,12 +3,11 @@
 """
 @author: caijj
 @version: V1.0
-@file: tablepage.py
+@file: table_page.py
 @time: 2021/10/14
 """
 from common.readconfig import ini
 from common.readxml import ReadXml
-from page_object.jrxf.web.main.leftviewpage import MainLeftViewPage
 from utils.databaseutil import DataBaseUtil
 from utils.timeutil import sleep
 from page.webpage import WebPage
@@ -51,17 +50,18 @@ class HouseTablePage(WebPage):
         return house_number
 
     def click_edit_btn(self, house_name):
-        locator = 'xpath', "//span[text()='" + house_name + "']/parent::td/following-sibling::td/child::span[text()=' " \
-                                                            "编辑 ']"
+        locator = 'xpath', "//span[text()='" + house_name + "']/parent::td/following-sibling::td/child::span" \
+                                                            "[text()=' 编辑 ']"
         self.is_click(locator)
 
     def click_edit_unreleased_house_btn(self, house_name):
-        locator = 'xpath', "//span[text()='" + house_name + "']/parent::td/following-sibling::td/child::a/span[text()='编辑']"
+        locator = 'xpath', "//span[text()='" + house_name + "']/parent::td/following-sibling::td/child::a/span" \
+                                                            "[text()='编辑']"
         self.is_click(locator)
 
     def click_delete_unhandle_house_btn(self, house_name):
-        locator = 'xpath', "//span[text()='" + house_name + "']/parent::td/following-sibling::td/child::span[text()=' " \
-                                                            "删除 ']"
+        locator = 'xpath', "//span[text()='" + house_name + "']/parent::td/following-sibling::td/child::span" \
+                                                            "[text()=' 删除 ']"
         self.is_click(locator)
 
     # 合同审核
@@ -71,8 +71,8 @@ class HouseTablePage(WebPage):
         self.is_click(house_table['合同_搜索按钮'])
 
     def click_audit_contract_btn(self, house_name):
-        locator = 'xpath', "//span[text()='" + house_name + "']/parent::td/following-sibling::td/child::span[text()=' " \
-                                                            "审核 '] "
+        locator = 'xpath', "//span[text()='" + house_name + "']/parent::td/following-sibling::td/child::span" \
+                                                            "[text()=' 审核 '] "
         self.is_click(locator)
 
     def audit_contract(self):
@@ -88,31 +88,42 @@ class HouseTablePage(WebPage):
         self.is_click(house_table['上架_搜索按钮'])
 
     def click_audit_released_house_btn(self, house_name):
-        locator = 'xpath', "//span[text()='" + house_name + "']/parent::td/following-sibling::td/child::a/span[text()='审核']"
+        locator = 'xpath', "//span[text()='" + house_name + "']/parent::td/following-sibling::td/child::a/span" \
+                                                            "[text()='审核']"
         self.is_click(locator)
 
     def del_released_house(self, house_name):  # 删除合作楼盘
-        locator = 'xpath', "//span[text()='" + house_name + "']/ancestor::td/following-sibling::td/child::span[text()='删除']"
+        locator = 'xpath', "//span[text()='" + house_name + "']/ancestor::td/following-sibling::td/child::span" \
+                                                            "[text()='删除']"
         self.is_click(locator)
         self.is_click(house_table['弹窗_删除按钮'])
 
     def del_unhandle_house(self, house_name):  # 删除待办楼盘
-        locator = 'xpath', "//span[text()='" + house_name + "']/parent::td/following-sibling::td/child::span[contains(text(),'删除')]"
+        locator = 'xpath', "//span[text()='" + house_name + "']/parent::td/following-sibling::td/child::span" \
+                                                            "[contains(text(),'删除')]"
         self.is_click(locator)
         self.is_click(house_table['弹窗_确定按钮'])
 
-    def check_contract_audit_status(self):
-        return self.is_exists(house_table['合同_审核状态_待审核'])
+    def check_contract_audit_status(self, house_name):
+        locator = 'xpath', "//span[text()='" + house_name + "']/parent::td/following-sibling::td/child::span" \
+                                                            "[contains(text(),'待审核')]"
+        # return self.is_exists(house_table['合同_审核状态_待审核'])
+        return self.is_exists(locator)
 
-    def check_contract_approved_status(self):
-        return self.is_exists(house_table['合同_审核状态_审核通过'])
+    def check_contract_approved_status(self, house_name):
+        locator = 'xpath', "//span[text()='" + house_name + "']/parent::td/following-sibling::td/child::span" \
+                                                            "[contains(text(),'审核通过')]"
+        # return self.is_exists(house_table['合同_审核状态_审核通过'])
+        return self.is_exists(locator)
 
     def check_release_audit_status(self, house_name):
-        locator = "xpath", "//span[text()='" + house_name + "']/parent::td/following-sibling::td/child::span[contains(text(),'待维护基础信息')]"
+        locator = "xpath", "//span[text()='" + house_name + "']/parent::td/following-sibling::td/child::span" \
+                                                            "[contains(text(),'待维护基础信息')]"
         return self.is_exists(locator)
 
     def check_release_to_audit_status(self, house_name):
-        locator = "xpath", "//span[text()='" + house_name + "']/parent::td/following-sibling::td/child::span[contains(text(),'待审核')]"
+        locator = "xpath", "//span[text()='" + house_name + "']/parent::td/following-sibling::td/child::span" \
+                                                            "[contains(text(),'待审核')]"
         return self.is_exists(locator)
 
     def check_release_approved_status(self):
@@ -124,6 +135,11 @@ class HouseTablePage(WebPage):
         house_number = self.element_text(house_table['搜索结果'])
         return house_number
 
+    def enter_house_detail(self, house_name):
+        locator = "xpath", "//div[@style='' or not(@style)]/div[@class='estateManage']//" \
+                           "tbody[@class='ant-table-tbody']//span[contains(text(),'" + house_name + "')] "
+        self.is_click(locator)
+
     @staticmethod
     def get_house_status_by_db(house_name):
         database_util = DataBaseUtil('Xf My SQL', ini.xf_database_name)
@@ -132,9 +148,3 @@ class HouseTablePage(WebPage):
         if len(house_info) > 0:
             house_status = house_info[0][1]
             return house_status
-
-
-
-
-
-

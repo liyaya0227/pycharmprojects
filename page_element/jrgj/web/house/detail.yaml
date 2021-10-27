@@ -125,11 +125,13 @@ VIP服务人_姓名标签: "xpath==//div[@style='' or not(@style)]/div[@class='h
 更多按钮: "xpath==//span[contains(.,'更多')]"
 房源基础信息按钮: "xpath==//li[contains(.,'房源基础信息')]"
 #房源基础信息弹窗title: "xpath==//div[contains(.,'房源基础信息')]"
-房源基础信息弹窗title: "xpath==//div[@id='rcDialogTitle1']"
+#房源基础信息弹窗title: "xpath==//div[@id='rcDialogTitle1']"
+房源基础信息弹窗title: "xpath==//div[@style='' or not(@style)]//div[@role='dialog']//div[text()='房源基础信息']"
 基础信息弹窗确定按钮: "xpath==//div[contains(@class,'ant-modal-footer')]//button[contains(@class,'ant-btn ant-btn-primary')]"
 房源列表: "xpath==//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table"
 列表中的第一条房源: "xpath==//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table/tbody/tr[1]/td[2]"
 基础信息弹窗_取消按钮: "xpath==//div[@class='ant-modal-root']//span[text()='取 消']/parent::button"
+基础信息弹窗_关闭按钮: "xpath==//div[@style='' or not(@style)]//div[@class='ant-modal house-detail-base-info-modal']//span[@class='ant-modal-close-x']/parent::button"
 
 #更多-提交修改房源状态申请
 是否可修改状态提示: "xpath==//div[text()='存在待审核的记录，不允许再次修改']"

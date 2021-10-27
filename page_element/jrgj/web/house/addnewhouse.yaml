@@ -37,6 +37,8 @@ D新房总监_新增联系人按钮: "xpath==//div[contains(@class,'addNewHouse'
 项目地址_镇选择框: "xpath==//div[contains(@class,'addNewHouse')]//input[@id='addNewBuilding_tradeAreaId']/ancestor::div[@class='ant-select-selector']/span[@class='ant-select-selection-item']"
 售楼处地址选择框: "xpath==//div[contains(@class,'addNewHouse')]//input[@id='addNewBuilding_saleAddress']"
 楼盘经纬度_地图选点按钮: "xpath==//div[contains(@class,'addNewHouse')]//span[text()='地图选点']/parent::button"
+经纬度选取弹窗_确定按钮: "xpath==//div[@style='' or not(@style)]//div[@class='ant-modal-wrap mapModal ant-modal-centered']//div[@class='ant-modal-footer']//span[text()='确 定']/parent::button"
+
 
 建筑类型选择框: "xpath==//div[contains(@class,'addNewHouse')]//input[@id='addNewBuilding_newHouseType']"
 产权年限选择框: "xpath==//div[contains(@class,'addNewHouse')]//input[@id='addNewBuilding_propertyFixedYear']"

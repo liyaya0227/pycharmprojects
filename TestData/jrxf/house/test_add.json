@@ -1,6 +1,6 @@
 {"tc01_add_house_base_info": [
     {
-      "house_name": "自动化楼盘",
+      "house_name": "UI自动化测试楼盘",
       "developers": "恒大",
       "house_status": "即将开盘",
       "sale_price": 2000,

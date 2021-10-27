@@ -1,0 +1,73 @@
+{
+  "tc01_add_house_model": [
+    {
+      "newHouseModelInfoId": "",
+      "newHouseId": "0b6f7856-1fea-48d5-96cc-86dcebde6324",
+      "newModelName": "经济型",
+      "rooms": 4,
+      "parlor": 2,
+      "bathroom": 1,
+      "kitchen": 1,
+      "area": "100",
+      "saleStatus": 0,
+      "orientation": "南",
+      "doorModelImgUrl": "https://static.jingrizf.com/new/file/1634894342712.jpg",
+      "salePriceStart": "100",
+      "salePriceEnd": "120",
+      "salePriceRemark": ""
+    }
+  ],
+  "tc01_add_house_building": [
+    {
+      "newHouseId": "0b6f7856-1fea-48d5-96cc-86dcebde6324",
+      "buildingName": "1",
+      "status": 0,
+      "startSaleTime": null,
+      "makingRoomTime": null,
+      "unit": "1",
+      "floorNum": "1",
+      "familyNum": "300",
+      "newHouseType": 0,
+      "modelList": [
+        "2e5fbab0-f47a-40cf-855d-67e9ed8dee26"
+      ]
+    }
+  ],
+  "tc01_add_house_dynamic": [
+    {
+      "dynamicTitle": "楼盘动态",
+      "dynamicNote": "测试",
+      "dynamicType": 1,
+      "newHouseId": "0b6f7856-1fea-48d5-96cc-86dcebde6324",
+      "newHouseDynamicImgList": [
+        {
+          "newHouseImgUrl": "https://static.jingrizf.com/new/file/1634897188356.jpg",
+          "isFirstImg": false,
+          "imgName": "资料更新",
+          "imgType": 3
+        }
+      ]
+    }
+  ],
+  "tc01_serch_house_dynamic": [
+    {
+      "newHouseId": "0b6f7856-1fea-48d5-96cc-86dcebde6324",
+      "page": 1,
+      "size": 10
+    }
+  ],
+  "tc01_edit_house_selling_point": [
+    {
+      "newHouseId": "0b6f7856-1fea-48d5-96cc-86dcebde6324",
+      "pushPlate": "学区房",
+      "detailedDescription": null,
+      "trafficConditions": null,
+      "educationResources": null,
+      "medical": null,
+      "liveEntertainment": null,
+      "greenPark": null,
+      "otherInfo": null,
+      "sellingPointImgs": []
+    }
+  ]
+}

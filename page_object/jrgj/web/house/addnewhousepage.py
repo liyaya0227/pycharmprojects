@@ -194,7 +194,7 @@ class HouseAddNewHousePage(WebPage):
     def choose_building_position(self):
         self.is_click(house_add_new_house['楼盘经纬度_地图选点按钮'])
         sleep()
-        self.is_click(house_add_new_house['弹窗_确定按钮'], sleep_time=0.5)
+        self.is_click(house_add_new_house['经纬度选取弹窗_确定按钮'], sleep_time=0.5)
 
     def choose_building_type(self, building_type):
         self.is_click(house_add_new_house['建筑类型选择框'], sleep_time=0.5)

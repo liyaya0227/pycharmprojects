@@ -18,9 +18,10 @@ from page_object.jrgj.web.main.upviewpage import MainUpViewPage
 from utils.jsonutil import get_data
 
 house_table = None
+
+
 @allure.feature("楼盘详情页-更多模块")
 class TestMore(object):
-
     json_file_path = cm.test_data_dir + "/jrgj/test_new/test_house/test_add.json"
     test_data = get_data(json_file_path)
 
@@ -47,7 +48,7 @@ class TestMore(object):
         house_detail = HouseDetailPage(web_driver)
         house_detail.click_see_more()
         house_detail.switch_tab_by_name('楼盘动态')
-        trend_explain = house_detail.relese_house_trend_content('楼盘动态title','楼盘动态最新')
+        trend_explain = house_detail.relese_house_trend_content('楼盘动态title', '楼盘动态最新')
         res = house_detail.verify_trend_list_update(trend_explain)
         assert res
 
@@ -76,7 +77,8 @@ class TestMore(object):
         house_detail.click_see_more()
         house_detail.switch_tab_by_name('户型介绍')
         house_detail.click_upload_house_type_btn()
-        house_detail.house_type_introduce_content('经济型'+ str(random.randint(1,100)), '100', '南', [cm.tmp_picture_file])
+        house_detail.house_type_introduce_content('经济型' + str(random.randint(1, 100)), '100', '南',
+                                                  [cm.tmp_picture_file])
         expect_house_introduce_number = initial_house_introduce_number + 1
         house_detail.switch_tab_by_name('楼盘首页')
         actual_house_introduce_number = house_detail.get_house_type_introduce_number()
@@ -85,17 +87,3 @@ class TestMore(object):
 
 if __name__ == '__main__':
     pytest.main(['-q', 'test_more.py'])
-
-
-
-
-
-
-
-
-
-
-
-
-
-

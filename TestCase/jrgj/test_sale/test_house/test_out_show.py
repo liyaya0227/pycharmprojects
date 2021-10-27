@@ -40,13 +40,12 @@ house_code = ''
 class TestOutShow(object):
     json_file_path = cm.test_data_dir + "/jrgj/test_sale/test_house/test_out_show.json"
     exploration_info = get_value(json_file_path, 'exploration_info')
-    written_entrustment_agreement = get_value(json_file_path, 'written_entrustment_agreement')
     survey_person_info = get_value(json_file_path, ini.environment)
+    written_entrustment_agreement = get_value(json_file_path, 'written_entrustment_agreement')
 
     @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, web_driver):
         global house_code
-
         main_leftview = MainLeftViewPage(web_driver)
         main_upview = MainUpViewPage(web_driver)
         house_table = HouseTablePage(web_driver)
@@ -378,6 +377,7 @@ class TestOutShow(object):
         house_detail.click_go_top_button()
         house_detail.choose_out_show()
         assert house_detail.get_out_show()
+
 
 if __name__ == '__main__':
     pytest.main(['-q', 'test_out_show.py'])

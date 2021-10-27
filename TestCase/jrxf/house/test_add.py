@@ -8,10 +8,11 @@
 """
 import allure
 import pytest
+from common.readconfig import ini
 from config.conf import cm
-from page_object.jrxf.web.house.addhousepage import AddHousePage
-from page_object.jrxf.web.house.audithousepage import AuditHousePage
-from page_object.jrxf.web.house.tablepage import HouseTablePage
+from page_object.jrxf.web.house.add_page import AddHousePage
+from page_object.jrxf.web.house.audit_page import AuditHousePage
+from page_object.jrxf.web.house.table_page import HouseTablePage
 from page_object.jrxf.web.main.leftviewpage import MainLeftViewPage
 from utils.jsonutil import get_data
 from utils.logger import log
@@ -99,7 +100,7 @@ class TestAdd(object):
             elif house_status == 2:  # 合同审核
                 self.house_table_page.click_audit_house_contract_tab()
                 self.house_table_page.serch_unhandle_house(house_name)
-                if self.house_table_page.check_contract_audit_status():
+                if self.house_table_page.check_contract_audit_status(house_name):
                     self.audit_house_contract(house_name)
                     self.release_house(house_name)
                     self.audit_release_house(house_name)
@@ -187,8 +188,7 @@ class TestAdd(object):
     @pytest.mark.dependency()
     # @pytest.mark.flaky(reruns=1, reruns_delay=2)
     def test_add_new_house(self):
-        add_house_base_info_params = self.test_add_data['tc01_add_house_base_info'][0]
-        house_name = add_house_base_info_params['house_name']
+        house_name = ini.house_community_name
         self.check_house_state(house_name)
         self.add_house_base_info()
         self.upload_house_contract(house_name)

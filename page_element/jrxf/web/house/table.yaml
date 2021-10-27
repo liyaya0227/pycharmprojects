@@ -26,9 +26,9 @@
 上架_审核状态_审核通过: "xpath==//span[text()='自动化楼盘']/parent::td/following-sibling::td/child::span[contains(text(),'审核通过')]"
 
 #合同审核列表
-合同_审核状态_待审核: "xpath==//span[text()='自动化楼盘']/parent::td/following-sibling::td/child::span[contains(text(),'待审核')]"
+#合同_审核状态_待审核: "xpath==//span[text()='自动化楼盘']/parent::td/following-sibling::td/child::span[contains(text(),'待审核')]"
 合同_审核状态_审核驳回: "xpath==//span[text()='自动化楼盘']/parent::td/following-sibling::td/child::span[contains(text(),'审核驳回')]"
-合同_审核状态_审核通过: "xpath==//span[text()='自动化楼盘']/parent::td/following-sibling::td/child::span[contains(text(),'审核通过')]"
+#合同_审核状态_审核通过: "xpath==//span[text()='自动化楼盘']/parent::td/following-sibling::td/child::span[contains(text(),'审核通过')]"
 
 #楼盘合同审核页面
 合同_楼盘名称输入框: "xpath==//div[@class='estateContractCheck']//input[@id='newHouseName']"

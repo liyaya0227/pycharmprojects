@@ -6,7 +6,6 @@
 @file: test_appointment_survey.py
 @time: 2021/06/22
 """
-
 import pytest
 import allure
 from utils.logger import log

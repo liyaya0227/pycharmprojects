@@ -6,12 +6,10 @@
 @file: test_address.py
 @date: 2021/8/10 0010
 """
-
 import pytest
 import allure
 from config.conf import cm
 from page_object.common.web.login.loginpage import LoginPage
-from utils.logger import log
 from common.readconfig import ini
 from utils.jsonutil import get_value
 from page_object.jrgj.web.main.upviewpage import MainUpViewPage
@@ -22,110 +20,110 @@ from page_object.jrgj.web.house.tablepage import HouseTablePage
 from page_object.jrgj.web.house.detailpage import HouseDetailPage
 
 house_code = ''
+gl_driver = None
 
 
 @allure.feature("测试房源模块")
 class TestAddress(object):
     json_file_path = cm.test_data_dir + "/jrgj/test_sale/test_house/test_address.json"
     account = get_value(json_file_path, ini.environment)
+    main_up_view = None
+    main_left_view = None
+    main_top_view = None
+    house_add_page = None
+    house_table_page = None
+    house_detail_page = None
 
     @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, web_driver):
-        global house_code
-
-        main_leftview = MainLeftViewPage(web_driver)
-        main_upview = MainUpViewPage(web_driver)
-        house_add = HouseAddPage(web_driver)
-        house_table = HouseTablePage(web_driver)
-
-        main_leftview.change_role('经纪人')
-        house_code = house_table.get_house_code_by_db(flag='买卖')
-        if house_table.get_house_code_by_db(flag='买卖') == '':  # 判断房源是否存在，不存在则新增
-            main_leftview.click_all_house_label()
-            house_table.click_sale_tab()
-            house_table.click_add_house_button()
-            house_add.choose_sale_radio()
-            house_add.choose_estate_name(ini.house_community_name)  # 填写物业地址信息
-            house_add.choose_building_id(ini.house_building_id)
-            house_add.choose_building_cell(ini.house_building_cell)
-            house_add.choose_floor(ini.house_floor)
-            house_add.choose_doorplate(ini.house_doorplate)
-            house_add.click_next_button()
-            house_add.input_owner_info_and_house_info(self.house_data, '买卖')
-            main_upview.clear_all_title()
-        main_leftview.click_all_house_label()
-        house_code = house_table.get_house_code_by_db(flag='买卖')
-        assert house_code != ''
-        log.info('房源编号为：' + house_code)
+        global gl_driver
+        gl_driver = web_driver
+        self.main_left_view = MainLeftViewPage(gl_driver)
+        self.main_up_view = MainUpViewPage(gl_driver)
+        self.main_top_view = MainTopViewPage(gl_driver)
+        self.house_add_page = HouseAddPage(gl_driver)
+        self.house_table_page = HouseTablePage(gl_driver)
+        self.house_detail_page = HouseDetailPage(gl_driver)
         yield
-        main_upview.clear_all_title()
+        self.main_up_view.clear_all_title()
+
+    @allure.step("验证房源状态")
+    def check_house_state(self):
+        global house_code
+        if self.house_table_page.get_house_code_by_db(flag='买卖') == '':  # 判断房源是否存在，不存在则新增
+            self.main_left_view.click_all_house_label()
+            self.house_table_page.click_sale_tab()
+            self.house_table_page.click_add_house_button()
+            self.house_add_page.choose_sale_radio()
+            self.house_add_page.choose_estate_name(ini.house_community_name)  # 填写物业地址信息
+            self.house_add_page.choose_building_id(ini.house_building_id)
+            self.house_add_page.choose_building_cell(ini.house_building_cell)
+            self.house_add_page.choose_floor(ini.house_floor)
+            self.house_add_page.choose_doorplate(ini.house_doorplate)
+            self.house_add_page.click_next_button()
+            self.house_add_page.input_owner_info_and_house_info(self.house_data, '买卖')
+            self.main_up_view.clear_all_title()
+        house_code = self.house_table_page.get_house_code_by_db(flag='买卖')
 
     @allure.story("测试房源详情右侧地址用例")
     @pytest.mark.sale
     @pytest.mark.house
     @pytest.mark.run(order=11)
-    def test_001(self, web_driver):
-        house_table = HouseTablePage(web_driver)
-        house_detail = HouseDetailPage(web_driver)
-        main_leftview = MainLeftViewPage(web_driver)
-
-        main_leftview.change_role('经纪人')
-        main_leftview.click_all_house_label()
-        house_table.click_sale_tab()
-        house_table.click_all_house_tab()
-        house_table.click_reset_button()
-        house_table.clear_filter(flag='买卖')
-        house_table.input_house_code_search(house_code)
-        house_table.click_search_button()
-        house_table.go_house_detail_by_row(1)
-        house_detail.click_address_button()
-        assert not house_detail.dialog_looked_count_exist()
-        house_detail.dialog_click_close_button()
+    def test_view_address(self):
+        self.check_house_state()
+        self.main_left_view.change_role('经纪人')
+        self.main_left_view.click_all_house_label()
+        self.house_table_page.click_sale_tab()
+        self.house_table_page.click_all_house_tab()
+        self.house_table_page.click_reset_button()
+        self.house_table_page.clear_filter(flag='买卖')
+        self.house_table_page.input_house_code_search(house_code)
+        self.house_table_page.click_search_button()
+        self.house_table_page.go_house_detail_by_row(1)
+        self.house_detail_page.click_address_button()
+        assert not self.house_detail_page.dialog_looked_count_exist()
+        self.house_detail_page.dialog_click_close_button()
 
     @allure.story("测试房源详情右侧地址用例")
     @pytest.mark.sale
     @pytest.mark.house
     @pytest.mark.run(order=11)
-    def test_002(self, web_driver):
-        main_topview = MainTopViewPage(web_driver)
-        house_table = HouseTablePage(web_driver)
-        house_detail = HouseDetailPage(web_driver)
-        main_leftview = MainLeftViewPage(web_driver)
-        login = LoginPage(web_driver)
-
-        main_leftview.log_out()
+    def test_view_address_maximum(self):
+        self.check_house_state()
+        login = LoginPage(gl_driver)
+        self.main_left_view.log_out()
         login.log_in(self.account[0], self.account[1])
-        main_leftview.change_role('经纪人')
-        main_leftview.click_all_house_label()
-        house_table.click_sale_tab()
-        house_table.click_all_house_tab()
-        house_table.click_reset_button()
-        house_table.clear_filter(flag='买卖')
-        house_table.input_house_code_search(house_code)
-        house_table.click_search_button()
-        house_table.go_house_detail_by_row(1)
-        house_detail.click_address_button()
-        dialog_content = main_topview.find_notification_content()
+        self.main_left_view.change_role('经纪人')
+        self.main_left_view.click_all_house_label()
+        self.house_table_page.click_sale_tab()
+        self.house_table_page.click_all_house_tab()
+        self.house_table_page.click_reset_button()
+        self.house_table_page.clear_filter(flag='买卖')
+        self.house_table_page.input_house_code_search(house_code)
+        self.house_table_page.click_search_button()
+        self.house_table_page.go_house_detail_by_row(1)
+        self.house_detail_page.click_address_button()
+        dialog_content = self.main_top_view.find_notification_content()
         if dialog_content == '':
-            looked_count = house_detail.dialog_get_looked_count()
-            house_detail.dialog_click_close_button()
+            looked_count = self.house_detail_page.dialog_get_looked_count()
+            self.house_detail_page.dialog_click_close_button()
             if looked_count == 1:
-                assert house_detail.follow_dialog_exist()
-            if house_detail.follow_dialog_exist():
-                assert house_detail.check_dialog_cancel_button_disabled()
-                house_detail.follow_dialog_input_detail_follow('详细跟进信息')
-                house_detail.dialog_click_confirm_button()
-                assert main_topview.find_notification_content() == '编辑成功'
+                assert self.house_detail_page.follow_dialog_exist()
+            if self.house_detail_page.follow_dialog_exist():
+                assert self.house_detail_page.check_dialog_cancel_button_disabled()
+                self.house_detail_page.follow_dialog_input_detail_follow('详细跟进信息')
+                self.house_detail_page.dialog_click_confirm_button()
+                assert self.main_top_view.find_notification_content() == '编辑成功'
             temp = looked_count
             for _ in range(60 - int(looked_count)):
-                house_detail.click_address_button()
-                new_looked_count = house_detail.dialog_get_looked_count()
-                house_detail.dialog_click_close_button()
+                self.house_detail_page.click_address_button()
+                new_looked_count = self.house_detail_page.dialog_get_looked_count()
+                self.house_detail_page.dialog_click_close_button()
                 assert int(new_looked_count) == int(temp) + 1
                 temp = new_looked_count
-            house_detail.click_address_button()
-            dialog_content = main_topview.find_notification_content()
-        if house_detail.check_shopowner_recommend() or house_detail.get_vip_person() != '':
+            self.house_detail_page.click_address_button()
+            dialog_content = self.main_top_view.find_notification_content()
+        if self.house_detail_page.check_shopowner_recommend() or self.house_detail_page.get_vip_person() != '':
             assert dialog_content == '请联系维护人查看相关房源信息'
         else:
             assert dialog_content == '今日查看次数已经超过60次'

@@ -17,9 +17,10 @@ from page_object.jrgj.web.main.upviewpage import MainUpViewPage
 from utils.jsonutil import get_data
 
 house_table = None
+
+
 @allure.feature("测试楼盘相册功能模块")
 class TestHousePhotoAlbum(object):
-
     json_file_path = cm.test_data_dir + "/jrgj/test_new/test_house/test_add.json"
     test_data = get_data(json_file_path)
 
@@ -49,7 +50,7 @@ class TestHousePhotoAlbum(object):
         house_detail.click_see_more()
         initial_number = house_detail.get_image_list_lenth()
         house_detail.go_upload_album()
-        house_detail.upload_image([cm.tmp_picture_file],'效果图')
+        house_detail.upload_image([cm.tmp_picture_file], '效果图')
         count += 1
         house_detail.upload_image([cm.tmp_picture_file], '实景图')
         count += 1
@@ -63,8 +64,7 @@ class TestHousePhotoAlbum(object):
         if initial_number == 0:
             assert actual_number == count
         else:
-            assert actual_number == count + initial_number -1
-
+            assert actual_number == count + initial_number - 1
 
     @allure.story("测试批量删除,默认删除第一张")
     @pytest.mark.new
@@ -104,17 +104,3 @@ class TestHousePhotoAlbum(object):
 
 if __name__ == '__main__':
     pytest.main(['-q', 'test_house_photo_album.py'])
-
-
-
-
-
-
-
-
-
-
-
-
-
-
