@@ -363,7 +363,7 @@ class TestOrderProcess(object):
         contract_create_order.input_customer_code(GlobalVar.customer_code)
         contract_create_order.click_get_customer_info_button()
         contract_create_order.click_next_step_button()
-        if ini.environment == 'sz':
+        if ini.environment in ['sz', 'ks', 'zjg']:
             contract_create_order.choose_district_contract(env)
             contract_create_order.click_confirm_button_in_dialog()
         contract_create_order.input_sale_contract_content(env, test_data)

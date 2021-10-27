@@ -256,8 +256,8 @@ class ContractCreateSaleOrderDetailSZPage(WebPage):
                 self.__choose_value_in_special_drop_down_box(four_info['选项'][1][2])
             else:
                 raise ValueError('传值错误')
-            self.is_click(create_sale_order_detail_sz['四_2_7_输入框'])
-            self.input_text_with_enter(create_sale_order_detail_sz['四_2_7_输入框'], four_info['选项'][1][3])
+            self.is_click(create_sale_order_detail_sz['四_2_8_选择框'])
+            self.__choose_value_in_drop_down_box(four_info['选项'][1][3])
         else:
             raise ValueError('传值错误')
 

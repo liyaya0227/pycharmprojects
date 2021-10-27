@@ -26,7 +26,7 @@ class DataBaseUtil(object):
         elif db_type == 'My SQL':
             db_info = {
                 'host': ini.mysql_database_host,
-                'port': ini.mysql_database_port,
+                'port': int(ini.mysql_database_port),
                 'user': ini.mysql_database_account,
                 'password': ini.mysql_database_password,
                 'database': database_name,

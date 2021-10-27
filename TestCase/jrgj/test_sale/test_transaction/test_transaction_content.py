@@ -14,22 +14,22 @@
 # from utils.logger import log
 # from common.readconfig import ini
 # from utils.jsonutil import get_data
-# from page_object.web.main.topviewpage import MainTopViewPage
-# from page_object.web.main.upviewpage import MainUpViewPage
-# from page_object.web.main.leftviewpage import MainLeftViewPage
-# from page_object.web.house.addpage import HouseAddPage
-# from page_object.web.house.tablepage import HouseTablePage
-# from page_object.web.house.detailpage import HouseDetailPage
-# from page_object.web.customer.detailpage import CustomerDetailPage
-# from page_object.web.customer.tablepage import CustomerTablePage
-# from page_object.web.achievement.detailpage import AchievementDetailPage
-# from page_object.web.achievement.tablepage import AchievementTablePage
-# from page_object.web.contract.createorderpage import ContractCreateOrderPage
-# from page_object.web.contract.detailpage import ContractDetailPage
-# from page_object.web.contract.previewpage import ContractPreviewPage
-# from page_object.web.contract.tablepage import ContractTablePage
-# from page_object.web.transaction.tablepage import TransactionTablePage
-# from page_object.web.transaction.detailpage import TransactionDetailPage
+# from page_object.jrgj.web.main.topviewpage import MainTopViewPage
+# from page_object.jrgj.web.main.upviewpage import MainUpViewPage
+# from page_object.jrgj.web.main.leftviewpage import MainLeftViewPage
+# from page_object.jrgj.web.house.addpage import HouseAddPage
+# from page_object.jrgj.web.house.tablepage import HouseTablePage
+# from page_object.jrgj.web.house.detailpage import HouseDetailPage
+# from page_object.jrgj.web.customer.detailpage import CustomerDetailPage
+# from page_object.jrgj.web.customer.tablepage import CustomerTablePage
+# from page_object.jrgj.web.achievement.detailpage import AchievementDetailPage
+# from page_object.jrgj.web.achievement.tablepage import AchievementTablePage
+# from page_object.jrgj.web.contract.createorderpage import ContractCreateOrderPage
+# from page_object.jrgj.web.contract.detailpage import ContractDetailPage
+# from page_object.jrgj.web.contract.previewpage import ContractPreviewPage
+# from page_object.jrgj.web.contract.tablepage import ContractTablePage
+# from page_object.jrgj.web.transaction.tablepage import TransactionTablePage
+# from page_object.jrgj.web.transaction.detailpage import TransactionDetailPage
 #
 # house_info = {}
 # customer_info = {}
@@ -164,10 +164,10 @@
 #         contract_create_order.click_get_customer_info_button()
 #         assert contract_create_order.get_customer_name() == customer_info['customer_name']
 #         contract_create_order.click_next_step_button()
-#         if ini.environment == 'sz' or ini.environment == 'ks':
-#             contract_create_order.choose_district_contract()
+#         if ini.environment in ['sz', 'ks', 'zjg']:
+#             contract_create_order.choose_district_contract(ini.environment)
 #             contract_create_order.click_confirm_button_in_dialog()
-#         contract_create_order.input_contract_content(contract_data, '买卖')
+#         contract_create_order.input_sale_contract_content(ini.environment, contract_data)
 #         contract_create_order.click_submit_button()
 #         main_topview.close_notification()
 #         log.info('合同创建成功')
@@ -182,7 +182,7 @@
 #         contract_code = contract_details['contract_code']
 #         contract_table.go_contract_detail_by_row(1)
 #         contract_detail.click_go_examine_button()  # 经纪人提交审核
-#         contract_detail.click_confirm_button()
+#         contract_detail.dialog_click_confirm_button()
 #         main_leftview.change_role('商圈经理')  # 商圈经理审核
 #         main_leftview.click_contract_management_label()
 #         contract_table.click_sale_contract_examine_tab()
@@ -640,9 +640,9 @@
 #         pytest.assume(contract_create_order.get_customer_name() == customer_info['customer_name'])
 #         contract_create_order.click_next_step_button()
 #         if ini.environment == 'sz' or ini.environment == 'ks':
-#             contract_create_order.choose_district_contract()
+#             contract_create_order.choose_district_contract(ini.environment)
 #             contract_create_order.click_confirm_button_in_dialog()
-#         contract_create_order.input_contract_content(contract_data, '买卖')
+#         contract_create_order.input_sale_contract_content(ini.environment, contract_data)
 #         contract_create_order.click_submit_button()
 #         main_topview.close_notification()
 #         log.info('合同创建成功')
@@ -657,7 +657,7 @@
 #         contract_code = contract_details['contract_code']
 #         contract_table.go_contract_detail_by_row(1)
 #         contract_detail.click_go_examine_button()  # 经纪人提交审核
-#         contract_detail.click_confirm_button()
+#         contract_detail.dialog_click_confirm_button()
 #         main_leftview.change_role('商圈经理')  # 商圈经理审核
 #         main_leftview.click_contract_management_label()
 #         contract_table.click_sale_contract_examine_tab()

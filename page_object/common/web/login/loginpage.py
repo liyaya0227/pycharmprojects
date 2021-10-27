@@ -92,7 +92,7 @@ class LoginPage(WebPage):
         distance = self.__get_element_slide_distance()
         locus = self.__get_slide_locus(distance)
         slide_button = self.find_element(login['滑动按钮'])
-        log.info("需要滑动的距离为："+ str(distance))
+        log.info("需要滑动的距离为：" + str(distance))
         log.info("需要滑动的距离为：" + str(locus))
         ActionChains(self.driver).click_and_hold(slide_button).perform()
         sleep(0.5)

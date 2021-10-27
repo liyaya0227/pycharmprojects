@@ -144,7 +144,7 @@ class ContractDetailPage(WebPage):
             self.input_text(detail['上传图片输入框'], picture_path)
             # self.is_click(detail['上传图片按钮'])
             # upload_file(picture_path)
-            sleep()
+            sleep(2)
 
     def click_submit_button(self):
         self.is_click(detail['提交按钮'], sleep_time=2)
