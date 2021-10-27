@@ -36,7 +36,6 @@ class ReadXml:
                         return sql_data
 
 
-
 if __name__ == '__main__':
     read = ReadXml("/web/house/house_sql")
     sql = read.get_sql('trander_house', 'select_house_info')

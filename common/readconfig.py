@@ -131,6 +131,22 @@ class ReadConfig(object):
         return self._get('MYSQL_DATABASE', 'DATABASE_PASSWORD')
 
     @property
+    def xf_database_host(self):
+        return self._get('XF_DATABASE', 'DATABASE_HOST')
+
+    @property
+    def xf_database_account(self):
+        return self._get('XF_DATABASE', 'DATABASE_ACCOUNT')
+
+    @property
+    def xf_database_password(self):
+        return self._get('XF_DATABASE', 'DATABASE_PASSWORD')
+
+    @property
+    def xf_database_name(self):
+        return self._get('XF_DATABASE', 'database_name')
+
+    @property
     def environment(self):
         return self._get('ENVIRONMENT', 'ENVIRONMENT')
 

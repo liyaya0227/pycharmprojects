@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<house_sql>
+    <table name="new_house">
+        <sql id="get_house_info">
+            <caption>
+                select id,house_status from new_house where new_house_name = '{new_house_name}' and is_valid = 1
+            </caption>
+        </sql>
+    </table>
+
+</house_sql>
