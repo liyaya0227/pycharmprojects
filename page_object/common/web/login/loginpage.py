@@ -58,7 +58,7 @@ class LoginPage(WebPage):
         template_rgb = cv2.imread(cm.tmp_dir + "/slider.png", 0)
         res = cv2.matchTemplate(target_gray, template_rgb, cv2.TM_CCOEFF_NORMED)
         value = cv2.minMaxLoc(res)
-        value = value[3][0]+10
+        value = value[3][0] + 10
         return value
 
     @staticmethod

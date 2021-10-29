@@ -87,7 +87,7 @@ class TestAdd(object):
         actual_house_model_number = self.house_detail_page.get_house_model_number()
         assert actual_house_model_number == expect_house_model_number
 
-    @allure.step("维护楼栋信息")
+    @allure.story("维护楼栋信息")
     @pytest.mark.run(order=2)
     def test_add_building_info(self):
         self.enter_house_detail(self.house_name)  # 进入房源详情
@@ -103,7 +103,7 @@ class TestAdd(object):
         actual_building_info_number = self.house_detail_page.get_building_info_number()
         assert actual_building_info_number == initial_building_info_number + 1
 
-    @allure.step("发布动态")
+    @allure.story("发布动态")
     @pytest.mark.run(order=2)
     def test_add_house_dynamic(self):
         self.enter_house_detail(self.house_name)  # 进入房源详情
@@ -115,7 +115,7 @@ class TestAdd(object):
         res = self.house_detail_page.verify_dynamic_list_update(trend_explain)
         assert res
 
-    @allure.step("编辑楼盘卖点")
+    @allure.story("编辑楼盘卖点")
     @pytest.mark.run(order=2)
     def test_edit_house_selling_point(self):
         self.enter_house_detail(self.house_name)  # 进入房源详情

@@ -69,13 +69,14 @@
 生成海报二维码按钮: "xpath==//div[@class='ant-modal-content']/div[@class='ant-modal-footer']//span[text()='点击生成海报二维码']/parent::button"
 海报二维码弹窗: "xpath==//div[@class='ant-modal-content']//div[@class='ant-modal-body']//span[contains(.,'二维码生成成功')]"
 买卖区域筛选_不限: "xpath==//div[not(contains(@style,'display'))]//label[text()='区域']/ancestor::div[contains(@class,'ant-row ant-form-item')]//span[text()='不限']/parent::label"
+二维码弹窗_关闭按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//div[text()='海报二维码']/parent::div/preceding-sibling::button[@class='ant-modal-close']"
 
 
 
 弹窗_取消按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//span[text()='取 消']/parent::button[@type='button']"
 弹窗_确定按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//span[text()='确 定']/parent::button[@type='button']"
 弹窗_关闭按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//span[@class='anticon anticon-close ant-modal-close-icon']"
-
+户型下拉框: "xpath==//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'ant-select-dropdown-hidden'))]//div[@class='rc-virtual-list']//div[contains(@class,'ant-select-item ant-select-item-option')]"
 
 
 

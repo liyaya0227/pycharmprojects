@@ -747,7 +747,7 @@ class HouseDetailPage(WebPage):
     def get_house_info_by_db(name, flag):
         estate_sql = "select id from estate_new_base_info where [name]='" + ini.house_community_name + "'"
         estate_id = select_sql(estate_sql)[0][0]
-        if flag == '买卖':
+        if flag == 'sale':
             # house_sql = "select house_code from trade_house where coreinfo_maintainer_name='" + str(name) + \
             #             "' and location_estate_id='" + str(estate_id) + \
             #             "' and location_building_number='" + str(1) + \
@@ -762,13 +762,15 @@ class HouseDetailPage(WebPage):
                         "' and location_floor='" + ini.house_floor + \
                         "' and location_doorplate='" + ini.house_doorplate + "' and is_valid='1' and [status]='0' " \
                                                                              "order by create_time desc "
-        elif flag == '租赁':
+        elif flag == 'rent':
             get_house_info_sql = "select house_code from rent_house where coreinfo_maintainer_name='" + str(name) + \
                         "' and location_estate_id='" + str(estate_id) + \
                         "' and location_building_number='" + ini.house_building_id + \
                         "' and location_building_cell='" + ini.house_building_cell + \
                         "' and location_floor='" + ini.house_floor + \
                         "' and location_doorplate='" + ini.house_doorplate + "' and is_valid='1' and [status]='0' order by create_time desc"
+        else:
+            raise "传值错误"
         try:
             house_code = select_sql(get_house_info_sql)[0][0]
             return house_code
@@ -917,22 +919,6 @@ class HouseDetailPage(WebPage):
         sleep(1)
         self.is_click(house_detail['弹窗_关闭按钮'])
 
-    # def replace_maintainer(self, maintainer_name):
-    #     """更新房源维护人"""
-    #     self.move_mouse_to_element(house_detail['更多按钮'])
-    #     locator = 'xpath', "//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'ant-select-dropdown-hidden'))]//div[@class='rc-virtual-list']" \
-    #                        "//div[contains(@class,'ant-select-item ant-select-item-option') and @title='" + maintainer_name + "']"
-    #     self.is_click(house_detail['维护人管理按钮'])
-    #     self.is_click(house_detail['选择人员输入框'])
-    #     if len(maintainer_name) > 0:
-    #         expact_maintainer_name = self.element_text(locator)
-    #         self.is_click(locator)
-    #     else:
-    #         expact_maintainer_name = self.find_elements(house_detail['下拉框'])[0].text
-    #         self.find_elements(house_detail['下拉框'])[0].click()
-    #     self.is_click(house_detail['分配弹窗确定按钮'])
-    #     return expact_maintainer_name
-
     def replace_maintainer(self, maintainer_name):
         """更新房源维护人"""
         self.move_mouse_to_element(house_detail['更多按钮'])
@@ -945,13 +931,13 @@ class HouseDetailPage(WebPage):
         target = self.find_element(locator)
         self.driver.execute_script("arguments[0].scrollIntoView();", target)  # 拖动到可见的元素去
         if len(maintainer_name) > 0:
-            expact_maintainer_name = self.element_text(locator)
+            expect_maintainer_name = self.element_text(locator)
             self.is_click(locator)
         else:
-            expact_maintainer_name = self.find_elements(house_detail['下拉框'])[0].text
+            expect_maintainer_name = self.find_elements(house_detail['下拉框'])[0].text
             self.find_elements(house_detail['下拉框'])[0].click()
         self.is_click(house_detail['分配弹窗确定按钮'])
-        return expact_maintainer_name
+        return expect_maintainer_name
 
     def get_current_maintainer(self):
         """获取角色卡片中的最新房源维护人"""
@@ -1200,3 +1186,24 @@ class HouseDetailPage(WebPage):
                 return a
             else:
                 return a + b + c
+
+    @staticmethod
+    def get_house_unit_price2(float_a, n):
+        """根据四舍五入保留2位小数的原则计算房源单价"""
+        string_a = str(float_a)
+        integer, decimal_point, decimal = string_a.partition('.')  # 此时的integer、decimal_point和decimal的类型均为字符串类型
+        if len(decimal) > 2:
+            cc = decimal[:n]  # 前二位小数
+            if int(decimal[n]) >= 5:  # 四舍五入
+                cc = int(cc) + 1
+            else:
+                cc = int(cc)
+            return integer + decimal_point + str(cc)
+        else:
+            c2 = int(decimal)
+            if len(decimal) == 1 and c2 == 0:
+                return integer
+            else:
+                return integer + decimal_point + decimal
+
+

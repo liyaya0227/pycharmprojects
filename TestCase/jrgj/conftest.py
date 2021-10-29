@@ -17,6 +17,7 @@ from selenium import webdriver
 from appium import webdriver as androiddriver
 from common.readconfig import ini
 from page_object.common.web.login.loginpage import LoginPage
+from utils.logger import log
 from utils.timeutil import dt_strftime
 from page_object.jrgj.web.main.leftviewpage import MainLeftViewPage
 from page_object.jrgj.web.main.topviewpage import MainTopViewPage
@@ -48,6 +49,7 @@ def web_driver():
     # web_driver = webdriver.Firefox(firefox_binary='C:/Program Files/Mozilla Firefox/firefox.exe')
     wdriver.maximize_window()
     wdriver.get(ini.url)
+    log.info("初始化driver")
     yield wdriver
     wdriver.quit()
 
@@ -82,7 +84,7 @@ def android_driver():
     adriver.quit()
 
 
-@pytest.fixture(scope='session', autouse=True)
+@pytest.fixture(scope='session', autouse=False)
 def setup_and_teardown(web_driver):
     login_page = LoginPage(web_driver)
     login_page.log_in(ini.user_account, ini.user_password)

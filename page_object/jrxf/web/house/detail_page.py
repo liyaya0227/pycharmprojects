@@ -97,6 +97,13 @@ class HouseDetailPage(WebPage):
         number = int(re.findall(r'[(](.*?)[)]', text)[0][1:-1])
         return number
 
+    def get_house_img_number(self):
+        """获取房源图片数量"""
+        text = self.element_text(house_detail['查看更多'])
+        # number = int(re.findall(".*共(.*)张.*", text)[0][1:-1])
+        number = re.sub("[A-Za-z\u4e00-\u9fa5\，\。]", "", text)
+        return number
+
     def click_upload_house_model_btn(self):
         """点击上传户型介绍按钮"""
         self.is_click(house_detail['上传户型介绍按钮'])
@@ -105,21 +112,21 @@ class HouseDetailPage(WebPage):
         """户型介绍内容"""
         self.input_text(house_detail['户型名称输入框'], params['house_type_name'])
         self.is_click(house_detail['户型_室输入框'])
+        house_type_name = self.element_text(house_detail['户型名称输入框'])
         self.select_item_option(option=str(params['rooms']))
-        self.is_click(house_detail['户型_厅输入框'])
-
-        self.select_item_option(option=str(params['parlor']))
-        self.is_click(house_detail['户型_卫输入框'])
-        self.select_item_option(option=str(params['bathroom']))
-        self.is_click(house_detail['户型_厨输入框'])
-        self.select_item_option(option=str(params['kitchen']))
+        # self.is_click(house_detail['户型_厅输入框'])
+        # self.select_item_option(option=str(params['parlor']))
+        # self.is_click(house_detail['户型_卫输入框'])
+        # self.select_item_option(option=str(params['bathroom']))
+        # self.is_click(house_detail['户型_厨输入框'])
+        # self.select_item_option(option=str(params['kitchen']))
         self.input_text(house_detail['面积输入框'], params['area'])
         self.input_text(house_detail['户型朝向输入框'], params['orientation'])
         self.input_text(house_detail['户型最小价格输入框'], params['sale_price_start'])
         self.input_text(house_detail['户型最大价格输入框'], params['sale_price_end'])
         self.send_key(house_detail['户型图片input'], params['pictures_path'])
         self.is_click(house_detail['弹窗_确定按钮'])
-        house_type_name = self.element_text(house_detail['户型名称输入框'])
+        sleep(1)
         return house_type_name
 
     def get_building_info_number(self):
@@ -188,12 +195,41 @@ class HouseDetailPage(WebPage):
     def get_model_info_in_share_page(self):
         """分享页面户型信息"""
         model_info = self.element_text(house_detail['分享弹窗_户型'])
-        area = self.element_text(house_detail['分享弹窗_面积'])
+        area = self.element_text(house_detail['分享弹窗_面积']).split('m')[0]
         orientation = self.element_text(house_detail['分享弹窗_朝向'])
-        sale_price = self.element_text(house_detail['分享弹窗_价格'])
+        sale_price = self.element_text(house_detail['分享弹窗_价格']).split('\n')[0]
         return model_info, area, orientation, sale_price
 
-    def select_item_option(self, option=None):
+    # def choose_image_in_share_page(self):
+    #     """分享页面选择图片"""
+    #     self.is_click(house_detail['分享弹窗_效果图'])
+    #
+    # def click_generate_code_btn(self):
+    #     """点击生成二维码按钮"""
+    #     self.is_click(house_detail['生成海报二维码按钮'])
+    #     sleep(12)
+
+    def generate_code(self):
+        """生成二维码"""
+        self.is_click(house_detail['分享弹窗_效果图'])
+        self.is_click(house_detail['生成海报二维码按钮'])
+        sleep(12)
+
+    def verify_generate_code_success(self):
+        """验证生成二维码成功"""
+        sleep(3)
+        res = self.is_exists(house_detail['海报二维码弹窗'])
+        return res
+
+    def close_dialog(self):
+        """关闭弹窗"""
+        self.is_click(house_detail['弹窗_关闭按钮'])
+
+    def close_code_dialog(self):
+        """关闭二维码弹窗"""
+        self.is_click(house_detail['二维码弹窗_关闭按钮'])
+
+    def select_item_option(self, option=None, index=None):
         if option:
             locator = 'xpath', "//div[@style='' or not(@style)]//div[@class='rc-virtual-list']//div[contains(@class," \
                                "'ant-select-item ant-select-item-option') and @title='" + option + "'] "
@@ -201,7 +237,8 @@ class HouseDetailPage(WebPage):
         else:
             locator = 'xpath', "//div[@style='' or not(@style)]//div[@class='rc-virtual-list']//div[contains(@class," \
                                "'ant-select-item ant-select-item-option')] "
-            self.is_click(locator)
+            options = self.find_elements(locator)
+            options[index].click()
 
     @staticmethod
     def get_user_info_from_db(account):

@@ -34,7 +34,7 @@
 类型筛选_不限: "xpath==//div[not(contains(@style,'display'))]//label[text()='类型']/ancestor::div[contains(@class,'ant-row ant-form-item')]//span[text()='不限']/parent::label"
 房源渠道筛选_不限: "xpath==//div[not(contains(@style,'display'))]//label[text()='房源渠道']/ancestor::div[contains(@class,'ant-row ant-form-item')]//span[text()='不限']/parent::label"
 
-房源列表总数: "xpath==//div[not(contains(@style,'display'))]//div[@class='ant-col ant-col-24 houseTotal']//span"
+房源列表总数: "xpath==//div[@style='' or not(@style)]/div[@class='ant-row houseManage']//div[@class='ant-col ant-col-24 houseTotal']//span"
 房源列表: "xpath==//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table"
 
 列表中房源名称: "xpath==//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table/tbody"

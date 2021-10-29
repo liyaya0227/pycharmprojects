@@ -8,7 +8,8 @@
 """
 import allure
 import pytest
-from common.readconfig import ini
+
+from case_service.jrgj.web.house.house_service import HouseService
 from page_object.common.web.login.loginpage import LoginPage
 from page_object.jrgj.web.house.detailpage import HouseDetailPage
 from page_object.jrgj.web.main.leftviewpage import MainLeftViewPage
@@ -21,6 +22,7 @@ account_name = ''
 rent_house_code = ''
 maintainer_phone = ''
 actual_maintainer_name = ''
+house_service = HouseService()
 
 
 @allure.feature("租赁房源详情页-相关模块")
@@ -39,8 +41,9 @@ class TestHouseDetail(object):
         self.main_top_view = MainTopViewPage(gl_driver)
         self.main_left_view = MainLeftViewPage(gl_driver)
         self.house_detail_page = HouseDetailPage(gl_driver)
+        house_service.check_house_state(web_driver, 'rent')
         account_name = self.house_detail_page.get_account_name()
-        rent_house_code = self.house_detail_page.get_house_info_by_db(account_name, '租赁')
+        rent_house_code = self.house_detail_page.get_house_info_by_db(account_name, 'rent')
         yield
         self.main_up_view.clear_all_title()
 
@@ -55,7 +58,7 @@ class TestHouseDetail(object):
         self.main_top_view.wait_page_loading_complete()
         self.main_top_view.click_close_button()
         self.house_detail_page.change_role('经纪人')
-        rent_house_code = self.house_detail_page.get_house_info_by_db(actual_maintainer_name, '租赁')
+        rent_house_code = self.house_detail_page.get_house_info_by_db(actual_maintainer_name, 'rent')
         num = self.house_detail_page.get_house_num(rent_house_code, '租赁')
         if int(num) > 0:
             self.house_detail_page.enter_house_detail()

@@ -148,9 +148,9 @@ class HouseAddPage(WebPage):
         self.is_click(house_add['添加按钮'], sleep_time=1)
 
     def input_property_address(self, flag):
-        if flag == '买卖':
+        if flag == 'sale':
             self.choose_sale_radio()
-        elif flag == '租赁':
+        elif flag == 'rent':
             self.choose_rent_radio()
         else:
             raise ValueError('传值错误，只能是买卖或者租赁')
@@ -168,14 +168,14 @@ class HouseAddPage(WebPage):
         self.choose_house_type(test_data['house_types'])
         self.input_area(test_data['area'])
         self.choose_orientations(test_data['orientations'])
-        if flag == '买卖':
+        if flag == 'sale':
             self.input_sale_price(test_data['sale_price'])
-        elif flag == '租赁':
+        elif flag == 'rent':
             self.input_rent_price(test_data['rent_price'])
             self.input_rent_time(test_data['rent_time'])
         else:
             raise ValueError('传值错误，只能是买卖或者租赁')
         self.choose_inspect_type(test_data['inspect_type'])
-        if flag == '租赁':
+        if flag == 'rent':
             self.choose_decoration_state(test_data['decoration_state'])
         self.click_add_button()
