@@ -93,6 +93,14 @@ class ReadConfig(object):
         return self._get(self.environment.upper() + '_USER', 'OD_PASSWORD')
 
     @property
+    def survey_user_account(self):
+        return self._get(self.environment.upper() + '_USER', 'survey_account')
+
+    @property
+    def survey_user_password(self):
+        return self._get(self.environment.upper() + '_USER', 'survey_password')
+
+    @property
     def database_server(self):
         return self._get('DATABASE', 'DATABASE_SERVER')
 

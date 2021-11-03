@@ -29,31 +29,33 @@ survey_detail_page = None
 
 
 class SurveyService(object):
-    json_file_path = cm.test_data_dir + "/jrgj/test_sale/test_house/test_appointment_survey.json"
-    test_data = get_data(json_file_path)
-    survey_person_info = get_value(json_file_path, ini.environment)
+    # json_file_path = cm.test_data_dir + "/jrgj/test_sale/test_house/test_appointment_survey.json"
+    # test_data = get_data(json_file_path)
+    # survey_person_info = get_value(json_file_path, ini.environment)
 
-    def order_survey(self, web_driver, survey_person_info, exploration_time, appointment_instructions):
+    @staticmethod
+    def order_survey(web_driver, survey_person_info, exploration_time, appointment_instructions):
         global gl_web_driver, house_detail_page
         gl_web_driver = web_driver
         house_detail_page = HouseDetailPage(gl_web_driver)
         house_detail_page.click_survey_appointment_button()
         house_detail_page.dialog_choose_normal_survey()
-        house_detail_page.dialog_choose_photographer(self.survey_person_info['photographer'])
-        house_detail_page.dialog_choose_exploration_time(self.test_data['exploration_time'])
-        house_detail_page.dialog_input_appointment_instructions(self.test_data['appointment_instructions'])
+        house_detail_page.dialog_choose_photographer(survey_person_info)
+        house_detail_page.dialog_choose_exploration_time(exploration_time)
+        house_detail_page.dialog_input_appointment_instructions(appointment_instructions)
         house_detail_page.dialog_click_confirm_button()
 
-    def shoot_survey(self, android_driver, house_code, exploration_time):
+    @staticmethod
+    def shoot_survey(android_driver, house_code, exploration_time):
         global gl_app_driver, app_order_table, app_order_detail
         gl_app_driver = android_driver
         app_order_table = AppOrderTablePage(gl_app_driver)
         app_order_detail = AppOrderDetailPage(android_driver)
         app_order_table.click_search_button()
         app_order_table.input_search_content(house_code)
-        if self.test_data['exploration_time'][0] == '今天':
+        if exploration_time == '今天':
             date = dt_strftime("%d %m %Y")
-        elif self.test_data['exploration_time'] == '明天':
+        elif exploration_time == '明天':
             date = dt_strftime_with_delta(1, "%d %m %Y")
         else:
             raise '传值错误'

@@ -5,3 +5,4 @@
 上传图片按钮: "xpath==//form[@id='nest-messages']//input[@id='nest-messages_UploadImageIds']/parent::span[@role='button']"
 取消按钮: "xpath==//form[@id='nest-messages']//span[text()='取 消']/parent::button[@type='button']"
 提交按钮: "xpath==//form[@id='nest-messages']//span[text()='提 交']/parent::button[@type='submit']"
+书面委托协议图片input: "xpath==//input[@id='nest-messages_UploadImageIds']"
