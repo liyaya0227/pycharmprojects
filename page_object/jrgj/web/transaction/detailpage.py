@@ -6,8 +6,6 @@
 @file: detailpage.py
 @date: 2021/7/8 0008
 """
-
-from utils.timeutil import sleep
 from page.webpage import WebPage
 from common.readelement import Element
 

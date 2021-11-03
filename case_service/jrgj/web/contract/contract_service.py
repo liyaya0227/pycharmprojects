@@ -26,10 +26,17 @@ class ContractService(object):
         self.contract_create_order = ContractCreateOrderPage(web_driver)
         self.contract_detail = ContractDetailPage(web_driver)
 
-    def agent_add_contract(self, house_code, house_info, customer_code, env, test_data):
+    def agent_add_contract(self, house_code, house_info, customer_code, env, test_data, flag='买卖'):
         self.main_leftview.click_contract_management_label()
-        self.contract_table.click_sale_contract_tab()
+        if flag == '买卖':
+            self.contract_table.click_sale_contract_tab()
+        elif flag == '租赁':
+            self.contract_table.click_rent_contract_tab()
+        else:
+            raise ValueError('传值错误')
         self.contract_table.click_create_order_button()
+        if flag == '租赁':
+            self.contract_create_order.choose_business_type('租赁')
         self.contract_create_order.input_house_code(house_code)
         self.contract_create_order.click_get_house_info_button()
         self.contract_create_order.verify_house_info(house_info)
@@ -48,11 +55,18 @@ class ContractService(object):
         logger.info('合同创建成功')
         self.main_upview.clear_all_title()
         self.main_leftview.click_contract_management_label()
-        self.contract_table.click_sale_contract_tab()
+        if flag == '买卖':
+            self.contract_table.click_sale_contract_tab()
+        elif flag == '租赁':
+            self.contract_table.click_rent_contract_tab()
+        else:
+            raise ValueError('传值错误')
         self.contract_table.input_house_code_search(house_code)
         self.contract_table.input_customer_code_search(customer_code)
         self.contract_table.click_search_button()
-        return self.contract_table.get_contract_code_by_row(1)
+        contract_code = self.contract_table.get_contract_code_by_row(1)
+        self.main_upview.clear_all_title()
+        return contract_code
 
     def agent_submit_examine(self, contract_code):
         self.main_leftview.change_role('经纪人')

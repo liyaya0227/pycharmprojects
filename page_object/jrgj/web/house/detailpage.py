@@ -34,33 +34,33 @@ house_sql = ReadXml("jrgj//test_rent/test_house/house_sql")
 class HouseDetailPage(WebPage):
 
     def get_house_code(self):  # 获取房源详情房源编号
-        value = self.element_text(house_detail['房源编号标签'])
+        value = self.get_element_text(house_detail['房源编号标签'])
         return re.search(r"：(\d+)", value).group(1)
 
     def get_house_label(self):  # 获取房源标签
-        label_list = self.find_elements(house_detail['房源所有标签列标签'], wait_time=2)
+        label_list = self.find_elements(house_detail['房源所有标签列标签'], timeout=2)
         labels = []
         for label_ele in label_list:
             labels.append(label_ele.text)
         return labels
 
     def get_house_type(self):  # 获取房源详情户型信息
-        value = self.element_text(house_detail['户型标签'])
+        value = self.get_element_text(house_detail['户型标签'])
         return re.search(r"(?P<room>\d+?)-(?P<livingroom>\d+?)-(?P<kitchen>\d+?)-(?P<bathroom>\d+)", value).groupdict()
 
     def get_size(self):  # 获取房源详情朝向信息
-        return self.element_text(house_detail['面积标签'])
+        return self.get_element_text(house_detail['面积标签'])
 
     def get_orientations(self):  # 获取房源详情朝向信息
-        value = self.element_text(house_detail['朝向标签'])
+        value = self.get_element_text(house_detail['朝向标签'])
         return value.split(',')
 
     def get_floor(self):  # 获取房源详情楼层信息
-        value = self.element_text(house_detail['楼层标签'])
+        value = self.get_element_text(house_detail['楼层标签'])
         return value
 
     def get_detail_floor(self):  # 获取房源详情具体楼层信息
-        value = self.element_text(house_detail['楼层标签'])
+        value = self.get_element_text(house_detail['楼层标签'])
         return value.split('/')[0]
 
     def get_out_show(self):  # 获取是否外网呈现
@@ -72,42 +72,42 @@ class HouseDetailPage(WebPage):
 
     def choose_out_show(self):  # 选择外网呈现
         if not self.get_out_show():
-            self.is_click(house_detail['外网呈现按钮'], sleep_time=1)
+            self.click_element(house_detail['外网呈现按钮'], sleep_time=1)
 
     def choose_not_out_show(self):  # 选择外网不呈现
         if self.get_out_show():
-            self.is_click(house_detail['外网呈现按钮'], sleep_time=1)
+            self.click_element(house_detail['外网呈现按钮'], sleep_time=1)
 
     def get_inspect_type(self):  # 获取房源详情左侧常规看房时间
-        value = self.element_text(house_detail['常规看房时间标签'])
+        value = self.get_element_text(house_detail['常规看房时间标签'])
         try:
             return value.split('： ')[1]
         except IndexError:
             return ''
 
     def get_renovation_condition(self):  # 获取房源详情左侧装修情况
-        value = self.element_text(house_detail['装修情况标签'])
+        value = self.get_element_text(house_detail['装修情况标签'])
         try:
             return value.split('： ')[1]
         except IndexError:
             return ''
 
     def get_house_state(self):  # 获取房源详情左侧房屋现状
-        value = self.element_text(house_detail['房屋现状标签'])
+        value = self.get_element_text(house_detail['房屋现状标签'])
         try:
             return value.split('： ')[1]
         except IndexError:
             return ''
 
     def get_has_pledge(self):  # 获取房源详情左侧抵押情况
-        value = self.element_text(house_detail['抵押情况标签'])
+        value = self.get_element_text(house_detail['抵押情况标签'])
         try:
             return value.split('： ')[1]
         except IndexError:
             return ''
 
     def get_enable_watch_time(self):  # 获取房源详情左侧可看时间
-        value = self.element_text(house_detail['可看时间标签'])
+        value = self.get_element_text(house_detail['可看时间标签'])
         try:
             return value.split('： ')[1]
         except IndexError:
@@ -115,34 +115,34 @@ class HouseDetailPage(WebPage):
 
     def check_shopowner_recommend(self):
         if self.element_is_exist(house_detail['店长力荐标签']):
-            return self.element_text(house_detail['店长力荐标签'])
+            return self.get_element_text(house_detail['店长力荐标签'])
         else:
             return ''
 
     def check_survey_status(self):  # 是否已上传实勘
         try:
-            self.find_element(house_detail['实勘状态标签'], wait_time=2)
-            if self.element_text(house_detail['实勘状态标签']) == '下载实勘图':
+            self.find_element(house_detail['实勘状态标签'], timeout=2)
+            if self.get_element_text(house_detail['实勘状态标签']) == '下载实勘图':
                 return '已上传'
-            elif '已预约实勘' in self.element_text(house_detail['实勘状态标签']):
+            elif '已预约实勘' in self.get_element_text(house_detail['实勘状态标签']):
                 return '已预约'
         except TimeoutException:
             return '未预约'
 
     def click_survey_appointment_button(self):  # 点击预约实勘按钮
-        self.is_click(house_detail['预约实勘按钮'], sleep_time=1)
+        self.click_element(house_detail['预约实勘按钮'], sleep_time=1)
 
     def click_back_survey_button(self):  # 点击实勘退单按钮
-        self.is_click(house_detail['实勘退单按钮'], sleep_time=1)
+        self.click_element(house_detail['实勘退单按钮'], sleep_time=1)
 
     def dialog_choose_normal_survey(self):  # 预约实勘弹窗选择普通实勘
-        self.is_click(house_detail['选择实勘方式_普通实勘单选'])
+        self.click_element(house_detail['选择实勘方式_普通实勘单选'])
 
     def dialog_choose_vr_survey(self):  # 预约实勘弹窗选择VR实勘
-        self.is_click(house_detail['选择实勘方式_VR实勘单选'])
+        self.click_element(house_detail['选择实勘方式_VR实勘单选'])
 
     def dialog_choose_photographer(self, photographer):  # 预约实勘弹窗选择摄影师
-        self.is_click(house_detail['摄影师输入框'], sleep_time=0.5)
+        self.click_element(house_detail['摄影师输入框'], sleep_time=0.5)
         self.input_text(house_detail['摄影师输入框'], photographer)
         photographer_list = self.find_elements(house_detail['摄影师下拉框'])
         for photographer_ele in photographer_list:
@@ -151,8 +151,8 @@ class HouseDetailPage(WebPage):
                 break
 
     def dialog_choose_exploration_time(self, date_time):  # 预约实勘弹窗输入预约时间
-        self.is_click(house_detail['预约实勘时间_' + date_time[0] + '单选'])
-        self.is_click(house_detail['预约实勘时间_时间选择框'], sleep_time=0.5)
+        self.click_element(house_detail['预约实勘时间_' + date_time[0] + '单选'])
+        self.click_element(house_detail['预约实勘时间_时间选择框'], sleep_time=0.5)
         time_list = self.find_elements(house_detail['预约实勘时间_时间下拉框'])
         for time_ele in time_list:
             if time_ele.text == date_time[1]:
@@ -168,7 +168,7 @@ class HouseDetailPage(WebPage):
         self.input_text(house_detail['预约说明输入框'], appointment_instructions)
 
     def dialog_choose_back_exploration_reason(self, reason):  # 实勘退单弹窗选择退单原因
-        self.is_click(house_detail['实勘退单_退单原因选择框'])
+        self.click_element(house_detail['实勘退单_退单原因选择框'])
         reason_list = self.find_elements(house_detail['实勘退单_退单原因下拉框'])
         for reason_ele in reason_list:
             if reason_ele.text == reason:
@@ -176,7 +176,7 @@ class HouseDetailPage(WebPage):
                 break
 
     def dialog_click_back_exploration_return_button(self):  # 点击实勘退单弹窗退单按钮
-        self.is_click(house_detail['实勘退单_退单按钮'], sleep_time=1)
+        self.click_element(house_detail['实勘退单_退单按钮'], sleep_time=1)
 
     @staticmethod
     def update_survey_claim_create_time_by_db(house_code, create_time, flag='买卖'):
@@ -248,7 +248,7 @@ class HouseDetailPage(WebPage):
 
     def __click_upload_button(self, certificate_name):  # 点击证书上传按钮
         locator = 'xpath', "//span[text()='" + certificate_name + "']/ancestor::p//span[@class='blue' and text()='上传']"
-        self.is_click(locator)
+        self.click_element(locator)
 
     def check_upload_written_entrustment_agreement(self):  # 查看书面委托协议是否已上传
         return self.__check_upload_certificate('书面委托协议')
@@ -273,10 +273,10 @@ class HouseDetailPage(WebPage):
 
     def __check_upload_certificate(self, certificate_name):  # 查看证书是否已上传
         locator = 'xpath', "//span[text()='" + certificate_name + "']/ancestor::p//span[@class='blue']"
-        text = self.element_text(locator)
+        text = self.get_element_text(locator)
         if text == '查看':
             certificate_locator = 'xpath', "//span[text()='" + certificate_name + "']/ancestor::li//em[last()]"
-            if '登记日期' in self.element_text(certificate_locator):
+            if '登记日期' in self.get_element_text(certificate_locator):
                 return '审核通过'
             else:
                 return '待审核'
@@ -306,8 +306,8 @@ class HouseDetailPage(WebPage):
 
     def __delete_certificate(self, certificate_name):  # 删除证书
         locator = 'xpath', "//span[text()='" + certificate_name + "']/ancestor::p//span[text()='删除']"
-        self.is_click(locator)
-        self.is_click(house_detail['删除证件_确定按钮'], sleep_time=1)
+        self.click_element(locator)
+        self.click_element(house_detail['删除证件_确定按钮'], sleep_time=1)
 
     def upload_written_entrustment_agreement(self, written_entrustment_agreement):  # 上传书面委托协议
         self.click_written_entrustment_agreement_upload_button()
@@ -399,95 +399,95 @@ class HouseDetailPage(WebPage):
         property_ownership_certificate_page.click_submit_button()
 
     def click_share_button(self):  # 点击房源详情右侧分享按钮
-        self.is_click(house_detail['右侧菜单分享按钮'])
+        self.click_element(house_detail['右侧菜单分享按钮'])
 
     def share_dialog_get_community_name(self):  # 获取分享弹窗楼盘名称
-        return self.element_text(house_detail['分享弹窗_楼盘名称标签'])
+        return self.get_element_text(house_detail['分享弹窗_楼盘名称标签'])
 
     def share_dialog_get_house_type(self):  # 获取分享弹窗户型
-        value = self.element_text(house_detail['分享弹窗_户型标签'])
+        value = self.get_element_text(house_detail['分享弹窗_户型标签'])
         return re.search(r"(?P<room>\d+?)-(?P<livingroom>\d+?)-(?P<kitchen>\d+?)-(?P<bathroom>\d+)", value).groupdict()
 
     def share_dialog_get_size(self):  # 获取分享弹窗面积
-        return self.element_text(house_detail['分享弹窗_面积标签'])
+        return self.get_element_text(house_detail['分享弹窗_面积标签'])
 
     def share_dialog_get_orientations(self):  # 获取分享弹窗朝向
-        value = self.element_text(house_detail['分享弹窗_朝向标签'])
+        value = self.get_element_text(house_detail['分享弹窗_朝向标签'])
         return value.split(',')
 
     def share_dialog_get_price(self):  # 获取分享弹窗价格
-        return self.element_text(house_detail['分享弹窗_价格标签'])
+        return self.get_element_text(house_detail['分享弹窗_价格标签'])
 
     def share_dialog_get_name(self):  # 获取分享弹窗姓名
-        return self.element_text(house_detail['分享弹窗_姓名标签'])
+        return self.get_element_text(house_detail['分享弹窗_姓名标签'])
 
     def share_dialog_get_phone(self):  # 获取分享弹窗电话
-        return self.element_text(house_detail['分享弹窗_电话标签'])
+        return self.get_element_text(house_detail['分享弹窗_电话标签'])
 
     def click_address_button(self):  # 点击房源详情右侧地址按钮
-        self.is_click(house_detail['右侧菜单地址按钮'], sleep_time=0.5)
+        self.click_element(house_detail['右侧菜单地址按钮'], sleep_time=0.5)
 
     def dialog_looked_count_exist(self):  # 弹窗返回今日已看是否存在
-        return self.element_is_exist(house_detail['弹窗_已看次数标签'], wait_time=0.5)
+        return self.element_is_exist(house_detail['弹窗_已看次数标签'], timeout=0.5)
 
     def dialog_get_looked_count(self):  # 弹窗今日已看次数
-        return self.element_text(house_detail['弹窗_已看次数标签'])
+        return self.get_element_text(house_detail['弹窗_已看次数标签'])
 
     def follow_dialog_exist(self):
-        return self.element_is_exist(house_detail['跟进弹窗_详细跟进输入框'], wait_time=0.5)
+        return self.element_is_exist(house_detail['跟进弹窗_详细跟进输入框'], timeout=0.5)
 
     def follow_dialog_input_detail_follow(self, detail_follow):
         self.input_text(house_detail['跟进弹窗_详细跟进输入框'], detail_follow)
 
     def click_floor_button(self):  # 点击房源详情右侧楼层按钮
-        self.is_click(house_detail['右侧菜单楼层按钮'])
+        self.click_element(house_detail['右侧菜单楼层按钮'])
 
     def get_floor_dialog_detail_floor(self):  # 获取楼层弹窗具体楼层信息
-        value = self.element_text(house_detail['楼层弹窗_具体楼层信息']).split('具体楼层')[1]
+        value = self.get_element_text(house_detail['楼层弹窗_具体楼层信息']).split('具体楼层')[1]
         return value.replace(' ', '')
 
     def click_phone_button(self):  # 点击房源详情右侧电话按钮
-        self.is_click(house_detail['右侧菜单电话按钮'], sleep_time=0.5)
+        self.click_element(house_detail['右侧菜单电话按钮'], sleep_time=0.5)
 
     def phone_dialog_click_check_button(self):  # 电话弹窗点击查看按钮
-        self.is_click(house_detail['电话弹窗_查看按钮'], sleep_time=0.5)
+        self.click_element(house_detail['电话弹窗_查看按钮'], sleep_time=0.5)
 
     def phone_dialog_get_phone(self):  # 电话弹窗获取电话
-        return self.element_text(house_detail['电话弹窗_电话标签']).split('手机')[1]
+        return self.get_element_text(house_detail['电话弹窗_电话标签']).split('手机')[1]
 
     def click_invalid_house_button(self):  # 点击房源详情右侧无效房源按钮
         self.move_mouse_to_element(house_detail['右侧菜单更多按钮'])
         self.move_mouse_to_element(house_detail['无效该房源按钮'])
-        self.is_click(house_detail['无效该房源按钮'])
-        self.is_click(house_detail['无效房源弹窗_确定按钮'])
+        self.click_element(house_detail['无效该房源按钮'])
+        self.click_element(house_detail['无效房源弹窗_确定按钮'])
 
     def input_invalid_reason(self, invalid_reason):  # 无效房源弹窗输入无效理由
         self.input_text(house_detail['无效理由输入框'], invalid_reason)
 
     def click_invalid_reason_confirm_button(self):  # 点击无效弹窗确认按钮
-        self.is_click(house_detail['无效理由_确认按钮'])
+        self.click_element(house_detail['无效理由_确认按钮'])
 
     def click_invalid_reason_cancel_button(self):  # 点击无效弹窗取消按钮
-        self.is_click(house_detail['无效理由_取消按钮'])
+        self.click_element(house_detail['无效理由_取消按钮'])
 
     def click_delete_survey_button(self):  # 点击房源详情右侧删除实勘按钮
         self.move_mouse_to_element(house_detail['右侧菜单更多按钮'])
         self.move_mouse_to_element(house_detail['删除实勘按钮'])
-        self.is_click(house_detail['删除实勘按钮'])
+        self.click_element(house_detail['删除实勘按钮'])
 
     def get_tooltip_content(self):
-        if self.element_is_exist(house_detail['弹窗显示'], wait_time=1):
-            return self.element_text(house_detail['弹窗显示'])
+        if self.element_is_exist(house_detail['弹窗显示'], timeout=1):
+            return self.get_element_text(house_detail['弹窗显示'])
         else:
             return ''
 
     def get_address_dialog_house_property_address(self):  # 获取房源地址弹窗所有信息
-        self.is_click(house_detail['右侧菜单地址按钮'], sleep_time=1)
-        estate_name = self.element_text(house_detail['房源物业地址_楼盘名称显示框']).split('楼盘名称')[1]
-        building_name = self.element_text(house_detail['房源物业地址_楼栋显示框']).split('楼栋')[1]
-        unit_name = self.element_text(house_detail['房源物业地址_单元显示框']).split('单元')[1]
-        door_name = self.element_text(house_detail['房源物业地址_门牌显示框']).split('门牌')[1]
-        self.is_click(house_detail['弹窗_关闭按钮'])
+        self.click_element(house_detail['右侧菜单地址按钮'], sleep_time=1)
+        estate_name = self.get_element_text(house_detail['房源物业地址_楼盘名称显示框']).split('楼盘名称')[1]
+        building_name = self.get_element_text(house_detail['房源物业地址_楼栋显示框']).split('楼栋')[1]
+        unit_name = self.get_element_text(house_detail['房源物业地址_单元显示框']).split('单元')[1]
+        door_name = self.get_element_text(house_detail['房源物业地址_门牌显示框']).split('门牌')[1]
+        self.click_element(house_detail['弹窗_关闭按钮'])
         if self.follow_dialog_exist():
             self.follow_dialog_input_detail_follow('详细跟进信息')
             self.dialog_click_confirm_button()
@@ -499,20 +499,20 @@ class HouseDetailPage(WebPage):
         }
 
     def get_floor_dialog_house_floor(self):  # 获取房源地址弹窗所有信息
-        self.is_click(house_detail['右侧菜单楼层按钮'], sleep_time=1)
-        floor = self.element_text(house_detail['楼层弹窗_具体楼层信息']).split('具体楼层')[1]
-        self.is_click(house_detail['弹窗_关闭按钮'])
+        self.click_element(house_detail['右侧菜单楼层按钮'], sleep_time=1)
+        floor = self.get_element_text(house_detail['楼层弹窗_具体楼层信息']).split('具体楼层')[1]
+        self.click_element(house_detail['弹窗_关闭按钮'])
         return floor.split('/')[0].replace(' ', '')
 
     def click_go_top_button(self):  # 点击房源详情右侧顶部按钮
-        self.is_click(house_detail['右侧菜单顶部按钮'])
+        self.click_element(house_detail['右侧菜单顶部按钮'])
 
     def page_refresh(self):
-        self.refresh()
+        self.browser_refresh()
 
     def get_vip_person(self):
-        if self.element_is_exist(house_detail['VIP服务人_姓名标签'], wait_time=1):
-            return self.element_text(house_detail['VIP服务人_姓名标签'])
+        if self.element_is_exist(house_detail['VIP服务人_姓名标签'], timeout=1):
+            return self.get_element_text(house_detail['VIP服务人_姓名标签'])
         else:
             return ''
 
@@ -532,30 +532,30 @@ class HouseDetailPage(WebPage):
                             "//div[@style='' or not(@style)]/div[@class='houseDetail']" \
                             "//div[contains(@class,'roleInfo')]//i[@class='tip' and text()='" + role \
                             + "']/parent::div//i[@class='brand']"
-            role_info['品牌'] = self.element_text(brand_locator)
+            role_info['品牌'] = self.get_element_text(brand_locator)
             name_locator = 'xpath', \
                            "//div[@style='' or not(@style)]/div[@class='houseDetail']" \
                            "//div[contains(@class,'roleInfo')]//i[@class='tip' and text()='" + role \
                            + "']/parent::div//p[@class='card-text-p']/span/parent::p"
-            role_info['姓名'] = self.element_text(name_locator)
+            role_info['姓名'] = self.get_element_text(name_locator)
             shop_group_locator = 'xpath', \
                                  "(//div[@style='' or not(@style)]/div[@class='houseDetail']" \
                                  "//div[contains(@class,'roleInfo')]//i[@class='tip' and text()='" + role \
                                  + "']/parent::div//p[@class='card-text-p'])[2]"
-            role_info['店组'] = self.element_text(shop_group_locator)
+            role_info['店组'] = self.get_element_text(shop_group_locator)
             phone_locator = 'xpath', \
                             "//div[@style='' or not(@style)]/div[@class='houseDetail']" \
                             "//div[contains(@class,'roleInfo')]//i[@class='tip' and text()='" + role \
                             + "']/parent::div//p[contains(text(),'联系电话')]/span"
-            role_info['电话'] = self.element_text(phone_locator)
+            role_info['电话'] = self.get_element_text(phone_locator)
             role_info_list['房源' + role] = role_info
         return role_info_list
 
     def click_edit_house_key_info_button(self):  # 点击房源详情维护重点信息按钮
-        self.is_click(house_detail['编辑重点维护信息按钮'])
+        self.click_element(house_detail['编辑重点维护信息按钮'])
 
     def dialog_choose_inspect_type(self, inspect_type):  # 维护重点信息弹窗页选择常规看房时间
-        self.is_click(house_detail['常规看房时间选择框'], sleep_time=0.5)
+        self.click_element(house_detail['常规看房时间选择框'], sleep_time=0.5)
         inspect_type_list = self.find_elements(house_detail['下拉框'])
         for inspect_type_ele in inspect_type_list:
             if inspect_type_ele.text == inspect_type:
@@ -564,7 +564,7 @@ class HouseDetailPage(WebPage):
         raise ValueError('传值错误')
 
     def dialog_choose_house_state(self, house_state):  # 维护重点信息弹窗页选择房屋现状
-        self.is_click(house_detail['房屋现状选择框'], sleep_time=0.5)
+        self.click_element(house_detail['房屋现状选择框'], sleep_time=0.5)
         house_state_list = self.find_elements(house_detail['下拉框'])
         for house_state_ele in house_state_list:
             if house_state_ele.text == house_state:
@@ -577,7 +577,7 @@ class HouseDetailPage(WebPage):
         self.input_text(house_detail['房屋现状输入框'], house_state_desc)
 
     def dialog_choose_is_unique(self, is_unique):  # 维护重点信息弹窗页选择是否唯一
-        self.is_click(house_detail['是否唯一选择框'], sleep_time=0.5)
+        self.click_element(house_detail['是否唯一选择框'], sleep_time=0.5)
         is_unique_list = self.find_elements(house_detail['下拉框'])
         for is_unique_ele in is_unique_list:
             if is_unique_ele.text == is_unique:
@@ -594,7 +594,7 @@ class HouseDetailPage(WebPage):
         self.input_text(house_detail['售房原因输入框'], sale_reason)
 
     def dialog_choose_register_state(self, register_state):  # 维护重点信息弹窗页选择户口情况
-        self.is_click(house_detail['户口情况选择框'], sleep_time=0.5)
+        self.click_element(house_detail['户口情况选择框'], sleep_time=0.5)
         register_state_list = self.find_elements(house_detail['下拉框'])
         for register_state_ele in register_state_list:
             if register_state_ele.text == register_state:
@@ -603,7 +603,7 @@ class HouseDetailPage(WebPage):
         raise ValueError('传值错误')
 
     def dialog_choose_has_pledge(self, has_pledge):  # 维护重点信息弹窗页选择抵押情况
-        self.is_click(house_detail['抵押情况选择框'], sleep_time=0.5)
+        self.click_element(house_detail['抵押情况选择框'], sleep_time=0.5)
         has_pledge_list = self.find_elements(house_detail['下拉框'])
         for has_pledge_ele in has_pledge_list:
             if has_pledge_ele.text == has_pledge:
@@ -612,7 +612,7 @@ class HouseDetailPage(WebPage):
         raise ValueError('传值错误')
 
     def dialog_choose_check_out_right_now(self, check_out_right_now):  # 维护重点信息弹窗页选择是否随时可签
-        self.is_click(house_detail['是否随时可签选择框'], sleep_time=0.5)
+        self.click_element(house_detail['是否随时可签选择框'], sleep_time=0.5)
         check_out_right_now_list = self.find_elements(house_detail['下拉框'])
         for check_out_right_now_ele in check_out_right_now_list:
             if check_out_right_now_ele.text == check_out_right_now:
@@ -621,7 +621,7 @@ class HouseDetailPage(WebPage):
         raise ValueError('传值错误')
 
     def dialog_choose_has_school_places(self, has_school_places):  # 维护重点信息弹窗页选择学区名额
-        self.is_click(house_detail['学区名额选择框'], sleep_time=0.5)
+        self.click_element(house_detail['学区名额选择框'], sleep_time=0.5)
         has_school_places_list = self.find_elements(house_detail['下拉框'])
         for has_school_places_ele in has_school_places_list:
             if has_school_places_ele.text == has_school_places:
@@ -630,7 +630,7 @@ class HouseDetailPage(WebPage):
         raise ValueError('传值错误')
 
     def dialog_choose_decoration_state(self, decoration_state):  # 维护重点信息弹窗页选择装修情况
-        self.is_click(house_detail['装修情况选择框'], sleep_time=0.5)
+        self.click_element(house_detail['装修情况选择框'], sleep_time=0.5)
         decoration_state_list = self.find_elements(house_detail['下拉框'])
         for decoration_state_ele in decoration_state_list:
             if decoration_state_ele.text == decoration_state:
@@ -639,7 +639,7 @@ class HouseDetailPage(WebPage):
         raise ValueError('传值错误')
 
     def dialog_choose_house_property_limit(self, house_property_limit):  # 维护重点信息弹窗页选择产证年限
-        self.is_click(house_detail['产证年限选择框'], sleep_time=0.5)
+        self.click_element(house_detail['产证年限选择框'], sleep_time=0.5)
         house_property_limit_list = self.find_elements(house_detail['下拉框'])
         for house_property_limit_ele in house_property_limit_list:
             if house_property_limit_ele.text == house_property_limit:
@@ -648,7 +648,7 @@ class HouseDetailPage(WebPage):
         raise ValueError('传值错误')
 
     def dialog_choose_house_usage(self, house_usage):  # 维护重点信息弹窗页选择房屋用途
-        self.is_click(house_detail['房屋用途选择框'], sleep_time=0.5)
+        self.click_element(house_detail['房屋用途选择框'], sleep_time=0.5)
         house_usage_list = self.find_elements(house_detail['下拉框'])
         for house_usage_ele in house_usage_list:
             if house_usage_ele.text == house_usage:
@@ -657,10 +657,10 @@ class HouseDetailPage(WebPage):
         raise ValueError('传值错误')
 
     def dialog_click_confirm_button(self):  # 弹窗确定按钮
-        self.is_click(house_detail['弹窗_确定按钮'], sleep_time=1)
+        self.click_element(house_detail['弹窗_确定按钮'], sleep_time=1)
 
     def dialog_click_cancel_button(self):  # 弹窗取消按钮
-        self.is_click(house_detail['弹窗_取消按钮'])
+        self.click_element(house_detail['弹窗_取消按钮'])
 
     def check_dialog_cancel_button_disabled(self):
         if self.get_element_attribute(house_detail['弹窗_取消按钮'], 'disabled') == 'true':
@@ -669,7 +669,7 @@ class HouseDetailPage(WebPage):
             return False
 
     def dialog_click_close_button(self):  # 弹窗关闭按钮
-        self.is_click(house_detail['弹窗_关闭按钮'])
+        self.click_element(house_detail['弹窗_关闭按钮'])
 
     def edit_house_key_info(self, test_data):  # 点击房源详情维护重点信息按钮并填写弹窗页所有信息
         self.click_edit_house_key_info_button()
@@ -689,18 +689,18 @@ class HouseDetailPage(WebPage):
         self.dialog_click_confirm_button()
 
     def get_house_key_info(self):  # 获取房源详情重点信息
-        inspect_type = self.element_text(house_detail['右侧_常规看房时间标签']).split('：')[1].replace(' ', '')
-        house_state = self.element_text(house_detail['右侧_房屋现状标签']).split('：')[1].replace(' ', '')
-        is_unique = self.element_text(house_detail['右侧_是否唯一标签']).split('：')[1].replace(' ', '')
-        pay_constraint = self.element_text(house_detail['右侧_付款要求标签']).split('：')[1].replace(' ', '')
-        sale_reason = self.element_text(house_detail['右侧_售房原因标签']).split('：')[1].replace(' ', '')
-        register_state = self.element_text(house_detail['右侧_户口情况标签']).split('：')[1].replace(' ', '')
-        has_pledge = self.element_text(house_detail['右侧_抵押情况标签']).split('：')[1].replace(' ', '')
-        check_out_right_now = self.element_text(house_detail['右侧_是否随时可签标签']).split('：')[1].replace(' ', '')
-        has_school_places = self.element_text(house_detail['右侧_学区名额标签']).split('：')[1].replace(' ', '')
-        decoration_state = self.element_text(house_detail['右侧_装修情况标签']).split('：')[1].replace(' ', '')
-        house_property_limit = self.element_text(house_detail['右侧_产证年限标签']).split('：')[1].replace(' ', '')
-        house_usage = self.element_text(house_detail['右侧_房屋用途标签']).split('：')[1].replace(' ', '')
+        inspect_type = self.get_element_text(house_detail['右侧_常规看房时间标签']).split('：')[1].replace(' ', '')
+        house_state = self.get_element_text(house_detail['右侧_房屋现状标签']).split('：')[1].replace(' ', '')
+        is_unique = self.get_element_text(house_detail['右侧_是否唯一标签']).split('：')[1].replace(' ', '')
+        pay_constraint = self.get_element_text(house_detail['右侧_付款要求标签']).split('：')[1].replace(' ', '')
+        sale_reason = self.get_element_text(house_detail['右侧_售房原因标签']).split('：')[1].replace(' ', '')
+        register_state = self.get_element_text(house_detail['右侧_户口情况标签']).split('：')[1].replace(' ', '')
+        has_pledge = self.get_element_text(house_detail['右侧_抵押情况标签']).split('：')[1].replace(' ', '')
+        check_out_right_now = self.get_element_text(house_detail['右侧_是否随时可签标签']).split('：')[1].replace(' ', '')
+        has_school_places = self.get_element_text(house_detail['右侧_学区名额标签']).split('：')[1].replace(' ', '')
+        decoration_state = self.get_element_text(house_detail['右侧_装修情况标签']).split('：')[1].replace(' ', '')
+        house_property_limit = self.get_element_text(house_detail['右侧_产证年限标签']).split('：')[1].replace(' ', '')
+        house_usage = self.get_element_text(house_detail['右侧_房屋用途标签']).split('：')[1].replace(' ', '')
         house_key_info = {'inspect_type': '-' if inspect_type == '' else inspect_type,
                           'house_state': '-' if house_state == '' else house_state,
                           'is_unique': '-' if is_unique == '' else is_unique,
@@ -724,22 +724,22 @@ class HouseDetailPage(WebPage):
 
     def get_account_name(self):
         """获取当前账号的名字"""
-        account_name = self.element_text(house_detail['当前账号名字']).split(' ')[0]
+        account_name = self.get_element_text(house_detail['当前账号名字']).split(' ')[0]
         return account_name
 
     def get_house_num(self, house_code, flag):
         """获取当前维护人下的房源数量"""
         main_leftview.click_all_house_label()
         if flag == '买卖':
-            self.is_click(house_detail['买卖区域筛选_不限'])
+            self.click_element(house_detail['买卖区域筛选_不限'])
             self.input_text(house_detail['房源编号输入框'], house_code)
         else:
-            self.is_click(house_detail['租赁菜单'])
-            self.is_click(house_detail['买卖区域筛选_不限'])
+            self.click_element(house_detail['租赁菜单'])
+            self.click_element(house_detail['买卖区域筛选_不限'])
             self.input_text(house_detail['房源编号输入框'], house_code)
-        self.is_click(house_detail['搜索按钮'])
+        self.click_element(house_detail['搜索按钮'])
         sleep(2)
-        num = self.element_text(house_detail['搜索结果总数'])[8:][:-1]
+        num = self.get_element_text(house_detail['搜索结果总数'])[8:][:-1]
         sleep(1)
         return num
 
@@ -780,23 +780,23 @@ class HouseDetailPage(WebPage):
     def enter_house_detail(self):
         """进入房源详情页面"""
         sleep(1)
-        self.is_click(house_detail['列表中的第一条房源'])
+        self.click_element(house_detail['列表中的第一条房源'])
 
     def get_house_info_in_detail_page(self, flag):
         """获取房源编号、房源面积等信息"""
-        house_no = self.element_text(house_detail['房源详情页面的房源编号'])[5:]
+        house_no = self.get_element_text(house_detail['房源详情页面的房源编号'])[5:]
         if flag == '买卖':
-            initial_price = self.element_text(house_detail['房源初始价格'])[:-1]
+            initial_price = self.get_element_text(house_detail['房源初始价格'])[:-1]
         elif flag == '租赁':
-            initial_price = self.element_text(house_detail['房源初始价格']).split('元')[0]
-        house_area = self.element_text(house_detail['房源面积']).split('m')[0]
+            initial_price = self.get_element_text(house_detail['房源初始价格']).split('元')[0]
+        house_area = self.get_element_text(house_detail['房源面积']).split('m')[0]
         self.move_mouse_to_element(house_detail['更多按钮'])
         return house_no, initial_price, house_area
 
     def view_basic_information(self):
         """查看房源基础信息"""
         self.move_mouse_to_element(house_detail['右侧菜单更多按钮'])
-        self.is_click(house_detail['房源基础信息按钮'])
+        self.click_element(house_detail['房源基础信息按钮'])
 
     def verify_can_modify(self):
         """验证是否可以修改"""
@@ -808,23 +808,23 @@ class HouseDetailPage(WebPage):
     def verify_view_success(self):
         """验证查看房源基础信息是否成功"""
         res = self.is_exists(house_detail['房源基础信息弹窗title'])
-        # self.is_click(house_detail['基础信息弹窗_取消按钮'])
+        # self.click_element(house_detail['基础信息弹窗_取消按钮'])
         return res
 
     def close_dialog(self):
         """关闭弹窗"""
-        self.is_click(house_detail['基础信息弹窗_关闭按钮'])
+        self.click_element(house_detail['基础信息弹窗_关闭按钮'])
 
     def submit_modify_state_application(self):
         """提交修改房源状态申请"""
-        self.is_click(house_detail['房源状态按钮'])
-        self.is_click(house_detail['暂缓出售选项'])
-        self.is_click(house_detail['房源状态弹窗确定按钮'])
+        self.click_element(house_detail['房源状态按钮'])
+        self.click_element(house_detail['暂缓出售选项'])
+        self.click_element(house_detail['房源状态弹窗确定按钮'])
 
     def verify_submit_success(self):
         """验证提交申请是否成功"""
-        text = self.element_text(house_detail['弹窗_提交成功提示'])
-        self.is_click(house_detail['弹窗_确定按钮'])
+        text = self.get_element_text(house_detail['弹窗_提交成功提示'])
+        self.click_element(house_detail['弹窗_确定按钮'])
         return text
 
     def verify_get_application_success(self, role_name, house_no):
@@ -833,7 +833,7 @@ class HouseDetailPage(WebPage):
         main_rightrview = MainRightViewPage(self.driver)
         main_rightrview.click_review_house_state()
         self.scroll_to_bottom()
-        self.is_click(house_detail['暂缓房源审核选项'])
+        self.click_element(house_detail['暂缓房源审核选项'])
         sleep(1)
         locator = 'xpath', "//div[@class='invalid-housing-resource']//td[@class='ant-table-cell']/a/span[text()='" + house_no + "']"
         res = self.is_exists(locator)
@@ -841,9 +841,9 @@ class HouseDetailPage(WebPage):
 
     def verify_reject_application_sucess(self, house_no):
         """驳回申请并验证驳回成功"""
-        self.is_click(house_detail['驳回按钮'])
+        self.click_element(house_detail['驳回按钮'])
         self.input_text(house_detail['驳回理由输入框'], '驳回')
-        self.is_click(house_detail['驳回弹窗确定按钮'])
+        self.click_element(house_detail['驳回弹窗确定按钮'])
         self.click_blank_area()
         sleep(1)
         locator = 'xpath', "//div[@class='invalid-housing-resource']//td[@class='ant-table-cell']/a/span[text()='" + house_no + "']"
@@ -853,58 +853,58 @@ class HouseDetailPage(WebPage):
     def get_initial_price_in_dialog(self):
         """获取调价弹窗页面的初始房源价格"""
         self.move_mouse_to_element(house_detail['右侧菜单更多按钮'])
-        self.is_click(house_detail['调整价格选项'])
-        initial_price_in_dialog = self.element_text(house_detail['调价弹窗的房源价格']).split('.')[0]  # 调整弹窗中的房源初始价格
+        self.click_element(house_detail['调整价格选项'])
+        initial_price_in_dialog = self.get_element_text(house_detail['调价弹窗的房源价格']).split('.')[0]  # 调整弹窗中的房源初始价格
         return initial_price_in_dialog
 
     def modify_house_price(self, initial_price):
         """修改房源价格"""
         expect_final_price = int(initial_price) + random.randint(1, 9)
         self.input_text(house_detail['房源价格输入框'], expect_final_price)
-        self.is_click(house_detail['调价弹窗确定按钮'])
+        self.click_element(house_detail['调价弹窗确定按钮'])
         return str(expect_final_price)
 
     def get_modified_price_in_detail_page(self, flag, expect_final_price, house_area):
         """修改后获取详情页面的价格和单价"""
         sleep(2)
         if flag == '买卖':
-            ele_text = self.element_text(house_detail['房源初始价格'])  # 获取详情页面修改后的价格
+            ele_text = self.get_element_text(house_detail['房源初始价格'])  # 获取详情页面修改后的价格
             actual_price_in_detail_page = ele_text[:-1]
             unit_price = int(expect_final_price) * 10000 / int(house_area)
             expect_final_unit_price = self.get_house_unit_price(unit_price, 2)  # 根据修改后的房源价格及房源面积计算单价
-            actual_unit_price_in_detail_page = self.element_text(house_detail['房源初始单价'])  # 获取详情页面修改后的单价
+            actual_unit_price_in_detail_page = self.get_element_text(house_detail['房源初始单价'])  # 获取详情页面修改后的单价
             return actual_price_in_detail_page, expect_final_unit_price, actual_unit_price_in_detail_page
         else:
-            actual_price_in_detail_page = self.element_text(house_detail['房源初始价格']).split('元')[0]
+            actual_price_in_detail_page = self.get_element_text(house_detail['房源初始价格']).split('元')[0]
             return actual_price_in_detail_page
 
     def verify_record_list_update(self, init_price, expect_final_price, flag):
         """验证调价记录列表是否更新"""
-        self.is_click(house_detail['调价记录按钮'])
-        actual_text = self.element_text(house_detail['调价记录第一条价格']).strip()
+        self.click_element(house_detail['调价记录按钮'])
+        actual_text = self.get_element_text(house_detail['调价记录第一条价格']).strip()
         if flag == '买卖':
             expect_text = '{init_price}万元 - {final_price}万元'.format(init_price=init_price,
                                                                     final_price=expect_final_price)
         elif flag == '租赁':
             expect_text = '{init_price}元 - {final_price}元'.format(init_price=init_price, final_price=expect_final_price)
-        self.is_click(house_detail['弹窗_关闭按钮'])
+        self.click_element(house_detail['弹窗_关闭按钮'])
         return actual_text, expect_text
 
     def modify_price_from_basic_information_page(self):
         """从基本信息修改房源价格"""
         self.move_mouse_to_element(house_detail['右侧菜单更多按钮'])
-        self.is_click(house_detail['房源基础信息按钮'])
+        self.click_element(house_detail['房源基础信息按钮'])
         expect_final_price = int(self.get_element_attribute(house_detail['详情页面售价输入框'], 'value')) + random.randint(1, 9)
         self.clear_text(house_detail['详情页面售价输入框'])
         self.input_text(house_detail['详情页面售价输入框'], expect_final_price)
         sleep(1)
-        self.is_click(house_detail['基础信息弹窗确定按钮'])
+        self.click_element(house_detail['基础信息弹窗确定按钮'])
         return str(expect_final_price)
 
     def verify_log_list_update(self, account_name):
         """验证操作日志是否更新"""
         self.move_mouse_to_element(house_detail['更多按钮'])
-        self.is_click(house_detail['操作日志按钮'])
+        self.click_element(house_detail['操作日志按钮'])
         ele_list = self.find_elements(house_detail['操作人'])
         if len(ele_list) > 0:
             if self.is_exists(house_detail['调整价格操作']):
@@ -917,7 +917,7 @@ class HouseDetailPage(WebPage):
     def click_close_btn(self):
         """点击弹窗关闭按钮"""
         sleep(1)
-        self.is_click(house_detail['弹窗_关闭按钮'])
+        self.click_element(house_detail['弹窗_关闭按钮'])
 
     def replace_maintainer(self, maintainer_name):
         """更新房源维护人"""
@@ -926,29 +926,29 @@ class HouseDetailPage(WebPage):
                            "'ant-select-dropdown-hidden'))]//div[@class='rc-virtual-list']" \
                            "//div[contains(@class,'ant-select-item ant-select-item-option') and @title='" + maintainer_name + "']"
 
-        self.is_click(house_detail['维护人管理按钮'])
-        self.is_click(house_detail['选择人员输入框'])
+        self.click_element(house_detail['维护人管理按钮'])
+        self.click_element(house_detail['选择人员输入框'])
         target = self.find_element(locator)
         self.driver.execute_script("arguments[0].scrollIntoView();", target)  # 拖动到可见的元素去
         if len(maintainer_name) > 0:
-            expect_maintainer_name = self.element_text(locator)
-            self.is_click(locator)
+            expect_maintainer_name = self.get_element_text(locator)
+            self.click_element(locator)
         else:
             expect_maintainer_name = self.find_elements(house_detail['下拉框'])[0].text
             self.find_elements(house_detail['下拉框'])[0].click()
-        self.is_click(house_detail['分配弹窗确定按钮'])
+        self.click_element(house_detail['分配弹窗确定按钮'])
         return expect_maintainer_name
 
     def get_current_maintainer(self):
         """获取角色卡片中的最新房源维护人"""
         sleep(1)
         self.scroll_to_bottom()
-        str_list = self.element_text(house_detail['角色人名字']).split(' ')
+        str_list = self.get_element_text(house_detail['角色人名字']).split(' ')
         if len(str_list) > 1:
             current_maintainer_name = str_list[1]
         else:
             current_maintainer_name = str_list[0]
-        current_maintainer_phone = self.element_text(house_detail['角色人手机号']).split(':')[1]
+        current_maintainer_phone = self.get_element_text(house_detail['角色人手机号']).split(':')[1]
         return current_maintainer_name, current_maintainer_phone
 
     def verify_can_report(self):
@@ -959,9 +959,9 @@ class HouseDetailPage(WebPage):
 
     def report_house(self):
         """举报房源"""
-        self.is_click(house_detail['房源举报按钮'])
-        self.is_click(house_detail['房源不卖选项'])
-        self.is_click(house_detail['举报房源弹窗确认按钮'])
+        self.click_element(house_detail['房源举报按钮'])
+        self.click_element(house_detail['房源不卖选项'])
+        self.click_element(house_detail['举报房源弹窗确认按钮'])
         text = self.find_element(house_detail['右上角弹窗_内容']).text
         return text
 
@@ -977,9 +977,9 @@ class HouseDetailPage(WebPage):
 
     def reject_report(self):
         """驳回房源举报"""
-        self.is_click(house_detail['驳回按钮'])
+        self.click_element(house_detail['驳回按钮'])
         self.input_text(house_detail['驳回理由输入框'], '驳回')
-        self.is_click(house_detail['驳回弹窗确定按钮'])
+        self.click_element(house_detail['驳回弹窗确定按钮'])
 
     def verify_reject_report_success(self, house_no):
         """验证驳回成功"""
@@ -992,16 +992,16 @@ class HouseDetailPage(WebPage):
     # 新房详情页
     def click_see_more(self):
         """新房详情查看更多"""
-        self.is_click(house_detail['查看更多按钮'])
+        self.click_element(house_detail['查看更多按钮'])
 
     def go_upload_album(self):
         """进入楼盘相册上传页面"""
-        self.is_click(house_detail['上传图片按钮'])
+        self.click_element(house_detail['上传图片按钮'])
 
     def switch_lab_by_name(self, lab_name):
         """上传图片弹窗根据名字切换lab"""
         locator = 'xpath', "//div[@class='ant-modal-wrap uploadModal']//span[text()='" + lab_name + "']"
-        self.is_click(locator)
+        self.click_element(locator)
 
     def upload_image(self, pictures_path, lab_name):
         """楼盘相册-上传图片"""
@@ -1014,20 +1014,20 @@ class HouseDetailPage(WebPage):
 
     def click_upload_btn(self):
         """确定上传"""
-        self.is_click(house_detail['弹窗_上传按钮'])
+        self.click_element(house_detail['弹窗_上传按钮'])
 
     def get_dialog_text(self):
         """获取右上角弹窗提示信息"""
-        text = self.element_text(house_detail['右上角弹窗_内容'])
+        text = self.get_element_text(house_detail['右上角弹窗_内容'])
         return text
 
     def click_batch_delete_btn(self):
         """点击批量删除按钮"""
-        self.is_click(house_detail['批量删除按钮'])
+        self.click_element(house_detail['批量删除按钮'])
 
     def select_some_image_to_delete(self):
         """选取要删除的照片,默认选择第一张"""
-        self.is_click(house_detail['弹窗_选中图片按钮'])
+        self.click_element(house_detail['弹窗_选中图片按钮'])
 
     def select_all_image_to_delete(self):
         """选取所有照片"""
@@ -1038,18 +1038,18 @@ class HouseDetailPage(WebPage):
 
     def click_select_all_btn(self):
         """点击全选按钮"""
-        self.is_click(house_detail['弹窗_全选按钮'])
+        self.click_element(house_detail['弹窗_全选按钮'])
 
     def get_deleted_image_number(self):
         """获取删除图片数量"""
-        text = self.element_text(house_detail['弹窗_删除按钮'])
+        text = self.get_element_text(house_detail['弹窗_删除按钮'])
         number = int(re.findall(r'[(](.*?)[)]', text)[0])
         # print('get_deleted_image_number', number)
         return number
 
     def click_delete_btn(self):
         """点击删除按钮"""
-        self.is_click(house_detail['弹窗_删除按钮'])
+        self.click_element(house_detail['弹窗_删除按钮'])
 
     def get_image_list_lenth(self):
         """获取相册列表中的图片数量"""
@@ -1059,14 +1059,14 @@ class HouseDetailPage(WebPage):
     def switch_tab_by_name(self, tab_name):
         """新房详情页根据tab名字切换tab"""
         locator = 'xpath', "//div[@class='ant-row ant-tabs-nav-list']/div[text()='" + tab_name + "']"
-        self.is_click(locator)
+        self.click_element(locator)
 
     def relese_house_trend_content(self, trend_title, trend_explain):
         """发布楼盘动态内容"""
-        self.is_click(house_detail['发布动态按钮'])
+        self.click_element(house_detail['发布动态按钮'])
         self.input_text(house_detail['动态标题输入框'], trend_title, True)
         self.input_text(house_detail['动态说明输入框'], trend_explain, True)
-        self.is_click(house_detail['动态弹窗_确定按钮'])
+        self.click_element(house_detail['动态弹窗_确定按钮'])
         return trend_explain
 
     def verify_trend_list_update(self, trend_explain):
@@ -1077,54 +1077,54 @@ class HouseDetailPage(WebPage):
 
     def edit_house_selling_point(self, push_plate, detailed_description):
         """编辑楼盘卖点"""
-        self.is_click(house_detail['编辑卖点按钮'])
+        self.click_element(house_detail['编辑卖点按钮'])
         self.input_text(house_detail['一句话推盘输入框'], push_plate, True)
         self.input_text(house_detail['详细描述输入框'], detailed_description, True)
-        self.is_click(house_detail['保存按钮'])
+        self.click_element(house_detail['保存按钮'])
         return push_plate
 
     def verify_celling_point_list_update(self):
         """验证卖点列表是否更新"""
-        actual_result = self.element_text(house_detail['卖点列表_推盘'])
+        actual_result = self.get_element_text(house_detail['卖点列表_推盘'])
         return actual_result
 
     def click_share_btn(self):
         """点击分享按钮"""
-        self.is_click(house_detail['分享按钮'])
+        self.click_element(house_detail['分享按钮'])
         sleep(1)
 
     def get_information_in_share_page(self):
         """获取分享页面的信息"""
-        house_type = self.element_text(house_detail['分享弹窗_户型'])
-        account_name = self.element_text(house_detail['分享弹窗_登录人账号'])
-        account_phone = self.element_text(house_detail['分享弹窗_登录人手机号'])
+        house_type = self.get_element_text(house_detail['分享弹窗_户型'])
+        account_name = self.get_element_text(house_detail['分享弹窗_登录人账号'])
+        account_phone = self.get_element_text(house_detail['分享弹窗_登录人手机号'])
         return house_type, account_name, account_phone
 
     def click_upload_house_type_btn(self):
         """点击上传户型介绍按钮"""
-        self.is_click(house_detail['上传户型介绍按钮'])
+        self.click_element(house_detail['上传户型介绍按钮'])
 
     def house_type_introduce_content(self, house_type_name, house_area, house_direction, pictures_path):
         """户型介绍内容"""
         self.input_text(house_detail['户型名称输入框'], house_type_name)
-        self.is_click(house_detail['户型_室输入框'])
+        self.click_element(house_detail['户型_室输入框'])
         self.find_elements(house_detail['户型下拉框'])[0].click()
-        self.is_click(house_detail['户型_厅输入框'])
+        self.click_element(house_detail['户型_厅输入框'])
         self.find_elements(house_detail['户型下拉框'])[1].click()
-        self.is_click(house_detail['户型_卫输入框'])
+        self.click_element(house_detail['户型_卫输入框'])
         self.find_elements(house_detail['户型下拉框'])[2].click()
-        self.is_click(house_detail['户型_厨输入框'])
+        self.click_element(house_detail['户型_厨输入框'])
         self.find_elements(house_detail['户型下拉框'])[3].click()
         self.input_text(house_detail['面积输入框'], house_area)
         self.input_text(house_detail['户型朝向输入框'], house_direction)
-        self.is_click(house_detail['户型价格待定选项'])
+        self.click_element(house_detail['户型价格待定选项'])
         self.send_key(house_detail['户型图片input'], pictures_path)
         sleep(1)
-        self.is_click(house_detail['弹窗_确定按钮'])
+        self.click_element(house_detail['弹窗_确定按钮'])
 
     def get_house_type_introduce_number(self):
         """获取户型介绍数量"""
-        text = self.element_text(house_detail['户型介绍数量'])
+        text = self.get_element_text(house_detail['户型介绍数量'])
         number = int(re.findall(r'[(](.*?)[)]', text)[0][1:-1])
         return number
 
@@ -1139,11 +1139,11 @@ class HouseDetailPage(WebPage):
 
     def choose_image_in_share_page(self):
         """分享页面选择图片"""
-        self.is_click(house_detail['分享弹窗_效果图'])
+        self.click_element(house_detail['分享弹窗_效果图'])
 
     def click_generate_code_btn(self):
         """点击生成二维码按钮"""
-        self.is_click(house_detail['生成海报二维码按钮'])
+        self.click_element(house_detail['生成海报二维码按钮'])
         sleep(12)
 
     def verify_generate_code_success(self):
@@ -1155,18 +1155,18 @@ class HouseDetailPage(WebPage):
     # 资料盘
     def click_transfer_to_rent_btn(self):
         """点击转出租验证"""
-        self.is_click(house_detail['转出租验真按钮'])
+        self.click_element(house_detail['转出租验真按钮'])
 
     def click_transfer_to_sale_btn(self):
         """点击转在售验证"""
-        self.is_click(house_detail['转在售验真按钮'])
+        self.click_element(house_detail['转在售验真按钮'])
 
     def transfer_house(self, verify_code):
         """房源转真"""
-        self.is_click(house_detail['发送短信验证码按钮'])
+        self.click_element(house_detail['发送短信验证码按钮'])
         self.input_text(house_detail['验证码输入框'], verify_code)
-        self.is_click(house_detail['提交按钮'])
-        self.is_click(house_detail['知道了按钮'])
+        self.click_element(house_detail['提交按钮'])
+        self.click_element(house_detail['知道了按钮'])
 
     @staticmethod
     def get_house_unit_price(float_a, n):

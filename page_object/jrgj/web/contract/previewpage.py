@@ -6,8 +6,6 @@
 @file: previewpage.py
 @date: 2021/7/7 0007
 """
-
-from utils.timeutil import sleep
 from page.webpage import WebPage
 from common.readelement import Element
 

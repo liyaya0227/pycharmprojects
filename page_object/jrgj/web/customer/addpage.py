@@ -8,7 +8,6 @@
 """
 
 from page.webpage import WebPage
-from utils.timeutil import sleep
 from common.readelement import Element
 
 customer_add_base_info = Element('jrgj/web/customer/addbaseinfo')
