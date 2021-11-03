@@ -17,7 +17,7 @@ from selenium import webdriver
 from appium import webdriver as androiddriver
 from common.readconfig import ini
 from page_object.common.web.login.loginpage import LoginPage
-from utils.logger import log
+from utils.logger import logger
 from utils.timeutil import dt_strftime
 from page_object.jrgj.web.main.leftviewpage import MainLeftViewPage
 from page_object.jrgj.web.main.topviewpage import MainTopViewPage
@@ -49,7 +49,7 @@ def web_driver():
     # web_driver = webdriver.Firefox(firefox_binary='C:/Program Files/Mozilla Firefox/firefox.exe')
     wdriver.maximize_window()
     wdriver.get(ini.url)
-    log.info("初始化driver")
+    logger.info("初始化driver")
     yield wdriver
     wdriver.quit()
 

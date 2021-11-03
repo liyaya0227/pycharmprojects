@@ -178,12 +178,12 @@ class TestCWProcess(object):
         contract_table = ContractTablePage(web_driver)
         contract_detail = ContractDetailPage(web_driver)
         contract_preview = ContractPreviewPage(web_driver)
-        contract_service = ContractService()
+        contract_service = ContractService(web_driver)
 
         self.check_house_and_customer(web_driver)
-        self.contract_code = contract_service.agent_add_contract(web_driver, GlobalVar.house_code, GlobalVar.house_info,
+        self.contract_code = contract_service.agent_add_contract(GlobalVar.house_code, GlobalVar.house_info,
                                                                  GlobalVar.customer_code, ini.environment, test_data)
-        contract_service.agent_submit_examine(web_driver, self.contract_code)
+        contract_service.agent_submit_examine(self.contract_code)
         main_leftview.change_role('商圈经理')  # 商圈经理审核
         main_leftview.click_contract_management_label()
         contract_table.click_sale_contract_examine_tab()

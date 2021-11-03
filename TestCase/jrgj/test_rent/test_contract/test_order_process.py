@@ -30,8 +30,6 @@ from page_object.jrgj.web.achievement.tablepage import AchievementTablePage
 @allure.feature("测试租赁合同流程模块")
 class TestOrderProcess(object):
 
-    contract_code = ''
-
     @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, web_driver):
         main_leftview = MainLeftViewPage(web_driver)
