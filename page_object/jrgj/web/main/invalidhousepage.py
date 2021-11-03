@@ -30,4 +30,4 @@ class InvalidHousePage(WebPage):
                 break
 
     def click_invalid_house_confirm_button(self):
-        self.is_click(invalid_house['弹窗_确定按钮'], sleep_time=1)
+        self.click_element(invalid_house['弹窗_确定按钮'], sleep_time=1)

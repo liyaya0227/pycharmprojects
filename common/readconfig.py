@@ -123,20 +123,24 @@ class ReadConfig(object):
         return database_name
 
     @property
-    def mysql_database_host(self):
-        return self._get('MYSQL_DATABASE', 'DATABASE_HOST')
+    def cw_database_host(self):
+        return self._get('CW_DATABASE', 'DATABASE_HOST')
 
     @property
-    def mysql_database_port(self):
-        return self._get('MYSQL_DATABASE', 'DATABASE_PORT')
+    def cw_database_port(self):
+        return self._get('CW_DATABASE', 'DATABASE_PORT')
 
     @property
-    def mysql_database_account(self):
-        return self._get('MYSQL_DATABASE', 'DATABASE_ACCOUNT')
+    def cw_database_account(self):
+        return self._get('CW_DATABASE', 'DATABASE_ACCOUNT')
 
     @property
-    def mysql_database_password(self):
-        return self._get('MYSQL_DATABASE', 'DATABASE_PASSWORD')
+    def cw_database_password(self):
+        return self._get('CW_DATABASE', 'DATABASE_PASSWORD')
+
+    @property
+    def cw_database_name(self):
+        return self._get('CW_DATABASE', 'DATABASE_NAME')
 
     @property
     def xf_database_host(self):
@@ -152,7 +156,7 @@ class ReadConfig(object):
 
     @property
     def xf_database_name(self):
-        return self._get('XF_DATABASE', 'database_name')
+        return self._get('XF_DATABASE', 'DATABASE_NAME')
 
     @property
     def environment(self):

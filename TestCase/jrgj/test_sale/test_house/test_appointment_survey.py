@@ -8,7 +8,7 @@
 """
 import pytest
 import allure
-from utils.logger import log
+from utils.logger import logger
 from config.conf import cm
 from common.readconfig import ini
 from utils.jsonutil import get_data
@@ -40,7 +40,7 @@ class TestAppointmentSurvey(object):
         main_leftview.change_role('经纪人')
         house_code = house_table.get_house_code_by_db(flag='买卖')
         assert house_code != ''
-        log.info('房源编号为：' + house_code)
+        logger.info('房源编号为：' + house_code)
         main_leftview.click_all_house_label()
         yield
         main_upview.clear_all_title()
@@ -63,7 +63,7 @@ class TestAppointmentSurvey(object):
         house_table.click_search_button()
         house_table.go_house_detail_by_row(1)
         if house_detail.check_survey_status() == '已预约':
-            log.info('实勘已预约,实勘退单')
+            logger.info('实勘已预约,实勘退单')
             house_detail.click_back_survey_button()
             house_detail.dialog_choose_back_exploration_reason('其他')
             house_detail.dialog_click_back_exploration_return_button()
@@ -97,4 +97,4 @@ class TestAppointmentSurvey(object):
         house_detail.dialog_choose_exploration_time(self.test_data['exploration_time'])
         house_detail.dialog_input_appointment_instructions(self.test_data['appointment_instructions'])
         house_detail.dialog_click_confirm_button()
-        log.info('预约实勘申请已提交')
+        logger.info('预约实勘申请已提交')

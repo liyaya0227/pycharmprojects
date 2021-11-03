@@ -10,7 +10,7 @@
 import pytest
 import allure
 from config.conf import cm
-from utils.logger import log
+from utils.logger import logger
 from common.readconfig import ini
 from utils.jsonutil import get_data
 from page_object.jrgj.web.main.upviewpage import MainUpViewPage
@@ -96,5 +96,5 @@ class TestAdd(object):
         customer_table.input_search_text(ini.custom_telephone)
         customer_table.click_search_button()
         assert customer_table.get_customer_table_count() == 1
-        log.info('客源添加成功')
+        logger.info('客源添加成功')
         main_upview.clear_all_title()

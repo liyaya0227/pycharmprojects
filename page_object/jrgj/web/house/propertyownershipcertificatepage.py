@@ -19,17 +19,17 @@ class PropertyOwnershipCertificatePage(WebPage):
 
     def upload_picture(self, file_path):
         for file in file_path:
-            self.is_click(property_ownership_certificate['上传图片按钮'])
+            self.click_element(property_ownership_certificate['上传图片按钮'])
             upload_file(file)
             sleep(2)
 
     def input_contract_registration_date(self, date):
-        self.is_click(property_ownership_certificate['登记日期输入框'])
+        self.click_element(property_ownership_certificate['登记日期输入框'])
         self.input_text(property_ownership_certificate['登记日期输入框'], date)
         self.send_enter_key(property_ownership_certificate['登记日期输入框'])
 
     def choose_is_share(self, is_share):
-        self.is_click(property_ownership_certificate['是否共有输入框'], sleep_time=0.5)
+        self.click_element(property_ownership_certificate['是否共有输入框'], sleep_time=0.5)
         is_share_list = self.find_elements(property_ownership_certificate['是否共有下拉框'])
         for is_share_ele in is_share_list:
             if is_share_ele.text == is_share:
@@ -46,7 +46,7 @@ class PropertyOwnershipCertificatePage(WebPage):
         self.input_text(property_ownership_certificate['备注输入框'], remark)
 
     def click_close_button(self):
-        self.is_click(property_ownership_certificate['关闭按钮'])
+        self.click_element(property_ownership_certificate['关闭按钮'])
 
     def click_submit_button(self):
-        self.is_click(property_ownership_certificate['提交按钮'], sleep_time=1)
+        self.click_element(property_ownership_certificate['提交按钮'], sleep_time=1)

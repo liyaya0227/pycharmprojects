@@ -13,7 +13,7 @@ from case_service.jrgj.web.house.house_service import HouseService
 from case_service.jrgj.web.survey.survey_service import SurveyService
 from config.conf import cm
 from page_object.common.web.login.loginpage import LoginPage
-from utils.logger import log
+from utils.logger import logger
 from common.readconfig import ini
 from utils.jsonutil import get_value
 from page_object.jrgj.web.main.upviewpage import MainUpViewPage
@@ -115,7 +115,7 @@ class TestOutShow(object):
         self.check_house_state()
         self.enter_house_detail()
         if self.house_detail_page.check_survey_status() != '已上传':
-            log.info('未上传实勘，进行实勘预约')
+            logger.info('未上传实勘，进行实勘预约')
             if self.house_detail_page.check_survey_status() == '已预约':  # 实勘退单
                 self.house_detail_page.click_back_survey_button()
                 self.house_detail_page.dialog_choose_back_exploration_reason('其他')

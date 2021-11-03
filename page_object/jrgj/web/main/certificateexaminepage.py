@@ -16,7 +16,7 @@ certificate_examine = Element('jrgj/web/main/certificateexamine')
 class CertificateExaminePage(WebPage):
 
     def __click_pass_examine_button(self, house_code, certificate_name):
-        self.is_click(certificate_examine['第一页标签'])
+        self.click_element(certificate_examine['第一页标签'])
         self.scroll_to_top()
         tab_count = self.find_elements(certificate_examine['翻页标签'])
         for _ in range(len(tab_count)):
@@ -24,12 +24,12 @@ class CertificateExaminePage(WebPage):
                       "//table/tbody//div[@class='houseCode' and text()='" \
                       + house_code + "']/ancestor::tr/td[6]//div[text()='" + certificate_name + \
                       "']/ancestor::tr/td[8]//a[text()='通过']"
-            if self.element_is_exist(locator, wait_time=5):
-                self.is_click(locator, sleep_time=1)
+            if self.element_is_exist(locator, timeout=5):
+                self.click_element(locator, sleep_time=1)
                 return True
             if 'ant-pagination-disabled' in self.get_element_attribute(certificate_examine['下一页标签'], 'class'):
                 break
-            self.is_click(certificate_examine['下一页标签'])
+            self.click_element(certificate_examine['下一页标签'])
         return False
 
     def pass_written_entrustment_agreement_examine(self, house_code):

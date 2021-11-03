@@ -19,12 +19,12 @@ class DeedTaxInvoiceInformationPage(WebPage):
 
     def upload_picture(self, file_path):
         for file in file_path:
-            self.is_click(deed_tax_invoice_information['上传图片按钮'])
+            self.click_element(deed_tax_invoice_information['上传图片按钮'])
             upload_file(file)
             sleep(2)
 
     def input_filling_date(self, filling_date):
-        self.is_click(deed_tax_invoice_information['填发日期输入框'])
+        self.click_element(deed_tax_invoice_information['填发日期输入框'])
         self.input_text(deed_tax_invoice_information['填发日期输入框'], filling_date)
         self.send_enter_key(deed_tax_invoice_information['填发日期输入框'])
 
@@ -35,7 +35,7 @@ class DeedTaxInvoiceInformationPage(WebPage):
         self.input_text(deed_tax_invoice_information['备注输入框'], remark)
 
     def click_close_button(self):
-        self.is_click(deed_tax_invoice_information['关闭按钮'])
+        self.click_element(deed_tax_invoice_information['关闭按钮'])
 
     def click_submit_button(self):
-        self.is_click(deed_tax_invoice_information['提交按钮'], sleep_time=1)
+        self.click_element(deed_tax_invoice_information['提交按钮'], sleep_time=1)

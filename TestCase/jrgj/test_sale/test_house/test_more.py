@@ -15,7 +15,7 @@ from page_object.jrgj.web.house.detailpage import HouseDetailPage
 from page_object.jrgj.web.main.leftviewpage import MainLeftViewPage
 from page_object.jrgj.web.main.topviewpage import MainTopViewPage
 from page_object.jrgj.web.main.upviewpage import MainUpViewPage
-from utils.logger import log
+from utils.logger import logger
 
 gl_driver = None
 account_name = ''
@@ -97,7 +97,7 @@ class TestHouseDetail(object):
             house_no = self.house_detail_page.get_house_info_in_detail_page(flag)[0]
             res = self.house_detail_page.verify_can_modify()
             if res:  # 校验当前房源是否支持修改状态
-                log.error(f'存在待审核的租赁记录，不允许再次修改')
+                logger.error(f'存在待审核的租赁记录，不允许再次修改')
                 assert False
             else:
                 self.house_detail_page.submit_modify_state_application()
@@ -108,7 +108,7 @@ class TestHouseDetail(object):
                 actual_reject_result = self.house_detail_page.verify_reject_application_sucess(house_no)
                 assert not actual_reject_result  # 校验驳回审核是否成功
         else:
-            log.error('当前维护人没有租赁房源')
+            logger.error('当前维护人没有租赁房源')
             assert False
 
     @allure.story("修改买卖房源价格-从调整价格进入")
@@ -135,7 +135,7 @@ class TestHouseDetail(object):
                                                                                         expect_final_price, flag)
             pytest.assume(actual_text == expect_text)  # 校验调价记录列表更新
         else:
-            log.error('当前维护人没有租赁房源')
+            logger.error('当前维护人没有租赁房源')
             assert False
 
     @allure.story("修改买卖房源价格-从房源基础信息进入")
@@ -164,7 +164,7 @@ class TestHouseDetail(object):
             self.house_detail_page.click_blank_area()
             assert res  # 校验操作日志列表是否更新
         else:
-            log.error('当前维护人没有租赁房源')
+            logger.error('当前维护人没有租赁房源')
             assert False
 
     @allure.story("举报买卖房源并驳回举报")
@@ -181,7 +181,7 @@ class TestHouseDetail(object):
             house_no = self.house_detail_page.get_house_info_in_detail_page(flag)[0]
             res = self.house_detail_page.verify_can_report()
             if res:  # 校验当前房源是否支持举报
-                log.error(f'存在待审核的{flag}记录，不允许再次举报'.format(flag=flag))
+                logger.error(f'存在待审核的{flag}记录，不允许再次举报'.format(flag=flag))
                 assert False
             else:
                 actual_submit_result = self.house_detail_page.report_house()
@@ -192,7 +192,7 @@ class TestHouseDetail(object):
                 actual_reject_result = self.house_detail_page.verify_reject_report_success(house_no)
                 assert not actual_reject_result  # 校验驳回房源举报是否成功
         else:
-            log.error('当前维护人没有买卖房源')
+            logger.error('当前维护人没有买卖房源')
             assert False
 
     @allure.story("更换当前买卖房源的维护人")

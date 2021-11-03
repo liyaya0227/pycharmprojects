@@ -38,5 +38,5 @@ class JobService(object):
         job_management_table.input_executor_handler_search('GenerateAccountStatementJob')
         job_management_table.click_search_button()
         job_management_table.execute_once_job_by_row(1)
-        web_driver.close()
+        web_driver.switch_to_window(current_handle)  # 切换窗口
         sleep(2)

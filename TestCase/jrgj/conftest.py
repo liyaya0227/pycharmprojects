@@ -94,62 +94,38 @@ def setup_and_teardown(web_driver):
     yield
     main_leftview = MainLeftViewPage(web_driver)
     main_leftview.log_out()
-
-
-@pytest.hookimpl(hookwrapper=True)
-def pytest_runtest_makereport(item):
-    """
-    获取每个用例状态的钩子函数
-    :param item:
-    :return:
-    """
-    pytest_html = item.config.pluginmanager.getplugin('html')
-    outcome = yield
-    report = outcome.get_result()
-    report.description = str(item.function.__doc__)
-    extra = getattr(report, 'extra', [])
-    if report.when == 'call' or report.when == "setup":
-        xfail = hasattr(report, 'wasxfail')
-        if (report.skipped and xfail) or (report.failed and not xfail):
-            screen_img = _capture_screenshot()
-            if screen_img:
-                report_html = '<div><img src="data:image/png;base64,%s" alt="screenshot" ' \
-                              'style="width:1024px;height:768px;" onclick="window.open(this.src)" ' \
-                              'align="right"/></div>' % screen_img
-                extra.append(pytest_html.extras.html(report_html))
-        report.extra = extra
-
-
-def pytest_html_results_table_header(cells):
-    cells.insert(1, html.th('用例名称'))
-    cells.insert(2, html.th('Test_nodeid'))
-    cells.pop(2)
-
-
-def pytest_html_results_table_row(report, cells):
-    cells.insert(1, html.td(report.description))
-    cells.insert(2, html.td(report.nodeid))
-    cells.pop(2)
-
-
-def pytest_html_results_table_html(report, data):
-    if report.passed:
-        del data[:]
-        data.append(html.div('通过的用例未捕获日志输出.', class_='empty log'))
-
-
-def pytest_html_report_title(report):
-    report.title = "京日找房Web端UI自动化测试报告"
-
-
-def _capture_screenshot():
-    """截图保存为base64"""
-    file_name = dt_strftime("%Y%m%d%H%M%S") + ".png"
-    path = cm.tmp_dir + "\\screen_capture\\" + file_name
-    if not os.path.exists(cm.tmp_dir + "\\screen_capture"):
-        os.makedirs(cm.tmp_dir + "\\screen_capture")
-    wdriver.save_screenshot(path)
-    allure.attach.file(path, "失败截图", allure.attachment_type.PNG)
-    with open(path, 'rb') as f:
-        imagebase64 = base64.b64encode(f.read())
-    return imagebase64.decode()
+#
+#
+# @pytest.hookimpl(hookwrapper=True)
+# def pytest_runtest_makereport(item):
+#     """
+#     获取每个用例状态的钩子函数
+#     :param item:
+#     :return:
+#     """
+#     outcome = yield
+#     report = outcome.get_result()
+#     report.description = str(item.function.__doc__)
+#     extra = getattr(report, 'extra', [])
+#     if report.when == 'call' or report.when == "setup":
+#         xfail = hasattr(report, 'wasxfail')
+#         if (report.skipped and xfail) or (report.failed and not xfail):
+#             screen_img = _capture_screenshot()
+#             if screen_img:
+#                 report_html = '<div><img src="data:image/png;base64,%s" alt="screenshot" ' \
+#                               'style="width:1024px;height:768px;" onclick="window.open(this.src)" ' \
+#                               'align="right"/></div>' % screen_img
+#         report.extra = extra
+#
+#
+# def _capture_screenshot():
+#     """截图保存为base64"""
+#     file_name = dt_strftime("%Y%m%d%H%M%S") + ".png"
+#     path = cm.tmp_dir + "\\screen_capture\\" + file_name
+#     if not os.path.exists(cm.tmp_dir + "\\screen_capture"):
+#         os.makedirs(cm.tmp_dir + "\\screen_capture")
+#     wdriver.get_screenshot_as_file(path)
+#     allure.attach.file(path, "失败截图", allure.attachment_type.PNG)
+#     with open(path, 'rb') as f:
+#         imagebase64 = base64.b64encode(f.read())
+#     return imagebase64.decode()

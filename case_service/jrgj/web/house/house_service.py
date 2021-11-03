@@ -4,15 +4,18 @@
 @author: caijj
 @version: V1.0
 @file: house_service.py
-@date: 2021/10/28
+@date: 2021/11/3 0003
 """
-from common.readconfig import ini
 from config.conf import cm
-from page_object.jrgj.web.contract.tablepage import ContractTablePage
+from common.readconfig import ini
 from page_object.jrgj.web.house.addpage import HouseAddPage
+from page_object.jrgj.web.main.upviewpage import MainUpViewPage
+from page_object.jrgj.web.main.topviewpage import MainTopViewPage
+from page_object.jrgj.web.main.leftviewpage import MainLeftViewPage
 from page_object.jrgj.web.house.detailpage import HouseDetailPage
 from page_object.jrgj.web.house.tablepage import HouseTablePage
-from page_object.jrgj.web.main.leftviewpage import MainLeftViewPage
+from page_object.jrgj.web.contract.tablepage import ContractTablePage
+from utils.sqlutil import select_sql
 from utils.jsonutil import get_data
 
 gl_web_driver = None
@@ -24,8 +27,84 @@ contract_table_page = None
 
 
 class HouseService(object):
+
     json_file_path = cm.test_data_dir + "/jrgj/test_rent/test_house/test_add.json"
     test_data = get_data(json_file_path)
+
+    def check_house_for_contract(self, web_driver, flag='买卖'):
+        house_info = self.get_house_info_by_db(flag=flag)
+        if house_info:
+            if house_info[1] in [1, 3]:  # 在售以及签约中
+                self.delete_contract_by_house_code(web_driver, house_info[0], flag=flag)
+            elif house_info[1] == 2:  # 在资料盘
+                self.verify_house(web_driver, house_info[0], house_info[2], flag=flag)
+            else:
+                raise ValueError('房源该状态暂不支持')
+        else:  # 没有该房源信息
+            self.add_house(web_driver, flag=flag)
+
+    @staticmethod
+    def get_house_info_by_db(flag='买卖'):
+        estate_sql = "select id from estate_new_base_info where [name]='" + ini.house_community_name + "'"
+        estate_id = select_sql(estate_sql)[0][0]
+        if flag == '买卖':
+            house_sql = "select house_code,status,house_id from trade_house where location_estate_id='" \
+                        + str(estate_id) + "' and location_building_number='" + ini.house_building_id + \
+                        "' and location_building_cell='" + ini.house_building_cell + \
+                        "' and location_floor='" + ini.house_floor + \
+                        "' and location_doorplate='" + ini.house_doorplate + "' and is_valid='1' and [status]!='1'"
+        elif flag == '租赁':
+            house_sql = "select house_code,status,house_id from rent_house where location_estate_id='" \
+                        + str(estate_id) + "' and location_building_number='" + ini.house_building_id + \
+                        "' and location_building_cell='" + ini.house_building_cell + \
+                        "' and location_floor='" + ini.house_floor + \
+                        "' and location_doorplate='" + ini.house_doorplate + "' and is_valid='1' and [status]!='1'"
+        else:
+            raise "传值错误"
+        try:
+            return select_sql(house_sql)[0][0], select_sql(house_sql)[0][1]
+        except IndexError:
+            return None
+
+    @staticmethod
+    def delete_contract_by_house_code(web_driver, house_code, flag='买卖'):
+        main_topview = MainTopViewPage(web_driver)
+        main_leftview = MainLeftViewPage(web_driver)
+        contract_table = ContractTablePage(web_driver)
+
+        main_leftview.change_role('超级管理员')
+        main_leftview.click_contract_management_label()
+        if flag == '买卖':
+            contract_table.click_sale_contract_tab()
+        elif flag == '租赁':
+            contract_table.click_rent_contract_tab()
+        else:
+            raise ValueError('传值错误')
+        contract_table.input_house_code_search(house_code)
+        contract_table.click_search_button()
+        for _ in range(contract_table.get_contract_table_count()):
+            contract_table.delete_contract_by_row(1)
+            contract_table.tooltip_click_confirm_button()
+            main_topview.close_notification()
+        main_leftview.change_role('经纪人')
+
+    @staticmethod
+    def verify_house(web_driver, house_code, house_id, flag='买卖'):
+        main_upview = MainUpViewPage(web_driver)
+        main_leftview = MainLeftViewPage(web_driver)
+        house_table = HouseTablePage(web_driver)
+        house_detail = HouseDetailPage(web_driver)
+
+        house_type = house_table.get_house_type_in_pool(house_id, flag)
+        table_name = house_table.get_tab_name(house_type)
+        main_leftview.click_data_disk_label()
+        house_table.click_rent_tab_in_data_disk()
+        house_table.switch_house_type_tab(table_name)
+        house_table.input_house_code_search(house_code)
+        house_table.enter_rent_house_detail(house_code)
+        house_detail.click_transfer_to_rent_btn()
+        house_detail.transfer_house(ini.super_verify_code)
+        main_upview.clear_all_title()
 
     def add_house(self, web_driver, flag='买卖'):
         global gl_web_driver, main_left_view, house_table_page, house_add_page
@@ -95,3 +174,4 @@ class HouseService(object):
         else:
             raise "传值错误"
         house_detail_page.transfer_house(ini.super_verify_code)
+

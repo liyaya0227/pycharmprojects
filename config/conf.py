@@ -99,7 +99,7 @@ class ConfigManager(object):
             os.makedirs(screenshot_dir)
         now_time = dt_strftime("%Y%m%d%H%M%S")
         screen_file = os.path.join(screenshot_dir, "{}.png".format(now_time))
-        return now_time, screen_file
+        return screen_file
 
 
 cm = ConfigManager()

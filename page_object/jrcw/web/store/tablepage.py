@@ -36,11 +36,11 @@ class StoreTablePage(WebPage):
 
     def click_search_button(self):
         """点击查询按钮"""
-        self.is_click(table['查询按钮'])
+        self.click_element(table['查询按钮'])
 
     def click_reset_button(self):
         """点击重置按钮"""
-        self.is_click(table['重置按钮'])
+        self.click_element(table['重置按钮'])
 
     def get_row_detail_info(self, row=1):
         """获取列表行信息"""
@@ -53,12 +53,12 @@ class StoreTablePage(WebPage):
         district_locator = 'xpath', common_xpath + "/td[" + self.__get_table_column_by_name('商圈') + "]/div/div"
         region_locator = 'xpath', common_xpath + "/td[" + self.__get_table_column_by_name('大区') + "]/div/div"
         return {
-            'store': self.element_text(store_locator),
-            'store_code': self.element_text(store_code_locator),
-            'city': self.element_text(city_locator),
-            'store_type': self.element_text(store_type_locator),
-            'district': self.element_text(district_locator),
-            'region': self.element_text(region_locator)
+            'store': self.get_element_text(store_locator),
+            'store_code': self.get_element_text(store_code_locator),
+            'city': self.get_element_text(city_locator),
+            'store_type': self.get_element_text(store_type_locator),
+            'district': self.get_element_text(district_locator),
+            'region': self.get_element_text(region_locator)
         }
 
     def click_edit_button_by_row(self, row=1):
@@ -66,21 +66,21 @@ class StoreTablePage(WebPage):
         detail_button_locator = 'xpath', "//div[@class='ivu-layout']//div[contains(@class, 'storelist')]" \
                                          "//div[@class='ivu-table-body']//table/tbody/tr[" + str(row) \
                                 + "]/td[" + self.__get_table_column_by_name('操作') + "]//a[text()='编辑']"
-        self.is_click(detail_button_locator)
+        self.click_element(detail_button_locator)
 
     def click_detail_button_by_row(self, row=1):
         """点击详情按钮"""
         detail_button_locator = 'xpath', "//div[@class='ivu-layout']//div[contains(@class, 'storelist')]" \
                                          "//div[@class='ivu-table-body']//table/tbody/tr[" + str(row) \
                                 + "]/td[" + self.__get_table_column_by_name('操作') + "]//a[text()='详情']"
-        self.is_click(detail_button_locator)
+        self.click_element(detail_button_locator)
 
     def click_delete_button_by_row(self, row=1):
         """点击删除按钮"""
         detail_button_locator = 'xpath', "//div[@class='ivu-layout']//div[contains(@class, 'storelist')]" \
                                          "//div[@class='ivu-table-body']//table/tbody/tr[" + str(row) \
                                 + "]/td[" + self.__get_table_column_by_name('操作') + "]//a[text()='删除']"
-        self.is_click(detail_button_locator)
+        self.click_element(detail_button_locator)
 
     def __get_table_column_by_name(self, name):
         """获取列表头的列数"""

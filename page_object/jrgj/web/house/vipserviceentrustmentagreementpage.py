@@ -19,7 +19,7 @@ class VipServiceEntrustmentAgreementPage(WebPage):
 
     def upload_picture(self, file_path):
         for file in file_path:
-            self.is_click(vip_service_entrustment_agreement['上传图片按钮'])
+            self.click_element(vip_service_entrustment_agreement['上传图片按钮'])
             upload_file(file)
             sleep(2)
 
@@ -27,17 +27,17 @@ class VipServiceEntrustmentAgreementPage(WebPage):
         self.input_text(vip_service_entrustment_agreement['委托协议编号输入框'], entrustment_agreement_number)
 
     def input_entrustment_date(self, entrustment_date):
-        self.is_click(vip_service_entrustment_agreement['委托日期输入框'])
+        self.click_element(vip_service_entrustment_agreement['委托日期输入框'])
         self.input_text(vip_service_entrustment_agreement['委托日期输入框'], entrustment_date)
         self.send_enter_key(vip_service_entrustment_agreement['委托日期输入框'])
 
     def input_entrustment_end_date(self, entrustment_end_date):
-        self.is_click(vip_service_entrustment_agreement['委托截止输入框'])
+        self.click_element(vip_service_entrustment_agreement['委托截止输入框'])
         self.input_text(vip_service_entrustment_agreement['委托截止输入框'], entrustment_end_date)
         self.send_enter_key(vip_service_entrustment_agreement['委托截止输入框'])
 
     def choose_entrustment_type(self, entrustment_type):
-        self.is_click(vip_service_entrustment_agreement['委托类型选择框'], sleep_time=0.5)
+        self.click_element(vip_service_entrustment_agreement['委托类型选择框'], sleep_time=0.5)
         entrustment_type_list = self.find_elements(vip_service_entrustment_agreement['委托类型下拉框'])
         for entrustment_type_ele in entrustment_type_list:
             if entrustment_type_ele.text == entrustment_type:
@@ -51,7 +51,7 @@ class VipServiceEntrustmentAgreementPage(WebPage):
         self.input_text(vip_service_entrustment_agreement['保证金输入框'], deposit)
 
     def choose_payment_object(self, payment_object):
-        self.is_click(vip_service_entrustment_agreement['打款对象选择框'], sleep_time=0.5)
+        self.click_element(vip_service_entrustment_agreement['打款对象选择框'], sleep_time=0.5)
         payment_object_list = self.find_elements(vip_service_entrustment_agreement['打款对象下拉框'])
         for payment_object_ele in payment_object_list:
             if payment_object_ele.text == payment_object:
@@ -62,7 +62,7 @@ class VipServiceEntrustmentAgreementPage(WebPage):
         self.input_text(vip_service_entrustment_agreement['备注输入框'], remark)
 
     def click_close_button(self):
-        self.is_click(vip_service_entrustment_agreement['关闭按钮'])
+        self.click_element(vip_service_entrustment_agreement['关闭按钮'])
 
     def click_submit_button(self):
-        self.is_click(vip_service_entrustment_agreement['提交按钮'], sleep_time=1)
+        self.click_element(vip_service_entrustment_agreement['提交按钮'], sleep_time=1)

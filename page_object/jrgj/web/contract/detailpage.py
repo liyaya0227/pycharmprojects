@@ -19,43 +19,43 @@ detail = Element('jrgj/web/contract/detail')
 class ContractDetailPage(WebPage):
 
     def click_contract_detail_tab(self):
-        self.is_click(detail['合同详情标签'])
+        self.click_element(detail['合同详情标签'])
 
     def click_achievement_detail_tab(self):
-        self.is_click(detail['业绩详情标签'])
+        self.click_element(detail['业绩详情标签'])
 
     def click_finance_detail_tab(self):
-        self.is_click(detail['财务详情标签'])
+        self.click_element(detail['财务详情标签'])
 
     def click_preview_button(self):
-        self.is_click(detail['预览按钮'])
+        self.click_element(detail['预览按钮'])
 
     def check_cancel_button_exist(self):
-        return self.element_is_exist(detail['解约按钮'], wait_time=2)
+        return self.element_is_exist(detail['解约按钮'], timeout=2)
 
     def click_cancel_button(self):
-        self.is_click(detail['解约按钮'])
+        self.click_element(detail['解约按钮'])
 
     def check_change_button_exist(self):
-        return self.element_is_exist(detail['变更按钮'], wait_time=2)
+        return self.element_is_exist(detail['变更按钮'], timeout=2)
 
     def click_change_button(self):
-        self.is_click(detail['变更按钮'])
+        self.click_element(detail['变更按钮'])
 
     def click_go_examine_button(self):
-        self.is_click(detail['去提审按钮'], sleep_time=2)
+        self.click_element(detail['去提审按钮'], sleep_time=2)
 
     def get_contract_price(self):  # 获取合同价格
-        return self.element_text(detail['合同价格标签'])[:-1]
+        return self.get_element_text(detail['合同价格标签'])[:-1]
 
     def get_last_seal_time(self):  # 获取最新一次盖章时间
-        return self.element_text(detail['最新一次盖章时间标签'])
+        return self.get_element_text(detail['最新一次盖章时间标签'])
 
     def get_sign_time(self):  # 获取签约时间
-        return self.element_text(detail['签约时间标签'])
+        return self.get_element_text(detail['签约时间标签'])
 
     def get_create_time(self):  # 获取创建时间
-        return self.element_text(detail['创建时间标签'])
+        return self.get_element_text(detail['创建时间标签'])
 
     def create_contract_icon_is_light(self):
         value = self.get_element_attribute(detail['流程_创建合同图标'], 'class')
@@ -128,12 +128,12 @@ class ContractDetailPage(WebPage):
             return False
 
     def click_subject_contract(self):
-        self.is_click(detail['主体合同标签'], sleep_time=1)
+        self.click_element(detail['主体合同标签'], sleep_time=1)
 
     def upload_two_sign_contract(self):
         sleep()
-        self.is_click(detail['上传双方签字合同按钮'])
-        self.is_click(detail['选择签约时间输入框'])
+        self.click_element(detail['上传双方签字合同按钮'])
+        self.click_element(detail['选择签约时间输入框'])
         time = dt_strftime('%Y-%m-%d %H:%M:%S')
         sleep()
         self.input_text_with_enter(detail['选择签约时间输入框'], time)
@@ -147,10 +147,10 @@ class ContractDetailPage(WebPage):
             sleep(2)
 
     def click_submit_button(self):
-        self.is_click(detail['提交按钮'], sleep_time=2)
+        self.click_element(detail['提交按钮'], sleep_time=2)
 
     def click_attachment_info(self):
-        self.is_click(detail['备件信息标签'])
+        self.click_element(detail['备件信息标签'])
 
     def upload_lessor_identification(self, pictures_path):
         for picture_path in pictures_path:
@@ -195,23 +195,23 @@ class ContractDetailPage(WebPage):
             sleep()
 
     def click_submit_examine_button(self):
-        self.is_click(detail['提交审核按钮'], sleep_time=2)
+        self.click_element(detail['提交审核按钮'], sleep_time=2)
 
     def check_dialog_exist(self):
         return self.element_is_exist(detail['弹窗_页面'])
 
     def click_report_achievement_button(self):
-        self.is_click(detail['报业绩按钮'], sleep_time=1)
+        self.click_element(detail['报业绩按钮'], sleep_time=1)
 
     def dialog_click_confirm_button(self):
-        self.is_click(detail['弹窗_确定按钮'], sleep_time=1)
+        self.click_element(detail['弹窗_确定按钮'], sleep_time=1)
 
     def dialog_click_close_button(self):
-        self.is_click(detail['弹窗_关闭按钮'])
+        self.click_element(detail['弹窗_关闭按钮'])
 
     def get_contract_info(self):
-        contract_info = {'create_time': self.element_text(detail['创建时间标签']),
-                         'sign_time': self.element_text(detail['签约时间标签'])}
+        contract_info = {'create_time': self.get_element_text(detail['创建时间标签']),
+                         'sign_time': self.get_element_text(detail['签约时间标签'])}
         return contract_info
 
     def cancel_change_dialog_input_reason(self, reason):  # 解约变更弹窗，输入解约原因

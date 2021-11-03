@@ -21,3 +21,5 @@
 
 登录用户名标签: "xpath==//div[@class='ivu-layout']//div[@class='user-info']/div[@class='ivu-dropdown']//span"
 退出登录按钮: "xpath==//div[@class='ivu-layout']//div[@class='user-info']/div[@class='ivu-dropdown']//a[contains(text(),'退出登录')]"
+
+通知关闭按钮: "xpath==//div[@class='ivu-notice']//a[@class='ivu-notice-notice-close']/i"

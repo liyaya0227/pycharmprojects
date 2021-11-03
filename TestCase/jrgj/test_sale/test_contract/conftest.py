@@ -17,7 +17,7 @@ from page_object.jrgj.web.house.tablepage import HouseTablePage
 from page_object.jrgj.web.main.leftviewpage import MainLeftViewPage
 from page_object.jrgj.web.main.topviewpage import MainTopViewPage
 from page_object.jrgj.web.main.upviewpage import MainUpViewPage
-from utils.logger import log
+from utils.logger import logger
 
 
 @pytest.fixture(scope='package', autouse=True)
@@ -34,7 +34,7 @@ def prepare_for_add_contract(web_driver):
     main_leftview.change_role('经纪人')
     GlobalVar.house_code = house_table.get_house_code_by_db(flag='买卖')
     assert GlobalVar.house_code != ''
-    log.info('房源编号为：' + GlobalVar.house_code)
+    logger.info('房源编号为：' + GlobalVar.house_code)
     main_leftview.click_all_house_label()
     house_table.click_sale_tab()
     house_table.clear_filter('买卖')
@@ -48,7 +48,7 @@ def prepare_for_add_contract(web_driver):
     GlobalVar.house_info['floor'] = house_detail.get_detail_floor()
     GlobalVar.house_info['inspect_type'] = house_detail.get_inspect_type()
     GlobalVar.house_info['house_state'] = house_detail.get_house_state()
-    log.info('获取房源信息，新建合同校验需要')
+    logger.info('获取房源信息，新建合同校验需要')
     main_upview.clear_all_title()
     main_leftview.click_my_customer_label()
     customer_table.click_all_tab()
@@ -58,7 +58,7 @@ def prepare_for_add_contract(web_driver):
     customer_table.go_customer_detail_by_row(1)
     GlobalVar.customer_code = customer_detail.get_customer_code()
     GlobalVar.customer_name = customer_detail.get_customer_name()
-    log.info('获取客源信息，新建合同校验需要')
+    logger.info('获取客源信息，新建合同校验需要')
     main_upview.clear_all_title()
     main_leftview.click_contract_management_label()
     contract_table.click_sale_contract_tab()

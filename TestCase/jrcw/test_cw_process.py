@@ -11,12 +11,15 @@ import string
 import pytest
 import allure
 from config.conf import cm
-from utils.logger import log
+from page_object.jrgj.web.shopsplitaccountreport.tablepage import ShopBrandDataReportTablePage
+from page_object.jrgj.web.surveysplitaccountreport.tablepage import SurveySplitAccountReportTablePage
+from utils.databaseutil import DataBaseUtil
+from utils.logger import logger
 from common.readconfig import ini
 from utils.jsonutil import get_data
 from common.globalvar import GlobalVar
 from common_enum.city_enum import CityEnum
-from utils.timeutil import dt_strftime_with_delta
+from utils.timeutil import dt_strftime_with_delta, dt_strftime
 from page_object.common.web.login.loginpage import LoginPage
 from page_object.jrgj.web.main.upviewpage import MainUpViewPage
 from page_object.jrgj.web.main.topviewpage import MainTopViewPage
@@ -42,11 +45,10 @@ from page_object.jrcw.web.pay.tablepage import PayTablePage as CwPayTablePage
 
 
 @pytest.mark.sale
-@pytest.mark.contract
+@pytest.mark.finance
 @pytest.mark.run(order=21)
 @allure.feature("测试买卖合同，财务流程模块")
 class TestCWProcess(object):
-    contract_code = ''
 
     @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, web_driver):
@@ -78,7 +80,8 @@ class TestCWProcess(object):
         self.check_settlement(web_driver)
         JobService().generate_account_statement_job(web_driver)
         self.check_reconciliation(web_driver)
-        pass
+        self.check_pay(web_driver)
+        self.check_jrgj_store_company(web_driver)
 
     @staticmethod
     def check_house_and_customer(web_driver):
@@ -94,7 +97,7 @@ class TestCWProcess(object):
         main_leftview.change_role('经纪人')
         GlobalVar.house_code = house_table.get_house_code_by_db(flag='买卖')
         assert GlobalVar.house_code != ''
-        log.info('房源编号为：' + GlobalVar.house_code)
+        logger.info('房源编号为：' + GlobalVar.house_code)
         main_leftview.click_all_house_label()
         house_table.click_sale_tab()
         house_table.clear_filter('买卖')
@@ -108,7 +111,7 @@ class TestCWProcess(object):
         GlobalVar.house_info['floor'] = house_detail.get_detail_floor()
         GlobalVar.house_info['inspect_type'] = house_detail.get_inspect_type()
         GlobalVar.house_info['house_state'] = house_detail.get_house_state()
-        log.info('获取房源信息，新建合同校验需要')
+        logger.info('获取房源信息，新建合同校验需要')
         main_upview.clear_all_title()
         main_leftview.click_my_customer_label()
         customer_table.click_all_tab()
@@ -118,7 +121,7 @@ class TestCWProcess(object):
         customer_table.go_customer_detail_by_row(1)
         GlobalVar.customer_code = customer_detail.get_customer_code()
         GlobalVar.customer_name = customer_detail.get_customer_name()
-        log.info('获取客源信息，新建合同校验需要')
+        logger.info('获取客源信息，新建合同校验需要')
         main_upview.clear_all_title()
         main_leftview.click_contract_management_label()
         contract_table.click_sale_contract_tab()
@@ -155,7 +158,7 @@ class TestCWProcess(object):
         contract_create_order.verify_house_info(GlobalVar.house_info)
         contract_create_order.click_verify_house_button()
         assert main_topview.find_notification_content() == '房源信息校验通过！'
-        log.info('房源信息校验通过')
+        logger.info('房源信息校验通过')
         contract_create_order.input_customer_code(GlobalVar.customer_code)
         contract_create_order.click_get_customer_info_button()
         contract_create_order.click_next_step_button()
@@ -165,7 +168,7 @@ class TestCWProcess(object):
         contract_create_order.input_sale_contract_content(env, test_data)
         contract_create_order.click_submit_button()
         assert main_topview.find_notification_content() == '提交成功'
-        log.info('合同创建成功')
+        logger.info('合同创建成功')
         main_upview.clear_all_title()
 
     @allure.step("B端创建合同及盖章")
@@ -226,9 +229,40 @@ class TestCWProcess(object):
 
     @allure.step("B端支付合同佣金")
     def pay_contract(self, web_driver):
+        main_upview = MainUpViewPage(web_driver)
+        main_topview = MainTopViewPage(web_driver)
         main_leftview = MainLeftViewPage(web_driver)
         contract_table = ContractTablePage(web_driver)
+        contract_detail = ContractDetailPage(web_driver)
+        contract_preview = ContractPreviewPage(web_driver)
 
+        main_leftview.click_contract_management_label()
+        contract_table.click_sale_contract_tab()
+        contract_table.input_contract_code_search(self.contract_code)
+        contract_table.click_search_button()
+        contract_table.go_contract_detail_by_row(1)
+        contract_detail.click_preview_button()
+        contract_preview.click_print_with_sign_button()  # 打印
+        contract_preview.cancel_print()
+        main_upview.clear_all_title()
+        main_leftview.click_contract_management_label()
+        contract_table.click_sale_contract_tab()
+        contract_table.input_contract_code_search(self.contract_code)
+        contract_table.click_search_button()
+        contract_table.go_contract_detail_by_row(1)
+        contract_detail.click_subject_contract()
+        contract_detail.upload_two_sign_contract()  # 经纪人签约时间
+        main_topview.close_notification()
+        main_upview.clear_all_title()
+        main_leftview.click_contract_management_label()
+        contract_table.click_sale_contract_tab()
+        contract_table.input_contract_code_search(self.contract_code)
+        contract_table.click_search_button()
+        contract_table.go_contract_detail_by_row(1)
+        contract_detail.click_subject_contract()
+        contract_detail.upload_pictures([cm.tmp_picture_file])  # 经纪人上传主体合同
+        contract_detail.click_submit_button()
+        contract_detail.dialog_click_close_button()
         main_leftview.change_role('超级管理员')  # 线下付款
         main_leftview.click_contract_management_label()
         contract_table.click_sale_contract_tab()
@@ -267,12 +301,10 @@ class TestCWProcess(object):
 
     @allure.step("B端审核合同业绩")
     def pay_commission(self, web_driver):
-        main_upview = MainUpViewPage(web_driver)
         main_topview = MainTopViewPage(web_driver)
         main_leftview = MainLeftViewPage(web_driver)
         contract_table = ContractTablePage(web_driver)
         contract_detail = ContractDetailPage(web_driver)
-        contract_preview = ContractPreviewPage(web_driver)
         achievement_table = AchievementTablePage(web_driver)
         achievement_detail = AchievementDetailPage(web_driver)
 
@@ -281,28 +313,7 @@ class TestCWProcess(object):
         contract_table.input_contract_code_search(self.contract_code)
         contract_table.click_search_button()
         contract_table.go_contract_detail_by_row(1)
-        contract_detail.click_preview_button()
-        contract_preview.click_print_with_sign_button()  # 打印
-        contract_preview.cancel_print()
-        main_upview.clear_all_title()
-        main_leftview.click_contract_management_label()
-        contract_table.click_sale_contract_tab()
-        contract_table.input_contract_code_search(self.contract_code)
-        contract_table.click_search_button()
-        contract_table.go_contract_detail_by_row(1)
-        contract_detail.click_subject_contract()
-        contract_detail.upload_two_sign_contract()  # 经纪人签约时间
-        main_topview.close_notification()
-        main_upview.clear_all_title()
-        main_leftview.click_contract_management_label()
-        contract_table.click_sale_contract_tab()
-        contract_table.input_contract_code_search(self.contract_code)
-        contract_table.click_search_button()
-        contract_table.go_contract_detail_by_row(1)
-        contract_detail.click_subject_contract()
-        contract_detail.upload_pictures([cm.tmp_picture_file])  # 经纪人上传主体合同
-        contract_detail.click_submit_button()
-        contract_detail.click_report_achievement_button()  # 经纪人提交业绩审核
+        contract_detail.click_achievement_detail_tab()
         achievement_detail.click_submit_button()
         main_topview.close_notification()
         main_leftview.change_role('商圈经理')  # 商圈经理业绩审核
@@ -314,7 +325,7 @@ class TestCWProcess(object):
         achievement_table.click_pass_examine_button_by_row(1)
         main_topview.close_notification()
 
-    @allure.step("财务系统查看结算单")
+    @allure.step("财务系统查看结算单并在数据库修改结算时间")
     def check_settlement(self, web_driver):
         login = LoginPage(web_driver)
         main_leftview = MainLeftViewPage(web_driver)
@@ -328,6 +339,10 @@ class TestCWProcess(object):
         cw_settlement_table.choose_city_search(CityEnum[ini.environment].value)
         cw_settlement_table.click_search_button()
         pytest.assume(cw_settlement_table.get_table_total_count() != '0')
+        for settlement_code in cw_settlement_table.get_table_settlement_code():
+            update_settle_date_sql = "update doc_settlement set settle_date='" + dt_strftime("%Y-%m-%d") \
+                                     + "' where settlement_identifier_no='" + settlement_code + "'"
+            DataBaseUtil('Cw My SQL', ini.cw_database_name).update_sql(update_settle_date_sql)
 
     @allure.step("财务系统查看对账单")
     def check_reconciliation(self, web_driver):
@@ -338,7 +353,11 @@ class TestCWProcess(object):
         cw_reconciliation_table.input_order_code_search(self.contract_code)
         cw_reconciliation_table.choose_city_search(CityEnum[ini.environment].value)
         cw_reconciliation_table.click_search_button()
-        pytest.assume(cw_reconciliation_table.get_table_total_count() != '0')
+        row_count = cw_reconciliation_table.get_table_total_count()
+        pytest.assume(row_count != '0')
+        for row in range(int(row_count)):
+            cw_reconciliation_table.click_examine_button_by_row(row+1)
+            cw_main.close_notice()
 
     @allure.step("财务系统查看付款单")
     def check_pay(self, web_driver):
@@ -351,7 +370,38 @@ class TestCWProcess(object):
         cw_pay_table.input_order_code_search(self.contract_code)
         cw_pay_table.choose_city_search(CityEnum[ini.environment].value)
         cw_pay_table.click_search_button()
-        pytest.assume(cw_pay_table.get_table_total_count() != '0')
+        row_count = cw_pay_table.get_table_total_count()
+        pytest.assume(row_count != '0')
+        for row in range(int(row_count)):
+            cw_pay_table.click_pay_button_by_row(row+1)
+            cw_pay_table.tip_pop_click_confirm_button()
+            cw_main.close_notice()
         cw_main.log_out()
         login.log_in(ini.user_account, ini.user_password)
         main_leftview.change_role('经纪人')
+
+    @allure.step("京日管家端查看门店及公司是否已分账")
+    def check_jrgj_store_company(self, web_driver):
+        main_leftview = MainLeftViewPage(web_driver)
+        shop_brand_data_report = ShopBrandDataReportTablePage(web_driver)
+        survey_split_account_report = SurveySplitAccountReportTablePage(web_driver)
+
+        main_leftview.change_role('超级管理员')
+        main_leftview.click_shop_split_account_data_table_label()
+        shop_brand_data_report.click_wait_split_account_tab()
+        shop_brand_data_report.input_contract_code_search(self.contract_code)
+        shop_brand_data_report.clear_pay_time_search()
+        shop_brand_data_report.click_search_button()
+        pytest.assume(shop_brand_data_report.get_current_table_count() == 0)
+        main_leftview.click_brand_rebate_data_table_label()
+        shop_brand_data_report.click_wait_rebate_commission_tab()
+        shop_brand_data_report.input_contract_code_search(self.contract_code)
+        shop_brand_data_report.clear_pay_time_search()
+        shop_brand_data_report.click_search_button()
+        pytest.assume(shop_brand_data_report.get_current_table_count() == 0)
+        main_leftview.click_survey_department_split_account_label()
+        survey_split_account_report.click_wait_split_account_tab()
+        survey_split_account_report.input_contract_code_search(self.contract_code)
+        survey_split_account_report.clear_pay_time_search()
+        survey_split_account_report.click_search_button()
+        pytest.assume(survey_split_account_report.get_current_table_count() == 0)

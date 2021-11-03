@@ -24,4 +24,4 @@ class LoginPage(WebPage):
 
     def click_login_button(self):
         """点击登录按钮"""
-        self.is_click(login['登录按钮'], sleep_time=2)
+        self.click_element(login['登录按钮'], sleep_time=2)

@@ -1,107 +1,106 @@
-# -*- coding:utf-8 -*-
+#!/usr/bin/env python3
+# -*- coding: UTF-8 -*-
 """
-Author: zoro ju
+@author: jutao
+@version: V1.0
+@file: androidpage.py
+@date: 2021/09/29 0029
 """
-
-from utils.timeutil import sleep
-from utils.logger import log
-from selenium.webdriver.support.wait import WebDriverWait
+from utils.logger import logger
+from page.driveraction import DriverAction
 from appium.webdriver.common.touch_action import TouchAction
-from selenium.common.exceptions import TimeoutException
 
 
-class AndroidPage(object):
-    def __init__(self, driver):
-        self.driver = driver
+class AndroidPage(DriverAction):
 
-    def find_element(self, locator, wait_time=30):  # 单个元素定位
-        try:
-            element = WebDriverWait(self.driver, wait_time).until(lambda x: x.find_element(*locator))
-            return element
-        except TimeoutException:
-            return False
+    def get_current_package(self):
+        """
+        获取当前包名
+        """
+        logger.info("获取当前包名")
+        return self.driver.current_package
 
-    def find_elements(self, locator, wait_time=30):  # 多个元素定位
-        try:
-            elements = WebDriverWait(self.driver, wait_time).until(lambda x: x.find_elements(*locator))
-            return elements
-        except Exception as e:
-            raise e
+    def get_current_activity(self):
+        """
+        获取当前界面名
+        """
+        logger.info("获取当前界面名")
+        return self.driver.current_activity
 
-    def is_click(self, locator):  # 点击元素
-        print("[info:clicking element '{}']".format(locator))
-        try:
-            element = self.find_element(locator)
-            element.click()
-            sleep(2)
-        except Exception as e:
-            raise e
+    def check_app_is_install(self, app_id):
+        """
+        查看App是否安装
+        :param app_id AppID
+        """
+        logger.info("查看App是否安装")
+        return self.driver.is_app_installed(app_id)
 
-    def clear_text(self, locator):  # 清空元素内容
-        print("[info:clearing element '{}' value]".format(locator))
-        try:
-            element = self.find_element(locator)
-            element.clear()
-        except Exception as e:
-            raise e
+    def install_app(self, app_path):
+        """
+        安装APP
+        :param app_path APP路径
+        """
+        logger.info("安装APP")
+        self.driver.install_app(app_path)
 
-    def input_text(self, locator, value='', click=False, clear=False):  # 元素输入内容
-        print("[info:input value '{}' in element '{}']".format(value, locator))
-        try:
-            element = self.find_element(locator)
-            if click:
-                element.click()
-                sleep(1)
-            if clear:
-                element.clear()
-                sleep(1)
-            element.send_keys(value)
-            sleep(1)
-        except AttributeError as e:
-            raise e
+    def uninstall_app(self, app_id):
+        """
+        卸载APP
+        :param app_id AppID
+        """
+        logger.info("卸载APP")
+        self.driver.remove_app(app_id)
 
-    def input_text_with_enter(self, locator, txt):
-        """输入(输入前先清空)"""
-        log.info("元素{}输入文本：{}".format(locator, txt))
-        ele = self.find_element(locator)
-        ele.send_keys(txt)
-        self.input_enter_key()
-        sleep()
+    def open_app_activity(self, app_package, app_activity):
+        """
+        打开App
+        :param app_package App包名
+        :param app_activity App界面名
+        """
+        logger.info("打开App")
+        self.driver.start_activity(app_package, app_activity)
 
-    def input_enter_key(self):
+    def send_enter_key(self):
+        """
+        设备按下回车键
+        """
+        logger.info("按下回车键")
         self.driver.press_keycode(66)
 
-    def swipe(self, start_x, start_y, end_x, end_y, duration=1000):  # 滑动
+    def __swipe(self, start_x, start_y, end_x, end_y, duration=1000):
+        """
+        滑动
+        """
         try:
-            self.driver.swipe(start_x, start_y, end_x, end_y, duration)
-            sleep(1)
+            self.driver.__swipe(start_x, start_y, end_x, end_y, duration)
         except Exception as e:
             raise e
 
-    def down_swipe(self):  # 下滑
+    def down_swipe(self):
+        """
+        向下滑动
+        """
+        logger.info("向下滑动")
         width = self.driver.get_window_size()['width']
         height = self.driver.get_window_size()['height']
-        self.swipe(width / 2, height * 4 / 8, width / 2, height * 7 / 8)
-        sleep(1)
+        self.__swipe(width / 2, height * 4 / 8, width / 2, height * 7 / 8)
 
-    def up_swipe(self):  # 上滑
+    def up_swipe(self):
+        """
+        向上滑动
+        """
+        logger.info("向上滑动")
         width = self.driver.get_window_size()['width']
         height = self.driver.get_window_size()['height']
-        self.swipe(width / 2, height * 7 / 8, width / 2, height * 4 / 8)
-        sleep(1)
-
-    def get_element_attribute(self, locator, attribute=None):  # 获取元素属性值
-        try:
-            element = self.find_element(locator)
-            if attribute:
-                return element.get_attribute(attribute)
-            else:
-                return element.text
-        except Exception as e:
-            raise e
+        self.__swipe(width / 2, height * 7 / 8, width / 2, height * 4 / 8)
 
     def move_element_to_offset(self, locator, x, y):
+        """
+        将元素移动过
+        :param locator 元素定位
+        :param x 横向移动像素
+        :param y 纵向移动像素
+        """
+        logger.info("将元素移动过")
         element = self.find_element(locator)
-        action = TouchAction(self.driver)
-        action.press(element).wait(1000).move_to(x=x, y=y).release()
-        action.perform()
+        TouchAction(self.driver).press(element).move_to(x=x, y=y).release().perform()

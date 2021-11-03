@@ -39,7 +39,7 @@ class Log:
         return '%(levelname)s\t%(asctime)s\t[%(filename)s:%(lineno)d]\t%(message)s'
 
 
-log = Log().logger
+logger = Log().logger
 
 if __name__ == '__main__':
-    log.info('hello world')
+    logger.info('hello world')

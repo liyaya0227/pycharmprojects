@@ -16,4 +16,4 @@ class MainLeftViewPage(WebPage):
 
     def click_job_management(self):
         """选择job"""
-        self.is_click(main_leftview['任务管理标签'])
+        self.click_element(main_leftview['任务管理标签'])

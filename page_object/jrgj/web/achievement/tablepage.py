@@ -16,33 +16,33 @@ table = Element('jrgj/web/achievement/table')
 class AchievementTablePage(WebPage):
 
     def click_achievement_examine_tab(self):
-        self.is_click(table['业绩审核标签'])
+        self.click_element(table['业绩审核标签'])
 
     def click_to_submit_tab(self):
-        self.is_click(table['待提交标签'])
+        self.click_element(table['待提交标签'])
 
     def click_to_examine_tab(self):
-        self.is_click(table['待审核标签'])
+        self.click_element(table['待审核标签'])
 
     def click_pass_examine_tab(self):
-        self.is_click(table['审核通过标签'])
+        self.click_element(table['审核通过标签'])
 
     def click_reject_examine_tab(self):
-        self.is_click(table['驳回标签'])
+        self.click_element(table['驳回标签'])
 
     def input_contract_code_search(self, contract_code):
         self.input_text(table['合同编号搜索框'], contract_code)
 
     def input_sign_start_date_search(self, sign_start_date):
-        self.is_click(table['签约日期开始日期搜索框'])
+        self.click_element(table['签约日期开始日期搜索框'])
         self.input_text_with_enter(table['签约日期开始日期搜索框'], sign_start_date)
 
     def input_sign_end_date_search(self, sign_end_date):
-        self.is_click(table['签约日期结束日期搜索框'])
+        self.click_element(table['签约日期结束日期搜索框'])
         self.input_text_with_enter(table['签约日期结束日期搜索框'], sign_end_date)
 
     def choose_business_type_search(self, business_type):
-        self.is_click(table['业务类型搜索框'])
+        self.click_element(table['业务类型搜索框'])
         business_type_list = self.find_elements(table['搜索下拉框'])
         for business_type_ele in business_type_list:
             if business_type_ele.text == business_type:
@@ -53,14 +53,14 @@ class AchievementTablePage(WebPage):
         self.input_text(table['提交人搜索框'], submit_person)
 
     def click_search_button(self):
-        self.is_click(table['查询按钮'], sleep_time=1)
+        self.click_element(table['查询按钮'], sleep_time=1)
 
     def click_pass_examine_button_by_row(self, row=1):
         locator = "xpath", \
                   "//div[@style='' or not(@style)]/div[@class='ant-row achievement']" \
                   "//div[@role='tabpanel' and @aria-hidden='false']//table/tbody/tr[" + str(row) + "]/td[" +\
                   str(self.__get_column_by_title('审批人') + 1) + "]/a[text()='通过']"
-        self.is_click(locator, sleep_time=1)
+        self.click_element(locator, sleep_time=1)
 
     def get_achievement_table_count(self):
         locator = 'xpath', \

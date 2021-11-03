@@ -9,7 +9,7 @@
 
 import pytest
 import allure
-from utils.logger import log
+from utils.logger import logger
 from common.readconfig import ini
 from page_object.jrgj.web.main.upviewpage import MainUpViewPage
 from page_object.jrgj.web.main.leftviewpage import MainLeftViewPage
@@ -43,7 +43,7 @@ class TestShare(object):
         login_person_phone = self.main_right_view.get_login_person_phone()
         house_code = self.house_table_page.get_house_code_by_db(flag='买卖')
         # assert house_code != ''
-        log.info('房源编号为：' + house_code)
+        logger.info('房源编号为：' + house_code)
         yield
         self.main_up_view.clear_all_title()
 

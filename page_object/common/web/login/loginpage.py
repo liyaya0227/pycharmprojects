@@ -12,7 +12,7 @@ import base64
 from io import BytesIO
 from PIL import Image
 from config.conf import cm
-from utils.logger import log
+from utils.logger import logger
 from utils.timeutil import sleep
 from page.webpage import WebPage
 from common.readelement import Element
@@ -30,11 +30,11 @@ class LoginPage(WebPage):
         self.input_text(login['密码输入框'], password)
 
     def click_verify_button(self):
-        self.is_click(login['校验点击按钮'])
+        self.click_element(login['校验点击按钮'])
 
     def __save_img(self, picture_css, path):
         get_img_js = 'return document.querySelector("' + picture_css + '").toDataURL("image/jpeg");'
-        img = self.driver.execute_script(get_img_js)
+        img = self.execute_js_script(get_img_js)
         base64_data_img = img[img.find(',') + 1:]
         image_base = base64.b64decode(base64_data_img)
         file_like = BytesIO(image_base)
@@ -92,8 +92,8 @@ class LoginPage(WebPage):
         distance = self.__get_element_slide_distance()
         locus = self.__get_slide_locus(distance)
         slide_button = self.find_element(login['滑动按钮'])
-        log.info("需要滑动的距离为：" + str(distance))
-        log.info("需要滑动的距离为：" + str(locus))
+        logger.info("需要滑动的距离为：" + str(distance))
+        logger.info("需要滑动的距离为：" + str(locus))
         ActionChains(self.driver).click_and_hold(slide_button).perform()
         sleep(0.5)
         for loc in locus:
@@ -101,34 +101,34 @@ class LoginPage(WebPage):
             ActionChains(self.driver).move_by_offset(loc, 0).perform()
         ActionChains(self.driver).release(slide_button).perform()
         sleep(2)
-        if self.element_text(login['校验点击按钮']) != '验证成功':
+        if self.get_element_text(login['校验点击按钮']) != '验证成功':
             count -= 1
             self.slide_verification(count)
 
     def click_login_button(self):
-        self.is_click(login['立即登录按钮'], sleep_time=6)
+        self.click_element(login['立即登录按钮'], sleep_time=6)
 
     def check_choose_app_dialog_exist(self):
-        return self.element_is_exist(login['立即登录按钮'], wait_time=4)
+        return self.element_is_exist(login['立即登录按钮'], timeout=4)
 
     def choose_app_and_city(self, app=None, city=None):
         if app is not None:
-            self.is_click(login['应用选择框'])
+            self.click_element(login['应用选择框'])
             app_locator = 'xpath', "//div[contains(@class, 'ant-select-dropdown') " \
                                    "and not(contains(@class, 'ant-select-dropdown-hidden'))]" \
                                    "//div[@class='rc-virtual-list']" \
                                    "//div[@class='ant-select-item-option-content' and text()='" + app + "']"
-            self.is_click(app_locator, sleep_time=0.5)
+            self.click_element(app_locator, sleep_time=0.5)
         if city is not None:
-            self.is_click(login['城市选择框'])
+            self.click_element(login['城市选择框'])
             app_locator = 'xpath', "//div[contains(@class, 'ant-select-dropdown') " \
                                    "and not(contains(@class, 'ant-select-dropdown-hidden'))]" \
                                    "//div[@class='rc-virtual-list']" \
                                    "//div[@class='ant-select-item-option-content' and text()=" + city + "]"
-            self.is_click(app_locator, sleep_time=0.5)
+            self.click_element(app_locator, sleep_time=0.5)
 
     def dialog_click_confirm_button(self):
-        self.is_click(login['弹窗_确定按钮'], sleep_time=0.5)
+        self.click_element(login['弹窗_确定按钮'], sleep_time=0.5)
 
     def log_in(self, account, password, app='经纪人web端'):
         self.input_account(account)

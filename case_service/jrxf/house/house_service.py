@@ -12,7 +12,7 @@ from page_object.jrxf.web.house.audit_page import AuditHousePage
 from page_object.jrxf.web.house.table_page import HouseTablePage
 from page_object.jrxf.web.main.leftviewpage import MainLeftViewPage
 from utils.jsonutil import get_data
-from utils.logger import log
+from utils.logger import logger
 
 gl_web_driver = None
 add_house_page = None
@@ -52,9 +52,9 @@ class HouseService(object):
                     self.release_house(house_name)
                 self.audit_release_house(house_name)
             elif house_status in [4, 5]:  # 合作楼盘、非合作楼盘
-                log.info('不需要处理')
+                logger.info('不需要处理')
             else:
-                log.info('不需要处理')
+                logger.info('不需要处理')
 
     @staticmethod
     def audit_house_contract(house_name):

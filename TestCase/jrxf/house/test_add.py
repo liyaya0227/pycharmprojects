@@ -15,7 +15,7 @@ from page_object.jrxf.web.house.audit_page import AuditHousePage
 from page_object.jrxf.web.house.table_page import HouseTablePage
 from page_object.jrxf.web.main.leftviewpage import MainLeftViewPage
 from utils.jsonutil import get_data
-from utils.logger import log
+from utils.logger import logger
 
 web_driver = None
 
@@ -125,7 +125,7 @@ class TestAdd(object):
             elif house_status == 5:  # 非合作楼盘
                 pass
             else:
-                log.info('不需要处理')
+                logger.info('不需要处理')
 
     @allure.step("增加房源基础信息")
     def add_house_base_info(self):

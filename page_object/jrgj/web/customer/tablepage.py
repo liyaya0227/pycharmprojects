@@ -6,7 +6,7 @@
 @file: tablepage.py
 @time: 2021/06/22
 """
-
+from utils.timeutil import sleep
 from page.webpage import WebPage
 from page_object.jrgj.web.customer.addpage import CustomerAddPage
 from page_object.jrgj.web.main.leftviewpage import MainLeftViewPage
@@ -19,39 +19,40 @@ customer_table = Element('jrgj/web/customer/table')
 class CustomerTablePage(WebPage):
 
     def click_add_button(self):
-        self.is_click(customer_table['录入客源按钮'])
+        self.click_element(customer_table['录入客源按钮'])
 
     def input_search_text(self, search_text):
         self.clear_text(customer_table['搜索输入框'])
         self.input_text(customer_table['搜索输入框'], search_text)
 
     def click_search_button(self):
-        self.is_click(customer_table['查询按钮'])
+        self.click_element(customer_table['查询按钮'])
+        sleep(2)
 
     def click_all_tab(self):
-        self.is_click(customer_table['全部标签'])
+        self.click_element(customer_table['全部标签'])
 
     def click_sale_tab(self):
-        self.is_click(customer_table['买二手标签'])
+        self.click_element(customer_table['买二手标签'])
 
     def click_rent_tab(self):
-        self.is_click(customer_table['租赁标签'])
+        self.click_element(customer_table['租赁标签'])
 
     def click_new_house_tab(self):
-        self.is_click(customer_table['新房标签'])
+        self.click_element(customer_table['新房标签'])
 
     def click_made_deal_tab(self):
-        self.is_click(customer_table['已成交标签'])
+        self.click_element(customer_table['已成交标签'])
 
     def choose_customer_wish(self, customer_wish):
         if customer_wish == '不限':
-            self.is_click(customer_table['意愿等级_不限'])
+            self.click_element(customer_table['意愿等级_不限'])
         elif customer_wish == '三星':
-            self.is_click(customer_table['意愿等级_三星'])
+            self.click_element(customer_table['意愿等级_三星'])
         elif customer_wish == '二星':
-            self.is_click(customer_table['意愿等级_二星'])
+            self.click_element(customer_table['意愿等级_二星'])
         elif customer_wish == '一星':
-            self.is_click(customer_table['意愿等级_一星'])
+            self.click_element(customer_table['意愿等级_一星'])
         else:
             raise ValueError('传值错误')
 
@@ -59,7 +60,7 @@ class CustomerTablePage(WebPage):
         locator = 'xpath', \
                   "//div[not(contains(@style,'display'))]//div[contains(@class,'customesList')]//table/tbody/tr["\
                   + str(row) + "]/td[" + str(self.__get_column_by_title('姓名') + 1) + "]/a/div"
-        self.is_click(locator, sleep_time=4)
+        self.click_element(locator, sleep_time=4)
 
     def get_customer_table_count(self):
         locator = 'xpath', \
@@ -73,20 +74,20 @@ class CustomerTablePage(WebPage):
         locator = 'xpath', \
                   "//div[not(contains(@style,'display'))]/div[contains(@class,'customesList')]//table/tbody/tr["\
                   + str(row) + "]/td[" + str(self.__get_column_by_title('编号') + 1) + "]/a/div"
-        return self.element_text(locator)
+        return self.get_element_text(locator)
 
     def get_customer_name_by_row(self, row=1):
         locator = 'xpath', \
                   "//div[not(contains(@style,'display'))]/div[contains(@class,'customesList')]//table/tbody/tr["\
                   + str(row) + "]/td[" + str(self.__get_column_by_title('姓名') + 1) + "]/a/div"
-        return self.element_text(locator)
+        return self.get_element_text(locator)
 
     def get_customer_detailed_requirements_by_row(self, row=1):
         expand_locator = 'xpath', "//div[not(contains(@style,'display'))]/div[contains(@class,'customesList')]" \
                                   "//table/tbody/tr[" + str(row) + "]/td[" + \
                          str(self.__get_column_by_title('详细需求') + 1) + "]/div/div/a"
-        if self.element_is_exist(expand_locator, wait_time=2):
-            self.is_click(expand_locator)
+        if self.element_is_exist(expand_locator, timeout=2):
+            self.click_element(expand_locator)
         locator = 'xpath', "//div[not(contains(@style,'display'))]/div[contains(@class,'customesList')]" \
                            "//table/tbody/tr[" + str(row) + "]/td[" + str(self.__get_column_by_title('详细需求') + 1) + \
                   "]//div[@class='ant-row']/div[1]"

@@ -33,17 +33,17 @@ class ReceiptTablePage(WebPage):
 
     def choose_city_search(self, city):
         """选择城市"""
-        self.is_click(table['城市搜索输入框'])
+        self.click_element(table['城市搜索输入框'])
         locator = 'xpath', "//div[@class='ivu-layout']//div[contains(@class, 'receipt')]" \
                            "//label[contains(text(), '城市')]/parent::div//ul/li[text()='" + city + "']"
-        self.is_click(locator)
+        self.click_element(locator)
 
     def choose_collection_channel_search(self, collection_channel):
         """选择收款渠道"""
-        self.is_click(table['收款渠道搜索下拉框'])
+        self.click_element(table['收款渠道搜索下拉框'])
         locator = 'xpath', "//div[@class='ivu-layout']//div[contains(@class, 'receipt ')]" \
                            "//label[contains(text(), '收款渠道')]/parent::div//ul/li[text()='" + collection_channel + "']"
-        self.is_click(locator)
+        self.click_element(locator)
 
     def input_create_time_search(self, create_time):
         """输入创建时间"""
@@ -55,29 +55,29 @@ class ReceiptTablePage(WebPage):
 
     def click_search_button(self):
         """点击查询按钮"""
-        self.is_click(table['查询按钮'])
+        self.click_element(table['查询按钮'])
 
     def click_reset_button(self):
         """点击重置按钮"""
-        self.is_click(table['重置按钮'])
+        self.click_element(table['重置按钮'])
 
     def click_export_button(self):
         """点击导出按钮"""
-        self.is_click(table['导出按钮'])
+        self.click_element(table['导出按钮'])
 
     def get_table_total_count(self):
         """获取列表总条数"""
-        text = self.element_text(table['总计标签'])
+        text = self.get_element_text(table['总计标签'])
         return re.search(r"总计(.+?)条", text).group(1)
 
     def get_table_total_collection_money(self):
         """获取总收款金额"""
-        text = self.element_text(table['总计标签'])
+        text = self.get_element_text(table['总计标签'])
         return re.search(r"总收款金额 (.+?)元", text).group(1)
 
     def get_table_total_pay_money(self):
         """获取总支付金额"""
-        text = self.element_text(table['总计标签'])
+        text = self.get_element_text(table['总计标签'])
         return re.search(r"总支付金额 (.+?)元", text).group(1)
 
     def __get_table_column_by_name(self, name):
@@ -85,7 +85,7 @@ class ReceiptTablePage(WebPage):
         table_header_locator = 'xpath', "//div[@class='ivu-layout']//div[contains(@class, 'receipt')]" \
                                         "/div[contains(@class,'table')]//div[@class='ivu-table-header']//table" \
                                         "/thead/tr/th//span"
-        return self.find_elements(table_header_locator).index(name)
+        return str(list(map(lambda x: x.text, self.find_elements(table_header_locator))).index(name) + 1)
 
     def get_table_data(self):
         """获取收款单列表信息"""
@@ -102,8 +102,8 @@ class ReceiptTablePage(WebPage):
                                             "/tr[" + str(i+1) + "]/td[" + self.__get_table_column_by_name('收款信息') \
                                    + "]//span[contains(text(),'项目单据号')]/parent::p"
             receipt_info = {
-                'receipt_code': self.element_text(receipt_code_locator)[7:],
-                'project_code': self.element_text(project_code_locator)[7:]
+                'receipt_code': self.get_element_text(receipt_code_locator)[7:],
+                'project_code': self.get_element_text(project_code_locator)[7:]
             }
             order_code_locator = 'xpath', "//div[@class='ivu-layout']//div[contains(@class, 'receipt')]" \
                                           "/div[contains(@class,'table')]//div[@class='ivu-table-body']/table/tbody" \
@@ -111,21 +111,21 @@ class ReceiptTablePage(WebPage):
                                  + "]//p[1]/a"
             business_type_locator = 'xpath', "//div[@class='ivu-layout']//div[contains(@class, 'receipt')]" \
                                              "/div[contains(@class,'table')]//div[@class='ivu-table-body']/table" \
-                                             "/tbody/tr[" + str(i+1) + "]/td[" + self.__get_table_column_by_name('订单信息') \
-                                    + "]//p[2]"
+                                             "/tbody/tr[" + str(i+1) + "]/td[" \
+                                    + self.__get_table_column_by_name('订单信息') + "]//p[2]"
             product_name_locator = 'xpath', "//div[@class='ivu-layout']//div[contains(@class, 'receipt')]" \
                                             "/div[contains(@class,'table')]//div[@class='ivu-table-body']/table" \
-                                            "/tbody/tr[" + str(i+1) + "]/td[" + self.__get_table_column_by_name('订单信息') \
-                                   + "]//p[3]"
+                                            "/tbody/tr[" + str(i+1) + "]/td[" \
+                                   + self.__get_table_column_by_name('订单信息') + "]//p[3]"
             fee_type_locator = 'xpath', "//div[@class='ivu-layout']//div[contains(@class, 'receipt')]" \
                                         "/div[contains(@class,'table')]//div[@class='ivu-table-body']/table/tbody" \
                                         "/tr[" + str(i+1) + "]/td[" + self.__get_table_column_by_name('订单信息') \
                                + "]//p[4]/span"
             order_info = {
-                'order_code': self.element_text(order_code_locator),
-                'business_type': self.element_text(business_type_locator),
-                'product_name': self.element_text(product_name_locator),
-                'fee_type': self.element_text(fee_type_locator)
+                'order_code': self.get_element_text(order_code_locator),
+                'business_type': self.get_element_text(business_type_locator),
+                'product_name': self.get_element_text(product_name_locator),
+                'fee_type': self.get_element_text(fee_type_locator)
             }
             city_locator = 'xpath', "//div[@class='ivu-layout']//div[contains(@class, 'receipt')]" \
                                     "/div[contains(@class,'table')]//div[@class='ivu-table-body']/table/tbody" \
@@ -147,8 +147,8 @@ class ReceiptTablePage(WebPage):
                                       + self.__get_table_column_by_name('收款金额') + "]/div/div"
             service_charge_locator = 'xpath', "//div[@class='ivu-layout']//div[contains(@class, 'receipt')]" \
                                               "/div[contains(@class,'table')]//div[@class='ivu-table-body']/table" \
-                                              "/tbody/tr[" + str(i+1) + "]/td[" + self.__get_table_column_by_name('手续费') \
-                                     + "]/div/div"
+                                              "/tbody/tr[" + str(i+1) + "]/td[" \
+                                     + self.__get_table_column_by_name('手续费') + "]/div/div"
             pay_time_locator = 'xpath', "//div[@class='ivu-layout']//div[contains(@class, 'receipt')]" \
                                         "/div[contains(@class,'table')]//div[@class='ivu-table-body']/table/tbody" \
                                         "/tr[" + str(i+1) + "]/td[" + self.__get_table_column_by_name('时间') \
@@ -158,18 +158,18 @@ class ReceiptTablePage(WebPage):
                                            "/tr[" + str(i+1) + "]/td[" + self.__get_table_column_by_name('时间') \
                                   + "]//span[contains(text(),'创建时间')]/parent::p"
             date_info = {
-                'pay_time': self.element_text(pay_time_locator)[6:],
-                'create_time': self.element_text(create_time_locator)[6:]
+                'pay_time': self.get_element_text(pay_time_locator)[6:],
+                'create_time': self.get_element_text(create_time_locator)[6:]
             }
             row_data = {
                 'receipt_info': receipt_info,
                 'order_info': order_info,
-                'city': self.element_text(city_locator),
-                'payer': self.element_text(payer_locator),
-                'collection_channel': self.element_text(collection_channel_locator),
-                'pay_money': self.element_text(pay_money_locator)[1:],
-                'collected_money': self.element_text(collected_money_locator)[1:],
-                'service_charge': self.element_text(service_charge_locator)[1:],
+                'city': self.get_element_text(city_locator),
+                'payer': self.get_element_text(payer_locator),
+                'collection_channel': self.get_element_text(collection_channel_locator),
+                'pay_money': self.get_element_text(pay_money_locator)[1:],
+                'collected_money': self.get_element_text(collected_money_locator)[1:],
+                'service_charge': self.get_element_text(service_charge_locator)[1:],
                 'date_info': date_info
             }
             table_data.append(row_data)
@@ -181,4 +181,4 @@ class ReceiptTablePage(WebPage):
                                          "/div[contains(@class,'table')]//div[@class='ivu-table-body']/table" \
                                          "/tbody/tr[" + str(row) + "]/td[" + self.__get_table_column_by_name('操作') \
                                 + "]//a[text()='详情']"
-        self.is_click(detail_button_locator)
+        self.click_element(detail_button_locator)

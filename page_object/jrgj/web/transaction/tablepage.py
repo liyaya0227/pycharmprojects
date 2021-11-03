@@ -16,23 +16,23 @@ transaction_table = Element('jrgj/web/transaction/table')
 class TransactionTablePage(WebPage):
 
     def click_transaction_code_tab(self):
-        self.is_click(transaction_table['交易编号标签'])
+        self.click_element(transaction_table['交易编号标签'])
 
     def click_contract_code_tab(self):
-        self.is_click(transaction_table['合同编号标签'])
+        self.click_element(transaction_table['合同编号标签'])
 
     def input_search_text(self, search_value):
         self.input_text(transaction_table['搜索输入框'], search_value)
 
     def click_search_button(self):
-        self.is_click(transaction_table['搜索按钮'])
+        self.click_element(transaction_table['搜索按钮'])
 
     def go_to_transaction_detail_by_row(self, row=1):
         locator = "xpath", \
                   "//div[@style='']/div[@class='onTheWay-transaction' or @class='final-transaction']" \
                   "//div[@class='ant-table-wrapper']//table//tbody/tr[" + str(row) + "]/td[" + \
                   str(self.__get_column_by_title('交易编号') + 1) + "]//div"
-        self.is_click(locator)
+        self.click_element(locator)
 
     def get_table_count(self):
         locator = "xpath",\
@@ -47,37 +47,37 @@ class TransactionTablePage(WebPage):
                                    "//div[@style='']/div[@class='onTheWay-transaction' or @class='final-transaction']" \
                                    "//div[@class='ant-table-wrapper']//table//tbody/tr[" + str(row) + "]/td[" + \
                                    str(self.__get_column_by_title('交易编号') + 1) + "]//div"
-        order_detail['transaction_code'] = self.element_text(transaction_code_locator)
+        order_detail['transaction_code'] = self.get_element_text(transaction_code_locator)
         buyer_locator = "xpath",\
                         "//div[@style='']/div[@class='onTheWay-transaction' or @class='final-transaction']" \
                         "//div[@class='ant-table-wrapper']//table//tbody/tr[" + str(row) + "]/td[" + \
                         str(self.__get_column_by_title('买方') + 1) + "]/div"
-        order_detail['buyer'] = self.element_text(buyer_locator)
+        order_detail['buyer'] = self.get_element_text(buyer_locator)
         seller_locator = "xpath", \
                          "//div[@style='']/div[@class='onTheWay-transaction' or @class='final-transaction']" \
                          "//div[@class='ant-table-wrapper']//table//tbody/tr[" + str(row) + "]/td[" + \
                          str(self.__get_column_by_title('卖方') + 1) + "]/div"
-        order_detail['seller'] = self.element_text(seller_locator)
+        order_detail['seller'] = self.get_element_text(seller_locator)
         agent_locator = "xpath", \
                         "//div[@style='']/div[@class='onTheWay-transaction' or @class='final-transaction']" \
                         "//div[@class='ant-table-wrapper']//table//tbody/tr[" + str(row) + "]/td[" + \
                         str(self.__get_column_by_title('经纪人') + 1) + "]/div"
-        order_detail['agent'] = self.element_text(agent_locator)
+        order_detail['agent'] = self.get_element_text(agent_locator)
         property_address_locator = "xpath", \
                                    "//div[@style='']/div[@class='onTheWay-transaction' or @class='final-transaction']" \
                                    "//div[@class='ant-table-wrapper']//table//tbody/tr[" + str(row) + "]/td[" + \
                                    str(self.__get_column_by_title('物业地址') + 1) + "]/div"
-        order_detail['property_address'] = self.element_text(property_address_locator)
+        order_detail['property_address'] = self.get_element_text(property_address_locator)
         contract_code_locator = "xpath", \
                                 "//div[@style='']/div[@class='onTheWay-transaction' or @class='final-transaction']" \
                                 "//div[@class='ant-table-wrapper']//table//tbody/tr[" + str(row) + "]/td[" + \
                                 str(self.__get_column_by_title('合同编号') + 1) + "]/div"
-        order_detail['contract_code'] = self.element_text(contract_code_locator)
+        order_detail['contract_code'] = self.get_element_text(contract_code_locator)
         commission_locator = "xpath", \
                              "//div[@style='']/div[@class='onTheWay-transaction' or @class='final-transaction']" \
                              "//div[@class='ant-table-wrapper']//table//tbody/tr[" + str(row) + "]/td[" + \
                              str(self.__get_column_by_title('佣金') + 1) + "]/div"
-        order_detail['commission'] = self.element_text(commission_locator)
+        order_detail['commission'] = self.get_element_text(commission_locator)
         return order_detail
 
     def __get_column_by_title(self, title):

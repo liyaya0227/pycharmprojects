@@ -21,7 +21,7 @@ class KeyEntrustmentCertificatePage(WebPage):
         self.input_text(key_entrustment_certificate['协议编号输入框'], agreement_number)
 
     def choose_key_type(self, key):
-        self.is_click(key_entrustment_certificate['钥匙类型选择框'], sleep_time=0.5)
+        self.click_element(key_entrustment_certificate['钥匙类型选择框'], sleep_time=0.5)
         key_type_list = self.find_elements(key_entrustment_certificate['钥匙类型下拉框'])
         for key_type in key_type_list:
             if key_type.text == key[0]:
@@ -37,12 +37,12 @@ class KeyEntrustmentCertificatePage(WebPage):
 
     def upload_picture(self, file_path):
         for file in file_path:
-            self.is_click(key_entrustment_certificate['上传照片按钮'])
+            self.click_element(key_entrustment_certificate['上传照片按钮'])
             upload_file(file)
             sleep(2)
 
     def click_close_button(self):
-        self.is_click(key_entrustment_certificate['关闭按钮'])
+        self.click_element(key_entrustment_certificate['关闭按钮'])
 
     def click_save_button(self):
-        self.is_click(key_entrustment_certificate['保存按钮'], sleep_time=1)
+        self.click_element(key_entrustment_certificate['保存按钮'], sleep_time=1)

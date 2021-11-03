@@ -10,7 +10,7 @@
 import pytest
 import allure
 from config.conf import cm
-from utils.logger import log
+from utils.logger import logger
 from common.readconfig import ini
 from utils.jsonutil import get_data
 from page_object.jrgj.web.main.topviewpage import MainTopViewPage
@@ -53,7 +53,7 @@ class TestAdd(object):
         else:
             customer_info['customer_name'] = self.test_data['客户联系方式'][0]
             customer_info['customer_phone'] = self.test_data['客户联系方式'][1]
-        log.info('获取客户联系方式')
+        logger.info('获取客户联系方式')
         main_leftview.click_new_house_operation_label()
         yield
         main_upview.clear_all_title()
@@ -75,7 +75,7 @@ class TestAdd(object):
         new_house_operation_table.click_search_button()
         table_count = new_house_operation_table.get_table_count()
         if table_count != 0:
-            log.info('已存在相同客户，进行删除操作')
+            logger.info('已存在相同客户，进行删除操作')
             main_leftview.change_role('超级管理员')
             main_leftview.click_new_house_operation_label()
             new_house_operation_table.click_report_tab()  # 点击报备tab
@@ -112,7 +112,7 @@ class TestAdd(object):
         new_house_operation_table.dialog_input_remark(self.test_data['备注'])
         new_house_operation_table.dialog_click_confirm_button()
         assert main_topview.find_notification_content() == '报备新增成功'
-        log.info('报备新增成功')
+        logger.info('报备新增成功')
         main_leftview.change_role('新房案场')
         main_leftview.click_new_house_operation_label()
         new_house_operation_table.click_report_tab()  # 点击报备tab
@@ -123,7 +123,7 @@ class TestAdd(object):
         new_house_operation_table.watch_report_by_row(1)
         new_house_operation_table.dialog_click_examine_pass_button()
         assert main_topview.find_notification_content() == '报备审核成功'
-        log.info('报备审核成功')
+        logger.info('报备审核成功')
         main_leftview.change_role('经纪人')
         main_leftview.click_new_house_operation_label()
         new_house_operation_table.click_report_tab()  # 点击报备tab
@@ -136,7 +136,7 @@ class TestAdd(object):
         new_house_operation_table.dialog_upload_picture([cm.tmp_picture_file])
         new_house_operation_table.dialog_click_confirm_button()
         assert main_topview.find_notification_content() == '带看新增成功'
-        log.info('带看新增成功')
+        logger.info('带看新增成功')
         main_leftview.change_role('新房案场')
         main_leftview.click_new_house_operation_label()
         new_house_operation_table.click_take_look_tab()  # 点击带看tab
@@ -147,7 +147,7 @@ class TestAdd(object):
         new_house_operation_table.watch_report_by_row(1)
         new_house_operation_table.dialog_click_examine_pass_button()
         assert main_topview.find_notification_content() == '带看审核成功'
-        log.info('带看审核成功')
+        logger.info('带看审核成功')
         main_leftview.change_role('经纪人')
         main_leftview.click_new_house_operation_label()
         new_house_operation_table.click_take_look_tab()  # 点击带看tab
@@ -168,7 +168,7 @@ class TestAdd(object):
         new_house_operation_table.dialog_upload_payment_voucher([cm.tmp_picture_file])
         new_house_operation_table.dialog_click_confirm_button()
         assert main_topview.find_notification_content() == '认购新增成功'
-        log.info('认购新增成功')
+        logger.info('认购新增成功')
         main_leftview.change_role('新房案场')
         main_leftview.click_new_house_operation_label()
         new_house_operation_table.click_subscription_tab()  # 点击认购tab
@@ -181,7 +181,7 @@ class TestAdd(object):
         new_house_operation_table.input_company_income(self.test_data['公司收入'])
         new_house_operation_table.dialog_click_examine_pass_button()
         assert main_topview.find_notification_content() == '认购审核成功'
-        log.info('认购审核成功')
+        logger.info('认购审核成功')
         main_leftview.change_role('经纪人')
         main_leftview.click_new_house_operation_label()
         new_house_operation_table.click_subscription_tab()  # 点击认购tab

@@ -18,7 +18,7 @@ owner_identification_information = Element('jrgj/web/house/owneridentificationin
 class OwnerIdentificationInformationPage(WebPage):
 
     def choose_seller_type(self, seller_type):
-        self.is_click(owner_identification_information['卖方类型输入框'], sleep_time=0.5)
+        self.click_element(owner_identification_information['卖方类型输入框'], sleep_time=0.5)
         seller_type_list = self.find_elements(owner_identification_information['卖方类型下拉框'])
         for seller_type_ele in seller_type_list:
             if seller_type_ele.text == seller_type:
@@ -26,7 +26,7 @@ class OwnerIdentificationInformationPage(WebPage):
                 break
 
     def choose_identity_type(self, identity_type):
-        self.is_click(owner_identification_information['证件类型输入框'], sleep_time=0.5)
+        self.click_element(owner_identification_information['证件类型输入框'], sleep_time=0.5)
         identity_type_list = self.find_elements(owner_identification_information['证件类型下拉框'])
         for identity_type_ele in identity_type_list:
             if identity_type_ele.text == identity_type:
@@ -35,12 +35,12 @@ class OwnerIdentificationInformationPage(WebPage):
 
     def upload_picture(self, file_path):
         for file in file_path:
-            self.is_click(owner_identification_information['上传图片按钮'])
+            self.click_element(owner_identification_information['上传图片按钮'])
             upload_file(file)
             sleep(2)
 
     def choose_nationality(self, nationality):
-        self.is_click(owner_identification_information['选择国籍输入框'], sleep_time=0.5)
+        self.click_element(owner_identification_information['选择国籍输入框'], sleep_time=0.5)
         nationality_list = self.find_elements(owner_identification_information['选择国籍下拉框'])
         for nationality_ele in nationality_list:
             if nationality_ele.text == nationality:
@@ -51,12 +51,12 @@ class OwnerIdentificationInformationPage(WebPage):
         self.input_text(owner_identification_information['业主姓名输入框'], owner_name)
 
     def input_valid_period_start(self, start_date):
-        self.is_click(owner_identification_information['有效期限_开始日期输入框'])
+        self.click_element(owner_identification_information['有效期限_开始日期输入框'])
         self.input_text(owner_identification_information['有效期限_开始日期输入框'], start_date)
         self.send_enter_key(owner_identification_information['有效期限_开始日期输入框'])
 
     def input_valid_period_end(self, end_date):
-        self.is_click(owner_identification_information['有效期限_结束日期输入框'])
+        self.click_element(owner_identification_information['有效期限_结束日期输入框'])
         self.input_text(owner_identification_information['有效期限_结束日期输入框'], end_date)
         self.send_enter_key(owner_identification_information['有效期限_结束日期输入框'])
 
@@ -64,7 +64,7 @@ class OwnerIdentificationInformationPage(WebPage):
         self.input_text(owner_identification_information['备注输入框'], remark)
 
     def click_close_button(self):
-        self.is_click(owner_identification_information['关闭按钮'])
+        self.click_element(owner_identification_information['关闭按钮'])
 
     def click_submit_button(self):
-        self.is_click(owner_identification_information['提交按钮'], sleep_time=1)
+        self.click_element(owner_identification_information['提交按钮'], sleep_time=1)

@@ -15,7 +15,7 @@ from config.conf import cm
 from page_object.common.web.login.loginpage import LoginPage
 from page_object.jrgj.web.main.rightviewpage import MainRightViewPage
 from utils.databaseutil import DataBaseUtil
-from utils.logger import log
+from utils.logger import logger
 from common.readconfig import ini
 from utils.jsonutil import get_value
 from page_object.jrgj.web.main.upviewpage import MainUpViewPage
@@ -55,7 +55,7 @@ class TestPhone(object):
         self.house_detail_page = HouseDetailPage(gl_driver)
         self.main_right_view = MainRightViewPage(web_driver)
         house_code = self.house_table_page.get_house_code_by_db(flag='买卖')
-        log.info('房源编号为：' + house_code)
+        logger.info('房源编号为：' + house_code)
         yield
         sleep(2)
         self.main_up_view.clear_all_title()

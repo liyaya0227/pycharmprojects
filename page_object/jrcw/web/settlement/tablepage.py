@@ -29,10 +29,10 @@ class SettlementTablePage(WebPage):
 
     def choose_city_search(self, city):
         """选择城市"""
-        self.is_click(table['城市搜索输入框'])
+        self.click_element(table['城市搜索输入框'])
         locator = 'xpath', "//div[@class='ivu-layout']//div[contains(@class, 'settlement')]" \
                            "//label[contains(text(), '城市')]/parent::div//ul/li[text()='" + city + "']"
-        self.is_click(locator)
+        self.click_element(locator)
 
     def input_settlement_company_search(self, settlement_company):
         """输入结算公司"""
@@ -44,24 +44,25 @@ class SettlementTablePage(WebPage):
 
     def choose_settlement_model_search(self, settlement_model):
         """选择结算模式"""
-        self.is_click(table['结算模式输入框'])
+        self.click_element(table['结算模式输入框'])
         locator = 'xpath', "//div[@class='ivu-layout']//div[contains(@class, 'settlement')]" \
                            "//label[contains(text(), '结算模式')]/parent::div//ul/li[text()='" + settlement_model + "']"
-        self.is_click(locator)
+        self.click_element(locator)
 
     def choose_fee_type_search(self, fee_type):
         """选择款项类型"""
-        self.is_click(table['款项类型输入框'])
+        self.click_element(table['款项类型输入框'])
         locator = 'xpath', "//div[@class='ivu-layout']//div[contains(@class, 'settlement')]" \
                            "//label[contains(text(), '款项类型')]/parent::div//ul/li[text()='" + fee_type + "']"
-        self.is_click(locator)
+        self.click_element(locator)
 
     def choose_reconciliation_status_search(self, reconciliation_status):
         """选择对账状态"""
-        self.is_click(table['对账状态输入框'])
+        self.click_element(table['对账状态输入框'])
         locator = 'xpath', "//div[@class='ivu-layout']//div[contains(@class, 'settlement')]" \
-                           "//label[contains(text(), '对账状态')]/parent::div//ul/li[text()='" + reconciliation_status + "']"
-        self.is_click(locator)
+                           "//label[contains(text(), '对账状态')]/parent::div//ul/li[text()='" \
+                  + reconciliation_status + "']"
+        self.click_element(locator)
 
     def input_expect_settlement_time_search(self, expect_settlement_time):
         """输入预计结算时间"""
@@ -77,24 +78,24 @@ class SettlementTablePage(WebPage):
 
     def click_search_button(self):
         """点击查询按钮"""
-        self.is_click(table['查询按钮'])
+        self.click_element(table['查询按钮'])
 
     def click_reset_button(self):
         """点击重置按钮"""
-        self.is_click(table['重置按钮'])
+        self.click_element(table['重置按钮'])
 
     def click_export_button(self):
         """点击导出按钮"""
-        self.is_click(table['导出按钮'])
+        self.click_element(table['导出按钮'])
 
     def get_table_total_count(self):
         """获取列表总条数"""
-        text = self.element_text(table['总计标签'])
+        text = self.get_element_text(table['总计标签'])
         return re.search(r"总计(.+?)条", text).group(1)
 
     def get_table_total_settlement_money(self):
         """获取列表总条数"""
-        text = self.element_text(table['总计标签'])
+        text = self.get_element_text(table['总计标签'])
         return re.search(r"总结算金额 (.+?)元", text).group(1)
 
     def get_table_data(self):
@@ -105,8 +106,8 @@ class SettlementTablePage(WebPage):
         for i in range(len(self.find_elements(table_row_locator))):
             settlement_code_locator = 'xpath', "//div[@class='ivu-layout']//div[contains(@class, 'settlement')]" \
                                          "//div[@class='ivu-table-body']//table/tbody/tr[" + str(i+1) \
-                                + "]/td[" + self.__get_table_column_by_name('结算单信息') \
-                                + "]//span[contains(text(),'结算单据号')]/parent::p"
+                                      + "]/td[" + self.__get_table_column_by_name('结算单信息') \
+                                      + "]//span[contains(text(),'结算单据号')]/parent::p"
             project_code_locator = 'xpath', "//div[@class='ivu-layout']//div[contains(@class, 'settlement')]" \
                                             "//div[@class='ivu-table-body']//table/tbody/tr[" + str(i+1) \
                                    + "]/td[" + self.__get_table_column_by_name('结算单信息') \
@@ -116,9 +117,9 @@ class SettlementTablePage(WebPage):
                               + "]/td[" + self.__get_table_column_by_name('结算单信息') \
                               + "]//span[contains(text(),'结算版本号')]/parent::p"
             settlement_order_info = {
-                'settlement_code': self.element_text(settlement_code_locator)[7:],
-                'project_code': self.element_text(project_code_locator)[7:],
-                'settlement_version': self.element_text(version_locator)[7:]
+                'settlement_code': self.get_element_text(settlement_code_locator)[7:],
+                'project_code': self.get_element_text(project_code_locator)[7:],
+                'settlement_version': self.get_element_text(version_locator)[7:]
             }
             order_code_locator = 'xpath', "//div[@class='ivu-layout']//div[contains(@class, 'settlement')]" \
                                           "//div[@class='ivu-table-body']//table/tbody/tr[" + str(i+1) \
@@ -133,10 +134,10 @@ class SettlementTablePage(WebPage):
                                         "//div[@class='ivu-table-body']//table/tbody/tr[" + str(i + 1) \
                                + "]/td[" + self.__get_table_column_by_name('订单信息') + "]//p[3]/span"
             order_info = {
-                'order_code': self.element_text(order_code_locator),
-                'business_type': self.element_text(business_type_locator),
-                'product_name': self.element_text(product_name_locator),
-                'fee_type': self.element_text(fee_type_locator)
+                'order_code': self.get_element_text(order_code_locator),
+                'business_type': self.get_element_text(business_type_locator),
+                'product_name': self.get_element_text(product_name_locator),
+                'fee_type': self.get_element_text(fee_type_locator)
             }
             city_locator = 'xpath', "//div[@class='ivu-layout']//div[contains(@class, 'settlement')]" \
                                     "//div[@class='ivu-table-body']//table/tbody/tr[" + str(i+1) + "]/td[" \
@@ -154,9 +155,9 @@ class SettlementTablePage(WebPage):
                                        + "]/td[" + self.__get_table_column_by_name('结算信息') \
                                        + "]//span[contains(text(),'结算模式')]/parent::p/span[2]"
             settlement_info = {
-                'settlement_shop': self.element_text(settlement_shop_locator),
-                'settlement_company': self.element_text(settlement_company_locator),
-                'settlement_model': self.element_text(settlement_model_locator)
+                'settlement_shop': self.get_element_text(settlement_shop_locator),
+                'settlement_company': self.get_element_text(settlement_company_locator),
+                'settlement_model': self.get_element_text(settlement_model_locator)
             }
             settlement_money_locator = 'xpath', "//div[@class='ivu-layout']//div[contains(@class, 'settlement')]" \
                                                 "//div[@class='ivu-table-body']//table/tbody/tr[" + str(i + 1) \
@@ -173,8 +174,8 @@ class SettlementTablePage(WebPage):
                                              + "]/td[" + self.__get_table_column_by_name('日期') \
                                              + "]//span[contains(text(),'预计结算')]/parent::p"
             date_info = {
-                'order_time': self.element_text(order_time_locator)[6:],
-                'expect_settlement_time': self.element_text(expect_settlement_time_locator)[8:]
+                'order_time': self.get_element_text(order_time_locator)[6:],
+                'expect_settlement_time': self.get_element_text(expect_settlement_time_locator)[8:]
             }
             reconciliation_status_locator = 'xpath', "//div[@class='ivu-layout']//div[contains(@class, 'settlement')]"\
                                                      "//div[@class='ivu-table-body']//table/tbody/tr[" + str(i+1) \
@@ -182,25 +183,38 @@ class SettlementTablePage(WebPage):
             row_data = {
                 'settlement_order_info': settlement_order_info,
                 'order_info': order_info,
-                'city': self.element_text(city_locator),
+                'city': self.get_element_text(city_locator),
                 'settlement_info': settlement_info,
-                'settlement_money': self.element_text(settlement_money_locator)[1:],
-                'service_charge': self.element_text(service_charge_locator)[1:],
+                'settlement_money': self.get_element_text(settlement_money_locator)[1:],
+                'service_charge': self.get_element_text(service_charge_locator)[1:],
                 'date_info': date_info,
-                'reconciliation_status': self.element_text(reconciliation_status_locator)
+                'reconciliation_status': self.get_element_text(reconciliation_status_locator)
             }
             table_data.append(row_data)
         return table_data
 
     def click_detail_button_by_row(self, row=1):
         """点击详情按钮"""
-        detail_button_locator = 'xpath', "//div[@class='ivu-layout']//div[contains(@class, 'sale')]" \
+        detail_button_locator = 'xpath', "//div[@class='ivu-layout']//div[contains(@class, 'settlement')]" \
                                          "//div[@class='ivu-table-body']//table/tbody/tr[" + str(row) \
                                 + "]/td[" + self.__get_table_column_by_name('操作') + "]//a[text()='详情']"
-        self.is_click(detail_button_locator)
+        self.click_element(detail_button_locator)
 
     def __get_table_column_by_name(self, name):
         """获取列表头的列数"""
-        table_header_locator = 'xpath', "//div[@class='ivu-layout']//div[contains(@class, 'sale')]//div" \
+        table_header_locator = 'xpath', "//div[@class='ivu-layout']//div[contains(@class, 'settlement')]//div" \
                                         "//div[@class='ivu-table-header']//table/thead/tr/th//span"
-        return self.find_elements(table_header_locator).index(name)
+        return str(list(map(lambda x: x.text, self.find_elements(table_header_locator))).index(name) + 1)
+
+    def get_table_settlement_code(self):
+        """获取列表所有结算单据号"""
+        table_row_locator = 'xpath', "//div[@class='ivu-layout']//div[contains(@class, 'settlement')]//div" \
+                                     "//div[@class='ivu-table-body']//table/tbody/tr"
+        row = len(self.find_elements(table_row_locator))
+        settlement_code_list = []
+        for r in range(row):
+            settlement_code_locator = 'xpath', "//div[@class='ivu-layout']//div[contains(@class, 'settlement')]//div" \
+                                               "//div[@class='ivu-table-body']//table/tbody/tr[" + str(r+1) \
+                                      + "]/td[1]//p[1]"
+            settlement_code_list.append(self.get_element_text(settlement_code_locator)[7:])
+        return settlement_code_list

@@ -17,13 +17,13 @@ detail = Element('jrgj/web/achievement/detail')
 class AchievementDetailPage(WebPage):
 
     def click_submit_button(self):  # 点击提交按钮
-        self.is_click(detail['提交按钮'])
+        self.click_element(detail['提交按钮'])
 
     def get_examine_time(self):  # 获取审核时间
-        return self.element_text(detail['审核时间标签']).split('\n')[1]
+        return self.get_element_text(detail['审核时间标签']).split('\n')[1]
 
     def click_add_role_button(self):  # 点击新增角色人按钮
-        self.is_click(detail['新增角色人按钮'])
+        self.click_element(detail['新增角色人按钮'])
 
     def input_customer_partner_proportion_by_index(self, proportion, index=1):  # 输入客源合作人比例
         locator = 'xpath', \
@@ -62,32 +62,32 @@ class AchievementDetailPage(WebPage):
                                 "//div[@style='' or not(@style)]/div[contains(@class,'achievementDetail')]" \
                                 "//div[contains(@class,'roleTable')]//table/tbody/tr[" + str(m+1) + "]/td[" \
                                 + str(self.__get_proportion_table_column_by_title('角色类型')) + "]"
-            row_data['角色类型'] = self.element_text(role_type_locator)
+            row_data['角色类型'] = self.get_element_text(role_type_locator)
             proportion_locator = 'xpath', \
                                  "//div[@style='' or not(@style)]/div[contains(@class,'achievementDetail')]" \
                                  "//div[contains(@class,'roleTable')]//table/tbody/tr[" + str(m+1) + "]/td[" \
                                  + str(self.__get_proportion_table_column_by_title('分配比例')) + "]"
-            row_data['分配比例'] = self.element_text(proportion_locator).split('%')[0]
+            row_data['分配比例'] = self.get_element_text(proportion_locator).split('%')[0]
             role_name_locator = 'xpath', \
                                 "//div[@style='' or not(@style)]/div[contains(@class,'achievementDetail')]" \
                                 "//div[contains(@class,'roleTable')]//table/tbody/tr[" + str(m+1) + "]/td[" \
                                 + str(self.__get_proportion_table_column_by_title('角色人')) + "]/span"
-            row_data['角色人'] = self.element_text(role_name_locator)
+            row_data['角色人'] = self.get_element_text(role_name_locator)
             role_shop_group_locator = 'xpath', \
                                       "//div[@style='' or not(@style)]/div[contains(@class,'achievementDetail')]" \
                                       "//div[contains(@class,'roleTable')]//table/tbody/tr[" + str(m+1) + "]/td[" \
                                       + str(self.__get_proportion_table_column_by_title('角色人店组')) + "]"
-            row_data['角色人店组'] = self.element_text(role_shop_group_locator)
+            row_data['角色人店组'] = self.get_element_text(role_shop_group_locator)
             role_manager_locator = 'xpath', \
                                    "//div[@style='' or not(@style)]/div[contains(@class,'achievementDetail')]" \
                                    "//div[contains(@class,'roleTable')]//table/tbody/tr[" + str(m+1) + "]/td[" \
                                    + str(self.__get_proportion_table_column_by_title('商圈经理')) + "]/a"
-            row_data['商圈经理'] = self.element_text(role_manager_locator)
+            row_data['商圈经理'] = self.get_element_text(role_manager_locator)
             role_company_locator = 'xpath', \
                                    "//div[@style='' or not(@style)]/div[contains(@class,'achievementDetail')]" \
                                    "//div[contains(@class,'roleTable')]//table/tbody/tr[" + str(m+1) + "]/td[" \
                                    + str(self.__get_proportion_table_column_by_title('加盟商')) + "]"
-            row_data['加盟商'] = self.element_text(role_company_locator)
+            row_data['加盟商'] = self.get_element_text(role_company_locator)
             data.append(row_data)
         return data
 
@@ -98,10 +98,10 @@ class AchievementDetailPage(WebPage):
                 return title_list.index(title_ele) + 1
 
     def click_receivable_achievement_tab(self):  # 点击应收业绩标签
-        self.is_click(detail['应收业绩标签'], sleep_time=1)
+        self.click_element(detail['应收业绩标签'], sleep_time=1)
 
     def click_received_achievement_tab(self):  # 点击实收业绩标签
-        self.is_click(detail['实收业绩标签'], sleep_time=1)
+        self.click_element(detail['实收业绩标签'], sleep_time=1)
 
     def get_achievement_table_data(self):  # 获取业绩列表所有数据
         data = []
@@ -113,61 +113,61 @@ class AchievementDetailPage(WebPage):
                                        "//div[contains(@class,'achievementTable')]" \
                                        "//div[@role='tabpanel' and @aria-hidden='false']//table/tbody/tr[" + str(m+1) \
                                        + "]/td[" + str(self.__get_achievement_table_column_by_title('结算月')) + "]"
-            row_data['结算月'] = self.element_text(settlement_month_locator)
+            row_data['结算月'] = self.get_element_text(settlement_month_locator)
             trade_type_locator = 'xpath', \
                                  "//div[@style='' or not(@style)]/div[contains(@class,'achievementDetail')]" \
                                  "//div[contains(@class,'achievementTable')]" \
                                  "//div[@role='tabpanel' and @aria-hidden='false']//table/tbody/tr[" + str(m+1) \
                                  + "]/td[" + str(self.__get_achievement_table_column_by_title('业务类型')) + "]"
-            row_data['业务类型'] = self.element_text(trade_type_locator)
+            row_data['业务类型'] = self.get_element_text(trade_type_locator)
             fee_name_locator = 'xpath', \
                                "//div[@style='' or not(@style)]/div[contains(@class,'achievementDetail')]" \
                                "//div[contains(@class,'achievementTable')]" \
                                "//div[@role='tabpanel' and @aria-hidden='false']//table/tbody/tr[" + str(m+1) \
                                + "]/td[" + str(self.__get_achievement_table_column_by_title('费用项')) + "]"
-            row_data['费用项'] = self.element_text(fee_name_locator)
+            row_data['费用项'] = self.get_element_text(fee_name_locator)
             role_type_locator = 'xpath', \
                                 "//div[@style='' or not(@style)]/div[contains(@class,'achievementDetail')]" \
                                 "//div[contains(@class,'achievementTable')]" \
                                 "//div[@role='tabpanel' and @aria-hidden='false']//table/tbody/tr[" + str(m+1) \
                                 + "]/td[" + str(self.__get_achievement_table_column_by_title('角色类型')) + "]"
-            row_data['角色类型'] = self.element_text(role_type_locator)
+            row_data['角色类型'] = self.get_element_text(role_type_locator)
             proportion_locator = 'xpath', \
                                  "//div[@style='' or not(@style)]/div[contains(@class,'achievementDetail')]" \
                                  "//div[contains(@class,'achievementTable')]" \
                                  "//div[@role='tabpanel' and @aria-hidden='false']//table/tbody/tr[" + str(m+1) \
                                  + "]/td[" + str(self.__get_achievement_table_column_by_title('分配比例')) + "]"
-            row_data['分配比例'] = self.element_text(proportion_locator).split('%')[0]
+            row_data['分配比例'] = self.get_element_text(proportion_locator).split('%')[0]
             role_name_locator = 'xpath', \
                                 "//div[@style='' or not(@style)]/div[contains(@class,'achievementDetail')]" \
                                 "//div[contains(@class,'achievementTable')]" \
                                 "//div[@role='tabpanel' and @aria-hidden='false']//table/tbody/tr[" + str(m+1) \
                                 + "]/td[" + str(self.__get_achievement_table_column_by_title('角色人')) + "]"
-            row_data['角色人'] = self.element_text(role_name_locator)
+            row_data['角色人'] = self.get_element_text(role_name_locator)
             role_shop_group_locator = 'xpath', \
                                       "//div[@style='' or not(@style)]/div[contains(@class,'achievementDetail')]" \
                                       "//div[contains(@class,'achievementTable')]" \
                                       "//div[@role='tabpanel' and @aria-hidden='false']//table/tbody/tr[" + str(m+1) \
                                       + "]/td[" + str(self.__get_achievement_table_column_by_title('角色人店组')) + "]"
-            row_data['角色人店组'] = self.element_text(role_shop_group_locator)
+            row_data['角色人店组'] = self.get_element_text(role_shop_group_locator)
             role_manager_locator = 'xpath', \
                                    "//div[@style='' or not(@style)]/div[contains(@class,'achievementDetail')]" \
                                    "//div[contains(@class,'achievementTable')]" \
                                    "//div[@role='tabpanel' and @aria-hidden='false']//table/tbody/tr[" + str(m+1) \
                                    + "]/td[" + str(self.__get_achievement_table_column_by_title('商圈经理')) + "]"
-            row_data['商圈经理'] = self.element_text(role_manager_locator)
+            row_data['商圈经理'] = self.get_element_text(role_manager_locator)
             achievement_locator = 'xpath', \
                                   "//div[@style='' or not(@style)]/div[contains(@class,'achievementDetail')]" \
                                   "//div[contains(@class,'achievementTable')]" \
                                   "//div[@role='tabpanel' and @aria-hidden='false']//table/tbody/tr[" + str(m+1) \
                                   + "]/td[" + str(self.__get_achievement_table_column_by_title('业绩额')) + "]"
-            row_data['业绩额'] = self.element_text(achievement_locator).replace(',', '')
+            row_data['业绩额'] = self.get_element_text(achievement_locator).replace(',', '')
             role_company_locator = 'xpath', \
                                    "//div[@style='' or not(@style)]/div[contains(@class,'achievementDetail')]" \
                                    "//div[contains(@class,'achievementTable')]" \
                                    "//div[@role='tabpanel' and @aria-hidden='false']//table/tbody/tr[" + str(m+1) \
                                    + "]/td[" + str(self.__get_achievement_table_column_by_title('加盟商')) + "]"
-            row_data['加盟商'] = self.element_text(role_company_locator)
+            row_data['加盟商'] = self.get_element_text(role_company_locator)
             data.append(row_data)
         return data
 

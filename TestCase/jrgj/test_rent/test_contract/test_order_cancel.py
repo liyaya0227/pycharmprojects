@@ -11,7 +11,7 @@ import allure
 from common.globalvar import GlobalVar
 from config.conf import cm
 from utils.jsonutil import get_data
-from utils.logger import log
+from utils.logger import logger
 from common.readconfig import ini
 from page_object.common.web.login.loginpage import LoginPage
 from page_object.jrgj.web.main.topviewpage import MainTopViewPage
@@ -64,7 +64,7 @@ class TestOrderCancel(object):
         contract_preview = ContractPreviewPage(web_driver)
 
         if env == 'zjg':
-            log.info('暂不支持张家港')
+            logger.info('暂不支持张家港')
             pytest.skip('暂不支持张家港')
         json_file_path = cm.test_data_dir + "/jrgj/test_rent/test_contract/test_create_order.json"
         test_data = get_data(json_file_path)
@@ -147,7 +147,7 @@ class TestOrderCancel(object):
         contract_create_order.verify_house_info(GlobalVar.house_info)
         contract_create_order.click_verify_house_button()
         assert main_topview.find_notification_content() == '房源信息校验通过！'
-        log.info('房源信息校验通过')
+        logger.info('房源信息校验通过')
         contract_create_order.input_customer_code(GlobalVar.customer_code)
         contract_create_order.click_get_customer_info_button()
         contract_create_order.click_next_step_button()
@@ -157,5 +157,5 @@ class TestOrderCancel(object):
         contract_create_order.input_rent_contract_content(test_data)
         contract_create_order.click_submit_button()
         assert main_topview.find_notification_content() == '提交成功'
-        log.info('合同创建成功')
+        logger.info('合同创建成功')
         main_upview.clear_all_title()

@@ -19,13 +19,13 @@ new_house_operation_table = Element('jrgj/web/newhouseoperation/table')
 class NewHouseOperationTablePage(WebPage):
 
     def click_report_tab(self):
-        self.is_click(new_house_operation_table['报备标签'])
+        self.click_element(new_house_operation_table['报备标签'])
 
     def click_take_look_tab(self):
-        self.is_click(new_house_operation_table['带看标签'])
+        self.click_element(new_house_operation_table['带看标签'])
 
     def click_subscription_tab(self):
-        self.is_click(new_house_operation_table['认购标签'])
+        self.click_element(new_house_operation_table['认购标签'])
 
     def input_building_name_search(self, building_name):
         self.input_text(new_house_operation_table['楼盘名称搜索框'], building_name)
@@ -62,7 +62,7 @@ class NewHouseOperationTablePage(WebPage):
         self.input_text(new_house_operation_table['报备编号搜索框'], report_code)
 
     def choose_report_status_search(self, report_status):
-        self.is_click(new_house_operation_table['报备状态搜索框'], sleep_time=0.5)
+        self.click_element(new_house_operation_table['报备状态搜索框'], sleep_time=0.5)
         report_status_list = self.find_elements(new_house_operation_table['下拉框'])
         for report_status_ele in report_status_list:
             if report_status_ele.text == report_status:
@@ -71,10 +71,10 @@ class NewHouseOperationTablePage(WebPage):
         raise ValueError('传值错误')
 
     def click_search_button(self):
-        self.is_click(new_house_operation_table['搜索按钮'], sleep_time=1)
+        self.click_element(new_house_operation_table['搜索按钮'], sleep_time=1)
 
     def click_add_button(self):
-        self.is_click(new_house_operation_table['新增按钮'])
+        self.click_element(new_house_operation_table['新增按钮'])
 
     def dialog_input_building_info(self, build_info):
         self.input_text(new_house_operation_table['弹窗_楼盘信息输入框'], build_info)
@@ -100,7 +100,7 @@ class NewHouseOperationTablePage(WebPage):
         raise ValueError('传值错误')
 
     def dialog_input_expect_arrive_time(self, expect_arrive_time):
-        self.is_click(new_house_operation_table['弹窗_预计到访时间输入框'])
+        self.click_element(new_house_operation_table['弹窗_预计到访时间输入框'])
         if expect_arrive_time == '':
             time_srf = dt_strftime('%Y-%m-%d %H:%M')
             self.input_text_with_enter(new_house_operation_table['弹窗_预计到访时间输入框'], time_srf)
@@ -111,7 +111,7 @@ class NewHouseOperationTablePage(WebPage):
         self.input_text(new_house_operation_table['弹窗_备注输入框'], remark)
 
     def dialog_input_take_look_time(self, take_look_time):
-        self.is_click(new_house_operation_table['弹窗_带看日期输入框'])
+        self.click_element(new_house_operation_table['弹窗_带看日期输入框'])
         if take_look_time == '':
             time_srf = dt_strftime('%Y-%m-%d %H:%M')
             self.input_text_with_enter(new_house_operation_table['弹窗_带看日期输入框'], time_srf)
@@ -120,7 +120,7 @@ class NewHouseOperationTablePage(WebPage):
 
     def dialog_upload_picture(self, pictures):
         for picture in pictures:
-            self.is_click(new_house_operation_table['弹窗_上传图片按钮'])
+            self.click_element(new_house_operation_table['弹窗_上传图片按钮'])
             upload_file(picture)
             sleep(2)
 
@@ -143,7 +143,7 @@ class NewHouseOperationTablePage(WebPage):
         self.input_text(new_house_operation_table['弹窗_认购金额输入框'], subscribe_price)
 
     def dialog_input_subscribe_time(self, subscribe_time):
-        self.is_click(new_house_operation_table['弹窗_认购日期输入框'])
+        self.click_element(new_house_operation_table['弹窗_认购日期输入框'])
         if subscribe_time == '':
             time_srf = dt_strftime('%Y-%m-%d %H:%M')
             self.input_text_with_enter(new_house_operation_table['弹窗_认购日期输入框'], time_srf)
@@ -152,19 +152,19 @@ class NewHouseOperationTablePage(WebPage):
 
     def dialog_upload_subscribe_form(self, subscribe_forms):
         for subscribe_form in subscribe_forms:
-            self.is_click(new_house_operation_table['弹窗_认购书_上传图片按钮'])
+            self.click_element(new_house_operation_table['弹窗_认购书_上传图片按钮'])
             upload_file(subscribe_form)
             sleep()
 
     def dialog_upload_customer_certificate(self, customer_certificates):
         for customer_certificate in customer_certificates:
-            self.is_click(new_house_operation_table['弹窗_客户证件_上传图片按钮'])
+            self.click_element(new_house_operation_table['弹窗_客户证件_上传图片按钮'])
             upload_file(customer_certificate)
             sleep()
 
     def dialog_upload_payment_voucher(self, payment_vouchers):
         for payment_voucher in payment_vouchers:
-            self.is_click(new_house_operation_table['弹窗_交款凭证_上传图片按钮'])
+            self.click_element(new_house_operation_table['弹窗_交款凭证_上传图片按钮'])
             upload_file(payment_voucher)
             sleep()
 
@@ -175,19 +175,19 @@ class NewHouseOperationTablePage(WebPage):
         self.input_text(new_house_operation_table['弹窗_公司收入输入框'], company_income)
 
     def dialog_click_cancel_button(self):
-        self.is_click(new_house_operation_table['弹窗_取消按钮'])
+        self.click_element(new_house_operation_table['弹窗_取消按钮'])
 
     def dialog_click_confirm_button(self):
-        self.is_click(new_house_operation_table['弹窗_确定按钮'])
+        self.click_element(new_house_operation_table['弹窗_确定按钮'])
 
     def dialog_click_delete_button(self):
-        self.is_click(new_house_operation_table['弹窗_删除按钮'])
+        self.click_element(new_house_operation_table['弹窗_删除按钮'])
 
     def dialog_click_examine_reject_button(self):
-        self.is_click(new_house_operation_table['弹窗_审核驳回按钮'])
+        self.click_element(new_house_operation_table['弹窗_审核驳回按钮'])
 
     def dialog_click_examine_pass_button(self):
-        self.is_click(new_house_operation_table['弹窗_审核通过按钮'])
+        self.click_element(new_house_operation_table['弹窗_审核通过按钮'])
 
     def get_table_count(self):
         locator = 'xpath', "//div[@style='']/div[@class='new-house-management']//table/tbody/tr[not(@aria-hidden)]"
@@ -200,22 +200,22 @@ class NewHouseOperationTablePage(WebPage):
     def delete_report_by_row(self, row=1):
         locator = 'xpath', "(//div[@style='']/div[@class='new-house-management']//table/tbody/tr[not(@aria-hidden)])["\
                   + str(row) + "]/td[" + str(self.__get_column_by_title('操作') + 1) + "]//a[text()='删除']"
-        self.is_click(locator)
+        self.click_element(locator)
 
     def watch_report_by_row(self, row=1):
         locator = 'xpath', "(//div[@style='']/div[@class='new-house-management']//table/tbody/tr[not(@aria-hidden)])["\
                   + str(row) + "]/td[" + str(self.__get_column_by_title('操作') + 1) + "]//a[text()='查看']"
-        self.is_click(locator)
+        self.click_element(locator)
 
     def enter_take_look_by_row(self, row=1):
         locator = 'xpath', "(//div[@style='']/div[@class='new-house-management']//table/tbody/tr[not(@aria-hidden)])[" \
                   + str(row) + "]/td[" + str(self.__get_column_by_title('操作') + 1) + "]//a[text()='录入带看']"
-        self.is_click(locator)
+        self.click_element(locator)
 
     def enter_subscribe_by_row(self, row=1):
         locator = 'xpath', "(//div[@style='']/div[@class='new-house-management']//table/tbody/tr[not(@aria-hidden)])[" \
                   + str(row) + "]/td[" + str(self.__get_column_by_title('操作') + 1) + "]//a[text()='录认购']"
-        self.is_click(locator)
+        self.click_element(locator)
 
     def __get_column_by_title(self, title):
         locator = 'xpath', \

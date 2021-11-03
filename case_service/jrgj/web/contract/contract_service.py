@@ -6,7 +6,7 @@
 @file: contract_service.py
 @date: 2021/10/13 0013
 """
-from utils.logger import log
+from utils.logger import logger
 from common.readconfig import ini
 from page_object.jrgj.web.main.upviewpage import MainUpViewPage
 from page_object.jrgj.web.main.topviewpage import MainTopViewPage
@@ -34,7 +34,7 @@ class ContractService(object):
         contract_create_order.verify_house_info(house_info)
         contract_create_order.click_verify_house_button()
         assert main_topview.find_notification_content() == '房源信息校验通过！'
-        log.info('房源信息校验通过')
+        logger.info('房源信息校验通过')
         contract_create_order.input_customer_code(customer_code)
         contract_create_order.click_get_customer_info_button()
         contract_create_order.click_next_step_button()
@@ -44,7 +44,7 @@ class ContractService(object):
         contract_create_order.input_sale_contract_content(env, test_data)
         contract_create_order.click_submit_button()
         assert main_topview.find_notification_content() == '提交成功'
-        log.info('合同创建成功')
+        logger.info('合同创建成功')
         main_upview.clear_all_title()
         main_leftview.click_contract_management_label()
         contract_table.click_sale_contract_tab()

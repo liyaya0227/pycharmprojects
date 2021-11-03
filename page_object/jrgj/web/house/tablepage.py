@@ -22,34 +22,34 @@ sql = ReadXml("jrgj//test_rent/test_house/house_sql")
 class HouseTablePage(WebPage):
 
     def click_sale_tab(self):
-        self.is_click(house_table['买卖标签'])
+        self.click_element(house_table['买卖标签'])
 
     def click_rent_tab(self):
-        self.is_click(house_table['租赁标签'])
+        self.click_element(house_table['租赁标签'])
 
     def click_sale_tab_in_data_disk(self):
-        self.is_click(house_table['资料盘买卖标签'])
+        self.click_element(house_table['资料盘买卖标签'])
 
     def click_rent_tab_in_data_disk(self):
-        self.is_click(house_table['资料盘租赁标签'])
+        self.click_element(house_table['资料盘租赁标签'])
 
     def click_new_tab(self):
-        self.is_click(house_table['新房标签'])
+        self.click_element(house_table['新房标签'])
 
     def click_all_house_tab(self):
-        self.is_click(house_table['全部房源标签'])
+        self.click_element(house_table['全部房源标签'])
 
     def click_deal_house_tab(self):
-        self.is_click(house_table['成交房源标签'])
+        self.click_element(house_table['成交房源标签'])
 
     def click_add_house_button(self):
-        self.is_click(house_table['新增房源按钮'])
+        self.click_element(house_table['新增房源按钮'])
 
     def click_add_new_house_button(self):
-        self.is_click(house_table['新增楼盘按钮'])
+        self.click_element(house_table['新增楼盘按钮'])
 
     def click_off_shelf_house_tab(self):
-        self.is_click(house_table['下架房源标签'])
+        self.click_element(house_table['下架房源标签'])
 
     def choose_estate_name_search(self, community_name):
         self.input_text(house_table['楼盘输入框'], community_name)
@@ -62,7 +62,7 @@ class HouseTablePage(WebPage):
                 break
 
     def choose_building_name_search(self, building_name):
-        self.is_click(house_table['楼栋选择框'])
+        self.click_element(house_table['楼栋选择框'])
         sleep()
         building_name_list = self.find_elements(house_table['楼栋下拉框'])
         for building_name_ele in building_name_list:
@@ -72,19 +72,19 @@ class HouseTablePage(WebPage):
                 break
 
     def choose_doorplate_search(self, doorplate):
-        self.is_click(house_table['门牌选择框'])
+        self.click_element(house_table['门牌选择框'])
         doorplate_list = self.find_elements(house_table['门牌下拉框'])
         for doorplate_ele in doorplate_list:
             if doorplate_ele.text == doorplate:
                 doorplate_ele.click()
                 break
 
-    def choose_option(self, item_name, option):  # 根item和opiton定位选项
+    def choose_option(self, item_name, option):  # 根item和option定位选项
         option_xpath = "//div[not(contains(@style,'display'))]//label[text()=\'{item_name}\']/ancestor::" \
                        "div[contains(@class ,'ant-row ant-form-item')]//span[text()=\'{option}\']/parent::label". \
             format(item_name=item_name, option=option)
         locator = ('xpath', option_xpath)
-        self.is_click(locator)
+        self.click_element(locator)
 
     def input_house_code_search(self, house_code):
         self.input_text(house_table['房源编号搜索项'], house_code)
@@ -96,60 +96,60 @@ class HouseTablePage(WebPage):
 
     def click_search_button(self):
         sleep()
-        self.is_click(house_table['搜索按钮'], sleep_time=2)
+        self.click_element(house_table['搜索按钮'], sleep_time=2)
         self.wait_page_loading_complete()
 
     def click_reset_button(self):
-        self.is_click(house_table['重置按钮'])
+        self.click_element(house_table['重置按钮'])
         sleep()
 
     def clear_filter(self, flag='买卖'):
         if flag == '租赁' or flag == '买卖':
             if 'ant-radio-button-wrapper-checked' not in self.get_element_attribute(house_table['关注筛选_不限'], 'class'):
-                self.is_click(house_table['关注筛选_不限'])
+                self.click_element(house_table['关注筛选_不限'])
             if 'ant-radio-button-wrapper-checked' not in self.get_element_attribute(house_table['角色筛选_不限'], 'class'):
-                self.is_click(house_table['角色筛选_不限'])
+                self.click_element(house_table['角色筛选_不限'])
             if 'ant-radio-button-wrapper-checked' not in self.get_element_attribute(house_table['区域筛选_不限'], 'class'):
-                self.is_click(house_table['区域筛选_不限'])
+                self.click_element(house_table['区域筛选_不限'])
             if 'ant-radio-button-wrapper-checked' not in self.get_element_attribute(house_table['价格筛选_不限'], 'class'):
-                self.is_click(house_table['价格筛选_不限'])
+                self.click_element(house_table['价格筛选_不限'])
             if 'ant-radio-button-wrapper-checked' not in self.get_element_attribute(house_table['面积筛选_不限'], 'class'):
-                self.is_click(house_table['面积筛选_不限'])
+                self.click_element(house_table['面积筛选_不限'])
             if 'ant-radio-button-wrapper-checked' not in self.get_element_attribute(house_table['户型筛选_不限'], 'class'):
-                self.is_click(house_table['户型筛选_不限'])
+                self.click_element(house_table['户型筛选_不限'])
             if flag == '买卖':
                 if 'ant-radio-button-wrapper-checked' not in self.get_element_attribute(house_table['标签筛选_不限'],
                                                                                         'class'):
-                    self.is_click(house_table['标签筛选_不限'])
+                    self.click_element(house_table['标签筛选_不限'])
             if 'ant-radio-button-wrapper-checked' not in self.get_element_attribute(house_table['装修筛选_不限'], 'class'):
-                self.is_click(house_table['装修筛选_不限'])
+                self.click_element(house_table['装修筛选_不限'])
         elif flag == '新房':
             if 'ant-radio-button-wrapper-checked' not in self.get_element_attribute(house_table['区域筛选_不限'], 'class'):
-                self.is_click(house_table['区域筛选_不限'])
+                self.click_element(house_table['区域筛选_不限'])
             if 'ant-radio-button-wrapper-checked' not in self.get_element_attribute(house_table['价格筛选_不限'], 'class'):
-                self.is_click(house_table['价格筛选_不限'])
+                self.click_element(house_table['价格筛选_不限'])
             if 'ant-radio-button-wrapper-checked' not in self.get_element_attribute(house_table['户型筛选_不限'], 'class'):
-                self.is_click(house_table['户型筛选_不限'])
+                self.click_element(house_table['户型筛选_不限'])
             if 'ant-radio-button-wrapper-checked' not in self.get_element_attribute(house_table['物业类型筛选_不限'], 'class'):
-                self.is_click(house_table['物业类型筛选_不限'])
+                self.click_element(house_table['物业类型筛选_不限'])
             if 'ant-radio-button-wrapper-checked' not in self.get_element_attribute(house_table['类型筛选_不限'], 'class'):
-                self.is_click(house_table['类型筛选_不限'])
+                self.click_element(house_table['类型筛选_不限'])
             if 'ant-radio-button-wrapper-checked' not in self.get_element_attribute(house_table['房源渠道筛选_不限'], 'class'):
-                self.is_click(house_table['房源渠道筛选_不限'])
+                self.click_element(house_table['房源渠道筛选_不限'])
         sleep()
 
     def go_house_detail_by_row(self, row=1):
         self.wait_page_loading_complete()
         sleep()
-        locator = 'xpath', "//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table/tbody/tr[" \
-                  + str(row) + "]/td[" + str(self.__get_column_by_title('楼盘名称') + 1) + "]"
-        self.is_click(locator)
+        locator = 'xpath', "//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table/tbody" \
+                           "/tr[" + str(row) + "]/td[" + str(self.__get_column_by_title('楼盘名称') + 1) + "]"
+        self.click_element(locator)
         self.wait_page_loading_complete()
         sleep(2)
 
     def verify_house_exist(self, building_name):  # 验证列表中是否存在当前房源
-        locator = 'xpath', "//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table/tbody/tr/" \
-                           "td[" + str(self.__get_column_by_title('楼盘名称') + 1) + "]/a/span"
+        locator = 'xpath', "//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table/tbody/" \
+                           "tr/td[" + str(self.__get_column_by_title('楼盘名称') + 1) + "]/a/span"
         ele_list = self.find_elements(locator)
         for ele in ele_list:
             if ele.text == building_name:
@@ -157,9 +157,9 @@ class HouseTablePage(WebPage):
         return False
 
     def go_new_house_detail_by_row(self, row=1):  # 从新房列表进入详情
-        locator = 'xpath', "//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table/tbody/tr[" \
-                  + str(row) + "]/td[" + str(self.__get_column_by_title('楼盘名称') + 1) + "]/a/span"
-        self.is_click(locator)
+        locator = 'xpath', "//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table/tbody" \
+                           "/tr[" + str(row) + "]/td[" + str(self.__get_column_by_title('楼盘名称') + 1) + "]/a/span"
+        self.click_element(locator)
 
     def get_house_table_count(self):
         locator = 'xpath', \
@@ -171,9 +171,10 @@ class HouseTablePage(WebPage):
         return len(table_count)
 
     def click_delete_button_by_row(self, row=1):
-        locator = 'xpath', "//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table/tbody/tr[" \
-                  + str(row) + "]/td[" + str(self.__get_column_by_title('操作') + 1) + "]/p[contains(text(),'删除')]"
-        self.is_click(locator)
+        locator = 'xpath', "//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table/tbody" \
+                           "/tr[" + str(row) + "]/td[" + str(self.__get_column_by_title('操作') + 1) \
+                  + "]/p[contains(text(),'删除')]"
+        self.click_element(locator)
 
     def __get_column_by_title(self, title):
         locator = 'xpath', \
@@ -184,37 +185,36 @@ class HouseTablePage(WebPage):
                 return title_list.index(title_ele)
 
     def dialog_click_confirm_button(self):
-        self.is_click(house_table['弹窗_删除按钮'])
+        self.click_element(house_table['弹窗_删除按钮'])
 
     # 资料盘
     def switch_house_type_tab(self, tab_name):  # 资料盘页面切换status_tab
-        tab_xpath = "//div[@style='' or not(@style)]//div[@class='ant-tabs-content-holder']//div[@role='tablist']//div[text()=" \
-                    "\'{tab_name}\']".format(tab_name=tab_name)
+        tab_xpath = "//div[@style='' or not(@style)]//div[@class='ant-tabs-content-holder']//div[@role='tablist']" \
+                    "//div[text()=\'{tab_name}\']".format(tab_name=tab_name)
         locator = ('xpath', tab_xpath)
-        self.is_click(locator)
+        self.click_element(locator)
 
     def enter_rent_house_detail(self, house_code):
         house_code_xpath = "//div[@class='ant-row dataPlateHouseList']//p[text()=\'{house_code}\']".format(
             house_code=house_code)
         locator = ('xpath', house_code_xpath)
-        self.is_click(locator)
+        self.click_element(locator)
 
     def enter_sale_house_detail(self, estate_name):
         house_code_xpath = "//div[@class='ant-row dataPlateHouseList']//p[text()=\'{estate_name}\']".format(
             estate_name=estate_name)
         locator = ('xpath', house_code_xpath)
-        self.is_click(locator)
+        self.click_element(locator)
 
     def house_code_in_house_list(self, house_code):  # 房源列表中房源编号
-        house_code_xpath = "//div[@style='' or not(@style)]/div[@class='ant-row houseManage']//div[@class='estateTitle']/" \
-                           "p[text()=\'{house_code}\']".format(house_code=house_code)
+        house_code_xpath = "//div[@style='' or not(@style)]/div[@class='ant-row houseManage']" \
+                           "//div[@class='estateTitle']/p[text()=\'{house_code}\']".format(house_code=house_code)
         locator = ('xpath', house_code_xpath)
-        res = self.is_exists(locator)
-        return res
+        return self.is_exists(locator)
 
     @staticmethod
     def get_tab_name(type_id):
-        type_list = ['暂缓出售', '他售', '无效房源', '举报房源', '房源超期未举证']
+        type_list = ['暂缓出售', '他售', '无效房源', '举报房源', '房源超期未举证', '房源超期未举证']
         type_id -= 1
         tab_name = type_list[type_id]
         return tab_name

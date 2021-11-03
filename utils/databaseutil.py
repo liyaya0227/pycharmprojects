@@ -23,12 +23,12 @@ class DataBaseUtil(object):
                 'charset': 'utf8'
             }
             self.conn = pymssql.connect(**db_info)
-        elif db_type == 'My SQL':
+        elif db_type == 'Cw My SQL':
             db_info = {
-                'host': ini.mysql_database_host,
-                'port': int(ini.mysql_database_port),
-                'user': ini.mysql_database_account,
-                'password': ini.mysql_database_password,
+                'host': ini.cw_database_host,
+                'port': int(ini.cw_database_port),
+                'user': ini.cw_database_account,
+                'password': ini.cw_database_password,
                 'database': database_name,
                 'charset': 'utf8'
             }

@@ -11,3 +11,5 @@
 重置按钮: "xpath==//div[@class='ivu-layout']//div[contains(@class, 'paylist')]//span[text()='重置']/ancestor::button"
 导出按钮: "xpath==//div[@class='ivu-layout']//div[contains(@class, 'paylist')]//span[text()='导出']/ancestor::button"
 总计标签: "xpath==//div[@class='ivu-layout']//div[contains(@class, 'paylist')]//div[contains(@class, 'total')]"
+
+弹窗提示_确定按钮: "xpath==//div[not(contains(@style,'display: none;'))]/div[@class='ivu-poptip-content']//span[text()='确定']/parent::button"

@@ -9,7 +9,7 @@
 
 import pytest
 import allure
-from utils.logger import log
+from utils.logger import logger
 from config.conf import cm
 from common.readconfig import ini
 from utils.jsonutil import get_value
@@ -48,7 +48,7 @@ class TestUploadAgreement(object):
         main_leftview.change_role('经纪人')
         house_code = house_table.get_house_code_by_db(flag='买卖')
         assert house_code != ''
-        log.info('房源编号为：' + house_code)
+        logger.info('房源编号为：' + house_code)
         yield
         main_upview.clear_all_title()
 
@@ -106,7 +106,7 @@ class TestUploadAgreement(object):
             house_detail.expand_certificates_info()
         house_detail.upload_written_entrustment_agreement(self.written_entrustment_agreement)
         assert main_topview.find_notification_content() == '上传成功'
-        log.info('书面委托协议已上传')
+        logger.info('书面委托协议已上传')
         if ini.environment == 'sz':
             house_detail.expand_certificates_info()
             if house_detail.check_upload_key_entrustment_certificate() != '未上传':
@@ -116,7 +116,7 @@ class TestUploadAgreement(object):
                 house_detail.expand_certificates_info()
             house_detail.upload_key_entrustment_certificate(self.key_entrustment_certificate)
             assert main_topview.find_notification_content() == '上传成功'
-            log.info('钥匙委托凭证已上传')
+            logger.info('钥匙委托凭证已上传')
             house_detail.expand_certificates_info()
             if house_detail.check_upload_vip_service_entrustment_agreement() != '未上传':
                 house_detail.delete_vip_service_entrustment_agreement()
@@ -125,7 +125,7 @@ class TestUploadAgreement(object):
                 house_detail.expand_certificates_info()
             house_detail.upload_vip_service_entrustment_agreement(self.vip_service_entrustment_agreement)
             assert main_topview.find_notification_content() == '上传成功'
-            log.info('VIP服务委托协议已上传')
+            logger.info('VIP服务委托协议已上传')
         house_detail.expand_certificates_info()
         if house_detail.check_upload_deed_tax_invoice() != '未上传':
             house_detail.delete_deed_tax_invoice()
@@ -134,7 +134,7 @@ class TestUploadAgreement(object):
             house_detail.expand_certificates_info()
         house_detail.upload_deed_tax_invoice_information(self.deed_tax_invoice_information)
         assert main_topview.find_notification_content() == '上传成功'
-        log.info('契税票已上传')
+        logger.info('契税票已上传')
         house_detail.expand_certificates_info()
         if house_detail.check_upload_owner_identification_information() != '未上传':
             house_detail.delete_owner_identification_information()
@@ -143,7 +143,7 @@ class TestUploadAgreement(object):
             house_detail.expand_certificates_info()
         house_detail.upload_owner_identification_information(self.owner_identification_information)
         assert main_topview.find_notification_content() == '上传成功'
-        log.info('身份证明已上传')
+        logger.info('身份证明已上传')
         house_detail.expand_certificates_info()
         if house_detail.check_upload_original_purchase_contract_information() != '未上传':
             house_detail.delete_original_purchase_contract_information()
@@ -152,7 +152,7 @@ class TestUploadAgreement(object):
             house_detail.expand_certificates_info()
         house_detail.upload_original_purchase_contract_information(self.original_purchase_contract_information)
         assert main_topview.find_notification_content() == '上传成功'
-        log.info('原始购房合同已上传')
+        logger.info('原始购房合同已上传')
         house_detail.expand_certificates_info()
         if house_detail.check_upload_property_ownership_certificate() != '未上传':
             house_detail.delete_property_ownership_certificate()
@@ -161,7 +161,7 @@ class TestUploadAgreement(object):
             house_detail.expand_certificates_info()
         house_detail.upload_property_ownership_certificate(self.property_ownership_certificate)
         assert main_topview.find_notification_content() == '上传成功'
-        log.info('房产证已上传')
+        logger.info('房产证已上传')
         main_leftview.change_role('赋能经理')
         main_rightview.click_certificate_examine()
         assert certificate_examine.get_table_count() > 0

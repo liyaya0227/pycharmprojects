@@ -25,11 +25,11 @@ class AgreementListPage(WebPage):
         self.input_text(agreement_list['协议名称搜索框'], agreement_name)
 
     def click_query_button(self):
-        self.is_click(agreement_list['查询按钮'], sleep_time=2)
+        self.click_element(agreement_list['查询按钮'], sleep_time=2)
 
     def click_download_button_by_row(self, row=1):
         locator = 'xpath', "//div[@class='ant-row protocolApplication']//table//tr[" + str(row) + "]//a[text()='下载']"
-        self.is_click(locator, sleep_time=2)
+        self.click_element(locator, sleep_time=2)
 
     @staticmethod
     def get_written_entrustment_agreement_number():
