@@ -17,8 +17,6 @@ from page_object.jrxf.web.main.leftviewpage import MainLeftViewPage
 from utils.jsonutil import get_data
 from utils.logger import logger
 
-web_driver = None
-
 
 @allure.feature("测试房源模块")
 class TestAdd(object):
@@ -31,12 +29,10 @@ class TestAdd(object):
 
     @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, xf_web_driver):
-        global web_driver
-        web_driver = xf_web_driver
-        self.add_house_page = AddHousePage(web_driver)
-        self.main_left_view = MainLeftViewPage(web_driver)
-        self.house_table_page = HouseTablePage(web_driver)
-        self.audit_house_page = AuditHousePage(web_driver)
+        self.add_house_page = AddHousePage(xf_web_driver)
+        self.main_left_view = MainLeftViewPage(xf_web_driver)
+        self.house_table_page = HouseTablePage(xf_web_driver)
+        self.audit_house_page = AuditHousePage(xf_web_driver)
 
     # @allure.step("验证房源状态")
     # def check_house_state(self, house_name):

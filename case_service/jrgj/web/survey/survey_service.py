@@ -7,7 +7,6 @@
 @date: 2021/10/29 0026
 """
 from random import randint
-from common.readconfig import ini
 from config.conf import cm
 from page_object.jrgj.app.order.detailpage import AppOrderDetailPage
 from page_object.jrgj.app.order.tablepage import AppOrderTablePage
@@ -15,7 +14,6 @@ from page_object.jrgj.web.house.detailpage import HouseDetailPage
 from page_object.jrgj.web.main.leftviewpage import MainLeftViewPage
 from page_object.jrgj.web.survey.detailpage import SurveyDetailPage
 from page_object.jrgj.web.survey.tablepage import SurveyTablePage
-from utils.jsonutil import get_data, get_value
 from utils.timeutil import dt_strftime, dt_strftime_with_delta
 
 gl_web_driver = None
@@ -29,9 +27,6 @@ survey_detail_page = None
 
 
 class SurveyService(object):
-    # json_file_path = cm.test_data_dir + "/jrgj/test_sale/test_house/test_appointment_survey.json"
-    # test_data = get_data(json_file_path)
-    # survey_person_info = get_value(json_file_path, ini.environment)
 
     @staticmethod
     def order_survey(web_driver, survey_person_info, exploration_time, appointment_instructions):

@@ -17,10 +17,6 @@ from page_object.jrxf.web.house.table_page import HouseTablePage
 from page_object.jrxf.web.main.leftviewpage import MainLeftViewPage
 from page_object.jrxf.web.main.upviewpage import MainUpViewPage
 from utils.jsonutil import get_data
-from utils.logger import log
-
-gl_web_driver = None
-house_service = HouseService()
 
 
 @allure.feature("测试房源详情模块")
@@ -35,15 +31,16 @@ class TestAdd(object):
 
     @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, xf_web_driver):
-        global gl_web_driver
-        gl_web_driver = xf_web_driver
+        json_file_path = cm.test_data_dir + "/jrxf/house/test_add.json"
+        test_add_data = get_data(json_file_path)
+        house_service = HouseService(xf_web_driver)
         self.house_name = ini.house_community_name
-        self.main_up_view = MainUpViewPage(gl_web_driver)
-        self.main_left_view = MainLeftViewPage(gl_web_driver)
-        self.house_table_page = HouseTablePage(gl_web_driver)
-        self.house_detail_page = HouseDetailPage(gl_web_driver)
+        self.main_up_view = MainUpViewPage(xf_web_driver)
+        self.main_left_view = MainLeftViewPage(xf_web_driver)
+        self.house_table_page = HouseTablePage(xf_web_driver)
+        self.house_detail_page = HouseDetailPage(xf_web_driver)
         self.main_left_view.change_role('平台管理员')
-        house_service.check_house_state(gl_web_driver, self.house_name)  # 验证房源状态
+        house_service.prepare_house(test_add_data, self.house_name)  # 验证房源状态
         yield
         self.main_up_view.clear_all_title()
 

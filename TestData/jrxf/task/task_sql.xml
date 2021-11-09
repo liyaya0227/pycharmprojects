@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<custom_sql>
+    <table name="custom_new_house_report">
+        <sql id="update_protect_end_time">
+            <caption>
+                update custom_new_house_report set protect_end_time='{time}' where report_num = '{report_no}'
+            </caption>
+        </sql>
+    </table>
+    <table name="custom_new_house_take_look">
+        <sql id="update_protect_end_time">
+            <caption>
+                update custom_new_house_take_look set protect_end_time='{time}' where report_id in (select id from custom_new_house_report where report_num = '{report_no}')
+            </caption>
+        </sql>
+    </table>
+
+</custom_sql>

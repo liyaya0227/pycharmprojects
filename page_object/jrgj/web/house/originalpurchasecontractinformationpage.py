@@ -40,10 +40,7 @@ class OriginalPurchaseContractInformationPage(WebPage):
         self.input_text(original_purchase_contract_information['备注输入框'], remark)
 
     def upload_picture(self, file_path):
-        for file in file_path:
-            self.click_element(original_purchase_contract_information['上传图片按钮'])
-            upload_file(file)
-            sleep(2)
+        self.input_text(original_purchase_contract_information['图片input'], file_path)
 
     def click_close_button(self):
         self.click_element(original_purchase_contract_information['关闭按钮'])

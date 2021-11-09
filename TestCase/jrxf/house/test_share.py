@@ -9,7 +9,6 @@
 import random
 import pytest
 import allure
-from case_service.jrxf.house import house_service
 from case_service.jrxf.house.house_service import HouseService
 from common.readconfig import ini
 from config.conf import cm
@@ -18,12 +17,11 @@ from page_object.jrxf.web.house.table_page import HouseTablePage
 from page_object.jrxf.web.main.leftviewpage import MainLeftViewPage
 from page_object.jrxf.web.main.upviewpage import MainUpViewPage
 from utils.jsonutil import get_data
-from utils.logger import log
+from utils.logger import logger
 
 person_info = {}
 gl_web_driver = None
 add_house_model_info = {}
-house_service = HouseService()
 
 
 @allure.feature("房源分享功能")
@@ -40,6 +38,7 @@ class TestShare(object):
     def test_prepare(self, xf_web_driver):
         global gl_web_driver
         gl_web_driver = xf_web_driver
+        house_service = HouseService(gl_web_driver)
         self.house_name = ini.house_community_name
         self.main_up_view = MainUpViewPage(gl_web_driver)
         self.main_left_view = MainLeftViewPage(gl_web_driver)
@@ -137,13 +136,13 @@ class TestShare(object):
             self.upload_house_model()
             self.house_detail_page.switch_tab_by_name('楼盘首页')
         else:
-            log.info('存在户型介绍，无需新增')
+            logger.info('存在户型介绍，无需新增')
         if house_img_number == 0:  # 上传图片
             self.house_detail_page.click_see_more()
             self.add_new_house_img()
             self.house_detail_page.switch_tab_by_name('楼盘首页')
         else:
-            log.info('存在房源图片，无需上传')
+            logger.info('存在房源图片，无需上传')
         self.house_detail_page.click_share()  # 生成二维码
         self.house_detail_page.generate_code()
         res = self.house_detail_page.verify_generate_code_success()

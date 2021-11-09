@@ -15,10 +15,9 @@ from page_object.jrxf.web.house.detail_page import HouseDetailPage
 from page_object.jrxf.web.house.table_page import HouseTablePage
 from page_object.jrxf.web.main.leftviewpage import MainLeftViewPage
 from page_object.jrxf.web.main.upviewpage import MainUpViewPage
-from utils.logger import log
+from utils.logger import logger
 
 gl_web_driver = None
-house_service = HouseService()
 
 
 @allure.feature("测试房源相册模块")
@@ -36,7 +35,7 @@ class TestAdd(object):
         global gl_web_driver
         gl_web_driver = xf_web_driver
         self.house_name = ini.house_community_name
-        house_service.check_house_state(gl_web_driver, self.house_name)  # 验证房源状态
+        house_service = HouseService(gl_web_driver)
         self.main_up_view = MainUpViewPage(gl_web_driver)
         self.main_left_view = MainLeftViewPage(gl_web_driver)
         self.house_table_page = HouseTablePage(gl_web_driver)
@@ -91,7 +90,7 @@ class TestAdd(object):
             self.add_new_house_img()
             initial_number = self.house_detail_page.get_image_list_lenth()
         else:
-            log.info('无需上传，直接执行删除')
+            logger.info('无需上传，直接执行删除')
         self.house_detail_page.click_batch_delete_btn()  # 批量删除
         self.house_detail_page.select_some_image_to_delete()
         deleted_number = self.house_detail_page.get_deleted_image_number()
@@ -111,7 +110,7 @@ class TestAdd(object):
         if initial_number <= 1:  # 上传图片
             self.add_new_house_img()
         else:
-            log.info('无需上传，直接执行删除')
+            logger.info('无需上传，直接执行删除')
         self.house_detail_page.click_batch_delete_btn()
         self.house_detail_page.select_all_image_to_delete()
         self.house_detail_page.click_delete_btn()

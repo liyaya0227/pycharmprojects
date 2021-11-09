@@ -214,10 +214,16 @@ class HouseDetailPage(WebPage):
         update_sql(update_survey_sql)
 
     def expand_certificates_info(self):  # 展开证书信息
-        ele = self.find_element(house_detail['证件信息展开收起按钮'])
-        if ele.text == '展开':
-            ele.click()
-            sleep()
+        target_ele = self.find_element(house_detail['证件信息展开收起按钮'])
+        self.driver.execute_script("arguments[0].scrollIntoView();", target_ele)  # 拖动到可见的元素去
+        if target_ele.text == '展开':
+            target_ele.click()
+            sleep(2)
+        # ele = self.find_element(house_detail['证件信息展开收起按钮'])
+        # if ele.text == '展开':
+        #     ele.click()
+        #     sleep()
+
 
     def retract_certificates_info(self):  # 收起证书信息
         ele = self.find_element(house_detail['证件信息展开收起按钮'])
@@ -282,6 +288,23 @@ class HouseDetailPage(WebPage):
                 return '待审核'
         elif text == '上传':
             return '未上传'
+
+    def check_certificate_uploaded(self, certificate_name):  # 查看证书是否已上传
+        locator = 'xpath', "//span[text()='" + certificate_name + "']/ancestor::p//span[@class='blue']"
+        text = self.get_element_text(locator)
+        if text == '查看':
+            certificate_locator = 'xpath', "//span[text()='" + certificate_name + "']/ancestor::li//em[last()]"
+            if '登记日期' in self.get_element_text(certificate_locator):
+                return '审核通过'
+            else:
+                return '待审核'
+        elif text == '上传':
+            return '未上传'
+
+    def delete_uploaded_certificate(self, certificate_name):  # 删除证书
+        locator = 'xpath', "//span[text()='" + certificate_name + "']/ancestor::p//span[text()='删除']"
+        self.click_element(locator)
+        self.click_element(house_detail['删除证件_确定按钮'], 2)
 
     def delete_written_entrustment_agreement(self):  # 删除书面委托协议
         self.__delete_certificate('书面委托协议')

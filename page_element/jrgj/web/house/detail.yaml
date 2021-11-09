@@ -46,7 +46,8 @@
 实勘退单_取消按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//span[text()='取 消']/parent::button[@type='button']"
 实勘退单_退单按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//span[text()='退 单']/parent::button[@type='button']"
 
-证件信息展开收起按钮: "xpath==//div[@class='houseDetailLeft']//div[contains(text(),'证件信息')]/span"
+#证件信息展开收起按钮: "xpath==//div[@class='houseDetailLeft']//div[contains(text(),'证件信息')]/span"
+证件信息展开收起按钮: "xpath==//div[@class='title' and contains(text(), '证件信息')]/span[@class='doShow' and contains(text(), '展开')]"
 删除证件_确定按钮: "xpath==//div[contains(@class,'ant-popover ant-popconfirm')]//span[text()='确 定']/parent::button[@type='button']"
 删除证件_取消按钮: "xpath==//div[contains(@class,'ant-popover ant-popconfirm')]//span[text()='取 消']/parent::button[@type='button']"
 证件_上传图片按钮: "xpath==//input[@id='nest-messages_UploadImageIds']"
