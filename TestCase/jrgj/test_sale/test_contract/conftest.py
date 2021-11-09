@@ -39,7 +39,7 @@ def prepare_for_add_contract(web_driver):
     house_table.click_sale_tab()
     house_table.clear_filter('买卖')
     house_table.input_house_code_search(GlobalVar.house_code)
-    house_table.click_search_button()
+    # house_table.click_search_button()
     house_table.go_house_detail_by_row(1)
     GlobalVar.house_info = house_detail.get_address_dialog_house_property_address()
     GlobalVar.house_info['house_code'] = GlobalVar.house_code

@@ -7,7 +7,6 @@
 @date: 2021/10/29 0029
 """
 import allure
-
 from config.conf import cm
 from utils.logger import logger
 from selenium.common.exceptions import TimeoutException

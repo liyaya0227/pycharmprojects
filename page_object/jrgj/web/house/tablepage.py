@@ -88,7 +88,7 @@ class HouseTablePage(WebPage):
 
     def input_house_code_search(self, house_code):
         self.input_text(house_table['房源编号搜索项'], house_code)
-        sleep()
+        sleep(4)
 
     def input_building_name_search(self, building_name):
         self.input_text(house_table['楼盘名称搜索项'], building_name)
@@ -96,8 +96,7 @@ class HouseTablePage(WebPage):
 
     def click_search_button(self):
         sleep()
-        self.click_element(house_table['搜索按钮'], sleep_time=2)
-        self.wait_page_loading_complete()
+        self.click_element(house_table['搜索按钮'], sleep_time=4)
 
     def click_reset_button(self):
         self.click_element(house_table['重置按钮'])

@@ -15,7 +15,7 @@ from page_object.jrxf.web.house.detail_page import HouseDetailPage
 from page_object.jrxf.web.house.table_page import HouseTablePage
 from page_object.jrxf.web.main.leftviewpage import MainLeftViewPage
 from page_object.jrxf.web.main.upviewpage import MainUpViewPage
-from utils.logger import log
+from utils.logger import logger
 
 gl_web_driver = None
 house_service = HouseService()

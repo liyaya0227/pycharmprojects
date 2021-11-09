@@ -72,7 +72,7 @@ class ContractCreateOrderPage(WebPage):
             return house_info['has_pledge']
 
     def click_verify_house_button(self):
-        self.click_element(create_order['校验房源信息按钮'])
+        self.click_element(create_order['校验房源信息按钮'], sleep_time=1)
 
     def input_customer_code(self, customer_code):
         self.input_text(create_order['客源编号输入框'], customer_code)

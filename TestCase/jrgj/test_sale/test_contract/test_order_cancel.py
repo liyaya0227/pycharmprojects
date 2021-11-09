@@ -52,6 +52,7 @@ class TestOrderCancel(object):
         main_leftview.change_role('经纪人')
 
     @allure.story("测试买卖合同解约流程")
+    @pytest.mark.skip
     @pytest.mark.parametrize('env', GlobalVar.city_env[ini.environment])
     def test_001(self, web_driver, env):
         login = LoginPage(web_driver)

@@ -16,7 +16,6 @@ from common.readconfig import ini
 from page_object.jrgj.web.main.topviewpage import MainTopViewPage
 from page_object.jrgj.web.main.leftviewpage import MainLeftViewPage
 from page_object.jrgj.web.main.upviewpage import MainUpViewPage
-from page_object.jrgj.web.contract.createorderpage import ContractCreateOrderPage
 from page_object.jrgj.web.contract.tablepage import ContractTablePage
 from page_object.jrgj.web.contract.detailpage import ContractDetailPage
 from page_object.jrgj.web.contract.previewpage import ContractPreviewPage
@@ -24,6 +23,7 @@ from page_object.jrgj.web.achievement.detailpage import AchievementDetailPage
 from page_object.jrgj.web.achievement.tablepage import AchievementTablePage
 from page_object.jrgj.web.transaction.tablepage import TransactionTablePage
 from page_object.jrgj.web.transaction.detailpage import TransactionDetailPage
+from case_service.jrgj.web.contract.contract_service import ContractService
 
 
 @pytest.mark.sale
@@ -32,25 +32,13 @@ from page_object.jrgj.web.transaction.detailpage import TransactionDetailPage
 @allure.feature("测试买卖合同流程模块")
 class TestOrderProcess(object):
 
-    contract_code = ''
-
     @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, web_driver):
-        main_leftview = MainLeftViewPage(web_driver)
-        main_topview = MainTopViewPage(web_driver)
-        contract_table = ContractTablePage(web_driver)
+        contract_service = ContractService(web_driver)
 
         yield
         if self.contract_code:
-            main_leftview.change_role('超级管理员')
-            main_leftview.click_contract_management_label()
-            contract_table.click_sale_contract_tab()
-            contract_table.input_contract_code_search(self.contract_code)
-            contract_table.click_search_button()
-            contract_table.delete_contract_by_row(1)
-            contract_table.tooltip_click_confirm_button()
-            main_topview.close_notification()
-        main_leftview.change_role('经纪人')
+            contract_service.super_admin_delete_contract(self.contract_code, flag='买卖')
 
     @allure.story("测试买卖合同流程")
     @pytest.mark.parametrize('env', GlobalVar.city_env[ini.environment])
@@ -65,18 +53,18 @@ class TestOrderProcess(object):
         achievement_detail = AchievementDetailPage(web_driver)
         transaction_table = TransactionTablePage(web_driver)
         transaction_detail = TransactionDetailPage(web_driver)
+        contract_service = ContractService(web_driver)
 
         json_file_path = cm.test_data_dir + "/jrgj/test_sale/test_contract/create_order_" + env + ".json"
         test_data = get_data(json_file_path)
-        self.add_contract(web_driver, env, test_data)
+        self.contract_code = contract_service.agent_add_contract(GlobalVar.house_code, GlobalVar.house_info,
+                                                                 GlobalVar.customer_code, env, test_data, flag='买卖')
         main_leftview.click_contract_management_label()
         contract_table.click_sale_contract_tab()
-        contract_table.input_house_code_search(GlobalVar.house_code)
-        contract_table.input_customer_code_search(GlobalVar.customer_code)
+        contract_table.input_contract_code_search(self.contract_code)
         contract_table.click_search_button()
-        self.contract_code = contract_table.get_contract_code_by_row(1)
         assert contract_table.get_contract_table_count() == 1
-        contract_details = contract_table.get_contract_detail_by_row(1)
+        contract_details = contract_table.get_contract_detail_by_row(1, flag='买卖')
         assert contract_details['contract_status'] == '起草中'
         assert contract_details['pre_examine'] == '未知'
         # assert contract_details['change_rescind'] == '未知'
@@ -92,7 +80,7 @@ class TestOrderProcess(object):
         contract_table.click_sale_contract_tab()
         contract_table.input_contract_code_search(self.contract_code)
         contract_table.click_search_button()
-        contract_details = contract_table.get_contract_detail_by_row(1)
+        contract_details = contract_table.get_contract_detail_by_row(1, flag='买卖')
         assert contract_details['contract_status'] == '审核中'
         assert contract_details['pre_examine'] == '待审核'
         # assert contract_details['change_rescind'] == '未知'
@@ -120,7 +108,7 @@ class TestOrderProcess(object):
         contract_table.click_sale_contract_tab()
         contract_table.input_contract_code_search(self.contract_code)
         contract_table.click_search_button()
-        contract_details = contract_table.get_contract_detail_by_row(1)
+        contract_details = contract_table.get_contract_detail_by_row(1, flag='买卖')
         assert contract_details['contract_status'] == '审核中'
         assert contract_details['pre_examine'] == '审核中'
         # assert contract_details['change_rescind'] == '未知'
@@ -153,7 +141,7 @@ class TestOrderProcess(object):
         contract_table.click_sale_contract_tab()
         contract_table.input_contract_code_search(self.contract_code)
         contract_table.click_search_button()
-        contract_details = contract_table.get_contract_detail_by_row(1)
+        contract_details = contract_table.get_contract_detail_by_row(1, flag='买卖')
         assert contract_details['contract_status'] == '审核通过'
         assert contract_details['pre_examine'] == '通过'
         # assert contract_details['change_rescind'] == '未知'
@@ -170,7 +158,7 @@ class TestOrderProcess(object):
         contract_table.click_sale_contract_tab()
         contract_table.input_contract_code_search(self.contract_code)
         contract_table.click_search_button()
-        contract_details = contract_table.get_contract_detail_by_row(1)
+        contract_details = contract_table.get_contract_detail_by_row(1, flag='买卖')
         assert contract_details['contract_status'] == '已盖章'
         assert contract_details['pre_examine'] == '通过'
         # assert contract_details['change_rescind'] == '未知'
@@ -187,7 +175,7 @@ class TestOrderProcess(object):
         contract_table.click_sale_contract_tab()
         contract_table.input_contract_code_search(self.contract_code)
         contract_table.click_search_button()
-        contract_details = contract_table.get_contract_detail_by_row(1)
+        contract_details = contract_table.get_contract_detail_by_row(1, flag='买卖')
         assert contract_details['contract_status'] == '已盖章'
         assert contract_details['pre_examine'] == '通过'
         # assert contract_details['change_rescind'] == '未知'
@@ -210,7 +198,7 @@ class TestOrderProcess(object):
         contract_table.click_sale_contract_tab()
         contract_table.input_contract_code_search(self.contract_code)
         contract_table.click_search_button()
-        contract_details = contract_table.get_contract_detail_by_row(1)
+        contract_details = contract_table.get_contract_detail_by_row(1, flag='买卖')
         assert contract_details['contract_status'] == '已签约'
         assert contract_details['pre_examine'] == '通过'
         # assert contract_details['change_rescind'] == '未知'
@@ -229,7 +217,7 @@ class TestOrderProcess(object):
         contract_table.click_sale_contract_tab()
         contract_table.input_contract_code_search(self.contract_code)
         contract_table.click_search_button()
-        contract_details = contract_table.get_contract_detail_by_row(1)
+        contract_details = contract_table.get_contract_detail_by_row(1, flag='买卖')
         assert contract_details['contract_status'] == '已签约'
         assert contract_details['pre_examine'] == '通过'
         # assert contract_details['change_rescind'] == '未知'
@@ -248,7 +236,7 @@ class TestOrderProcess(object):
         contract_table.click_sale_contract_tab()
         contract_table.input_contract_code_search(self.contract_code)
         contract_table.click_search_button()
-        contract_details = contract_table.get_contract_detail_by_row(1)
+        contract_details = contract_table.get_contract_detail_by_row(1, flag='买卖')
         assert contract_details['contract_status'] == '已签约'
         assert contract_details['pre_examine'] == '通过'
         # assert contract_details['change_rescind'] == '未知'
@@ -276,7 +264,7 @@ class TestOrderProcess(object):
         contract_table.click_sale_contract_tab()
         contract_table.input_contract_code_search(self.contract_code)
         contract_table.click_search_button()
-        contract_details = contract_table.get_contract_detail_by_row(1)
+        contract_details = contract_table.get_contract_detail_by_row(1, flag='买卖')
         assert contract_details['contract_status'] == '已签约'
         assert contract_details['pre_examine'] == '通过'
         # assert contract_details['change_rescind'] == '未知'
@@ -289,7 +277,7 @@ class TestOrderProcess(object):
         contract_table.click_sale_contract_tab()
         contract_table.input_contract_code_search(self.contract_code)
         contract_table.click_search_button()
-        contract_details = contract_table.get_contract_detail_by_row(1)
+        contract_details = contract_table.get_contract_detail_by_row(1, flag='买卖')
         assert contract_details['contract_status'] == '已签约'
         assert contract_details['pre_examine'] == '通过'
         # assert contract_details['change_rescind'] == '未知'
@@ -310,7 +298,7 @@ class TestOrderProcess(object):
         contract_table.click_sale_contract_tab()
         contract_table.input_contract_code_search(self.contract_code)
         contract_table.click_search_button()
-        contract_details = contract_table.get_contract_detail_by_row(1)
+        contract_details = contract_table.get_contract_detail_by_row(1, flag='买卖')
         assert contract_details['contract_status'] == '过户完成'
         assert contract_details['pre_examine'] == '通过'
         # assert contract_details['change_rescind'] == '未知'
@@ -333,7 +321,7 @@ class TestOrderProcess(object):
         contract_table.click_sale_contract_tab()
         contract_table.input_contract_code_search(self.contract_code)
         contract_table.click_search_button()
-        contract_details = contract_table.get_contract_detail_by_row(1)
+        contract_details = contract_table.get_contract_detail_by_row(1, flag='买卖')
         assert contract_details['contract_status'] == '已完结'
         assert contract_details['pre_examine'] == '通过'
         # assert contract_details['change_rescind'] == '未知'
@@ -342,32 +330,3 @@ class TestOrderProcess(object):
         contract_table.go_contract_detail_by_row(1)
         assert contract_detail.trade_complete_icon_is_light()
         logger.info('权证结案后，状态显示正确')
-
-    @staticmethod
-    def add_contract(web_driver, env, test_data):
-        main_upview = MainUpViewPage(web_driver)
-        main_topview = MainTopViewPage(web_driver)
-        main_leftview = MainLeftViewPage(web_driver)
-        contract_table = ContractTablePage(web_driver)
-        contract_create_order = ContractCreateOrderPage(web_driver)
-
-        main_leftview.click_contract_management_label()
-        contract_table.click_sale_contract_tab()
-        contract_table.click_create_order_button()
-        contract_create_order.input_house_code(GlobalVar.house_code)
-        contract_create_order.click_get_house_info_button()
-        contract_create_order.verify_house_info(GlobalVar.house_info)
-        contract_create_order.click_verify_house_button()
-        assert main_topview.find_notification_content() == '房源信息校验通过！'
-        logger.info('房源信息校验通过')
-        contract_create_order.input_customer_code(GlobalVar.customer_code)
-        contract_create_order.click_get_customer_info_button()
-        contract_create_order.click_next_step_button()
-        if ini.environment in ['sz', 'ks', 'zjg']:
-            contract_create_order.choose_district_contract(env)
-            contract_create_order.click_confirm_button_in_dialog()
-        contract_create_order.input_sale_contract_content(env, test_data)
-        contract_create_order.click_submit_button()
-        assert main_topview.find_notification_content() == '提交成功'
-        logger.info('合同创建成功')
-        main_upview.clear_all_title()

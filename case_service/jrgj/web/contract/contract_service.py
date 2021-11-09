@@ -27,6 +27,7 @@ class ContractService(object):
         self.contract_detail = ContractDetailPage(web_driver)
 
     def agent_add_contract(self, house_code, house_info, customer_code, env, test_data, flag='买卖'):
+        """经纪人创建合同"""
         self.main_leftview.click_contract_management_label()
         if flag == '买卖':
             self.contract_table.click_sale_contract_tab()
@@ -49,7 +50,10 @@ class ContractService(object):
         if ini.environment == 'sz':
             self.contract_create_order.choose_district_contract(env)
             self.contract_create_order.click_confirm_button_in_dialog()
-        self.contract_create_order.input_sale_contract_content(env, test_data)
+        if flag == '买卖':
+            self.contract_create_order.input_sale_contract_content(env, test_data)
+        if flag == '租赁':
+            self.contract_create_order.input_rent_contract_content(test_data)
         self.contract_create_order.click_submit_button()
         assert self.main_topview.find_notification_content() == '提交成功'
         logger.info('合同创建成功')
@@ -57,10 +61,8 @@ class ContractService(object):
         self.main_leftview.click_contract_management_label()
         if flag == '买卖':
             self.contract_table.click_sale_contract_tab()
-        elif flag == '租赁':
+        if flag == '租赁':
             self.contract_table.click_rent_contract_tab()
-        else:
-            raise ValueError('传值错误')
         self.contract_table.input_house_code_search(house_code)
         self.contract_table.input_customer_code_search(customer_code)
         self.contract_table.click_search_button()
@@ -69,11 +71,29 @@ class ContractService(object):
         return contract_code
 
     def agent_submit_examine(self, contract_code):
+        """经纪人提交审核"""
         self.main_leftview.change_role('经纪人')
         self.main_leftview.click_contract_management_label()
         self.contract_table.click_sale_contract_tab()
         self.contract_table.input_contract_code_search(contract_code)
         self.contract_table.click_search_button()
         self.contract_table.go_contract_detail_by_row(1)
-        self.contract_detail.click_go_examine_button()  # 经纪人提交审核
+        self.contract_detail.click_go_examine_button()
         self.contract_detail.dialog_click_confirm_button()
+
+    def super_admin_delete_contract(self, contract_code, flag='买卖'):
+        """超级管理员删除合同"""
+        self.main_leftview.change_role('超级管理员')
+        self.main_leftview.click_contract_management_label()
+        if flag == '买卖':
+            self.contract_table.click_sale_contract_tab()
+        elif flag == '租赁':
+            self.contract_table.click_rent_contract_tab()
+        else:
+            raise ValueError('传值错误')
+        self.contract_table.input_contract_code_search(contract_code)
+        self.contract_table.click_search_button()
+        self.contract_table.delete_contract_by_row(1)
+        self.contract_table.tooltip_click_confirm_button()
+        self.main_topview.close_notification()
+        self.main_leftview.change_role('经纪人')

@@ -482,7 +482,7 @@ class HouseDetailPage(WebPage):
             return ''
 
     def get_address_dialog_house_property_address(self):  # 获取房源地址弹窗所有信息
-        self.click_element(house_detail['右侧菜单地址按钮'], sleep_time=1)
+        self.click_element(house_detail['右侧菜单地址按钮'], sleep_time=4)
         estate_name = self.get_element_text(house_detail['房源物业地址_楼盘名称显示框']).split('楼盘名称')[1]
         building_name = self.get_element_text(house_detail['房源物业地址_楼栋显示框']).split('楼栋')[1]
         unit_name = self.get_element_text(house_detail['房源物业地址_单元显示框']).split('单元')[1]

@@ -16,7 +16,6 @@ from common.readconfig import ini
 from page_object.jrgj.web.main.topviewpage import MainTopViewPage
 from page_object.jrgj.web.main.leftviewpage import MainLeftViewPage
 from page_object.jrgj.web.main.upviewpage import MainUpViewPage
-from page_object.jrgj.web.contract.createorderpage import ContractCreateOrderPage
 from page_object.jrgj.web.contract.tablepage import ContractTablePage
 from page_object.jrgj.web.contract.detailpage import ContractDetailPage
 from page_object.jrgj.web.contract.previewpage import ContractPreviewPage
@@ -33,21 +32,11 @@ class TestOrderProcess(object):
 
     @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, web_driver):
-        main_leftview = MainLeftViewPage(web_driver)
-        main_topview = MainTopViewPage(web_driver)
-        contract_table = ContractTablePage(web_driver)
+        contract_service = ContractService(web_driver)
 
         yield
         if self.contract_code:
-            main_leftview.change_role('超级管理员')
-            main_leftview.click_contract_management_label()
-            contract_table.click_rent_contract_tab()
-            contract_table.input_contract_code_search(self.contract_code)
-            contract_table.click_search_button()
-            contract_table.delete_contract_by_row(1)
-            contract_table.tooltip_click_confirm_button()
-            main_topview.close_notification()
-        main_leftview.change_role('经纪人')
+            contract_service.super_admin_delete_contract(self.contract_code, flag='租赁')
 
     @allure.story("测试租赁合同流程用例")
     @pytest.mark.flaky(reruns=5, reruns_delay=2)
@@ -71,7 +60,7 @@ class TestOrderProcess(object):
         contract_table.click_rent_contract_tab()
         contract_table.input_contract_code_search(self.contract_code)
         contract_table.click_search_button()
-        assert contract_table.get_contract_table_count() > 0
+        assert contract_table.get_contract_table_count() == 1
         contract_details = contract_table.get_contract_detail_by_row(1, flag='租赁')
         assert contract_details['contract_status'] == '起草中'
         assert contract_details['attachment_examine'] == '未知'
@@ -250,33 +239,3 @@ class TestOrderProcess(object):
         assert contract_details['agency_fee_status'] == '已收齐'
         assert contract_details['achievement_status'] == '审核通过'
         logger.info('代理费收取后，状态显示正确')
-    #
-    # @staticmethod
-    # def add_contract(web_driver, env, test_data):
-    #     main_upview = MainUpViewPage(web_driver)
-    #     main_topview = MainTopViewPage(web_driver)
-    #     main_leftview = MainLeftViewPage(web_driver)
-    #     contract_table = ContractTablePage(web_driver)
-    #     contract_create_order = ContractCreateOrderPage(web_driver)
-    #
-    #     main_leftview.click_contract_management_label()
-    #     contract_table.click_sale_contract_tab()
-    #     contract_table.click_create_order_button()
-    #     contract_create_order.choose_business_type('租赁')
-    #     contract_create_order.input_house_code(GlobalVar.house_code)
-    #     contract_create_order.click_get_house_info_button()
-    #     contract_create_order.verify_house_info(GlobalVar.house_info)
-    #     contract_create_order.click_verify_house_button()
-    #     assert main_topview.find_notification_content() == '房源信息校验通过！'
-    #     logger.info('房源信息校验通过')
-    #     contract_create_order.input_customer_code(GlobalVar.customer_code)
-    #     contract_create_order.click_get_customer_info_button()
-    #     contract_create_order.click_next_step_button()
-    #     if ini.environment == 'sz':
-    #         contract_create_order.choose_district_contract(env)
-    #         contract_create_order.click_confirm_button_in_dialog()
-    #     contract_create_order.input_rent_contract_content(test_data)
-    #     contract_create_order.click_submit_button()
-    #     assert main_topview.find_notification_content() == '提交成功'
-    #     logger.info('合同创建成功')
-    #     main_upview.clear_all_title()

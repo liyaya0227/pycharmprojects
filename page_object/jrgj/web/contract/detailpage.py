@@ -128,7 +128,7 @@ class ContractDetailPage(WebPage):
             return False
 
     def click_subject_contract(self):
-        self.click_element(detail['主体合同标签'], sleep_time=1)
+        self.click_element(detail['主体合同标签'], sleep_time=3)
 
     def upload_two_sign_contract(self):
         sleep()

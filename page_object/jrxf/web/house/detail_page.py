@@ -13,7 +13,7 @@ from page.webpage import WebPage
 from common.readelement import Element
 from page_object.jrxf.web.house.table_page import house_sql
 from utils.databaseutil import DataBaseUtil
-from utils.logger import log
+from utils.logger import logger
 from utils.timeutil import sleep
 
 house_detail = Element('jrxf/web/house/detail')
