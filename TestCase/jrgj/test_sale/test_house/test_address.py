@@ -54,6 +54,7 @@ class TestAddress(object):
     @allure.step("验证房源状态")
     def check_house_state(self):
         global house_code
+        # if self.house_table_page.get_house_code_by_db(flag='买卖') == '':  # 判断房源是否存在，不存在则新增
         if self.house_table_page.get_house_code_by_db(flag='买卖') == '':  # 判断房源是否存在，不存在则新增
             house_service.add_house(gl_driver, 'sale')
             self.main_up_view.clear_all_title()

@@ -35,7 +35,7 @@ class AgreementListPage(WebPage):
     def get_written_entrustment_agreement_number():
         while True:
             if ini.environment == 'wx':
-                file_path = search_file_in_dir(cm.tmp_dir, '限时委托代理销售协议')
+                file_path = search_file_in_dir(cm.tmp_dir, '无锡【芫家】一般委托书【出租】【出售】')
             else:
                 file_path = search_file_in_dir(cm.tmp_dir, '一般委托书')
             if file_path == '':

@@ -154,7 +154,7 @@ class HouseService(object):
             contract_table_page.tooltip_click_confirm_button()
 
     @staticmethod
-    def claim_house(house_id, house_code, flag):
+    def claim_house(house_id, house_code, flag):  # 认领房源
         house_type = house_table_page.get_house_type_in_pool(house_id, flag)
         table_name = house_table_page.get_tab_name(house_type)
         main_left_view.click_data_disk_label()

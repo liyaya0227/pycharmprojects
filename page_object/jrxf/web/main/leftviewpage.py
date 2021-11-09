@@ -53,3 +53,6 @@ class MainLeftViewPage(WebPage):
         if is_expanded == 'false':
             self.click_element(left_view['新房管理菜单'], sleep_time=0.5)
         self.click_element(left_view['上架楼盘审核标签'], sleep_time=0.5)
+
+    def click_house_task_label(self):
+        self.click_element(left_view['新房作业流程菜单'], sleep_time=0.5)

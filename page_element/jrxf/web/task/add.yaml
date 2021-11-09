@@ -1,0 +1,58 @@
+#报备
+弹窗title: "xpath==//div[@style='' or not(@style)]//div[@role='dialog']//div[@class='ant-modal-title' and text()='上传报备']"
+楼盘信息输入框: "xpath==//div[@style='' or not(@style)]//div[@role='dialog']//input[@id='newHouseIdList']"
+客户联系方式输入框: "xpath==//div[@style='' or not(@style)]//div[@role='dialog']//input[@id='customId']"
+预计到访时间输入框: "xpath==//div[@style='' or not(@style)]//div[@role='dialog']//input[@id='expectArriveTime']"
+时间弹窗_确定按钮: "xpath==//div[@style='' or not(@style)]//div[@class='ant-picker-panel-container']//span[text()='确 定']/parent::button"
+时间弹窗_此刻按钮: "xpath==//div[@style='' or not(@style)]//div[@class='ant-picker-panel-container']//a[text()='此刻' and @class='ant-picker-now-btn']"
+审核弹窗_通过按钮: "xpath==//div[@class='ant-modal-root']//span[text()='审核通过']/parent::button[@type='button']"
+审核弹窗_驳回按钮: "xpath==//div[@class='ant-modal-root']//span[text()='审核驳回']/parent::button[@type='button']"
+
+#带看
+带看时间输入框: "xpath==//div[@style='' or not(@style)]//div[@role='dialog']//input[@id='takeLookTime']"
+图片input: "xpath==//input[@id='fileList']"
+带看弹窗_确定按钮: "xpath==//div[@style='' or not(@style)]//div[@class='ant-modal-content']/div[@class='ant-modal-footer']//span[text()='确 定']/parent::button[@type='button']"
+带看弹窗_取消按钮: "xpath==//div[@style='' or not(@style)]//div[@class='ant-modal-content']/div[@class='ant-modal-footer']//span[text()='取 消']/parent::button[@type='button']"
+
+#认购
+楼栋输入框: "xpath==//div[@style='' or not(@style)]//div[@role='dialog']//input[@id='block']"
+单元输入框: "xpath==//div[@style='' or not(@style)]//div[@role='dialog']//input[@id='blockCell']"
+楼层输入框: "xpath==//div[@style='' or not(@style)]//div[@role='dialog']//input[@id='floor']"
+房间号输入框: "xpath==//div[@style='' or not(@style)]//div[@role='dialog']//input[@id='roomNumber']"
+建筑面积输入框: "xpath==//div[@style='' or not(@style)]//div[@role='dialog']//input[@id='buildingArea']"
+认购金额输入框: "xpath==//div[@style='' or not(@style)]//div[@role='dialog']//input[@id='money']"
+认购日期输入框: "xpath==//div[@style='' or not(@style)]//div[@role='dialog']//input[@id='subscribeTime']"
+认购书图片input: "xpath==//input[@id='fileListFirst']"
+客户证件图片input: "xpath==//input[@id='fileListSecond']"
+交款凭证图片input: "xpath==//input[@id='fileListThird']"
+
+#审核认购
+佣金金额输入框: "xpath==//div[@style='' or not(@style)]//div[@role='dialog']//input[@id='commission']"
+公司收入输入框: "xpath==//div[@style='' or not(@style)]//div[@role='dialog']//input[@id='companyIncome']"
+审核认购弹窗_通过按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//span[text()=' 审核通过']/parent::button[@type='button']"
+
+#草网签
+sign_建筑面积输入框: "xpath==//div[@style='' or not(@style)]//div[@role='dialog']//input[@id='area']"
+草签日期输入框: "xpath==//div[@style='' or not(@style)]//div[@role='dialog']//input[@id='signTime']"
+草签日期_今天选项: "xpath==//div[@style='' or not(@style)]//div[@class='ant-picker-footer']/a[@class='ant-picker-today-btn' and text()='今天']"
+草签金额输入框: "xpath==//div[@style='' or not(@style)]//div[@role='dialog']//input[@id='signAmount']"
+
+#审核草网签
+审核草网签弹窗_通过按钮: "xpath==//div[@class='ant-modal-root']//span[text()='审核通过']/parent::button[@type='button']"
+审核草网签弹窗_驳回按钮: "xpath==//div[@class='ant-modal-root']//span[text()='审核驳回']/parent::button[@type='button']"
+
+
+
+弹窗_确定按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//span[text()='确 定']/parent::button[@type='button']"
+
+
+
+
+
+
+
+
+
+
+
+

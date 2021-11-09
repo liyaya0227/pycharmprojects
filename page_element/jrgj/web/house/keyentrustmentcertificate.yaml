@@ -7,3 +7,4 @@
 上传照片按钮: "xpath==//div[@class='add_keys']//input[@id='UploadImageIds']/parent::span[@role='button']"
 关闭按钮: "xpath==//div[@class='add_keys']//span[text()='关 闭']/parent::button[@type='button']"
 保存按钮: "xpath==//div[@class='add_keys']//span[text()='保 存']/parent::button[@type='button']"
+钥匙委托协议图片input: "xpath==//input[@id='UploadImageIds']"

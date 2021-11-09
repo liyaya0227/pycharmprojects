@@ -68,14 +68,22 @@ class TestDeleteSurvey(object):
         yield
         self.main_up_view.clear_all_title()
 
+    # @allure.step("验证房源状态")
+    # def check_house_state(self):
+    #     global house_code
+    #     house_code = self.house_table_page.get_house_code_by_db(flag='买卖')
+    #     if house_code == '':  # 判断房源是否存在，不存在则新增
+    #         house_service.add_house(gl_web_driver, 'sale')
+    #         self.main_up_view.clear_all_title()
+    #     house_code = self.house_table_page.get_house_code_by_db(flag='买卖')
+
     @allure.step("验证房源状态")
     def check_house_state(self):
         global house_code
-        house_code = self.house_table_page.get_house_code_by_db(flag='买卖')
-        if house_code == '':  # 判断房源是否存在，不存在则新增
+        if self.house_table_page.get_house_status_by_db(flag='sale') == '':  # 判断房源是否存在，不存在则新增
             house_service.add_house(gl_web_driver, 'sale')
             self.main_up_view.clear_all_title()
-        house_code = self.house_table_page.get_house_code_by_db(flag='买卖')
+        house_code = self.house_table_page.get_house_status_by_db(flag='sale')[0][2]
 
     @allure.step("进入房源详情")
     def enter_house_detail(self):

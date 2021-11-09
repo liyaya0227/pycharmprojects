@@ -37,7 +37,7 @@ class DataBaseUtil(object):
         elif db_type == 'Xf My SQL':
             db_info = {
                 'host': ini.xf_database_host,
-                'port': int(ini.mysql_database_port),
+                'port': int(ini.cw_database_port),
                 'user': ini.xf_database_account,
                 'password': ini.xf_database_password,
                 'database': database_name,

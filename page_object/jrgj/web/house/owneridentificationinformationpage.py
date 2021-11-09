@@ -34,10 +34,7 @@ class OwnerIdentificationInformationPage(WebPage):
                 break
 
     def upload_picture(self, file_path):
-        for file in file_path:
-            self.click_element(owner_identification_information['上传图片按钮'])
-            upload_file(file)
-            sleep(2)
+        self.input_text(owner_identification_information['图片input'], file_path)
 
     def choose_nationality(self, nationality):
         self.click_element(owner_identification_information['选择国籍输入框'], sleep_time=0.5)

@@ -36,10 +36,11 @@ class KeyEntrustmentCertificatePage(WebPage):
         self.input_text(key_entrustment_certificate['备注说明输入框'], remark)
 
     def upload_picture(self, file_path):
-        for file in file_path:
-            self.click_element(key_entrustment_certificate['上传照片按钮'])
-            upload_file(file)
-            sleep(2)
+        self.input_text(key_entrustment_certificate['钥匙委托协议图片input'], file_path)
+        # for file in file_path:
+        #     self.click_element(key_entrustment_certificate['上传照片按钮'])
+        #     upload_file(file)
+        #     sleep(2)
 
     def click_close_button(self):
         self.click_element(key_entrustment_certificate['关闭按钮'])

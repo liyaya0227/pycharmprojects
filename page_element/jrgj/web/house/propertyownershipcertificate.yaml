@@ -7,3 +7,4 @@
 备注输入框: "xpath==//form[@id='nest-messages']//textarea[@id='nest-messages_Remark']"
 取消按钮: "xpath==//form[@id='nest-messages']//span[text()='取 消']/parent::button[@type='submit']"
 提交按钮: "xpath==//form[@id='nest-messages']//span[text()='提 交']/parent::button[@type='submit']"
+图片input: "xpath==//input[@id='nest-messages_UploadImageIds']"
