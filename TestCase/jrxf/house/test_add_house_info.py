@@ -17,6 +17,7 @@ from page_object.jrxf.web.house.table_page import HouseTablePage
 from page_object.jrxf.web.main.leftviewpage import MainLeftViewPage
 from page_object.jrxf.web.main.upviewpage import MainUpViewPage
 from utils.jsonutil import get_data
+from utils.logger import logger
 
 
 @allure.feature("测试房源详情模块")
@@ -93,7 +94,7 @@ class TestAdd(object):
             self.upload_house_model()
             self.house_detail_page.switch_tab_by_name('楼盘首页')
         else:
-            log.info('存在户型介绍，无需新增')
+            logger.info('存在户型介绍，无需新增')
         initial_building_info_number = self.house_detail_page.get_building_info_number()
         self.house_detail_page.click_add_building_info()
         self.house_detail_page.building_info_content(random.randint(1, 100), 1, 1, 100)

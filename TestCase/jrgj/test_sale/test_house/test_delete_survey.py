@@ -89,12 +89,13 @@ class TestDeleteSurvey(object):
     def enter_house_detail(self):
         self.main_left_view.click_all_house_label()
         self.house_table_page.input_house_code_search(house_code)
+        self.house_table_page.click_search_button()
         self.house_table_page.go_house_detail_by_row(1)
 
     @allure.story("测试删除实勘用例")
     @pytest.mark.sale
     @pytest.mark.house
-    @pytest.mark.run(order=11)
+    @pytest.mark.run(order=3)
     def test_delete_survey(self):
         survey_person_info = get_value(self.json_file_path, ini.environment)
         exploration_info = get_value(self.json_file_path, 'exploration_info')

@@ -12,6 +12,7 @@ import pytest
 from case_service.jrgj.web.house.house_service import HouseService
 from page_object.common.web.login.loginpage import LoginPage
 from page_object.jrgj.web.house.detailpage import HouseDetailPage
+from page_object.jrgj.web.house.tablepage import HouseTablePage
 from page_object.jrgj.web.main.leftviewpage import MainLeftViewPage
 from page_object.jrgj.web.main.topviewpage import MainTopViewPage
 from page_object.jrgj.web.main.upviewpage import MainUpViewPage
@@ -40,10 +41,12 @@ class TestHouseDetail(object):
         self.main_up_view = MainUpViewPage(gl_driver)
         self.main_top_view = MainTopViewPage(gl_driver)
         self.main_left_view = MainLeftViewPage(gl_driver)
+        self.house_table_page = HouseTablePage(gl_driver)
         self.house_detail_page = HouseDetailPage(gl_driver)
         house_service.check_house_state(web_driver, 'rent')
         account_name = self.house_detail_page.get_account_name()
-        rent_house_code = self.house_detail_page.get_house_info_by_db(account_name, 'rent')
+        # rent_house_code = self.house_detail_page.get_house_info_by_db(account_name, 'rent')
+        rent_house_code = self.house_table_page.get_house_code_by_db(flag='租赁')
         yield
         self.main_up_view.clear_all_title()
 
@@ -64,28 +67,28 @@ class TestHouseDetail(object):
             self.house_detail_page.enter_house_detail()
             self.house_detail_page.replace_maintainer(account_name)
 
-    @allure.story("查看租赁房源基本信息")
-    @pytest.mark.rent
-    @pytest.mark.house
-    @pytest.mark.run(order=2)  # 保证在新增房源用例后执行
-    # @pytest.mark.flaky(reruns=1, reruns_delay=2)
-    @pytest.mark.parametrize('flag', ['租赁'])
-    def test_view_basic_information(self, flag):
-        self.house_detail_page.change_role('经纪人')
-        num = self.house_detail_page.get_house_num(rent_house_code, flag)
-        if int(num) > 0:
-            self.house_detail_page.enter_house_detail()
-            self.house_detail_page.view_basic_information()
-            ele = self.house_detail_page.verify_view_success()
-            assert ele is not None
-        else:
-            logger.error('当前维护人没有租赁房源')
-            assert False
+    # @allure.story("查看租赁房源基本信息")
+    # @pytest.mark.rent
+    # @pytest.mark.house
+    # @pytest.mark.run(order=2)  # 保证在新增房源用例后执行
+    # # @pytest.mark.flaky(reruns=1, reruns_delay=2)
+    # @pytest.mark.parametrize('flag', ['租赁'])
+    # def test_view_basic_information(self, flag):
+    #     self.house_detail_page.change_role('经纪人')
+    #     num = self.house_detail_page.get_house_num(rent_house_code, flag)
+    #     if int(num) > 0:
+    #         self.house_detail_page.enter_house_detail()
+    #         self.house_detail_page.view_basic_information()
+    #         ele = self.house_detail_page.verify_view_success()
+    #         assert ele is not None
+    #     else:
+    #         logger.error('当前维护人没有租赁房源')
+    #         assert False
 
     @allure.story("维护人提交修改租赁房源状态审核，商圈经理驳回审核")
     @pytest.mark.rent
     @pytest.mark.house
-    @pytest.mark.flaky(reruns=1, reruns_delay=2)
+    # @pytest.mark.flaky(reruns=1, reruns_delay=2)
     @pytest.mark.run(order=2)  # 保证在新增房源用例后执行
     @pytest.mark.parametrize('flag', ['租赁'])
     def test_modify_house_state(self, flag):
@@ -113,7 +116,7 @@ class TestHouseDetail(object):
     @allure.story("修改租赁房源价格-从调整价格进入")
     @pytest.mark.rent
     @pytest.mark.house
-    @pytest.mark.flaky(reruns=1, reruns_delay=2)
+    # @pytest.mark.flaky(reruns=1, reruns_delay=2)
     @pytest.mark.run(order=2)  # 保证在新增房源用例后执行
     @pytest.mark.parametrize('flag', ['租赁'])
     def test_modify_house_price(self, flag):
@@ -139,7 +142,7 @@ class TestHouseDetail(object):
     @allure.story("修改租赁房源价格-从房源基础信息进入")
     @pytest.mark.rent
     @pytest.mark.house
-    @pytest.mark.flaky(reruns=1, reruns_delay=2)
+    # @pytest.mark.flaky(reruns=1, reruns_delay=2)
     @pytest.mark.run(order=2)  # 保证在新增房源用例后执行
     @pytest.mark.parametrize('flag', ['租赁'])
     def test_modify_price_by_information(self, flag):
@@ -166,7 +169,7 @@ class TestHouseDetail(object):
     @allure.story("举报租赁房源并驳回举报")
     @pytest.mark.rent
     @pytest.mark.house
-    @pytest.mark.flaky(reruns=1, reruns_delay=2)
+    # @pytest.mark.flaky(reruns=1, reruns_delay=2)
     @pytest.mark.run(order=2)  # 保证在新增房源用例后执行
     @pytest.mark.parametrize('flag', ['租赁'])
     def test_report_house(self, flag):

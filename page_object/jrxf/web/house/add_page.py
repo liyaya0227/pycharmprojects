@@ -8,7 +8,7 @@
 """
 from page.webpage import WebPage
 from common.readelement import Element
-
+from utils.timeutil import sleep
 
 add_house = Element('jrxf/web/house/add')
 
@@ -76,13 +76,14 @@ class AddHousePage(WebPage):
     def upload_contract(self, picture_path):  # 上传合同
         self.send_key(add_house['合同图片input'], picture_path)
         self.send_key(add_house['预售许可证图片input'], picture_path)
-        self.click_element(add_house['提交审核按钮'])
+        sleep(3)
+        self.click_element(add_house['提交审核按钮'], 2)
 
     def audit_contract(self):
-        self.click_element(add_house['审核通过按钮'])
+        self.click_element(add_house['审核通过按钮'], 2)
         self.click_element(add_house['上传合同tab'])
-        self.click_element(add_house['审核通过按钮'])
-        self.click_element(add_house['审核确定按钮'])
+        self.click_element(add_house['审核通过按钮'], 1)
+        self.click_element(add_house['审核确定按钮'], 1)
 
     def input_house_preferential(self, preferential='100'):
         self.input_text(add_house['楼盘优惠输入框'], preferential)
@@ -120,22 +121,22 @@ class AddHousePage(WebPage):
         self.click_element(add_house['新房案场_新增联系人'])
         self.input_text(add_house['联系人姓名输入框'], contract_name)
         self.select_item_option(option=item_option_value)
-        self.click_element(add_house['弹窗_确定按钮'])
+        self.click_element(add_house['弹窗_确定按钮'], 1)
         self.click_element(add_house['新房经理_新增联系人'])
         self.input_text(add_house['联系人姓名输入框'], contract_name)
         self.select_item_option(option=item_option_value)
-        self.click_element(add_house['弹窗_确定按钮'])
+        self.click_element(add_house['弹窗_确定按钮'], 1)
         self.click_element(add_house['新房总监_新增联系人'])
         self.input_text(add_house['联系人姓名输入框'], contract_name)
         self.select_item_option(option=item_option_value)
-        self.click_element(add_house['弹窗_确定按钮'])
+        self.click_element(add_house['弹窗_确定按钮'], 3)
 
     def click_save_btn(self):
-        self.click_element(add_house['保存按钮'])
+        self.click_element(add_house['保存按钮'], 1)
         self.click_element(add_house['审核确定按钮'])
 
     def audit_release(self):
-        self.click_element(add_house['上架_审核通过按钮'])
+        self.click_element(add_house['上架_审核通过按钮'], 1)
         self.click_element(add_house['审核确定按钮'])
 
     def select_item_option(self, option=None, index=None):

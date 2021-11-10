@@ -304,7 +304,7 @@ class HouseDetailPage(WebPage):
     def delete_uploaded_certificate(self, certificate_name):  # 删除证书
         locator = 'xpath', "//span[text()='" + certificate_name + "']/ancestor::p//span[text()='删除']"
         self.click_element(locator)
-        self.click_element(house_detail['删除证件_确定按钮'], 2)
+        self.click_element(house_detail['删除证件_确定按钮'], 10)
 
     def delete_written_entrustment_agreement(self):  # 删除书面委托协议
         self.__delete_certificate('书面委托协议')
@@ -330,7 +330,7 @@ class HouseDetailPage(WebPage):
     def __delete_certificate(self, certificate_name):  # 删除证书
         locator = 'xpath', "//span[text()='" + certificate_name + "']/ancestor::p//span[text()='删除']"
         self.click_element(locator)
-        self.click_element(house_detail['删除证件_确定按钮'], sleep_time=1)
+        self.click_element(house_detail['删除证件_确定按钮'], sleep_time=10)
 
     def upload_written_entrustment_agreement(self, written_entrustment_agreement):  # 上传书面委托协议
         self.click_written_entrustment_agreement_upload_button()
@@ -495,8 +495,9 @@ class HouseDetailPage(WebPage):
 
     def click_delete_survey_button(self):  # 点击房源详情右侧删除实勘按钮
         self.move_mouse_to_element(house_detail['右侧菜单更多按钮'])
-        self.move_mouse_to_element(house_detail['删除实勘按钮'])
-        self.click_element(house_detail['删除实勘按钮'])
+        # self.move_mouse_to_element(house_detail['删除实勘按钮'])
+        sleep(3)
+        self.click_element(house_detail['删除实勘按钮'], 3)
 
     def get_tooltip_content(self):
         if self.element_is_exist(house_detail['弹窗显示'], timeout=1):
@@ -680,7 +681,8 @@ class HouseDetailPage(WebPage):
         raise ValueError('传值错误')
 
     def dialog_click_confirm_button(self):  # 弹窗确定按钮
-        self.click_element(house_detail['弹窗_确定按钮'], sleep_time=1)
+        sleep(2)
+        self.click_element(house_detail['弹窗_确定按钮'], sleep_time=3)
 
     def dialog_click_cancel_button(self):  # 弹窗取消按钮
         self.click_element(house_detail['弹窗_取消按钮'])
@@ -756,12 +758,13 @@ class HouseDetailPage(WebPage):
         if flag == '买卖':
             self.click_element(house_detail['买卖区域筛选_不限'])
             self.input_text(house_detail['房源编号输入框'], house_code)
+            sleep(1)
         else:
             self.click_element(house_detail['租赁菜单'])
             self.click_element(house_detail['买卖区域筛选_不限'])
             self.input_text(house_detail['房源编号输入框'], house_code)
-        self.click_element(house_detail['搜索按钮'])
-        sleep(2)
+            sleep(1)
+        self.click_element(house_detail['搜索按钮'], 5)
         num = self.get_element_text(house_detail['搜索结果总数'])[8:][:-1]
         sleep(1)
         return num
@@ -842,12 +845,12 @@ class HouseDetailPage(WebPage):
         """提交修改房源状态申请"""
         self.click_element(house_detail['房源状态按钮'])
         self.click_element(house_detail['暂缓出售选项'])
-        self.click_element(house_detail['房源状态弹窗确定按钮'])
+        self.click_element(house_detail['房源状态弹窗确定按钮'], 2)
 
     def verify_submit_success(self):
         """验证提交申请是否成功"""
         text = self.get_element_text(house_detail['弹窗_提交成功提示'])
-        self.click_element(house_detail['弹窗_确定按钮'])
+        self.click_element(house_detail['弹窗_确定按钮'], 2)
         return text
 
     def verify_get_application_success(self, role_name, house_no):
@@ -867,11 +870,11 @@ class HouseDetailPage(WebPage):
         self.click_element(house_detail['驳回按钮'])
         self.input_text(house_detail['驳回理由输入框'], '驳回')
         self.click_element(house_detail['驳回弹窗确定按钮'])
-        self.click_blank_area()
-        sleep(1)
-        locator = 'xpath', "//div[@class='invalid-housing-resource']//td[@class='ant-table-cell']/a/span[text()='" + house_no + "']"
-        res = self.is_exists(locator)
-        return res
+        # self.click_blank_area()
+        # sleep(1)
+        # locator = 'xpath', "//div[@class='invalid-housing-resource']//td[@class='ant-table-cell']/a/span[text()='" + house_no + "']"
+        # res = self.is_exists(locator)
+        # return res
 
     def get_initial_price_in_dialog(self):
         """获取调价弹窗页面的初始房源价格"""
@@ -976,15 +979,18 @@ class HouseDetailPage(WebPage):
 
     def verify_can_report(self):
         """验证是否可以举报"""
+        sleep(3)
         self.move_mouse_to_element(house_detail['房源举报按钮'])
+        sleep(1)
         res = self.is_exists(house_detail['是否可举报提示'])
         return res
 
     def report_house(self):
         """举报房源"""
-        self.click_element(house_detail['房源举报按钮'])
+        sleep(2)
+        self.click_element(house_detail['房源举报按钮'], 2)
         self.click_element(house_detail['房源不卖选项'])
-        self.click_element(house_detail['举报房源弹窗确认按钮'])
+        self.click_element(house_detail['举报房源弹窗确认按钮'], 2)
         text = self.find_element(house_detail['右上角弹窗_内容']).text
         return text
 
@@ -1015,11 +1021,11 @@ class HouseDetailPage(WebPage):
     # 新房详情页
     def click_see_more(self):
         """新房详情查看更多"""
-        self.click_element(house_detail['查看更多按钮'])
+        self.click_element(house_detail['查看更多按钮'], 1)
 
     def go_upload_album(self):
         """进入楼盘相册上传页面"""
-        self.click_element(house_detail['上传图片按钮'])
+        self.click_element(house_detail['上传图片按钮'], 1)
 
     def switch_lab_by_name(self, lab_name):
         """上传图片弹窗根据名字切换lab"""
@@ -1029,15 +1035,18 @@ class HouseDetailPage(WebPage):
     def upload_image(self, pictures_path, lab_name):
         """楼盘相册-上传图片"""
         self.switch_lab_by_name(lab_name)
+        sleep(1.5)
         for picture_path in pictures_path:
             if lab_name == '效果图':
                 self.send_key(house_detail['首图input'], picture_path)
+                sleep(1.5)
             else:
                 self.send_key(house_detail['其他图片input'], picture_path)
+                sleep(1.5)
 
     def click_upload_btn(self):
         """确定上传"""
-        self.click_element(house_detail['弹窗_上传按钮'])
+        self.click_element(house_detail['弹窗_上传按钮'], 1)
 
     def get_dialog_text(self):
         """获取右上角弹窗提示信息"""
@@ -1089,7 +1098,7 @@ class HouseDetailPage(WebPage):
         self.click_element(house_detail['发布动态按钮'])
         self.input_text(house_detail['动态标题输入框'], trend_title, True)
         self.input_text(house_detail['动态说明输入框'], trend_explain, True)
-        self.click_element(house_detail['动态弹窗_确定按钮'])
+        self.click_element(house_detail['动态弹窗_确定按钮'], 1)
         return trend_explain
 
     def verify_trend_list_update(self, trend_explain):
@@ -1103,7 +1112,7 @@ class HouseDetailPage(WebPage):
         self.click_element(house_detail['编辑卖点按钮'])
         self.input_text(house_detail['一句话推盘输入框'], push_plate, True)
         self.input_text(house_detail['详细描述输入框'], detailed_description, True)
-        self.click_element(house_detail['保存按钮'])
+        self.click_element(house_detail['保存按钮'], 1)
         return push_plate
 
     def verify_celling_point_list_update(self):
@@ -1118,6 +1127,7 @@ class HouseDetailPage(WebPage):
 
     def get_information_in_share_page(self):
         """获取分享页面的信息"""
+        sleep(1.5)
         house_type = self.get_element_text(house_detail['分享弹窗_户型'])
         account_name = self.get_element_text(house_detail['分享弹窗_登录人账号'])
         account_phone = self.get_element_text(house_detail['分享弹窗_登录人手机号'])
@@ -1142,7 +1152,7 @@ class HouseDetailPage(WebPage):
         self.input_text(house_detail['户型朝向输入框'], house_direction)
         self.click_element(house_detail['户型价格待定选项'])
         self.send_key(house_detail['户型图片input'], pictures_path)
-        sleep(1)
+        sleep(2)
         self.click_element(house_detail['弹窗_确定按钮'])
 
     def get_house_type_introduce_number(self):

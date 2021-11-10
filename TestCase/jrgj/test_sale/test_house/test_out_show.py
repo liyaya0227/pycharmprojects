@@ -90,6 +90,7 @@ class TestOutShow(object):
     def enter_house_detail(self):
         self.main_left_view.click_all_house_label()
         self.house_table_page.input_house_code_search(house_code)
+        self.house_table_page.click_search_button()
         self.house_table_page.go_house_detail_by_row(1)
 
     @allure.step("获取书面委托协议编号")
@@ -115,7 +116,7 @@ class TestOutShow(object):
     @allure.story("测试房源外网呈现用例")
     @pytest.mark.sale
     @pytest.mark.house
-    @pytest.mark.run(order=12)
+    @pytest.mark.run(order=3)
     def test_out_show(self):
         survey_person_info = get_value(self.json_file_path, ini.environment)
         exploration_info = get_value(self.json_file_path, 'exploration_info')

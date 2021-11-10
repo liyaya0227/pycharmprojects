@@ -65,41 +65,41 @@ class TestAdd(object):
         self.house_detail_page.click_confirm_upload_btn()
         return count
 
-    @allure.story("批量上传")
-    @pytest.mark.run(order=2)
-    def test_batch_upload_house_img(self):
-        self.enter_house_detail(self.house_name)  # 进入房源详情
-        self.house_detail_page.click_see_more()  # 批量上传图片
-        initial_number = self.house_detail_page.get_image_list_lenth()
-        count = self.add_new_house_img()
-        actual_result = self.house_detail_page.get_dialog_text()
-        actual_number = self.house_detail_page.get_image_list_lenth()
-        assert actual_result == '上传成功'
-        if initial_number == 0:
-            assert actual_number == count
-        else:
-            assert actual_number == count + initial_number - 1
-
-    @allure.step("批量删除图片")
-    @pytest.mark.run(order=2)
-    def test_batch_delete_house_img(self):
-        self.enter_house_detail(self.house_name)  # 进入房源详情
-        self.house_detail_page.click_see_more()
-        initial_number = self.house_detail_page.get_image_list_lenth()
-        if initial_number <= 1:  # 上传图片
-            self.add_new_house_img()
-            initial_number = self.house_detail_page.get_image_list_lenth()
-        else:
-            logger.info('无需上传，直接执行删除')
-        self.house_detail_page.click_batch_delete_btn()  # 批量删除
-        self.house_detail_page.select_some_image_to_delete()
-        deleted_number = self.house_detail_page.get_deleted_image_number()
-        self.house_detail_page.click_delete_btn()
-        actual_result = self.house_detail_page.get_dialog_text()
-        actual_number = self.house_detail_page.get_image_list_lenth()
-        expect_number = initial_number - deleted_number
-        pytest.assume(actual_result == '删除成功')
-        assert expect_number == actual_number
+    # @allure.story("批量上传")
+    # @pytest.mark.run(order=2)
+    # def test_batch_upload_house_img(self):
+    #     self.enter_house_detail(self.house_name)  # 进入房源详情
+    #     self.house_detail_page.click_see_more()  # 批量上传图片
+    #     initial_number = self.house_detail_page.get_image_list_lenth()
+    #     count = self.add_new_house_img()
+    #     actual_result = self.house_detail_page.get_dialog_text()
+    #     actual_number = self.house_detail_page.get_image_list_lenth()
+    #     assert actual_result == '上传成功'
+    #     if initial_number == 0:
+    #         assert actual_number == count
+    #     else:
+    #         assert actual_number == count + initial_number - 1
+    #
+    # @allure.step("批量删除图片")
+    # @pytest.mark.run(order=2)
+    # def test_batch_delete_house_img(self):
+    #     self.enter_house_detail(self.house_name)  # 进入房源详情
+    #     self.house_detail_page.click_see_more()
+    #     initial_number = self.house_detail_page.get_image_list_lenth()
+    #     if initial_number <= 1:  # 上传图片
+    #         self.add_new_house_img()
+    #         initial_number = self.house_detail_page.get_image_list_lenth()
+    #     else:
+    #         logger.info('无需上传，直接执行删除')
+    #     self.house_detail_page.click_batch_delete_btn()  # 批量删除
+    #     self.house_detail_page.select_some_image_to_delete()
+    #     deleted_number = self.house_detail_page.get_deleted_image_number()
+    #     self.house_detail_page.click_delete_btn()
+    #     actual_result = self.house_detail_page.get_dialog_text()
+    #     actual_number = self.house_detail_page.get_image_list_lenth()
+    #     expect_number = initial_number - deleted_number
+    #     assert actual_result == '删除成功'
+    #     assert expect_number == actual_number
 
     @allure.step("全选删除图片")
     @pytest.mark.run(order=2)
@@ -116,7 +116,7 @@ class TestAdd(object):
         self.house_detail_page.click_delete_btn()
         actual_result = self.house_detail_page.get_dialog_text()
         actual_number = self.house_detail_page.get_image_list_lenth()
-        pytest.assume(actual_result == '删除成功')
+        assert actual_result == '删除成功'
         assert actual_number == 1
 
 

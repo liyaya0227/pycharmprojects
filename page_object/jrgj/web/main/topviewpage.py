@@ -33,7 +33,7 @@ class MainTopViewPage(WebPage):
         if self.element_is_exist(top_view['右上角弹窗_内容'], timeout=15):
             sleep()
             value = self.get_element_text(top_view['右上角弹窗_内容'])
-            self.click_element(top_view['右上角弹窗_关闭按钮'])
+            self.click_element(top_view['右上角弹窗_关闭按钮'], 10)
             return value
         else:
             return ''

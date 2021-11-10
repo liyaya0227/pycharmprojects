@@ -95,7 +95,7 @@ class TestPhone(object):
     @allure.story("测试手机号正确")
     @pytest.mark.sale
     @pytest.mark.house
-    @pytest.mark.run(order=11)
+    @pytest.mark.run(order=3)
     def test_view_phone(self):
         self.check_house_state()
         self.enter_house_detail()  # 进入房源详情

@@ -79,7 +79,7 @@ class TestAddress(object):
     @allure.story("测试房源详情右侧地址用例")
     @pytest.mark.sale
     @pytest.mark.house
-    @pytest.mark.run(order=11)
+    @pytest.mark.run(order=2)
     def test_view_address_maximum(self):
         self.check_house_state()
         self.enter_house_detail()  # 进入房源详情

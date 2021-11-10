@@ -50,7 +50,7 @@ class TestShare(object):
     @allure.story("测试房源详情右侧分享用例")
     @pytest.mark.sale
     @pytest.mark.house
-    @pytest.mark.run(order=11)
+    @pytest.mark.run(order=4)
     def test_share(self, web_driver):
         self.main_left_view.click_all_house_label()
         self.house_table_page.click_sale_tab()

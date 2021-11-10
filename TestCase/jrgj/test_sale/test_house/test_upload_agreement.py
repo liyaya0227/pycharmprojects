@@ -25,6 +25,7 @@ from page_object.jrgj.web.main.certificateexaminepage import CertificateExamineP
 from page_object.jrgj.web.house.tablepage import HouseTablePage
 from page_object.jrgj.web.house.detailpage import HouseDetailPage
 from page_object.jrgj.web.agreement.listpage import AgreementListPage
+from utils.timeutil import sleep
 
 house_code = ''
 gl_web_driver = None
@@ -113,6 +114,7 @@ class TestUploadAgreement(object):
 
     @allure.step("验证证书是否已上传")
     def check_certificate_uploaded(self, certificate_name):
+        # sleep(10)
         self.house_detail_page.expand_certificates_info()
         if self.house_detail_page.check_certificate_uploaded(certificate_name) != '未上传':
             self.house_detail_page.delete_uploaded_certificate(certificate_name)
@@ -122,7 +124,7 @@ class TestUploadAgreement(object):
     @allure.story("测试上传协议")
     @pytest.mark.sale
     @pytest.mark.house
-    @pytest.mark.run(order=11)
+    @pytest.mark.run(order=2)
     def test_upload_agreement(self):
         self.get_agreement_no()  # 获取协议编号
         self.check_house_state()

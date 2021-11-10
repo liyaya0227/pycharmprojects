@@ -23,7 +23,7 @@ class HouseDetailPage(WebPage):
 
     def click_see_more(self):
         """新房详情查看更多"""
-        self.e(house_detail['查看更多'])
+        self.click_element(house_detail['查看更多'])
 
     def get_image_list_lenth(self):
         """获取相册列表中的图片数量"""
@@ -32,7 +32,7 @@ class HouseDetailPage(WebPage):
 
     def click_upload_btn(self):
         """点击上传图片按钮"""
-        self.click_element(house_detail['上传按钮'])
+        self.click_element(house_detail['上传按钮'], 1.5)
 
     def switch_lab_by_name(self, lab_name):
         """上传图片弹窗根据名字切换lab"""
@@ -42,18 +42,23 @@ class HouseDetailPage(WebPage):
     def upload_image(self, pictures_path, lab_name):
         """楼盘相册-上传图片"""
         self.switch_lab_by_name(lab_name)
+        sleep(1.5)
         for picture_path in pictures_path:
             if lab_name == '效果图':
                 self.send_key(house_detail['首图input'], picture_path)
+                sleep(1.5)
             else:
                 self.send_key(house_detail['其他图片input'], picture_path)
+                sleep(1.5)
 
     def click_confirm_upload_btn(self):
         """确定上传"""
+        # sleep(2)
         self.click_element(house_detail['弹窗_上传按钮'])
 
     def get_dialog_text(self):
         """获取右上角弹窗提示信息"""
+        sleep(1)
         text = self.get_element_text(house_detail['右上角弹窗_内容'])
         return text
 
@@ -73,7 +78,7 @@ class HouseDetailPage(WebPage):
 
     def click_delete_btn(self):
         """点击删除按钮"""
-        self.click_element(house_detail['弹窗_删除按钮'])
+        self.click_element(house_detail['弹窗_删除按钮'], 1.5)
 
     def click_select_all_btn(self):
         """点击全选按钮"""
@@ -125,6 +130,7 @@ class HouseDetailPage(WebPage):
         self.input_text(house_detail['户型最小价格输入框'], params['sale_price_start'])
         self.input_text(house_detail['户型最大价格输入框'], params['sale_price_end'])
         self.send_key(house_detail['户型图片input'], params['pictures_path'])
+        sleep(2)
         self.click_element(house_detail['弹窗_确定按钮'])
         sleep(1)
         return house_type_name
@@ -151,14 +157,16 @@ class HouseDetailPage(WebPage):
         self.click_element(house_detail['建筑类型输入框'])
         self.select_item_option('平房')
         self.click_element(house_detail['户型选择框'])
-        self.click_element(house_detail['弹窗_确定按钮'])
+        sleep(1)
+        self.click_element(house_detail['弹窗_确定按钮'], 2)
 
     def house_dynamic_content(self, trend_title, trend_explain):
         """楼盘动态内容"""
         self.click_element(house_detail['发布动态按钮'])
         self.input_text(house_detail['动态标题输入框'], trend_title, True)
         self.input_text(house_detail['动态说明输入框'], trend_explain, True)
-        self.click_element(house_detail['动态弹窗_确定按钮'])
+        sleep(1)
+        self.click_element(house_detail['动态弹窗_确定按钮'], 1)
         return trend_explain
 
     def verify_dynamic_list_update(self, trend_explain):
@@ -173,7 +181,7 @@ class HouseDetailPage(WebPage):
         self.click_element(house_detail['编辑卖点按钮'])
         self.input_text(house_detail['一句话推盘输入框'], push_plate, True)
         self.input_text(house_detail['详细描述输入框'], detailed_description, True)
-        self.click_element(house_detail['保存按钮'])
+        self.click_element(house_detail['保存按钮'], 1)
         return push_plate
 
     def verify_celling_point_list_update(self):
@@ -188,12 +196,14 @@ class HouseDetailPage(WebPage):
 
     def get_user_info_in_share_page(self):
         """分享页面用户信息"""
+        sleep(1)
         account_name = self.get_element_text(house_detail['分享弹窗_登录人账号'])
         account_phone = self.get_element_text(house_detail['分享弹窗_登录人手机号'])
         return account_name, account_phone
 
     def get_model_info_in_share_page(self):
         """分享页面户型信息"""
+        sleep(1)
         model_info = self.get_element_text(house_detail['分享弹窗_户型'])
         area = self.get_element_text(house_detail['分享弹窗_面积']).split('m')[0]
         orientation = self.get_element_text(house_detail['分享弹窗_朝向'])
@@ -211,6 +221,7 @@ class HouseDetailPage(WebPage):
 
     def generate_code(self):
         """生成二维码"""
+        sleep(1)
         self.click_element(house_detail['分享弹窗_效果图'])
         self.click_element(house_detail['生成海报二维码按钮'])
         sleep(12)

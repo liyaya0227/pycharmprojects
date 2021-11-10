@@ -76,7 +76,7 @@ class TestViewFloor(object):
     @allure.story("测试房源详情右侧楼层用例")
     @pytest.mark.sale
     @pytest.mark.house
-    @pytest.mark.run(order=11)
+    @pytest.mark.run(order=5)
     def test_view_floor(self):
         self.check_house_state()
         self.enter_house_detail()
