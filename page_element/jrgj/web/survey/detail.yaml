@@ -1,4 +1,7 @@
 上传图片按钮: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'bulkUpload')]//span[text()='上传图片']/parent::button"
 
+反馈意见输入框: "xpath==//div[@style='' or not(@style)]//div[contains(@class,'feedBack')]//h3[text()='反馈意见']/parent::div//textarea"
+
 关闭按钮: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'bulkUpload')]//span[text()='关 闭']/parent::button"
 保存按钮: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'bulkUpload')]//span[text()='保 存']/parent::button"
+提交按钮: "xpath==//div[@style='' or not(@style)]//div[contains(@class,'feedBack')]//span[text()='提 交']/parent::button"

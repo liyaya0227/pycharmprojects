@@ -3,14 +3,14 @@
 """
 @author: jutao
 @version: V1.0
-@file: city_enum.py
+@file: city_name.py
 @date: 2021/10/18 0018
 """
 from enum import Enum, unique
 
 
 @unique
-class CityEnum(Enum):
+class CityNameEnum(Enum):
 
     sz = '苏州'
     ks = '昆山'

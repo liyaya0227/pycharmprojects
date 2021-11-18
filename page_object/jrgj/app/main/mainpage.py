@@ -6,7 +6,7 @@
 @file: mainpage.py
 @date: 2021/8/9 0009
 """
-
+from utils.timeutil import sleep
 from page.androidpage import AndroidPage
 from common.readelement import Element
 
@@ -18,6 +18,12 @@ class AppMainPage(AndroidPage):
     def click_order_button(self):
         self.click_element(main['订单按钮'])
 
+    def click_house_button(self):
+        self.click_element(main['房源按钮'])
+
+    def click_customer_button(self):
+        self.click_element(main['客源按钮'])
+
     def click_message_button(self):
         self.click_element(main['消息按钮'])
 
@@ -25,5 +31,6 @@ class AppMainPage(AndroidPage):
         self.click_element(main['我的按钮'])
 
     def close_top_view(self):
-        if self.find_element(main['经纪人荣誉殿堂_关闭按钮'], wait_time=5):
+        if self.check_element_is_exist(main['经纪人荣誉殿堂_关闭按钮'], timeout=5):
             self.click_element(main['经纪人荣誉殿堂_关闭按钮'])
+            sleep(2)

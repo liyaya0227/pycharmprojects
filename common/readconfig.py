@@ -94,11 +94,11 @@ class ReadConfig(object):
 
     @property
     def survey_user_account(self):
-        return self._get(self.environment.upper() + '_USER', 'survey_account')
+        return self._get(self.environment.upper() + '_USER', 'SURVEY_ACCOUNT')
 
     @property
     def survey_user_password(self):
-        return self._get(self.environment.upper() + '_USER', 'survey_password')
+        return self._get(self.environment.upper() + '_USER', 'SURVEY_PASSWORD')
 
     @property
     def database_server(self):
@@ -181,6 +181,10 @@ class ReadConfig(object):
     @property
     def house_doorplate(self):
         return self._get('HOUSE', 'DOORPLATE')
+
+    @property
+    def new_house_name(self):
+        return self._get('NEW_HOUSE', 'NAME')
 
     @property
     def custom_telephone(self):

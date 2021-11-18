@@ -138,13 +138,11 @@ class HouseTablePage(WebPage):
         sleep()
 
     def go_house_detail_by_row(self, row=1):
-        self.wait_page_loading_complete()
-        sleep()
+        sleep(2)
         locator = 'xpath', "//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table/tbody" \
                            "/tr[" + str(row) + "]/td[" + str(self.__get_column_by_title('楼盘名称') + 1) + "]"
         self.click_element(locator)
-        self.wait_page_loading_complete()
-        sleep(2)
+        sleep(4)
 
     def verify_house_exist(self, building_name):  # 验证列表中是否存在当前房源
         locator = 'xpath', "//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table/tbody/" \

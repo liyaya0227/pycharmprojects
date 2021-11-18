@@ -87,6 +87,12 @@ class MainLeftViewPage(WebPage):
             self.click_element(left_view['房源管理菜单'], sleep_time=0.5)
         self.click_element(left_view['实勘管理标签'], sleep_time=0.5)
 
+    def click_vr_examine_label(self):
+        is_expanded = self.get_element_attribute(left_view['房源管理菜单'], 'aria-expanded')
+        if is_expanded == 'false':
+            self.click_element(left_view['房源管理菜单'], sleep_time=0.5)
+        self.click_element(left_view['VR审核标签'], sleep_time=0.5)
+
     def click_data_disk_label(self):
         is_expanded = self.get_element_attribute(left_view['房源管理菜单'], 'aria-expanded')
         if is_expanded == 'false':

@@ -6,7 +6,7 @@
 @file: detailpage.py
 @date: 2021/8/11 0011
 """
-
+from utils.timeutil import sleep
 from page.androidpage import AndroidPage
 from common.readelement import Element
 
@@ -24,4 +24,5 @@ class AppOrderDetailPage(AndroidPage):
 
     def click_end_shot_button(self):  # 点击结束拍摄按钮
         self.click_element(order_detail['结束拍摄按钮'])
+        sleep(2)
 

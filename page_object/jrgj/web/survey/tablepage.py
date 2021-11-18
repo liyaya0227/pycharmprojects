@@ -6,7 +6,7 @@
 @file: tablepage.py
 @date: 2021/8/11 0011
 """
-
+import re
 from page.webpage import WebPage
 from common.readelement import Element
 
@@ -24,11 +24,35 @@ class SurveyTablePage(WebPage):
     def input_house_code_search(self, house_code):
         self.input_text(survey_table['房源编号搜索框'], house_code)
 
+    def input_survey_code_search(self, survey_code):
+        self.input_text(survey_table['实勘编号搜索框'], survey_code)
+
     def click_search_button(self):  # 点击查询按钮
         self.click_element(survey_table['查询按钮'])
 
     def click_reset_button(self):  # 点击重置按钮
         self.click_element(survey_table['重置按钮'])
+
+    def get_order_status_by_row(self, row=1):
+        """根据行，获取订单状态"""
+        column = self.__get_column_by_title('订单状态')
+        locator = 'xpath', "//div[@style='' or not(@style)]/div[contains(@class,'surveyManagement')]//tbody" \
+                           "/tr[" + str(row) + "]/td[" + str(column + 1) + "]/div"
+        return self.get_element_text(locator)
+
+    def get_survey_code_by_row(self, row=1):
+        """根据行，获取实勘编号"""
+        column = self.__get_column_by_title('实勘编号')
+        locator = 'xpath', "//div[@style='' or not(@style)]/div[contains(@class,'surveyManagement')]//tbody" \
+                           "/tr[" + str(row) + "]/td[" + str(column + 1) + "]"
+        return self.get_element_text(locator)
+
+    def get_survey_person_name_by_row(self, row=1):
+        """根据行，获取摄影师信息"""
+        column = self.__get_column_by_title('摄影师信息')
+        locator = 'xpath', "//div[@style='' or not(@style)]/div[contains(@class,'surveyManagement')]//tbody" \
+                           "/tr[" + str(row) + "]/td[" + str(column + 1) + "]//li[1]"
+        return re.search(r"：(\w+)/", self.get_element_text(locator)).group(1)
 
     def click_upload_survey_button_by_row(self, row=1):  # 根据行，点击上传实勘
         column = self.__get_column_by_title('操作')
@@ -48,10 +72,16 @@ class SurveyTablePage(WebPage):
                            "/tr[" + str(row) + "]/td[" + str(column + 1) + "]//span[text()='取消订单']"
         self.click_element(locator)
 
-    def click_back_order_button_by_row(self, row=1):  # 根据行，点击取消订单按钮
+    def click_back_order_button_by_row(self, row=1):  # 根据行，点击退单按钮
         column = self.__get_column_by_title('操作')
         locator = 'xpath', "//div[@style='' or not(@style)]/div[contains(@class,'surveyManagement')]//tbody" \
                            "/tr[" + str(row) + "]/td[" + str(column + 1) + "]//span[text()='退单']"
+        self.click_element(locator)
+
+    def click_order_detail_button_by_row(self, row=1):  # 根据行，点击订单详情
+        column = self.__get_column_by_title('操作')
+        locator = 'xpath', "//div[@style='' or not(@style)]/div[contains(@class,'surveyManagement')]//tbody" \
+                           "/tr[" + str(row) + "]/td[" + str(column + 1) + "]//span[text()='订单详情']"
         self.click_element(locator)
 
     def back_order_dialog_choose_reason(self, reason):  # 实勘退单弹窗选择退单原因
@@ -64,6 +94,39 @@ class SurveyTablePage(WebPage):
 
     def back_order_dialog_click_back_order_button(self):  # 点击实勘退单弹窗退单按钮
         self.click_element(survey_table['退单弹窗_退单按钮'], sleep_time=1)
+
+    def click_change_time_by_row(self, row=1):  # 根据行，点击取消订单按钮
+        column = self.__get_column_by_title('操作')
+        locator = 'xpath', "//div[@style='' or not(@style)]/div[contains(@class,'surveyManagement')]//tbody" \
+                           "/tr[" + str(row) + "]/td[" + str(column + 1) + "]//span[text()='修改预约时间']"
+        self.click_element(locator)
+
+    def dialog_click_cancel_button(self):
+        """弹窗，点击取消按钮"""
+        self.click_element(survey_table['弹窗_取消按钮'])
+
+    def dialog_click_confirm_button(self):
+        """弹窗，点击取消按钮"""
+        self.click_element(survey_table['弹窗_确定按钮'])
+
+    def dialog_click_known_button(self):
+        """弹窗，点击知道了按钮"""
+        self.click_element(survey_table['弹窗_知道了按钮'])
+
+    def change_time_dialog_choose_time(self, date_time):
+        """修改实勘时间弹窗，修改时间"""
+        self.click_element(survey_table['修改时间弹窗_' + date_time[0] + '日期单选'])
+        self.click_element(survey_table['修改时间弹窗_时间选择框'], sleep_time=0.5)
+        time_list = self.find_elements(survey_table['下拉框'])
+        for time_ele in time_list:
+            if date_time[1].split('-')[0] in time_ele.text and date_time[1].split('-')[1] in time_ele.text:
+                if "ant-select-item-option-disabled" not in time_ele.get_attribute('class'):
+                    time_ele.click()
+                    return
+        for time_ele in time_list:
+            if "ant-select-item-option-disabled" not in time_ele.get_attribute('class'):
+                time_ele.click()
+                break
 
     def __get_column_by_title(self, title):  # 获取表格title在第几列
         locator = 'xpath', \

@@ -60,6 +60,13 @@ class AndroidPage(DriverAction):
         logger.info("打开App")
         self.driver.start_activity(app_package, app_activity)
 
+    def back_previous_step(self):
+        """
+        设备按下返回键
+        """
+        logger.info("按下返回键")
+        self.driver.press_keycode(4)
+
     def send_enter_key(self):
         """
         设备按下回车键
@@ -72,7 +79,7 @@ class AndroidPage(DriverAction):
         滑动
         """
         try:
-            self.driver.__swipe(start_x, start_y, end_x, end_y, duration)
+            self.driver.swipe(start_x, start_y, end_x, end_y, duration)
         except Exception as e:
             raise e
 
@@ -104,3 +111,7 @@ class AndroidPage(DriverAction):
         logger.info("将元素移动过")
         element = self.find_element(locator)
         TouchAction(self.driver).press(element).move_to(x=x, y=y).release().perform()
+
+    def open_notification(self):
+        """打开手机通知栏"""
+        self.driver.open_notifications()

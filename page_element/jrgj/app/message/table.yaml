@@ -1,0 +1,18 @@
+消息标签: "xpath==//*[@class='android.view.ViewGroup' and @index='1']//*[@text='消息']"
+通知标签: "xpath==//*[@class='android.view.ViewGroup' and @index='1']//*[@text='通知']"
+
+系统消息标签: "xpath==//*[@class='android.widget.ScrollView' and @index='0']//*[@text='系统消息']/parent::android.view.ViewGroup"
+系统消息最新内容: "xpath==(//*[@class='android.widget.ScrollView' and @index='0']//*[@text='系统消息']/parent::android.view.ViewGroup/*[@class='android.widget.TextView'])[last()]"
+房源消息标签: "xpath==//*[@class='android.widget.ScrollView' and @index='0']//*[@text='房源消息']/parent::android.view.ViewGroup"
+房源消息最新内容: "xpath==(//*[@class='android.widget.ScrollView' and @index='0']//*[@text='房源消息']/parent::android.view.ViewGroup/*[@class='android.widget.TextView'])[last()]"
+客源消息标签: "xpath==//*[@class='android.widget.ScrollView' and @index='0']//*[@text='客源消息']/parent::android.view.ViewGroup"
+客源消息最新内容: "xpath==(//*[@class='android.widget.ScrollView' and @index='0']//*[@text='客源消息']/parent::android.view.ViewGroup/*[@class='android.widget.TextView'])[last()]"
+楼盘字典标签: "xpath==//*[@class='android.widget.ScrollView' and @index='0']//*[@text='楼盘字典']/parent::android.view.ViewGroup"
+楼盘字典最新内容: "xpath==(//*[@class='android.widget.ScrollView' and @index='0']//*[@text='楼盘字典']/parent::android.view.ViewGroup/*[@class='android.widget.TextView'])[last()]"
+签约消息标签: "xpath==//*[@class='android.widget.ScrollView' and @index='0']//*[@text='签约消息']/parent::android.view.ViewGroup"
+签约消息最新内容: "xpath==(//*[@class='android.widget.ScrollView' and @index='0']//*[@text='签约消息']/parent::android.view.ViewGroup/*[@class='android.widget.TextView'])[last()]"
+
+消息详情_标题标签: "xpath==//*[@class='android.view.ViewGroup' and @index='5']//*[@class='android.widget.TextView' and @index='4']"
+消息详情_类型标签: "xpath==//*[@class='android.view.ViewGroup' and @index='5']//*[@class='android.widget.TextView' and @index='5']"
+消息详情_时间标签: "xpath==//*[@class='android.view.ViewGroup' and @index='5']//*[@class='android.widget.TextView' and @index='6']"
+消息详情_内容标签: "xpath==//*[@class='android.view.ViewGroup' and @index='5']//*[@class='android.widget.TextView' and @index='7']"

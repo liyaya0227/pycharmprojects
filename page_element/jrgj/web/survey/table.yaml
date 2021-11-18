@@ -2,11 +2,18 @@
 VR实勘标签: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'surveyManagement') or contains(@class,'surveyAppointment')]//div[text()='VR实勘']"
 
 房源编号搜索框: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'surveyManagement')]//input[@id='houseCode']"
+实勘编号搜索框: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'surveyManagement')]//input[@id='surveyNo']"
 查询按钮: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'surveyManagement') or contains(@class,'surveyAppointment')]//span[text()='查 询']/parent::button"
 重置按钮: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'surveyManagement') or contains(@class,'surveyAppointment')]//span[text()='重 置']/parent::button"
 
 退单弹窗_退单原因选择框: "xpath==//div[@class='ant-modal-root']//input[@id='giveUpType']"
 退单弹窗_退单按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//span[text()='退 单']/parent::button[@type='button']"
 
+修改时间弹窗_今天日期单选: "xpath==//div[@class='ant-modal-root']//div[@id='timeSlot']//input[@value='1']"
+修改时间弹窗_明天日期单选: "xpath==//div[@class='ant-modal-root']//div[@id='timeSlot']//input[@value='2']"
+修改时间弹窗_时间选择框: "xpath==//div[@class='ant-modal-root']//input[@id='time']"
+
 下拉框: "xpath==//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'ant-select-dropdown-hidden'))]//div[@class='rc-virtual-list']//div[contains(@class,'ant-select-item ant-select-item-option')]"
 弹窗_取消按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//span[text()='取 消']/parent::button[@type='button']"
+弹窗_确定按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//span[text()='确 定']/parent::button[@type='button']"
+弹窗_知道了按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//span[text()='知道了']/parent::button[@type='button']"

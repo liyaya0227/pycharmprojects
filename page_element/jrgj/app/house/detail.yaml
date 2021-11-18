@@ -1,0 +1,3 @@
+更多按钮: "xpath==//*[@class='android.widget.TextView' and @text='更多']/parent::android.view.ViewGroup"
+
+预约实勘按钮: "xpath==//*[@class='android.widget.ImageView' and @index='10']"

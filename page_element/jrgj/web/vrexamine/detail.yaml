@@ -1,0 +1,10 @@
+审核驳回按钮: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'vr-audit-detail')]//span[text()='审核驳回']/parent::button"
+审核通过按钮: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'vr-audit-detail')]//span[text()='审核通过']/parent::button"
+
+审核驳回弹窗_原因输入框: "xpath==//div[@class='ant-modal-root']//input[@id='rejectReason']"
+
+弹窗_取消按钮: "xpath==//div[@class='ant-modal-root']//span[text()='取 消']/parent::button"
+弹窗_确定按钮: "xpath==//div[@class='ant-modal-root']//span[text()='确 定']/parent::button"
+
+户型图1_勾选框: "xpath==(//div[@style='' or not(@style)]/div[contains(@class,'vr-audit-detail')]//h3[text()='户型图']/parent::div//input)[1]"
+实勘图1_标题图勾选框: "xpath==(//div[@style='' or not(@style)]/div[contains(@class,'vr-audit-detail')]//span[text()='设为标题图']/parent::label//input)[1]"

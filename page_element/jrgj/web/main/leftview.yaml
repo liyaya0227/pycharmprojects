@@ -23,6 +23,7 @@
 全部房源标签: "xpath==//li[@title='全部房源']"
 实勘管理标签: "xpath==//li[@title='实勘管理']"
 资料盘标签: "xpath==//li[@title='资料盘']"
+VR审核标签: "xpath==//li[@title='VR审核']"
 
 客源管理菜单: "xpath==//span[text()='客源管理']/parent::div[@class='ant-menu-submenu-title']"
 我的客户标签: "xpath==//li[@title='我的客户']"

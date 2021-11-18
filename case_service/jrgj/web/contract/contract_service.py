@@ -47,7 +47,7 @@ class ContractService(object):
         self.contract_create_order.input_customer_code(customer_code)
         self.contract_create_order.click_get_customer_info_button()
         self.contract_create_order.click_next_step_button()
-        if ini.environment == 'sz':
+        if env in ['sz', 'ks', 'zjg']:
             self.contract_create_order.choose_district_contract(env)
             self.contract_create_order.click_confirm_button_in_dialog()
         if flag == '买卖':

@@ -6,29 +6,23 @@
 @file: conftest.py
 @time: 2021/06/22
 """
-
-import os
-import base64
 import pytest
-import allure
-from py.xml import html
 from config.conf import cm
+from utils.logger import logger
+from common.readconfig import ini
 from selenium import webdriver
 from appium import webdriver as androiddriver
-from common.readconfig import ini
+from common_enum.role_type import RoleTypeEnum
 from page_object.common.web.login.loginpage import LoginPage
-from utils.logger import logger
-from utils.timeutil import dt_strftime
 from page_object.jrgj.web.main.leftviewpage import MainLeftViewPage
 from page_object.jrgj.web.main.topviewpage import MainTopViewPage
-
-wdriver = None
-adriver = None
+from case_service.jrgj.app.login.login_service import LoginService as AppLoginService
+from page_object.jrgj.app.main.mainpage import AppMainPage
+from page_object.jrgj.app.mine.minepage import AppMinePage
 
 
 @pytest.fixture(scope='session', autouse=False)
 def web_driver():
-    global wdriver
     chrome_options = webdriver.ChromeOptions()
     prefs = {
         "download.default_directory": cm.tmp_dir,
@@ -50,82 +44,108 @@ def web_driver():
     wdriver.maximize_window()
     wdriver.get(ini.url)
     logger.info("初始化driver")
+    login_page = LoginPage(wdriver)
+    login_page.log_in(ini.user_account, ini.user_password)
+    main_topview = MainTopViewPage(wdriver)
+    main_topview.wait_page_loading_complete()
+    main_topview.click_close_button()
     yield wdriver
+    main_leftview = MainLeftViewPage(wdriver)
+    main_leftview.log_out()
     wdriver.quit()
 
 
-@pytest.fixture(scope='class', autouse=False)
-def android_driver():
-    global adriver
+@pytest.fixture(scope='session', autouse=False)
+def mumu_android_driver():
     desired_caps = {
         'automationName': 'appium',  # 自动化引擎，默认appium
         'platformName': 'Android',  # 操作系统
         'platformVersion': '6.0.1',  # 操作系统版本
         'deviceName': '127.0.0.1:7555',  # MUMU
-        # 'platformVersion': '5.1.1',  # 操作系统版本
+        # 'platformVersion': '7.1.2',  # 操作系统版本
         # 'deviceName': '127.0.0.1:62001',  # 夜神
+        # 'platformVersion': '11',  # 操作系统版本
+        # 'deviceName': '192.168.101.192',  # 设备名称。如果是真机，在'设置->关于手机->设备名称'里查看
+        'noReset': True,  # 应用状态是否需要重置，默认true
+        'fullReset': False,  # 执行完测试后是否卸载app，默认false
+        'appPackage': ini.app_package,  # 应用的包名
+        'appActivity': ini.app_package + '.MainActivity',  # 应用的第一个启动Activity
+        'newCommandTimeout': 60 * 60 * 60,  # 命令超时时间，单位：秒；超时自动结束会话
+        'unicodeKeyboard': True,  # 使用unicode编码方式发送字符串；输入中文需要
+        'resetKeyboard': True  # 将键盘隐藏起来，默认true；输入中文需要
+    }
+    adriver = androiddriver.Remote('http://127.0.0.1:4723/wd/hub', desired_caps)  # 连接Appium
+    login_service = AppLoginService(adriver)
+    login_service.back_login_page()
+    # login_service.login_app(ini.user_account, ini.user_password)
+    # app_main = AppMainPage(adriver)
+    # app_mine = AppMinePage(adriver)
+    # app_main.click_mine_button()
+    # if RoleTypeEnum.PrimaryAgent.value not in app_mine.get_user_role():
+    #     app_mine.click_change_role_button()
+    #     app_mine.change_role_choose_role(RoleTypeEnum.PrimaryAgent.value)
+    #     app_mine.change_role_click_confirm_button()
+    #     app_main.close_top_view()
+    yield adriver
+    adriver.quit()
+
+
+@pytest.fixture(scope='session', autouse=False)
+def nox_android_driver():
+    desired_caps = {
+        'automationName': 'appium',  # 自动化引擎，默认appium
+        'platformName': 'Android',  # 操作系统
+        # 'platformVersion': '6.0.1',  # 操作系统版本
+        # 'deviceName': '127.0.0.1:7555',  # MUMU
+        'platformVersion': '7.1.2',  # 操作系统版本
+        'deviceName': '127.0.0.1:62001',  # 夜神
         # 'platformVersion': '7.1.2',  # 操作系统版本
         # 'deviceName': '721QEDRE2H7DT',  # 设备名称。如果是真机，在'设置->关于手机->设备名称'里查看
         'noReset': True,  # 应用状态是否需要重置，默认true
         'fullReset': False,  # 执行完测试后是否卸载app，默认false
         'appPackage': ini.app_package,  # 应用的包名
         'appActivity': ini.app_package + '.MainActivity',  # 应用的第一个启动Activity
-        'newCommandTimeout': 60 * 60,  # 命令超时时间，单位：秒；超时自动结束会话
+        'newCommandTimeout': 60 * 60 * 60,  # 命令超时时间，单位：秒；超时自动结束会话
+        'unicodeKeyboard': True,  # 使用unicode编码方式发送字符串；输入中文需要
+        'resetKeyboard': True  # 将键盘隐藏起来，默认true；输入中文需要
+    }
+    second_adriver = androiddriver.Remote('http://127.0.0.1:4723/wd/hub', desired_caps)  # 连接Appium
+    login_service = AppLoginService(second_adriver)
+    login_service.back_login_page()
+    yield second_adriver
+    second_adriver.quit()
+
+
+@pytest.fixture(scope='session', autouse=False)
+def oppo_android_driver():
+    desired_caps = {
+        'automationName': 'appium',  # 自动化引擎，默认appium
+        'platformName': 'Android',  # 操作系统
+        # 'platformVersion': '6.0.1',  # 操作系统版本
+        # 'deviceName': '127.0.0.1:7555',  # MUMU
+        # 'platformVersion': '5.1.1',  # 操作系统版本
+        # 'deviceName': '127.0.0.1:62001',  # 夜神
+        'platformVersion': '11',  # 操作系统版本
+        'deviceName': '192.168.101.192',  # 设备名称。如果是真机，在'设置->关于手机->设备名称'里查看
+        'noReset': True,  # 应用状态是否需要重置，默认true
+        'fullReset': False,  # 执行完测试后是否卸载app，默认false
+        'appPackage': ini.app_package,  # 应用的包名
+        'appActivity': ini.app_package + '.MainActivity',  # 应用的第一个启动Activity
+        'newCommandTimeout': 60 * 60 * 60,  # 命令超时时间，单位：秒；超时自动结束会话
         'unicodeKeyboard': True,  # 使用unicode编码方式发送字符串；输入中文需要
         'resetKeyboard': True  # 将键盘隐藏起来，默认true；输入中文需要
     }
     adriver = androiddriver.Remote('http://127.0.0.1:4723/wd/hub', desired_caps)  # 连接Appium
-    # login_page = AppLoginPage(adriver)
-    # login_page.input_account(ini.user_account)
-    # login_page.input_password(ini.user_password)
-    # login_page.choose_read()
-    # login_page.click_login_button()
+    login_service = AppLoginService(adriver)
+    login_service.back_login_page()
+    # login_service.login_app(ini.user_account, ini.user_password)
+    # app_main = AppMainPage(adriver)
+    # app_mine = AppMinePage(adriver)
+    # app_main.click_mine_button()
+    # if RoleTypeEnum.PrimaryAgent.value not in app_mine.get_user_role():
+    #     app_mine.click_change_role_button()
+    #     app_mine.change_role_choose_role(RoleTypeEnum.PrimaryAgent.value)
+    #     app_mine.change_role_click_confirm_button()
+    #     app_main.close_top_view()
     yield adriver
     adriver.quit()
-
-
-@pytest.fixture(scope='session', autouse=True)
-def setup_and_teardown(web_driver):
-    login_page = LoginPage(web_driver)
-    login_page.log_in(ini.user_account, ini.user_password)
-    main_topview = MainTopViewPage(web_driver)
-    main_topview.wait_page_loading_complete()
-    main_topview.click_close_button()
-    yield
-    main_leftview = MainLeftViewPage(web_driver)
-    main_leftview.log_out()
-#
-#
-# @pytest.hookimpl(hookwrapper=True)
-# def pytest_runtest_makereport(item):
-#     """
-#     获取每个用例状态的钩子函数
-#     :param item:
-#     :return:
-#     """
-#     outcome = yield
-#     report = outcome.get_result()
-#     report.description = str(item.function.__doc__)
-#     extra = getattr(report, 'extra', [])
-#     if report.when == 'call' or report.when == "setup":
-#         xfail = hasattr(report, 'wasxfail')
-#         if (report.skipped and xfail) or (report.failed and not xfail):
-#             screen_img = _capture_screenshot()
-#             if screen_img:
-#                 report_html = '<div><img src="data:image/png;base64,%s" alt="screenshot" ' \
-#                               'style="width:1024px;height:768px;" onclick="window.open(this.src)" ' \
-#                               'align="right"/></div>' % screen_img
-#         report.extra = extra
-#
-#
-# def _capture_screenshot():
-#     """截图保存为base64"""
-#     file_name = dt_strftime("%Y%m%d%H%M%S") + ".png"
-#     path = cm.tmp_dir + "\\screen_capture\\" + file_name
-#     if not os.path.exists(cm.tmp_dir + "\\screen_capture"):
-#         os.makedirs(cm.tmp_dir + "\\screen_capture")
-#     wdriver.get_screenshot_as_file(path)
-#     allure.attach.file(path, "失败截图", allure.attachment_type.PNG)
-#     with open(path, 'rb') as f:
-#         imagebase64 = base64.b64encode(f.read())
-#     return imagebase64.decode()

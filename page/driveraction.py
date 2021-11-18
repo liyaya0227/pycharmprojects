@@ -71,6 +71,17 @@ class DriverAction(object):
         except TimeoutException:
             return []
 
+    def check_element_is_exist(self, locator, timeout=2):
+        """
+        判断元素存不存在
+        """
+        try:
+            self.element_locator(lambda *args: WebDriverWait(self.driver, timeout, 0.5)
+                                 .until(EC.presence_of_element_located(args)), locator)
+            return True
+        except TimeoutException:
+            return False
+
     def click_element(self, locator):
         """
         点击元素

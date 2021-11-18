@@ -89,7 +89,7 @@
 四_2_2_输入框: "xpath==//div[@style='']//div[@id='C1']//input[@id='C4_2_2']"
 四_2_4_选择框: "xpath==//div[@style='']//div[@id='C1']//input[@id='AC_C4_2_4']"
 #四_2_7_输入框: "xpath==//div[@style='']//div[@id='C1']//input[@id='C4_2_7']"
-四_2_8_选择框: "xpath==//div[@style='']//div[@id='C1']//input[@id='c4_2_8']"
+四_2_8_选择框: "xpath==//div[@style='']//div[@id='C1']//input[@id='c4_2_8']/ancestor::div[@class='ant-select-selector']"
 
 五_1_1_输入框: "xpath==//div[@style='']//div[@id='C1']//input[@id='C5_1_1']"
 五_1_2_输入框: "xpath==//div[@style='']//div[@id='C1']//input[@id='C5_1_2']"

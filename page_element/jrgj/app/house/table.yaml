@@ -1,0 +1,8 @@
+二手标签: "xpath==//*[@class='android.view.ViewGroup' and @index='1']//*[@text='二手']"
+租赁标签: "xpath==//*[@class='android.view.ViewGroup' and @index='1']//*[@text='租赁']"
+新房标签: "xpath==//*[@class='android.view.ViewGroup' and @index='1']//*[@text='新房']"
+搜索按钮: "xpath==//*[@class='android.view.ViewGroup' and @index='1']//*[@class='android.view.ViewGroup' and @index='3']/*[@class='android.widget.ImageView']"
+
+搜索输入框: "xpath==//*[@class='android.widget.EditText']"
+
+房源总数标签: "xpath==//*[@class='android.view.ViewGroup' and @index='1']/*[@class='android.view.ViewGroup' and @index='2']/*[@class='android.widget.TextView']"

@@ -137,6 +137,13 @@ class ContractTablePage(WebPage):
                   str(row) + "]/td[" + str(self.__get_column_by_title('审核状态') + 1) + "]//span[text()='通过']"
         self.click_element(locator, sleep_time=1)
 
+    def reject_examine_by_row(self, row=1, reason=''):  # 根据行数，点击审核驳回
+        locator = 'xpath', "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + \
+                  str(row) + "]/td[" + str(self.__get_column_by_title('审核状态') + 1) + "]//span[text()='驳回']"
+        self.click_element(locator, sleep_time=1)
+        self.input_text_into_element(table['审核驳回弹窗_原因输入框'], reason)
+        self.dialog_click_confirm_button()
+
     def legal_examine_by_row(self, row=1):  # 根据行数，点击审核按钮（法务）
         locator = 'xpath', "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + \
                   str(row) + "]/td[" + str(self.__get_column_by_title('审核状态') + 1) + "]//a[text()='审核']"
@@ -237,7 +244,7 @@ class ContractTablePage(WebPage):
         sql = "update contract_order set is_all_pay='1' where contract_no='" + contract_code + "'"
         update_sql(sql)
 
-    def __get_column_by_title(self, title):  # 根据标签获取列数
+    def __get_column_by_title(self, title):  # 根据标题获取列数
         locator = 'xpath', \
                   "//div[not(contains(@style,'display'))]/div[@class='sign-less']//table/thead//th"
         title_list = self.find_elements(locator)

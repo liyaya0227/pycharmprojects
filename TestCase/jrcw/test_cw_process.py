@@ -11,14 +11,12 @@ import string
 import pytest
 import allure
 from config.conf import cm
-from page_object.jrgj.web.shopsplitaccountreport.tablepage import ShopBrandDataReportTablePage
-from page_object.jrgj.web.surveysplitaccountreport.tablepage import SurveySplitAccountReportTablePage
 from utils.databaseutil import DataBaseUtil
 from utils.logger import logger
 from common.readconfig import ini
 from utils.jsonutil import get_data
 from common.globalvar import GlobalVar
-from common_enum.city_enum import CityEnum
+from common_enum.city_name import CityNameEnum
 from utils.timeutil import dt_strftime_with_delta, dt_strftime
 from page_object.common.web.login.loginpage import LoginPage
 from page_object.jrgj.web.main.upviewpage import MainUpViewPage
@@ -41,6 +39,8 @@ from page_object.jrcw.web.sale.tablepage import SaleTablePage as CwSaleTablePage
 from page_object.jrcw.web.receipt.tablepage import ReceiptTablePage as CwReceiptTablePage
 from page_object.jrcw.web.settlement.tablepage import SettlementTablePage as CwSettlementTablePage
 from page_object.jrcw.web.reconciliation.tablepage import ReconciliationTablePage as CwSReconciliationTablePage
+from page_object.jrgj.web.shopsplitaccountreport.tablepage import ShopBrandDataReportTablePage
+from page_object.jrgj.web.surveysplitaccountreport.tablepage import SurveySplitAccountReportTablePage
 from page_object.jrcw.web.pay.tablepage import PayTablePage as CwPayTablePage
 
 
@@ -220,7 +220,7 @@ class TestCWProcess(object):
         login.log_in(ini.cw_user_account, ini.cw_user_password, app='财务系统web端')
         cw_main.click_sale_label()
         cw_sale_table.input_order_code_search(self.contract_code)
-        cw_sale_table.choose_city_search(CityEnum[ini.environment].value)
+        cw_sale_table.choose_city_search(CityNameEnum[ini.environment].value)
         cw_sale_table.click_search_button()
         pytest.assume(cw_sale_table.get_table_total_count() != '0')
         cw_main.log_out()
@@ -292,7 +292,7 @@ class TestCWProcess(object):
         login.log_in(ini.cw_user_account, ini.cw_user_password, app='财务系统web端')
         cw_main.click_receipt_label()
         cw_receipt_table.input_order_code_search(self.contract_code)
-        cw_receipt_table.choose_city_search(CityEnum[ini.environment].value)
+        cw_receipt_table.choose_city_search(CityNameEnum[ini.environment].value)
         cw_receipt_table.click_search_button()
         pytest.assume(cw_receipt_table.get_table_total_count() != '0')
         cw_main.log_out()
@@ -336,7 +336,7 @@ class TestCWProcess(object):
         login.log_in(ini.cw_user_account, ini.cw_user_password, app='财务系统web端')
         cw_main.click_settlement_label()
         cw_settlement_table.input_order_code_search(self.contract_code)
-        cw_settlement_table.choose_city_search(CityEnum[ini.environment].value)
+        cw_settlement_table.choose_city_search(CityNameEnum[ini.environment].value)
         cw_settlement_table.click_search_button()
         pytest.assume(cw_settlement_table.get_table_total_count() != '0')
         for settlement_code in cw_settlement_table.get_table_settlement_code():
@@ -351,7 +351,7 @@ class TestCWProcess(object):
 
         cw_main.click_reconciliation_label()
         cw_reconciliation_table.input_order_code_search(self.contract_code)
-        cw_reconciliation_table.choose_city_search(CityEnum[ini.environment].value)
+        cw_reconciliation_table.choose_city_search(CityNameEnum[ini.environment].value)
         cw_reconciliation_table.click_search_button()
         row_count = cw_reconciliation_table.get_table_total_count()
         pytest.assume(row_count != '0')
@@ -368,7 +368,7 @@ class TestCWProcess(object):
 
         cw_main.click_pay_label()
         cw_pay_table.input_order_code_search(self.contract_code)
-        cw_pay_table.choose_city_search(CityEnum[ini.environment].value)
+        cw_pay_table.choose_city_search(CityNameEnum[ini.environment].value)
         cw_pay_table.click_search_button()
         row_count = cw_pay_table.get_table_total_count()
         pytest.assume(row_count != '0')

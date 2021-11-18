@@ -31,6 +31,8 @@
 线下收款弹窗_银行回单_上传图片按钮: "xpath==//div[contains(@class,'payModal') and not(@style='display: none;')]//div[@class='ant-modal-body']//p[text()='上传图片']/ancestor::span[@role='button']/input"
 线下收款弹窗_收款说明: "xpath==//div[contains(@class,'payModal') and not(@style='display: none;')]//div[@class='ant-modal-body']//textarea[@id='msg']"
 
+审核驳回弹窗_原因输入框: "xpath==//div[not(@style='display: none;') and @role='dialog']//div[@class='ant-modal-content']//textarea"
+
 弹窗_取消按钮: "xpath==//div[not(@style='display: none;') and @role='dialog']//div[@class='ant-modal-footer']//span[text()='取 消']/parent::button"
 弹窗_确定按钮: "xpath==//div[not(@style='display: none;') and @role='dialog']//div[@class='ant-modal-footer']//span[text()='确 定']/parent::button"
 

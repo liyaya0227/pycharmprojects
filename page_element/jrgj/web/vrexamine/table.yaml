@@ -1,0 +1,2 @@
+实勘编号搜索框: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'vr-audit-management')]//input[@id='surveyNo']"
+搜索按钮: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'vr-audit-management')]//span[text()='搜 索']/parent::button"

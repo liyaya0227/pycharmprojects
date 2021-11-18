@@ -14,7 +14,7 @@ from common.readconfig import ini
 from page_object.jrgj.web.main.leftviewpage import MainLeftViewPage
 from page_object.common.web.login.loginpage import LoginPage
 from page_object.jrgj.web.main.topviewpage import MainTopViewPage
-from utils.logger import log
+from utils.logger import logger
 
 
 @pytest.fixture(scope='session', autouse=False)
@@ -38,7 +38,7 @@ def web_driver():
     # wdriver = webdriver.Chrome(executable_path="D:/Program Files/Python/chromedriver", options=chrome_options)
     # web_driver = webdriver.Firefox(firefox_binary='C:/Program Files/Mozilla Firefox/firefox.exe')
     wdriver.maximize_window()
-    log.info('初始化driver')
+    logger.info('初始化driver')
     wdriver.get(ini.url)
     yield wdriver
     wdriver.quit()
