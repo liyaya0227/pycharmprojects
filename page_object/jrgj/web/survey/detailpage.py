@@ -28,7 +28,7 @@ class SurveyDetailPage(WebPage):
         locator = 'xpath', \
                   "(//div[@style='' or not(@style)]/div[contains(@class,'bulkUpload')]//span[text()='设为标题图']" \
                   "/parent::label//input[@type='checkbox'])[" + str(index) + "]"
-        self.click_element(locator)
+        self.click_element(locator, 2)
 
     def input_feedback(self, feedback):
         """填写反馈信息"""
@@ -38,7 +38,7 @@ class SurveyDetailPage(WebPage):
         self.click_element(survey_detail['关闭按钮'])
 
     def click_save_button(self):  # 点击保存按钮
-        self.click_element(survey_detail['保存按钮'], sleep_time=1)
+        self.click_element(survey_detail['保存按钮'], sleep_time=2)
 
     def click_submit_button(self):  # 点击提交按钮
         self.click_element(survey_detail['提交按钮'])

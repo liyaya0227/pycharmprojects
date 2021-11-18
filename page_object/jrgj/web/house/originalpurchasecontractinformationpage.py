@@ -46,4 +46,4 @@ class OriginalPurchaseContractInformationPage(WebPage):
         self.click_element(original_purchase_contract_information['关闭按钮'])
 
     def click_submit_button(self):
-        self.click_element(original_purchase_contract_information['提交按钮'], sleep_time=1)
+        self.click_element(original_purchase_contract_information['提交按钮'], sleep_time=5)

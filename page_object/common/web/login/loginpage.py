@@ -106,7 +106,7 @@ class LoginPage(WebPage):
             self.slide_verification(count)
 
     def click_login_button(self):
-        self.click_element(login['立即登录按钮'], sleep_time=6)
+        self.click_element(login['立即登录按钮'], sleep_time=3)
 
     def check_choose_app_dialog_exist(self):
         return self.element_is_exist(login['立即登录按钮'], timeout=4)

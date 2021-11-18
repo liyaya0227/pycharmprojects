@@ -66,4 +66,4 @@ class VipServiceEntrustmentAgreementPage(WebPage):
         self.click_element(vip_service_entrustment_agreement['关闭按钮'])
 
     def click_submit_button(self):
-        self.click_element(vip_service_entrustment_agreement['提交按钮'], sleep_time=1)
+        self.click_element(vip_service_entrustment_agreement['提交按钮'], sleep_time=5)

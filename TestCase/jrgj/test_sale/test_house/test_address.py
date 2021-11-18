@@ -14,29 +14,32 @@ from config.conf import cm
 from common.readconfig import ini
 from page_object.jrgj.web.main.rightviewpage import MainRightViewPage
 from utils.databaseutil import DataBaseUtil
-from utils.jsonutil import get_value
+from utils.jsonutil import get_value, get_data
 from page_object.jrgj.web.main.upviewpage import MainUpViewPage
 from page_object.jrgj.web.main.topviewpage import MainTopViewPage
 from page_object.jrgj.web.main.leftviewpage import MainLeftViewPage
 from page_object.jrgj.web.house.tablepage import HouseTablePage
 from page_object.jrgj.web.house.detailpage import HouseDetailPage
 
-house_code = ''
+HOUSE_TYPE = 'sale'
 gl_driver = None
-house_service = HouseService()
+house_info = ''
 house_sql = ReadXml("jrgj/house_sql")
 
 
-@allure.feature("测试房源模块")
+@allure.feature("买卖房源详情模块-查看地址")
 class TestAddress(object):
+    add_house_json_file_path = cm.test_data_dir + "/jrgj/test_rent/test_house/test_add.json"
     json_file_path = cm.test_data_dir + "/jrgj/test_sale/test_house/test_address.json"
     account = get_value(json_file_path, ini.environment)
-    main_up_view = None
-    main_left_view = None
-    main_top_view = None
-    main_right_view = None
-    house_table_page = None
-    house_detail_page = None
+    test_data = get_data(add_house_json_file_path)
+
+    @pytest.fixture(scope="class", autouse=True)
+    def prepare_house(self, web_driver):
+        global gl_driver, house_info
+        gl_driver = web_driver
+        house_service = HouseService(gl_driver)
+        house_info = house_service.prepare_house(self.test_data, HOUSE_TYPE)
 
     @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, web_driver):
@@ -51,15 +54,6 @@ class TestAddress(object):
         yield
         self.main_up_view.clear_all_title()
 
-    @allure.step("验证房源状态")
-    def check_house_state(self):
-        global house_code
-        # if self.house_table_page.get_house_code_by_db(flag='买卖') == '':  # 判断房源是否存在，不存在则新增
-        if self.house_table_page.get_house_code_by_db(flag='买卖') == '':  # 判断房源是否存在，不存在则新增
-            house_service.add_house(gl_driver, 'sale')
-            self.main_up_view.clear_all_title()
-        house_code = self.house_table_page.get_house_code_by_db(flag='买卖')
-
     @allure.step("进入房源详情")
     def enter_house_detail(self):
         login_person_name = self.main_right_view.get_login_person_name()
@@ -68,8 +62,8 @@ class TestAddress(object):
         house_info_list = database_util.select_sql(get_house_info)
         self.main_left_view.click_all_house_label()
         self.house_table_page.clear_filter(flag='买卖')
-        for house_info in house_info_list:
-            self.house_table_page.input_house_code_search(house_info[1])
+        for house in house_info_list:
+            self.house_table_page.input_house_code_search(house[1])
             self.house_table_page.click_search_button()
             number = self.house_table_page.get_house_number()
             if int(number) > 0:
@@ -81,7 +75,6 @@ class TestAddress(object):
     @pytest.mark.house
     @pytest.mark.run(order=2)
     def test_view_address_maximum(self):
-        self.check_house_state()
         self.enter_house_detail()  # 进入房源详情
         self.house_detail_page.click_address_button()  # 查看地址
         dialog_content = self.main_top_view.find_notification_content()

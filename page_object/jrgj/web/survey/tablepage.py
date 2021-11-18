@@ -3,12 +3,13 @@
 """
 @author: jutao
 @version: V1.0
-@file: tablepage.py
+@file: table_page.py
 @date: 2021/8/11 0011
 """
 import re
 from page.webpage import WebPage
 from common.readelement import Element
+from utils.timeutil import sleep
 
 survey_table = Element('jrgj/web/survey/table')
 
@@ -22,13 +23,15 @@ class SurveyTablePage(WebPage):
         self.click_element(survey_table['VR实勘标签'])
 
     def input_house_code_search(self, house_code):
+        sleep(2)
         self.input_text(survey_table['房源编号搜索框'], house_code)
+        sleep(2)
 
     def input_survey_code_search(self, survey_code):
         self.input_text(survey_table['实勘编号搜索框'], survey_code)
 
     def click_search_button(self):  # 点击查询按钮
-        self.click_element(survey_table['查询按钮'])
+        self.click_element(survey_table['查询按钮'], 3)
 
     def click_reset_button(self):  # 点击重置按钮
         self.click_element(survey_table['重置按钮'])
@@ -53,6 +56,15 @@ class SurveyTablePage(WebPage):
         locator = 'xpath', "//div[@style='' or not(@style)]/div[contains(@class,'surveyManagement')]//tbody" \
                            "/tr[" + str(row) + "]/td[" + str(column + 1) + "]//li[1]"
         return re.search(r"：(\w+)/", self.get_element_text(locator)).group(1)
+
+    def click_cancel_the_order(self):  # 取消订单
+        ele_list = self.find_elements(survey_table['取消订单按钮'])
+        for ele in ele_list:
+            ele.click()
+            sleep(1.5)
+
+    def dialog_click_confirm_button(self):  # 弹窗确定按钮
+        self.click_element(survey_table['弹窗_确定按钮'], sleep_time=3)
 
     def click_upload_survey_button_by_row(self, row=1):  # 根据行，点击上传实勘
         column = self.__get_column_by_title('操作')

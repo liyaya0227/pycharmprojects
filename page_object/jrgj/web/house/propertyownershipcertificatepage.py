@@ -46,4 +46,4 @@ class PropertyOwnershipCertificatePage(WebPage):
         self.click_element(property_ownership_certificate['关闭按钮'])
 
     def click_submit_button(self):
-        self.click_element(property_ownership_certificate['提交按钮'], sleep_time=1)
+        self.click_element(property_ownership_certificate['提交按钮'], sleep_time=5)

@@ -34,10 +34,10 @@ class HouseTablePage(WebPage):
         self.click_element(house_table['资料盘租赁标签'])
 
     def click_new_tab(self):
-        self.click_element(house_table['新房标签'])
+        self.click_element(house_table['新房标签'], 2)
 
     def click_all_house_tab(self):
-        self.click_element(house_table['全部房源标签'])
+        self.click_element(house_table['全部房源标签'], 2)
 
     def click_deal_house_tab(self):
         self.click_element(house_table['成交房源标签'])
@@ -49,7 +49,7 @@ class HouseTablePage(WebPage):
         self.click_element(house_table['新增楼盘按钮'])
 
     def click_off_shelf_house_tab(self):
-        self.click_element(house_table['下架房源标签'])
+        self.click_element(house_table['下架房源标签'], 2)
 
     def choose_estate_name_search(self, community_name):
         self.input_text(house_table['楼盘输入框'], community_name)
@@ -62,8 +62,7 @@ class HouseTablePage(WebPage):
                 break
 
     def choose_building_name_search(self, building_name):
-        self.click_element(house_table['楼栋选择框'])
-        sleep()
+        self.click_element(house_table['楼栋选择框'], 1)
         building_name_list = self.find_elements(house_table['楼栋下拉框'])
         for building_name_ele in building_name_list:
             if building_name_ele.text == building_name:
@@ -84,19 +83,22 @@ class HouseTablePage(WebPage):
                        "div[contains(@class ,'ant-row ant-form-item')]//span[text()=\'{option}\']/parent::label". \
             format(item_name=item_name, option=option)
         locator = ('xpath', option_xpath)
-        self.click_element(locator)
+        sleep(2)
+        self.click_element(locator, 1)
 
     def input_house_code_search(self, house_code):
-        self.input_text(house_table['房源编号搜索项'], house_code)
+        sleep(5)
+        self.input_text(house_table['房源编号搜索项'], house_code, clear=True)
         sleep(4)
 
     def input_building_name_search(self, building_name):
         self.input_text(house_table['楼盘名称搜索项'], building_name)
-        sleep()
+        sleep(5)
 
     def click_search_button(self):
-        sleep()
-        self.click_element(house_table['搜索按钮'], sleep_time=4)
+        sleep(2)
+        self.click_element(house_table['搜索按钮'], sleep_time=8)
+        self.wait_page_loading_complete()
 
     def click_reset_button(self):
         self.click_element(house_table['重置按钮'])
@@ -142,9 +144,11 @@ class HouseTablePage(WebPage):
         locator = 'xpath', "//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table/tbody" \
                            "/tr[" + str(row) + "]/td[" + str(self.__get_column_by_title('楼盘名称') + 1) + "]"
         self.click_element(locator)
-        sleep(4)
+        self.wait_page_loading_complete()
+        sleep(5)
 
     def verify_house_exist(self, building_name):  # 验证列表中是否存在当前房源
+        sleep(2)
         locator = 'xpath', "//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table/tbody/" \
                            "tr/td[" + str(self.__get_column_by_title('楼盘名称') + 1) + "]/a/span"
         ele_list = self.find_elements(locator)
@@ -156,7 +160,7 @@ class HouseTablePage(WebPage):
     def go_new_house_detail_by_row(self, row=1):  # 从新房列表进入详情
         locator = 'xpath', "//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table/tbody" \
                            "/tr[" + str(row) + "]/td[" + str(self.__get_column_by_title('楼盘名称') + 1) + "]/a/span"
-        self.click_element(locator)
+        self.click_element(locator, 2)
 
     def get_house_table_count(self):
         locator = 'xpath', \
@@ -183,6 +187,10 @@ class HouseTablePage(WebPage):
 
     def dialog_click_confirm_button(self):
         self.click_element(house_table['弹窗_删除按钮'])
+
+    def get_house_number(self):
+        number = self.get_element_text(house_table['房源列表总数'])
+        return number
 
     # 资料盘
     def switch_house_type_tab(self, tab_name):  # 资料盘页面切换status_tab
@@ -273,30 +281,34 @@ class HouseTablePage(WebPage):
             return ''
 
     @staticmethod
-    def get_house_status_by_db(flag='买卖'):
+    def get_house_status_by_db(flag='sale'):
         estate_sql = "select id from estate_new_base_info where [name]='" + ini.house_community_name + "'"
         estate_id = select_sql(estate_sql)[0][0]
-        if flag == '买卖':
+        if flag == 'sale':
             table_name = 'trade_house'
-        else:
+        elif flag == 'rent':
             table_name = 'rent_house'
-        try:
-            site = {"table_name": table_name, "location_estate_id": estate_id,
-                    "location_building_number": ini.house_building_id,
-                    "location_building_cell": ini.house_building_cell, "location_floor": ini.house_floor,
-                    "location_doorplate": ini.house_doorplate}
-            get_house_status_sql = sql.get_sql('trade_house', 'get_trade_house_info').format(**site)
-            house_info = select_sql(get_house_status_sql)
+        else:
+            raise "传值错误"
+        site = {"table_name": table_name, "location_estate_id": estate_id,
+                "location_building_number": ini.house_building_id,
+                "location_building_cell": ini.house_building_cell, "location_floor": ini.house_floor,
+                "location_doorplate": ini.house_doorplate}
+        get_house_status_sql = sql.get_sql('trade_house', 'get_trade_house_info').format(**site)
+        house_info = select_sql(get_house_status_sql)
+        if len(house_info[0]) > 0:
             return house_info
-        except IndexError:
+        else:
             return ''
 
     @staticmethod
-    def get_house_type_in_pool(house_id, flag='买卖'):
-        if flag == '买卖':
+    def get_house_type_in_pool(house_id, flag='sale'):
+        if flag == 'sale':
             table_name = 'trade_house_pool'
-        else:
+        elif flag == 'rent':
             table_name = 'rent_house_pool'
+        else:
+            raise "传值错误"
         try:
             get_house_type_sql = sql.get_sql('trade_house_pool', 'get_house_type_in_pool').format(table_name=table_name,
                                                                                                   house_id=house_id)

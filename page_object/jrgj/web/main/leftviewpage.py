@@ -21,8 +21,9 @@ class MainLeftViewPage(WebPage):
         # label_name = self.element_text(left_view['角色标签'])
         # if role_name in label_name:
         #     return
+
         self.click_element(left_view['功能按钮'], sleep_time=0.5)
-        self.click_element(left_view['切换角色按钮'], sleep_time=0.5)
+        self.click_element(left_view['切换角色按钮'], sleep_time=1)
         role_list = self.find_elements(left_view['角色选项'])
         for role in role_list:
             if role_name in role.text:
@@ -31,7 +32,7 @@ class MainLeftViewPage(WebPage):
                 #     return
                 if not ('ant-radio-wrapper-checked' in role.get_attribute('class')):
                     role.click()
-                    sleep(0.5)
+                    sleep(2)
                 self.click_element(left_view['切换角色弹窗_确定按钮'], sleep_time=1)
                 break
         main_topview = MainTopViewPage(self.driver)

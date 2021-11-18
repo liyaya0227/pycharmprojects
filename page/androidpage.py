@@ -6,9 +6,12 @@
 @file: androidpage.py
 @date: 2021/09/29 0029
 """
+from selenium.common.exceptions import NoSuchElementException
+
 from utils.logger import logger
 from page.driveraction import DriverAction
 from appium.webdriver.common.touch_action import TouchAction
+from selenium.webdriver.support import expected_conditions as EC
 
 
 class AndroidPage(DriverAction):
@@ -111,6 +114,17 @@ class AndroidPage(DriverAction):
         logger.info("将元素移动过")
         element = self.find_element(locator)
         TouchAction(self.driver).press(element).move_to(x=x, y=y).release().perform()
+
+    def is_exists(self, locator):
+        """
+        元素是否存在(DOM)
+        如元素不存在直接返回false
+        """
+        try:
+            AndroidPage.element_locator(lambda *args: EC.presence_of_element_located(args)(self.driver), locator)
+            return True
+        except NoSuchElementException:
+            return False
 
     def open_notification(self):
         """打开手机通知栏"""

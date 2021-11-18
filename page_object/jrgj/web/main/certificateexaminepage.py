@@ -25,11 +25,11 @@ class CertificateExaminePage(WebPage):
                       + house_code + "']/ancestor::tr/td[6]//div[text()='" + certificate_name + \
                       "']/ancestor::tr/td[8]//a[text()='通过']"
             if self.element_is_exist(locator, timeout=5):
-                self.click_element(locator, sleep_time=1)
+                self.click_element(locator, sleep_time=1.5)
                 return True
             if 'ant-pagination-disabled' in self.get_element_attribute(certificate_examine['下一页标签'], 'class'):
                 break
-            self.click_element(certificate_examine['下一页标签'])
+            self.click_element(certificate_examine['下一页标签'], 1.5)
         return False
 
     def pass_written_entrustment_agreement_examine(self, house_code):

@@ -26,7 +26,6 @@ driver = None
 class TestAdd(object):
     json_file_path = cm.test_data_dir + "/jrgj/test_new/test_house/test_add.json"
     test_data = get_data(json_file_path)
-    main_left_view = None
 
     @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, web_driver):
@@ -113,7 +112,7 @@ class TestAdd(object):
         self.main_up_view.clear_all_title()
         self.main_left_view.click_all_house_label()
         self.house_table.click_new_tab()
-        self.house_table.click_all_house_tab()
+        self.house_table.click_off_shelf_house_tab()
         self.house_table.click_reset_button()
         self.house_table.clear_filter(flag='新房')
         self.house_table.input_building_name_search(self.test_data['楼盘名称'])

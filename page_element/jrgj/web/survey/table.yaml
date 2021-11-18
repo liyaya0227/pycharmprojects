@@ -15,5 +15,8 @@ VR实勘标签: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'sur
 
 下拉框: "xpath==//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'ant-select-dropdown-hidden'))]//div[@class='rc-virtual-list']//div[contains(@class,'ant-select-item ant-select-item-option')]"
 弹窗_取消按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//span[text()='取 消']/parent::button[@type='button']"
+
+取消订单按钮: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'surveyManagement')]//span[text()='取消订单']/parent::button"
+弹窗_确定按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//span[text()='确 定']/parent::button[@type='button']"
 弹窗_确定按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//span[text()='确 定']/parent::button[@type='button']"
 弹窗_知道了按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//span[text()='知道了']/parent::button[@type='button']"

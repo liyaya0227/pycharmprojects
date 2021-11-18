@@ -21,28 +21,26 @@ from page_object.jrgj.web.main.leftviewpage import MainLeftViewPage
 from page_object.jrgj.web.house.tablepage import HouseTablePage
 from page_object.jrgj.web.house.addpage import HouseAddPage
 
-driver = None
-house_service = HouseService()
+HOUSE_TYPE = 'rent'
+gl_web_driver = None
 
 
-@allure.feature("测试房源模块")
+@allure.feature("新增租赁房源模块")
 class TestAdd(object):
     json_file_path = cm.test_data_dir + "/jrgj/test_rent/test_house/test_add.json"
     test_data = get_data(json_file_path)
-    house_info = None
 
     @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, web_driver):
-        global driver
-        driver = web_driver
-        self.main_up_view = MainUpViewPage(web_driver)
-        self.house_add_page = HouseAddPage(web_driver)
-        self.house_detail_page = HouseDetailPage(web_driver)
-        self.main_top_view = MainTopViewPage(web_driver)
-        self.main_left_view = MainLeftViewPage(web_driver)
-        self.contract_table = ContractTablePage(web_driver)
-        self.house_table_page = HouseTablePage(web_driver)
-        self.house_info = house_service.check_house_state(driver, 'rent')
+        global gl_web_driver
+        gl_web_driver = web_driver
+        self.main_up_view = MainUpViewPage(gl_web_driver)
+        self.house_add_page = HouseAddPage(gl_web_driver)
+        # self.house_detail_page = HouseDetailPage(gl_web_driver)
+        self.main_top_view = MainTopViewPage(gl_web_driver)
+        self.main_left_view = MainLeftViewPage(gl_web_driver)
+        # self.contract_table = ContractTablePage(gl_web_driver)
+        self.house_table_page = HouseTablePage(gl_web_driver)
         yield
         self.main_up_view.clear_all_title()
         
@@ -50,15 +48,18 @@ class TestAdd(object):
     @pytest.mark.rent
     @pytest.mark.house
     @pytest.mark.run(order=1)
-    @pytest.mark.dependency()
-    # @pytest.mark.flaky(reruns=1, reruns_delay=2)
+    # @pytest.mark.dependency()
     def test_add(self):
-        self.main_left_view.change_role('经纪人')
-        self.main_left_view.click_all_house_label()
-        self.house_table_page.click_rent_tab()  # 点击租赁标签
-        if len(self.house_info) != 0:  # 如房源已存在，不执行新增房源的操作
+        house_service = HouseService(gl_web_driver)  # 获取房源信息
+        flag_dist = {'sale': "买卖", 'rent': "租赁"}
+        get_house_info_flg = flag_dist[HOUSE_TYPE]
+        house_info = house_service.get_house_info_by_db(get_house_info_flg)
+        if len(house_info) != 0:  # 如房源已存在，不执行新增房源的操作
+            house_service.check_house_state(house_info, HOUSE_TYPE)
             assert True
         else:
+            self.main_left_view.click_all_house_label()
+            self.house_table_page.click_rent_tab()  # 点击租赁标签
             self.house_table_page.click_add_house_button()  # 点击新增房源按钮
             assert self.house_add_page.check_rent_radio()  # 判断新增界面委托类型的默认勾选
             self.house_add_page.input_property_address('rent')  # 填写物业地址

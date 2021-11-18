@@ -39,4 +39,4 @@ class DeedTaxInvoiceInformationPage(WebPage):
         self.click_element(deed_tax_invoice_information['关闭按钮'])
 
     def click_submit_button(self):
-        self.click_element(deed_tax_invoice_information['提交按钮'], sleep_time=1)
+        self.click_element(deed_tax_invoice_information['提交按钮'], sleep_time=5)

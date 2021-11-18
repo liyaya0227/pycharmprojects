@@ -45,7 +45,7 @@ class DriverAction(object):
         """
         self.driver.implicitly_wait(second)
 
-    def find_element(self, locator, timeout=10, poll_frequency=0.5):
+    def find_element(self, locator, timeout=13, poll_frequency=0.5):
         """
         查找单个元素
         :param locator 元素定位
@@ -62,7 +62,7 @@ class DriverAction(object):
             allure.attach.file(screen_path, "失败截图", allure.attachment_type.PNG)
             raise TimeoutException("未找到元素({})".format(locator))
 
-    def find_elements(self, locator, timeout: int = 10, poll_frequency=0.5):
+    def find_elements(self, locator, timeout: int = 13, poll_frequency=0.5):
         """查找多个相同的元素"""
         try:
             return self.element_locator(lambda *args: WebDriverWait(self.driver, timeout=timeout,

@@ -130,7 +130,7 @@ VIP服务人_姓名标签: "xpath==//div[@style='' or not(@style)]/div[@class='h
 房源基础信息弹窗title: "xpath==//div[@style='' or not(@style)]//div[@role='dialog']//div[text()='房源基础信息']"
 基础信息弹窗确定按钮: "xpath==//div[contains(@class,'ant-modal-footer')]//button[contains(@class,'ant-btn ant-btn-primary')]"
 房源列表: "xpath==//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table"
-列表中的第一条房源: "xpath==//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table/tbody/tr[1]/td[2]"
+列表中的第一条房源: "xpath==//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table/tbody/tr[1]/td[2]/a"
 基础信息弹窗_取消按钮: "xpath==//div[@class='ant-modal-root']//span[text()='取 消']/parent::button"
 基础信息弹窗_关闭按钮: "xpath==//div[@style='' or not(@style)]//div[@class='ant-modal house-detail-base-info-modal']//span[@class='ant-modal-close-x']/parent::button"
 
@@ -172,8 +172,10 @@ VIP服务人_姓名标签: "xpath==//div[@style='' or not(@style)]/div[@class='h
 选择人员输入框: "id==userId"
 人员选项: "css==.ant-select-item-option-active > .ant-select-item-option-content"
 分配弹窗确定按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//span[text()='确 定']/parent::button[@type='button']"
-角色人名字: "xpath==//div[@class='ant-row roleInfo']/div[@class='ant-col ant-col-24 maintenanceInfo']/div/div[2]/div/div[2]/p[1]"
-角色人手机号: "xpath==//div[@class='ant-row roleInfo']/div[@class='ant-col ant-col-24 maintenanceInfo']/div/div[2]/div/div[2]/p[contains(.,'联系电话:')]"
+#角色人名字: "xpath==//div[@class='ant-row roleInfo']/div[@class='ant-col ant-col-24 maintenanceInfo']/div/div[2]/div/div[2]/p[1]"
+角色人名字: "xpath==//i[text()='维护人']/parent::div/descendant::p[1]"
+#角色人手机号: "xpath==//div[@class='ant-row roleInfo']/div[@class='ant-col ant-col-24 maintenanceInfo']/div/div[2]/div/div[2]/p[contains(.,'联系电话:')]"
+角色人手机号: "xpath==//i[text()='维护人']/parent::div/descendant::p[contains(text(),'联系电话:')]/span"
 初始维护人选项: "xpath==//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'ant-select-dropdown-hidden'))]//div[@class='rc-virtual-list']//div[contains(@class,'ant-select-item ant-select-item-option') and @title='自动化测试AAAASY']"
 
 

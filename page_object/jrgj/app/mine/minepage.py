@@ -9,6 +9,7 @@
 
 from page.androidpage import AndroidPage
 from common.readelement import Element
+from utils.timeutil import sleep
 
 mine = Element('jrgj/app/mine/mine')
 
@@ -27,12 +28,15 @@ class AppMinePage(AndroidPage):
 
     def click_setting_center_button(self):  # 点击设置中心按钮
         self.click_element(mine['设置中心按钮'])
+        sleep(1)
 
     def setting_center_click_log_out_button(self):  # 点击退出登录按钮
         self.click_element(mine['退出登录按钮'])
+        sleep(1)
 
     def setting_center_click_confirm_button(self):  # 点击退出登录确认按钮
         self.click_element(mine['退出登录_确认按钮'])
+        sleep(1)
 
     def log_out(self):  # 退出登录流程
         self.click_setting_center_button()

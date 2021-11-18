@@ -30,14 +30,6 @@ class TestProtectionPeriod(object):
     test_house_task_data = get_data(task_json_file_path)
     test_add_data = get_data(json_file_path)
     house_name = ''
-    main_up_view = None
-    main_left_view = None
-    add_house_page = None
-    house_table_page = None
-    audit_house_page = None
-    house_detail_page = None
-    add_house_task_page = None
-    house_task_table_page = None
 
     @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, xf_web_driver):

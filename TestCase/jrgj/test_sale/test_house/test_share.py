@@ -9,7 +9,9 @@
 
 import pytest
 import allure
-from utils.logger import logger
+from case_service.jrgj.web.house.house_service import HouseService
+from config.conf import cm
+from utils.jsonutil import get_data
 from common.readconfig import ini
 from page_object.jrgj.web.main.upviewpage import MainUpViewPage
 from page_object.jrgj.web.main.leftviewpage import MainLeftViewPage
@@ -17,49 +19,62 @@ from page_object.jrgj.web.main.rightviewpage import MainRightViewPage
 from page_object.jrgj.web.house.tablepage import HouseTablePage
 from page_object.jrgj.web.house.detailpage import HouseDetailPage
 
-house_code = ''
+HOUSE_TYPE = 'sale'
+gl_driver = None
+house_info = ''
 login_person_name = ''
 login_person_phone = ''
 
 
-@allure.feature("测试房源模块")
+@allure.feature("买卖房源详情模块-分享")
 class TestShare(object):
-    main_up_view = None
-    main_left_view = None
-    main_right_view = None
-    house_table_page = None
-    house_detail_page = None
+    json_file_path = cm.test_data_dir + "/jrgj/test_sale/test_house/test_add.json"
+    test_data = get_data(json_file_path)
+
+    @pytest.fixture(scope="class", autouse=True)
+    def prepare_house(self, web_driver):
+        global gl_driver, house_info
+        gl_driver = web_driver
+        house_service = HouseService(gl_driver)
+        house_info = house_service.prepare_house(self.test_data, HOUSE_TYPE)
 
     @pytest.fixture(scope="function", autouse=True)
-    def test_prepare(self, web_driver):
-        global house_code, login_person_name, login_person_phone
-        self.main_up_view = MainUpViewPage(web_driver)
-        self.main_left_view = MainLeftViewPage(web_driver)
-        self.main_right_view = MainRightViewPage(web_driver)
-        self.house_table_page = HouseTablePage(web_driver)
-        self.house_detail_page = HouseDetailPage(web_driver)
+    def test_prepare(self):
+        global login_person_name, login_person_phone
+        self.main_up_view = MainUpViewPage(gl_driver)
+        self.main_left_view = MainLeftViewPage(gl_driver)
+        self.main_right_view = MainRightViewPage(gl_driver)
+        self.house_table_page = HouseTablePage(gl_driver)
+        self.house_detail_page = HouseDetailPage(gl_driver)
         self.main_left_view.click_homepage_overview_label()
         login_person_name = self.main_right_view.get_login_person_name()
         login_person_phone = self.main_right_view.get_login_person_phone()
-        house_code = self.house_table_page.get_house_code_by_db(flag='买卖')
-        # assert house_code != ''
-        logger.info('房源编号为：' + house_code)
         yield
         self.main_up_view.clear_all_title()
+
+    # @allure.step("进入房源详情")
+    # def enter_house_detail(self, house_code):
+    #     self.main_left_view.click_all_house_label()
+    #     self.house_table_page.input_house_code_search(house_code)
+    #     self.house_detail_page.enter_house_detail()
+    @allure.step("进入房源详情")
+    def enter_house_detail(self, house_code):
+        self.main_left_view.click_all_house_label()
+        self.house_table_page.input_house_code_search(house_code)
+        for i in range(4):
+            number = self.house_table_page.get_house_number()
+            if int(number) > 0:
+                self.house_detail_page.enter_house_detail()
+                break
+            else:
+                self.house_table_page.click_search_button()
 
     @allure.story("测试房源详情右侧分享用例")
     @pytest.mark.sale
     @pytest.mark.house
     @pytest.mark.run(order=4)
-    def test_share(self, web_driver):
-        self.main_left_view.click_all_house_label()
-        self.house_table_page.click_sale_tab()
-        self.house_table_page.click_all_house_tab()
-        self.house_table_page.click_reset_button()
-        self.house_table_page.clear_filter(flag='买卖')
-        self.house_table_page.input_house_code_search(house_code)
-        self.house_table_page.click_search_button()
-        self.house_table_page.go_house_detail_by_row(1)
+    def test_share(self):
+        self.enter_house_detail(house_info[0])
         house_type = self.house_detail_page.get_house_type()
         size = self.house_detail_page.get_size()
         orientations = self.house_detail_page.get_orientations()

@@ -27,12 +27,6 @@ add_house_model_info = {}
 @allure.feature("房源分享功能")
 class TestShare(object):
     house_name = ''
-    main_up_view = None
-    main_left_view = None
-    add_house_page = None
-    house_table_page = None
-    audit_house_page = None
-    house_detail_page = None
 
     @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, xf_web_driver):

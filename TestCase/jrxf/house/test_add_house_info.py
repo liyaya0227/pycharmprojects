@@ -23,12 +23,6 @@ from utils.logger import logger
 @allure.feature("测试房源详情模块")
 class TestAdd(object):
     house_name = ''
-    main_up_view = None
-    main_left_view = None
-    add_house_page = None
-    house_table_page = None
-    audit_house_page = None
-    house_detail_page = None
 
     @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, xf_web_driver):

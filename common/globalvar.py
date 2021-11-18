@@ -22,3 +22,8 @@ class GlobalVar(object):
     customer_code = ''
     customer_name = ''
     house_info = {}
+    sale_house_id = ''  # 买卖房源id
+    sale_house_code = ''  # 买卖房源编号
+    rent_house_id = ''  # 租赁房源id
+    rent_house_code = ''  # 租赁房源编号
+    new_house_id = ''  # 新房id
