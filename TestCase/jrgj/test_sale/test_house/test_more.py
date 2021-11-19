@@ -133,6 +133,9 @@ class TestHouseDetail(object):
         initial_price, house_area = self.house_detail_page.get_house_info_in_detail_page(HOUSE_TYPE)
         initial_price_in_dialog = self.house_detail_page.get_initial_price_in_dialog()
         expect_final_price = self.house_detail_page.modify_house_price(initial_price)
+        if len(initial_price_in_dialog.split('.')) > 1:
+            if initial_price_in_dialog.split('.')[1] == '0':
+                initial_price_in_dialog = initial_price_in_dialog.split('.')[0]
         pytest.assume(initial_price == initial_price_in_dialog)  # 校验修改价格弹窗中的初始价格是否正确
         actual_price_in_detail_page, expect_final_unit_price, actual_unit_price_in_detail_page = \
             self.house_detail_page.get_modified_price_in_detail_page(HOUSE_TYPE, expect_final_price, house_area)

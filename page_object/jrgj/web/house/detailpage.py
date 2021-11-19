@@ -889,7 +889,8 @@ class HouseDetailPage(WebPage):
         self.move_mouse_to_element(house_detail['调整价格选项'])
         sleep(1)
         self.click_element(house_detail['调整价格选项'])
-        initial_price_in_dialog = self.get_element_text(house_detail['调价弹窗的房源价格']).split('.')[0]  # 调整弹窗中的房源初始价格
+        # initial_price_in_dialog = self.get_element_text(house_detail['调价弹窗的房源价格']).split('.')[0]  # 调整弹窗中的房源初始价格
+        initial_price_in_dialog = self.get_element_text(house_detail['调价弹窗的房源价格'])[0:-2]  # 调整弹窗中的房源初始价格
         return initial_price_in_dialog
 
     def modify_house_price(self, initial_price):
