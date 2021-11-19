@@ -37,12 +37,11 @@ class WrittenEntrustmentAgreementPage(WebPage):
     def input_remark(self, remark):
         self.input_text(written_entrustment_agreement['备注输入框'], remark)
 
-    def upload_picture(self, file_path):
-        self.input_text(written_entrustment_agreement['书面委托协议图片input'], file_path)
-        # for file in file_path:
-        #     self.is_click(written_entrustment_agreement['上传图片按钮'])
-        #     upload_file(file)
-        #     sleep(2)
+    def upload_picture(self, file_path_list):
+        # self.input_text(written_entrustment_agreement['书面委托协议图片input'], file_path)
+        for file_path in file_path_list:
+            self.input_text(written_entrustment_agreement['书面委托协议图片input'], file_path)
+            sleep(2)
 
     def click_close_button(self):
         self.click_element(written_entrustment_agreement['关闭按钮'])

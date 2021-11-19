@@ -23,7 +23,7 @@ class MainLeftViewPage(WebPage):
         #     return
 
         self.click_element(left_view['功能按钮'], sleep_time=0.5)
-        self.click_element(left_view['切换角色按钮'], sleep_time=1)
+        self.click_element(left_view['切换角色按钮'], sleep_time=2)
         role_list = self.find_elements(left_view['角色选项'])
         for role in role_list:
             if role_name in role.text:

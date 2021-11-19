@@ -33,7 +33,6 @@ class AppMainPage(AndroidPage):
 
     def close_top_view(self):
         if self.check_element_is_exist(main['经纪人荣誉殿堂_关闭按钮'], timeout=5):
-        if self.find_element(main['经纪人荣誉殿堂_关闭按钮'], timeout=5):
             self.click_element(main['经纪人荣誉殿堂_关闭按钮'])
 
     def close_view(self):

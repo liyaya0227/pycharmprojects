@@ -83,10 +83,11 @@ class TestOutShow(object):
     @allure.step("获取书面委托协议编号")
     def get_delegate_agreement_no(self):
         self.main_left_view.click_agreement_list_label()
-        if ini.environment == 'sz' or ini.environment == 'ks':
-            self.agreement_list_page.input_agreement_name_search('一般委托书')
-        if ini.environment == 'wx':
-            self.agreement_list_page.input_agreement_name_search('无锡【芫家】一般委托书【出租】【出售】')
+        # if ini.environment == 'sz' or ini.environment == 'hz':
+        #     self.agreement_list_page.input_agreement_name_search('一般委托书')
+        # if ini.environment == 'wx':
+        #     self.agreement_list_page.input_agreement_name_search('无锡【芫家】一般委托书【出租】【出售】')
+        self.agreement_list_page.input_agreement_name_search('一般委托书')
         self.agreement_list_page.click_query_button()
         self.agreement_list_page.click_download_button_by_row(1)
         delegate_agreement_no = self.agreement_list_page.get_written_entrustment_agreement_number()

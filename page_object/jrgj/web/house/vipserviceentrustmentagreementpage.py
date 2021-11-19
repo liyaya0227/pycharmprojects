@@ -17,12 +17,11 @@ vip_service_entrustment_agreement = Element('jrgj/web/house/vipserviceentrustmen
 
 class VipServiceEntrustmentAgreementPage(WebPage):
 
-    def upload_picture(self, file_path):
-        self.input_text(vip_service_entrustment_agreement['vip委托协议图片input'], file_path)
-        # for file in file_path:
-        #     self.click_element(vip_service_entrustment_agreement['上传图片按钮'])
-        #     upload_file(file)
-        #     sleep(2)
+    def upload_picture(self, file_path_list):
+        # self.input_text(vip_service_entrustment_agreement['vip委托协议图片input'], file_path)
+        for file_path in file_path_list:
+            self.input_text(vip_service_entrustment_agreement['vip委托协议图片input'], file_path)
+            sleep(2)
 
     def input_entrustment_agreement_number(self, entrustment_agreement_number):
         self.input_text(vip_service_entrustment_agreement['委托协议编号输入框'], entrustment_agreement_number)

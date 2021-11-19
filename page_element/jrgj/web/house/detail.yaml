@@ -51,6 +51,9 @@
 删除证件_确定按钮: "xpath==//div[contains(@class,'ant-popover ant-popconfirm')]//span[text()='确 定']/parent::button[@type='button']"
 删除证件_取消按钮: "xpath==//div[contains(@class,'ant-popover ant-popconfirm')]//span[text()='取 消']/parent::button[@type='button']"
 证件_上传图片按钮: "xpath==//input[@id='nest-messages_UploadImageIds']"
+删除证件: "xpath==//div[@class='houseDetail']//span[contains(text(), '删除')]"
+证件信息: "xpath==//div[@class='houseDetail']//div[@class='title' and contains(text(), '证件信息')]"
+右上角弹窗_关闭按钮: "xpath==//div[@class='ant-notification ant-notification-topRight']//span[@class='ant-notification-close-x']"
 
 右侧菜单分享按钮: "xpath==//div[@class='rightMenu']//span[text()='分享']"
 分享弹窗_楼盘名称标签: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//div[@class='posterInfo']//div[@class='textBox']/h1"

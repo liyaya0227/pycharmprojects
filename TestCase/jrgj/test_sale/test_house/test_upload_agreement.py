@@ -6,7 +6,6 @@
 @file: test_upload_agreement.py
 @time: 2021/06/22
 """
-
 import pytest
 import allure
 from case_service.jrgj.web.house.house_service import HouseService
@@ -66,16 +65,8 @@ class TestUploadAgreement(object):
         yield
         self.main_up_view.clear_all_title()
 
-    # @allure.step("进入房源详情")
-    # def enter_house_detail(self, house_code):
-    #     self.main_left_view.change_role('超级管理员')
-    #     self.main_left_view.click_all_house_label()
-    #     self.house_table_page.input_house_code_search(house_code)
-    #     self.house_table_page.click_search_button()
-    #     self.house_table_page.go_house_detail_by_row(1)
     @allure.step("进入房源详情")
     def enter_house_detail(self, house_code):
-        self.main_left_view.change_role('超级管理员')
         self.main_left_view.click_all_house_label()
         self.house_table_page.input_house_code_search(house_code)
         for i in range(4):
@@ -89,18 +80,12 @@ class TestUploadAgreement(object):
     @allure.step("获取协议编号")
     def get_agreement_no(self):
         self.main_left_view.click_agreement_list_label()  # 获取协议编号
-        if ini.environment == 'wx':
-            self.agreement_list_page.input_agreement_name_search('无锡【芫家】一般委托书【出租】【出售】')
-            self.agreement_list_page.click_query_button()
-            self.agreement_list_page.click_download_button_by_row(1)
-            written_entrustment_agreement_number = self.agreement_list_page.get_written_entrustment_agreement_number()
-            self.written_entrustment_agreement['委托协议编号'] = written_entrustment_agreement_number
-        else:
-            self.agreement_list_page.input_agreement_name_search('一般委托书')
-            self.agreement_list_page.click_query_button()
-            self.agreement_list_page.click_download_button_by_row(1)
-            written_entrustment_agreement_number = self.agreement_list_page.get_written_entrustment_agreement_number()
-            self.written_entrustment_agreement['委托协议编号'] = written_entrustment_agreement_number
+        self.agreement_list_page.input_agreement_name_search('一般委托书')
+        self.agreement_list_page.click_query_button()
+        self.agreement_list_page.click_download_button_by_row(1)
+        written_entrustment_agreement_number = self.agreement_list_page.get_written_entrustment_agreement_number()
+        self.written_entrustment_agreement['委托协议编号'] = written_entrustment_agreement_number
+        if ini.environment != 'wx':
             self.agreement_list_page.input_agreement_name_search('钥匙托管协议')
             self.agreement_list_page.click_query_button()
             self.agreement_list_page.click_download_button_by_row(1)
@@ -113,18 +98,30 @@ class TestUploadAgreement(object):
                 get_vip_service_entrustment_agreement_number()
             self.vip_service_entrustment_agreement['委托协议编号'] = vip_service_entrustment_agreement_number
 
+    # @allure.step("验证证书是否已上传")
+    # def check_certificate_uploaded(self, certificate_name):
+    #     self.house_detail_page.expand_certificates_info()
+    #     if self.house_detail_page.check_certificate_uploaded(certificate_name) != '未上传':
+    #         self.house_detail_page.delete_uploaded_certificate(certificate_name)
+    #         for i in range(4):  # 验证展开按钮是否存在
+    #             if not self.house_detail_page.verify_btn_exists():
+    #                 self.house_detail_page.page_refresh()
+    #             else:
+    #                 self.house_detail_page.expand_certificates_info()
+    #                 break
+
     @allure.step("验证证书是否已上传")
-    def check_certificate_uploaded(self, certificate_name):
+    def check_certificate_uploaded(self, house_code):
         self.house_detail_page.expand_certificates_info()
-        if self.house_detail_page.check_certificate_uploaded(certificate_name) != '未上传':
-            self.house_detail_page.delete_uploaded_certificate(certificate_name)
-            for i in range(4):  # 验证展开按钮是否存在
-                if not self.house_detail_page.verify_btn_exists():
-                    self.house_detail_page.page_refresh()
-                    print('刷新次数', i)
-                else:
-                    self.house_detail_page.expand_certificates_info()
-                    break
+        if self.house_detail_page.verify_certificate_uploaded():
+            self.main_left_view.change_role('超级管理员')
+            self.enter_house_detail(house_code)
+            self.house_detail_page.click_delete_certificate()
+            self.main_left_view.change_role('经纪人')
+            self.enter_house_detail(house_code)
+            self.house_detail_page.expand_certificates_info()
+        else:
+            logger.info('房源暂无证书')
 
     @allure.story("测试上传协议")
     @pytest.mark.sale
@@ -134,45 +131,46 @@ class TestUploadAgreement(object):
         house_code = house_info[0]
         self.get_agreement_no()  # 获取协议编号
         self.enter_house_detail(house_code)  # 进入房源详情
-        self.check_certificate_uploaded(TradeCertificateTypeEnum.tradeHouseDelegateInfoVO.value)  # 上传书面委托协议
+        self.check_certificate_uploaded(house_code)  # 删除已上传证书
+        # self.check_certificate_uploaded(TradeCertificateTypeEnum.tradeHouseDelegateInfoVO.value)  # 上传书面委托协议
         self.house_detail_page.verify_upload_btn_exists(
             TradeCertificateTypeEnum.tradeHouseDelegateInfoVO.value)  # 校验上传按钮是否存在
         self.house_detail_page.upload_written_entrustment_agreement(self.written_entrustment_agreement)
         assert self.main_top_view.find_notification_content() == '上传成功'
         logger.info('书面委托协议已上传')
         if ini.environment != 'wx':
-            self.check_certificate_uploaded(TradeCertificateTypeEnum.keyInfoVO.value)  # 上传钥匙委托协议
+            # self.check_certificate_uploaded(TradeCertificateTypeEnum.keyInfoVO.value)  # 上传钥匙委托协议
             self.house_detail_page.verify_upload_btn_exists(
                 TradeCertificateTypeEnum.keyInfoVO.value)  # 校验上传按钮是否存在
             self.house_detail_page.upload_key_entrustment_certificate(self.key_entrustment_certificate)
             assert self.main_top_view.find_notification_content() == '上传成功'
             logger.info('钥匙委托凭证已上传')
-            self.check_certificate_uploaded(TradeCertificateTypeEnum.tradeHouseVipDelegateInfoVO.value)  # 上传vip服务委托协议
+            # self.check_certificate_uploaded(TradeCertificateTypeEnum.tradeHouseVipDelegateInfoVO.value)  # 上传vip服务委托协议
             self.house_detail_page.verify_upload_btn_exists(
                 TradeCertificateTypeEnum.tradeHouseVipDelegateInfoVO.value)  # 校验上传按钮是否存在
             self.house_detail_page.upload_vip_service_entrustment_agreement(self.vip_service_entrustment_agreement)
             assert self.main_top_view.find_notification_content() == '上传成功'
             logger.info('VIP服务委托协议已上传')
-        self.check_certificate_uploaded(TradeCertificateTypeEnum.tradeHouseTaxInfoVO.value)  # 上传契税
+        # self.check_certificate_uploaded(TradeCertificateTypeEnum.tradeHouseTaxInfoVO.value)  # 上传契税
         self.house_detail_page.verify_upload_btn_exists(
             TradeCertificateTypeEnum.tradeHouseTaxInfoVO.value)  # 校验上传按钮是否存在
         self.house_detail_page.upload_deed_tax_invoice_information(self.deed_tax_invoice_information)
         # assert self.main_top_view.find_notification_content() == '上传成功'
         logger.info('契税票已上传')
-        self.check_certificate_uploaded(TradeCertificateTypeEnum.tradeHouseIdentityInfoVO.value)  # 上传身份证明
+        # self.check_certificate_uploaded(TradeCertificateTypeEnum.tradeHouseIdentityInfoVO.value)  # 上传身份证明
         self.house_detail_page.verify_upload_btn_exists(
             TradeCertificateTypeEnum.tradeHouseIdentityInfoVO.value)  # 校验上传按钮是否存在
         self.house_detail_page.upload_owner_identification_information(self.owner_identification_information)
         # assert self.main_top_view.find_notification_content() == '上传成功'
         logger.info('身份证明已上传')
-        self.check_certificate_uploaded(TradeCertificateTypeEnum.tradeHouseContractInfoVO.value)  # 上传原始购房合同
+        # self.check_certificate_uploaded(TradeCertificateTypeEnum.tradeHouseContractInfoVO.value)  # 上传原始购房合同
         self.house_detail_page.verify_upload_btn_exists(
             TradeCertificateTypeEnum.tradeHouseContractInfoVO.value)  # 校验上传按钮是否存在
         self.house_detail_page.upload_original_purchase_contract_information(
             self.original_purchase_contract_information)
         # assert self.main_top_view.find_notification_content() == '上传成功'
         logger.info('原始购房合同已上传')
-        self.check_certificate_uploaded(TradeCertificateTypeEnum.tradeHouseRoomInfoVO.value)  # 上传房产证
+        # self.check_certificate_uploaded(TradeCertificateTypeEnum.tradeHouseRoomInfoVO.value)  # 上传房产证
         self.house_detail_page.verify_upload_btn_exists(
             TradeCertificateTypeEnum.tradeHouseRoomInfoVO.value)  # 校验上传按钮是否存在
         self.house_detail_page.upload_property_ownership_certificate(self.property_ownership_certificate)

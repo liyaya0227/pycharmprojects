@@ -17,8 +17,11 @@ property_ownership_certificate = Element('jrgj/web/house/propertyownershipcertif
 
 class PropertyOwnershipCertificatePage(WebPage):
 
-    def upload_picture(self, file_path):
-        self.input_text(property_ownership_certificate['图片input'], file_path)
+    def upload_picture(self, file_path_list):
+        # self.input_text(property_ownership_certificate['图片input'], file_path)
+        for file_path in file_path_list:
+            self.input_text(property_ownership_certificate['图片input'], file_path)
+            sleep(2)
 
     def input_contract_registration_date(self, date):
         self.click_element(property_ownership_certificate['登记日期输入框'])

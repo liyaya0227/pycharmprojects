@@ -264,20 +264,21 @@ class HouseDetailPage(WebPage):
         locator = 'xpath', "//span[text()='" + certificate_name + "']/ancestor::p//span[@class='blue' and text()='上传']"
         self.click_element(locator)
 
-    def verify_btn_exists(self):  # 验证展开证书信息按钮是否存在
-        return self.is_exists(house_detail['证件信息展开收起按钮'])
+    def verify_ele_exists(self):  # 验证证书信息按钮是否存在
+        return self.is_exists(house_detail['证件信息'])
 
     def check_upload_btn_exists(self, certificate_name):  # 验证证书上传按钮是否存在
         locator = 'xpath', "//span[text()='" + certificate_name + "']/ancestor::p//span[@class='blue' and text()='上传']"
         return self.is_exists(locator)
 
     def verify_upload_btn_exists(self, certificate_name):  # 验证证书上传按钮是否存在
+        if self.is_exists(house_detail['证件信息展开收起按钮']):
+            self.click_element(house_detail['证件信息展开收起按钮'])
         locator = 'xpath', "//span[text()='" + certificate_name + "']/ancestor::p//span[@class='blue' and text()='上传']"
         for i in range(3):
             if not self.is_exists(locator):
                 self.page_refresh()
                 self.click_element(house_detail['证件信息展开收起按钮'])
-                print('上传按钮不存在，刷新页面', i)
             else:
                 break
 
@@ -331,6 +332,28 @@ class HouseDetailPage(WebPage):
         self.click_element(locator)
         self.click_element(house_detail['删除证件_确定按钮'], 12)
 
+    def click_delete_certificate(self):  # 删除证书
+        self.expand_certificates_info()
+        ele_list = self.find_elements(house_detail['删除证件'])
+        for ele in ele_list:
+            ele_list = self.find_elements(house_detail['删除证件'])
+            ele_list[0].click()
+            sleep(2)
+            self.click_element(house_detail['删除证件_确定按钮'], 2)
+            self.close_notification()
+            target = self.find_element(house_detail['证件信息'])
+            self.driver.execute_script("arguments[0].scrollIntoView();", target)  # 拖动到可见的元素去
+            if self.is_exists(house_detail['证件信息展开收起按钮']):
+                self.click_element(house_detail['证件信息展开收起按钮'], 5)
+
+    def close_notification(self):
+        if self.element_is_exist(house_detail['右上角弹窗_关闭按钮'], timeout=5):
+            sleep()
+            self.click_element(house_detail['右上角弹窗_关闭按钮'], 3)
+
+    def verify_certificate_uploaded(self):
+        return self.is_exists(house_detail['删除证件'])
+
     def delete_written_entrustment_agreement(self):  # 删除书面委托协议
         self.__delete_certificate('书面委托协议')
 
@@ -360,7 +383,7 @@ class HouseDetailPage(WebPage):
     def upload_written_entrustment_agreement(self, written_entrustment_agreement):  # 上传书面委托协议
         self.click_written_entrustment_agreement_upload_button()
         written_entrustment_agreement_page = WrittenEntrustmentAgreementPage(self.driver)
-        written_entrustment_agreement_page.upload_picture([cm.tmp_picture_file])
+        written_entrustment_agreement_page.upload_picture([cm.tmp_picture_file, cm.tmp_picture_file])
         written_entrustment_agreement_page.input_entrustment_agreement_number(
             written_entrustment_agreement.get('委托协议编号'))
         start_date = ''

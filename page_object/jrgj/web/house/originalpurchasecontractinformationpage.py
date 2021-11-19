@@ -39,8 +39,11 @@ class OriginalPurchaseContractInformationPage(WebPage):
     def input_remark(self, remark):
         self.input_text(original_purchase_contract_information['备注输入框'], remark)
 
-    def upload_picture(self, file_path):
-        self.input_text(original_purchase_contract_information['图片input'], file_path)
+    def upload_picture(self, file_path_list):
+        # self.input_text(original_purchase_contract_information['图片input'], file_path)
+        for file_path in file_path_list:
+            self.input_text(original_purchase_contract_information['图片input'], file_path)
+            sleep(2)
 
     def click_close_button(self):
         self.click_element(original_purchase_contract_information['关闭按钮'])

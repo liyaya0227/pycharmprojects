@@ -17,12 +17,11 @@ deed_tax_invoice_information = Element('jrgj/web/house/deedtaxinvoiceinformation
 
 class DeedTaxInvoiceInformationPage(WebPage):
 
-    def upload_picture(self, file_path):
-        self.input_text(deed_tax_invoice_information['图片input'], file_path)
-        # for file in file_path:
-        #     self.click_element(deed_tax_invoice_information['上传图片按钮'])
-        #     upload_file(file)
-        #     sleep(2)
+    def upload_picture(self, file_path_list):
+        # self.input_text(deed_tax_invoice_information['图片input'], file_path)
+        for file_path in file_path_list:
+            self.input_text(deed_tax_invoice_information['图片input'], file_path)
+            sleep(2)
 
     def input_filling_date(self, filling_date):
         self.click_element(deed_tax_invoice_information['填发日期输入框'])
