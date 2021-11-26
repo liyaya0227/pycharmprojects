@@ -1,0 +1,11 @@
+全部标签: "xpath==//div[@class='houseCheck']//div[@class='checkListName']//div[text()='全部']"
+待举证标签: "xpath==//div[@class='houseCheck']//div[@class='checkListName']//div[text()='待举证']"
+超期未举证标签: "xpath==//div[@class='houseCheck']//div[@class='checkListName']//div[text()='超期未举证']"
+任务结束标签: "xpath==//div[@class='houseCheck']//div[@class='checkListName']//div[text()='任务结束']"
+
+语音业主验真: "xpath==//div[@class='putProofWrapper']//span[text()='语音业主验真']/parent::label//input"
+房源验证码验证: "xpath==//div[@class='putProofWrapper']//span[text()='房源验证码验证']/parent::label//input"
+
+发送验证码按钮: "xpath==//div[@class='putProofWrapper']//span[text()='发送验证码']/parent::button"
+验证码输入框: "xpath==//div[@class='putProofWrapper']//input[@id='nest-messages_code']"
+提交按钮: "xpath==//div[@class='putProofWrapper']//span[text()='提 交']/parent::button"

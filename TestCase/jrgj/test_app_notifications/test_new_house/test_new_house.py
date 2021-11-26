@@ -32,10 +32,10 @@ class TestSurveyTimeChange(object):
     new_house = ini.new_house_name
 
     @pytest.fixture(scope="class", autouse=True)
-    def setup_and_teardown(self, oppo_android_driver):
-        app_login = AppLoginPage(oppo_android_driver)
-        app_main = AppMainPage(oppo_android_driver)
-        app_mine = AppMinePage(oppo_android_driver)
+    def setup_and_teardown(self, android_driver):
+        app_login = AppLoginPage(android_driver)
+        app_main = AppMainPage(android_driver)
+        app_mine = AppMinePage(android_driver)
 
         app_login.log_in(ini.user_account, ini.user_password)
         app_main.click_mine_button()
@@ -44,11 +44,11 @@ class TestSurveyTimeChange(object):
         app_mine.log_out()
 
     @allure.story("测试新房报备-认购-带看流程通知")
-    def test_001(self, web_driver, oppo_android_driver):
-        app_common = AppCommonPage(oppo_android_driver)
-        app_main = AppMainPage(oppo_android_driver)
-        app_message_table = AppMessageTablePage(oppo_android_driver)
-        app_notification = AppNotificationsTablePage(oppo_android_driver)
+    def test_001(self, web_driver, android_driver):
+        app_common = AppCommonPage(android_driver)
+        app_main = AppMainPage(android_driver)
+        app_message_table = AppMessageTablePage(android_driver)
+        app_notification = AppNotificationsTablePage(android_driver)
 
         self.check_new_house(web_driver)
         self.check_customer(web_driver)

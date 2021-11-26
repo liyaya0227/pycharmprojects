@@ -7,6 +7,8 @@
 签章按钮: "xpath==//div[@class='previewOrder-less']//span[text()='签 章']/parent::button"
 
 审核驳回弹窗_原因输入框: "xpath==//div[not(@style='display: none;') and @role='dialog']//div[@class='ant-modal-content']//textarea"
+审核驳回弹窗_上传图片输入框: "xpath==//div[not(@style='display: none;') and @role='dialog']//div[@class='ant-modal-content']//div[text()='上传图片']/ancestor::span[@role='button']/input"
+审核驳回弹窗_上传图片按钮: "xpath==//div[not(@style='display: none;') and @role='dialog']//div[@class='ant-modal-content']//div[text()='上传图片']/ancestor::span[@role='button']"
 
 弹窗_取消按钮: "xpath==//div[not(@style='display: none;') and @role='dialog']//div[@class='ant-modal-footer']//span[text()='取 消']/parent::button"
 弹窗_确定按钮: "xpath==//div[not(@style='display: none;') and @role='dialog']//div[@class='ant-modal-footer']//span[text()='确 定']/parent::button"

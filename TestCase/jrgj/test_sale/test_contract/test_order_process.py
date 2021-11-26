@@ -190,7 +190,7 @@ class TestOrderProcess(object):
         contract_table.input_contract_code_search(self.contract_code)
         contract_table.click_search_button()
         contract_table.go_contract_detail_by_row(1)
-        contract_detail.click_subject_contract()
+        contract_detail.click_subject_contract_tab()
         contract_detail.upload_two_sign_contract()
         assert main_topview.find_notification_content() == '操作成功'
         main_upview.clear_all_title()
@@ -207,7 +207,7 @@ class TestOrderProcess(object):
         contract_table.go_contract_detail_by_row(1)
         assert contract_detail.sign_time_icon_is_light()
         logger.info('经纪人填写签约时间后，状态显示正确')
-        contract_detail.click_subject_contract()  # 经纪人上传主体合同
+        contract_detail.click_subject_contract_tab()  # 经纪人上传主体合同
         contract_detail.upload_pictures([cm.tmp_picture_file])
         contract_detail.click_submit_button()
         assert contract_detail.check_dialog_exist()
@@ -226,7 +226,7 @@ class TestOrderProcess(object):
         contract_table.go_contract_detail_by_row(1)
         assert contract_detail.upload_contract_icon_is_light()
         logger.info('经纪人上传合同后，状态显示正确')
-        contract_detail.click_subject_contract()  # 经纪人提交业绩审核
+        contract_detail.click_subject_contract_tab()  # 经纪人提交业绩审核
         contract_detail.click_submit_button()
         contract_detail.click_report_achievement_button()
         achievement_detail.click_submit_button()

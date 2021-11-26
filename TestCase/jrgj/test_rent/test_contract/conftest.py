@@ -39,7 +39,7 @@ def prepare_for_add_contract(web_driver):
     house_table.click_rent_tab()
     house_table.clear_filter('买卖')
     house_table.input_house_code_search(GlobalVar.house_code)
-    # house_table.click_search_button()
+    house_table.click_search_button()
     house_table.go_house_detail_by_row(1)
     GlobalVar.house_info = house_detail.get_address_dialog_house_property_address()
     GlobalVar.house_info['house_code'] = GlobalVar.house_code
@@ -56,9 +56,8 @@ def prepare_for_add_contract(web_driver):
     customer_table.input_search_text(ini.custom_telephone)
     customer_table.click_search_button()
     assert customer_table.get_customer_table_count() == 1, '客源不存在'
-    customer_table.go_customer_detail_by_row(1)
-    GlobalVar.customer_code = customer_detail.get_customer_code()
-    GlobalVar.customer_name = customer_detail.get_customer_name()
+    GlobalVar.customer_code = customer_table.get_customer_code_by_row(1)
+    GlobalVar.customer_name = customer_table.get_customer_name_by_row(1)
     logger.info('获取客源信息，新建合同校验需要')
     main_upview.clear_all_title()
     main_leftview.click_contract_management_label()

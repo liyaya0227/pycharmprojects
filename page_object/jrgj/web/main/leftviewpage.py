@@ -21,7 +21,7 @@ class MainLeftViewPage(WebPage):
         # label_name = self.element_text(left_view['角色标签'])
         # if role_name in label_name:
         #     return
-
+        self.browser_refresh()
         self.click_element(left_view['功能按钮'], sleep_time=0.5)
         self.click_element(left_view['切换角色按钮'], sleep_time=2)
         role_list = self.find_elements(left_view['角色选项'])
@@ -35,6 +35,7 @@ class MainLeftViewPage(WebPage):
                     sleep(2)
                 self.click_element(left_view['切换角色弹窗_确定按钮'], sleep_time=1)
                 break
+        self.wait_page_loading_complete()
         main_topview = MainTopViewPage(self.driver)
         main_topview.click_close_button()
 

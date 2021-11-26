@@ -37,13 +37,15 @@ class TestRentContract(object):
     contract_code = ''
 
     @pytest.fixture(scope="function", autouse=True)
-    def test_prepare(self, web_driver, oppo_android_driver):
+    def test_prepare(self, web_driver, android_driver):
+        main_leftview = MainLeftViewPage(web_driver)
         contract_service = ContractService(web_driver)
-        app_login = AppLoginPage(oppo_android_driver)
-        app_main = AppMainPage(oppo_android_driver)
-        app_mine = AppMinePage(oppo_android_driver)
-        app_message_table = AppMessageTablePage(oppo_android_driver)
+        app_login = AppLoginPage(android_driver)
+        app_main = AppMainPage(android_driver)
+        app_mine = AppMinePage(android_driver)
+        app_message_table = AppMessageTablePage(android_driver)
 
+        main_leftview.change_role('经纪人')
         app_login.log_in(ini.user_account, ini.user_password)
         app_main.close_top_view()
         app_main.click_message_button()
@@ -55,10 +57,10 @@ class TestRentContract(object):
         app_mine.log_out()
 
     @allure.story("测试租赁合同审核流程， APP通知内容")
-    def test_001(self, web_driver, oppo_android_driver):
-        app_common = AppCommonPage(oppo_android_driver)
-        app_notification = AppNotificationsTablePage(oppo_android_driver)
-        app_message_table = AppMessageTablePage(oppo_android_driver)
+    def test_001(self, web_driver, android_driver):
+        app_common = AppCommonPage(android_driver)
+        app_notification = AppNotificationsTablePage(android_driver)
+        app_message_table = AppMessageTablePage(android_driver)
 
         env = ini.environment
         self.prepare_for_add_contract(web_driver)
@@ -134,14 +136,14 @@ class TestRentContract(object):
         customer_detail = CustomerDetailPage(web_driver)
         contract_table = ContractTablePage(web_driver)
 
-        main_leftview.change_role('经纪人')
         self.house_code = house_table.get_house_code_by_db(flag='租赁')
         assert self.house_code != '', '租赁房源不存在'
         logger.info('房源编号为：' + self.house_code)
         main_leftview.click_all_house_label()
         house_table.click_rent_tab()
-        house_table.clear_filter('买卖')
+        house_table.clear_filter('租赁')
         house_table.input_house_code_search(self.house_code)
+        house_table.click_search_button()
         house_table.go_house_detail_by_row(1)
         self.house_info = house_detail.get_address_dialog_house_property_address()
         self.house_info['house_code'] = self.house_code
@@ -212,10 +214,10 @@ class TestRentContract(object):
         contract_table.input_contract_code_search(self.contract_code)
         contract_table.click_search_button()
         contract_table.go_contract_detail_by_row(1)
-        contract_detail.click_subject_contract()
+        contract_detail.click_subject_contract_tab()
         contract_detail.upload_two_sign_contract()
         main_topview.close_notification()
-        contract_detail.click_subject_contract()  # 经纪人上传主体合同
+        contract_detail.click_subject_contract_tab()  # 经纪人上传主体合同
         contract_detail.upload_pictures([cm.tmp_picture_file])
         contract_detail.click_submit_button()
         contract_detail.click_attachment_info()  # 提交备件审核

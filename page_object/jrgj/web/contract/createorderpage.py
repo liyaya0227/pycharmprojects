@@ -118,10 +118,12 @@ class ContractCreateOrderPage(WebPage):
             ContractCreateSaleOrderDetailZJGPage(self.driver).input_contract_content(test_data)
         elif env == 'wx':
             ContractCreateSaleOrderDetailWXPage(self.driver).input_contract_content(test_data)
-        elif env == 'cz':
-            ContractCreateSaleOrderDetailWXPage(self.driver).input_contract_content(test_data)
         elif env == 'hz':
             ContractCreateSaleOrderDetailHZPage(self.driver).input_contract_content(test_data)
+        elif env == 'tl':
+            ContractCreateSaleOrderDetailHZPage(self.driver).input_contract_content(test_data)
+        elif env == 'cz':
+            ContractCreateSaleOrderDetailWXPage(self.driver).input_contract_content(test_data)
         else:
             raise ValueError('传值错误')
 

@@ -3,3 +3,8 @@
 翻页标签: "xpath==//div[@class='checkWrapper']//ul[@class='ant-pagination']/li[contains(@class,'ant-pagination-item')]"
 第一页标签: "xpath==//div[@class='checkWrapper']//ul[@class='ant-pagination']/li[contains(@class,'ant-pagination-item') and @title='1']"
 下一页标签: "xpath==//div[@class='checkWrapper']//ul[@class='ant-pagination']/li[contains(@class,'ant-pagination-next')]"
+
+驳回弹窗_原因输入框: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and not(contains(@style, 'display: none'))]//div[@class='ant-modal-body']/textarea"
+
+弹窗_确定按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and not(contains(@style, 'display: none'))]//span[text()='确 定']/parent::button[@type='button']"
+弹窗_取消按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and not(contains(@style, 'display: none'))]//span[text()='取 消']/parent::button[@type='button']"

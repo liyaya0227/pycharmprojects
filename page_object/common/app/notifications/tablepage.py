@@ -28,9 +28,15 @@ class AppNotificationsTablePage(AndroidPage):
 
     def dismiss_all_notification(self):
         """清除所有通知"""
-        locator_xpath = "//*[@resource-id='com.android.systemui:id/clear_all_port' " \
-                        "or @resource-id='com.android.systemui:id/dismiss_text']"
-        while not self.check_element_is_exist(('xpath', locator_xpath)):
+        no_notifications_xpath = "//*[@resource-id='com.android.systemui:id/no_notifications']"
+        if self.check_element_exist(('xpath', no_notifications_xpath)):
             self.up_swipe()
-        self.click_element(('xpath', locator_xpath))
-        sleep(2)
+            sleep()
+        else:
+            locator_xpath = "//*[@resource-id='com.android.systemui:id/clear_all_port' " \
+                            "or @resource-id='com.android.systemui:id/dismiss_text']"
+            while not self.check_element_exist(('xpath', locator_xpath)):
+                self.up_swipe()
+                sleep()
+            self.click_element(('xpath', locator_xpath))
+            sleep(2)

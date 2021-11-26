@@ -27,7 +27,7 @@ from page_object.jrgj.web.contract.previewpage import ContractPreviewPage
 @pytest.mark.rent
 @pytest.mark.contract
 @pytest.mark.run(order=-22)
-@pytest.mark.skipif(ini.environment != 'sz', reason='只支持苏州')
+@pytest.mark.skipif(ini.environment not in GlobalVar.city_env['sz'], reason='只支持苏州')
 @allure.feature("测试租赁合同解约模块")
 class TestOrderCancel(object):
 
@@ -52,7 +52,6 @@ class TestOrderCancel(object):
         main_leftview.change_role('经纪人')
 
     @allure.story("测试租赁合同解约流程")
-    @pytest.mark.skip
     @pytest.mark.parametrize('env', GlobalVar.city_env[ini.environment])
     def test_001(self, web_driver, env):
         login = LoginPage(web_driver)
@@ -88,7 +87,7 @@ class TestOrderCancel(object):
         contract_table.input_contract_code_search(self.contract_code)
         contract_table.click_search_button()
         contract_table.go_contract_detail_by_row(1)
-        contract_detail.click_subject_contract()
+        contract_detail.click_subject_contract_tab()
         contract_detail.upload_two_sign_contract()
         main_topview.close_notification()
         contract_detail.click_cancel_button()  # 经纪人解约
@@ -126,7 +125,7 @@ class TestOrderCancel(object):
         main_upview.clear_all_title()
         main_leftview.click_all_house_label()
         house_table.click_rent_tab()
-        house_table.clear_filter('买卖')
+        house_table.clear_filter('租赁')
         house_table.input_house_code_search(GlobalVar.house_code)
         house_table.click_search_button()
         pytest.assume(house_table.get_house_table_count() == 1)
@@ -152,7 +151,7 @@ class TestOrderCancel(object):
         contract_create_order.input_customer_code(GlobalVar.customer_code)
         contract_create_order.click_get_customer_info_button()
         contract_create_order.click_next_step_button()
-        if ini.environment == 'sz':
+        if ini.environment in GlobalVar.city_env['sz']:
             contract_create_order.choose_district_contract(env)
             contract_create_order.click_confirm_button_in_dialog()
         contract_create_order.input_rent_contract_content(test_data)

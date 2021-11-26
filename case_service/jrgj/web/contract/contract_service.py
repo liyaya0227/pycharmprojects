@@ -7,7 +7,6 @@
 @date: 2021/10/13 0013
 """
 from utils.logger import logger
-from common.readconfig import ini
 from page_object.jrgj.web.main.upviewpage import MainUpViewPage
 from page_object.jrgj.web.main.topviewpage import MainTopViewPage
 from page_object.jrgj.web.main.leftviewpage import MainLeftViewPage

@@ -52,7 +52,6 @@ class TestOrderCancel(object):
         main_leftview.change_role('经纪人')
 
     @allure.story("测试买卖合同解约流程")
-    @pytest.mark.skip
     @pytest.mark.parametrize('env', GlobalVar.city_env[ini.environment])
     def test_001(self, web_driver, env):
         login = LoginPage(web_driver)
@@ -118,7 +117,7 @@ class TestOrderCancel(object):
         contract_table.input_contract_code_search(self.contract_code)
         contract_table.click_search_button()
         contract_table.go_contract_detail_by_row(1)
-        contract_detail.click_subject_contract()
+        contract_detail.click_subject_contract_tab()
         contract_detail.upload_two_sign_contract()
         main_topview.close_notification()
         contract_detail.click_cancel_button()  # 经纪人解约

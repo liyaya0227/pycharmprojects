@@ -115,7 +115,7 @@ class TestDeleteSurvey(object):
                                         exploration_info['exploration_time'],  # 预约实勘
                                         exploration_info['appointment_instructions'])
             if not self.app_login_page.check_is_logged_in():  # 拍摄实勘
-                self.app_main_page.close_view()
+                self.app_main_page.close_top_view()
                 self.app_main_page.click_mine_button()
                 self.app_mine_page.log_out()
             self.app_login_page.log_in(survey_person_info['photographer_phone'],

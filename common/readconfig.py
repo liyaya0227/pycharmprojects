@@ -64,6 +64,8 @@ class ReadConfig(object):
     def user_account(self):
         if self.environment in ['ks', 'zjg']:
             env = 'sz'
+        elif self.environment in ['tl']:
+            env = 'hz'
         else:
             env = self.environment
         return self._get(env.upper() + '_USER', 'ACCOUNT')
@@ -72,33 +74,71 @@ class ReadConfig(object):
     def user_password(self):
         if self.environment in ['ks', 'zjg']:
             env = 'sz'
+        elif self.environment in ['tl']:
+            env = 'hz'
         else:
             env = self.environment
         return self._get(env.upper() + '_USER', 'PASSWORD')
 
     @property
     def s_user_account(self):
-        return self._get(self.environment.upper() + '_USER', 'S_ACCOUNT')
+        if self.environment in ['ks', 'zjg']:
+            env = 'sz'
+        elif self.environment in ['tl']:
+            env = 'hz'
+        else:
+            env = self.environment
+        return self._get(env.upper() + '_USER', 'S_ACCOUNT')
 
     @property
     def s_user_password(self):
-        return self._get(self.environment.upper() + '_USER', 'S_PASSWORD')
+        if self.environment in ['ks', 'zjg']:
+            env = 'sz'
+        elif self.environment in ['tl']:
+            env = 'hz'
+        else:
+            env = self.environment
+        return self._get(env.upper() + '_USER', 'S_PASSWORD')
 
     @property
     def od_user_account(self):
-        return self._get(self.environment.upper() + '_USER', 'OD_ACCOUNT')
+        if self.environment in ['ks', 'zjg']:
+            env = 'sz'
+        elif self.environment in ['tl']:
+            env = 'hz'
+        else:
+            env = self.environment
+        return self._get(env.upper() + '_USER', 'OD_ACCOUNT')
 
     @property
     def od_user_password(self):
-        return self._get(self.environment.upper() + '_USER', 'OD_PASSWORD')
+        if self.environment in ['ks', 'zjg']:
+            env = 'sz'
+        elif self.environment in ['tl']:
+            env = 'hz'
+        else:
+            env = self.environment
+        return self._get(env.upper() + '_USER', 'OD_PASSWORD')
 
     @property
     def survey_user_account(self):
-        return self._get(self.environment.upper() + '_USER', 'SURVEY_ACCOUNT')
+        if self.environment in ['ks', 'zjg']:
+            env = 'sz'
+        elif self.environment in ['tl']:
+            env = 'hz'
+        else:
+            env = self.environment
+        return self._get(env.upper() + '_USER', 'SURVEY_ACCOUNT')
 
     @property
     def survey_user_password(self):
-        return self._get(self.environment.upper() + '_USER', 'SURVEY_PASSWORD')
+        if self.environment in ['ks', 'zjg']:
+            env = 'sz'
+        elif self.environment in ['tl']:
+            env = 'hz'
+        else:
+            env = self.environment
+        return self._get(env.upper() + '_USER', 'SURVEY_PASSWORD')
 
     @property
     def database_server(self):

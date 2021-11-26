@@ -250,7 +250,7 @@ class TestCWProcess(object):
         contract_table.input_contract_code_search(self.contract_code)
         contract_table.click_search_button()
         contract_table.go_contract_detail_by_row(1)
-        contract_detail.click_subject_contract()
+        contract_detail.click_subject_contract_tab()
         contract_detail.upload_two_sign_contract()  # 经纪人签约时间
         main_topview.close_notification()
         main_upview.clear_all_title()
@@ -259,7 +259,7 @@ class TestCWProcess(object):
         contract_table.input_contract_code_search(self.contract_code)
         contract_table.click_search_button()
         contract_table.go_contract_detail_by_row(1)
-        contract_detail.click_subject_contract()
+        contract_detail.click_subject_contract_tab()
         contract_detail.upload_pictures([cm.tmp_picture_file])  # 经纪人上传主体合同
         contract_detail.click_submit_button()
         contract_detail.dialog_click_close_button()

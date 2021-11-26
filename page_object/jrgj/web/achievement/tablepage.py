@@ -53,7 +53,7 @@ class AchievementTablePage(WebPage):
         self.input_text(table['提交人搜索框'], submit_person)
 
     def click_search_button(self):
-        self.click_element(table['查询按钮'], sleep_time=1)
+        self.click_element(table['查询按钮'], sleep_time=2)
 
     def click_pass_examine_button_by_row(self, row=1):
         locator = "xpath", \

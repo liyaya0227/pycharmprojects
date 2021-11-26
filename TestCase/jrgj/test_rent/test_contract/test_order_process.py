@@ -101,7 +101,7 @@ class TestOrderProcess(object):
         contract_table.go_contract_detail_by_row(1)
         assert contract_detail.last_sign_print_icon_is_light()
         logger.info('经纪人有章打印后，状态显示正确')
-        contract_detail.click_subject_contract()  # 经纪人签约时间
+        contract_detail.click_subject_contract_tab()  # 经纪人签约时间
         contract_detail.upload_two_sign_contract()
         assert main_topview.find_notification_content() == '操作成功'
         main_upview.clear_all_title()
@@ -117,11 +117,12 @@ class TestOrderProcess(object):
         contract_table.go_contract_detail_by_row(1)
         assert contract_detail.sign_time_icon_is_light()
         logger.info('经纪人填写签约时间后，状态显示正确')
-        contract_detail.click_subject_contract()  # 经纪人上传主体合同
+        contract_detail.click_subject_contract_tab()  # 经纪人上传主体合同
         contract_detail.upload_pictures([cm.tmp_picture_file])
         contract_detail.click_submit_button()
-        assert contract_detail.check_dialog_exist()
-        contract_detail.dialog_click_close_button()
+        assert main_topview.find_notification_content() == '上传成功'
+        # assert contract_detail.check_dialog_exist()
+        # contract_detail.dialog_click_close_button()
         main_upview.clear_all_title()
         main_leftview.click_contract_management_label()
         contract_table.click_rent_contract_tab()
@@ -184,9 +185,10 @@ class TestOrderProcess(object):
         contract_table.go_contract_detail_by_row(1)
         assert contract_detail.pass_attachment_examine_icon_is_light()
         logger.info('商圈经理备件审核通过后，状态显示正确')
-        contract_detail.click_subject_contract()  # 经纪人提交业绩审核
-        contract_detail.click_submit_button()
-        contract_detail.click_report_achievement_button()
+        contract_detail.click_subject_contract_tab()  # 经纪人提交业绩审核
+        # contract_detail.click_submit_button()
+        # contract_detail.click_report_achievement_button()
+        contract_detail.click_achievement_detail_tab()
         achievement_detail.click_submit_button()
         assert main_topview.find_notification_content() == '操作成功'
         main_upview.clear_all_title()

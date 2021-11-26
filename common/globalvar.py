@@ -15,7 +15,8 @@ class GlobalVar(object):
         'ks': ['ks'],
         'zjg': ['zjg'],
         'wx': ['wx'],
-        'hz': ['hz']
+        'hz': ['tl'],
+        'tl': ['tl']
     }
     house_verify_code = 'mNI1CcUn'  # 房源验证超级码
     house_code = ''

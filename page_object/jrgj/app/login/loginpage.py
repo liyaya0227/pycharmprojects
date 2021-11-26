@@ -34,13 +34,13 @@ class AppLoginPage(AndroidPage):
         self.click_login_button()
 
     def check_login_page(self):
-        return self.check_element_is_exist(login['标题'], timeout=5)
+        return self.check_element_exist(login['标题'], timeout=5)
 
     def check_is_logged_in(self):
         return self.is_exists(login['标题'])
 
     def check_agreement_dialog(self):
-        return self.check_element_is_exist(login['协议弹窗'], timeout=5)
+        return self.check_element_exist(login['协议弹窗'], timeout=5)
 
     def dialog_click_agree_button(self):
         self.click_element(login['弹窗_同意按钮'])

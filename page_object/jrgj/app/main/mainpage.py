@@ -26,16 +26,13 @@ class AppMainPage(AndroidPage):
 
     def click_message_button(self):
         self.click_element(main['消息按钮'])
+        sleep(2)
 
     def click_mine_button(self):
         self.click_element(main['我的按钮'])
         sleep(1)
 
     def close_top_view(self):
-        if self.check_element_is_exist(main['经纪人荣誉殿堂_关闭按钮'], timeout=5):
-            self.click_element(main['经纪人荣誉殿堂_关闭按钮'])
-
-    def close_view(self):
-        if self.is_exists(main['经纪人荣誉殿堂_关闭按钮']):
+        if self.check_element_exist(main['经纪人荣誉殿堂_关闭按钮'], timeout=5):
             self.click_element(main['经纪人荣誉殿堂_关闭按钮'])
             sleep(2)

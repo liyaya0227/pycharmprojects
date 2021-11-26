@@ -9,7 +9,7 @@
 from common.readconfig import ini
 from common.readxml import ReadXml
 from utils.timeutil import sleep
-from utils.sqlutil import select_sql, update_sql
+from utils.sqlutil import select_sql
 from page.webpage import WebPage
 from common.readelement import Element
 from page_object.jrgj.web.house.detailpage import HouseDetailPage
@@ -44,6 +44,9 @@ class HouseTablePage(WebPage):
 
     def click_add_house_button(self):
         self.click_element(house_table['新增房源按钮'])
+
+    def click_my_house_button(self):
+        self.click_element(house_table['我的房源按钮'])
 
     def click_add_new_house_button(self):
         self.click_element(house_table['新增楼盘按钮'])
@@ -87,18 +90,14 @@ class HouseTablePage(WebPage):
         self.click_element(locator, 1)
 
     def input_house_code_search(self, house_code):
-        sleep(5)
         self.input_text(house_table['房源编号搜索项'], house_code, clear=True)
-        sleep(4)
 
     def input_building_name_search(self, building_name):
         self.input_text(house_table['楼盘名称搜索项'], building_name)
-        sleep(5)
 
     def click_search_button(self):
-        sleep(2)
-        self.click_element(house_table['搜索按钮'], sleep_time=8)
-        self.wait_page_loading_complete()
+        sleep(4)
+        self.click_element(house_table['搜索按钮'], sleep_time=5)
 
     def click_reset_button(self):
         self.click_element(house_table['重置按钮'])
@@ -142,9 +141,8 @@ class HouseTablePage(WebPage):
     def go_house_detail_by_row(self, row=1):
         sleep(2)
         locator = 'xpath', "//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//table/tbody" \
-                           "/tr[" + str(row) + "]/td[" + str(self.__get_column_by_title('楼盘名称') + 1) + "]"
+                           "/tr[" + str(row) + "]/td[" + str(self.__get_column_by_title('楼盘名称') + 1) + "]//a"
         self.click_element(locator)
-        self.wait_page_loading_complete()
         sleep(5)
 
     def verify_house_exist(self, building_name):  # 验证列表中是否存在当前房源
@@ -317,12 +315,12 @@ class HouseTablePage(WebPage):
         except IndexError:
             return ''
 
-    @staticmethod
-    def update_house_create_time_by_db(house_code, create_time, flag='买卖'):
-        if flag == '买卖':
-            sql = "update trade_house set create_time='" + create_time + "' where house_code='" + house_code + "'"
-        elif flag == '租赁':
-            sql = "update rent_house set create_time='" + create_time + "' where house_code='" + house_code + "'"
-        else:
-            raise "传值错误"
-        update_sql(sql)
+    # @staticmethod
+    # def update_house_create_time_by_db(house_code, create_time, flag='买卖'):
+    #     if flag == '买卖':
+    #         sql = "update trade_house set create_time='" + create_time + "' where house_code='" + house_code + "'"
+    #     elif flag == '租赁':
+    #         sql = "update rent_house set create_time='" + create_time + "' where house_code='" + house_code + "'"
+    #     else:
+    #         raise "传值错误"
+    #     update_sql(sql)

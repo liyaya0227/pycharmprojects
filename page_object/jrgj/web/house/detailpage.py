@@ -8,6 +8,8 @@
 """
 import random
 import re
+import string
+
 from common.readxml import ReadXml
 from config.conf import cm
 from common.readconfig import ini
@@ -38,12 +40,22 @@ class HouseDetailPage(WebPage):
         value = self.get_element_text(house_detail['房源编号标签'])
         return re.search(r"：(\d+)", value).group(1)
 
+    def check_need_house_verify(self):
+        """是否处于房源举证状态"""
+        return self.element_is_exist(house_detail['房源举证剩余时间标签'])
+
     def get_house_label(self):  # 获取房源标签
         label_list = self.find_elements(house_detail['房源所有标签列标签'], timeout=2)
         labels = []
         for label_ele in label_list:
             labels.append(label_ele.text)
         return labels
+
+    def get_house_price(self, flag='买卖'):  # 获取房源价格
+        if flag == '买卖':
+            return self.get_element_text(house_detail['房源初始价格'])[:-1]
+        elif flag == '租赁':
+            return self.get_element_text(house_detail['房源初始价格'])[:-3]
 
     def get_house_type(self):  # 获取房源详情户型信息
         value = self.get_element_text(house_detail['户型标签'])
@@ -227,16 +239,15 @@ class HouseDetailPage(WebPage):
         self.driver.execute_script("arguments[0].scrollIntoView();", target_ele)  # 拖动到可见的元素去
         if target_ele.text == '展开':
             target_ele.click()
-            sleep(5)
+            sleep(2)
         # ele = self.find_element(house_detail['证件信息展开收起按钮'])
         # if ele.text == '展开':
         #     ele.click()
         #     sleep()
 
     def retract_certificates_info(self):  # 收起证书信息
-        ele = self.find_element(house_detail['证件信息展开收起按钮'])
-        if ele.text == '收起':
-            ele.click()
+        if self.get_element_text(house_detail['证件信息展开收起按钮']) == '收起':
+            self.click_element(house_detail['证件信息展开收起按钮'])
             sleep()
 
     def click_written_entrustment_agreement_upload_button(self):  # 点击书面委托协议证上传按钮
@@ -283,27 +294,27 @@ class HouseDetailPage(WebPage):
                 break
 
     def check_upload_written_entrustment_agreement(self):  # 查看书面委托协议是否已上传
-        return self.__check_upload_certificate('书面委托协议')
+        return self.check_upload_certificate('书面委托协议')
 
     def check_upload_key_entrustment_certificate(self):  # 查看钥匙委托凭证是否已上传
-        return self.__check_upload_certificate('钥匙委托凭证')
+        return self.check_upload_certificate('钥匙委托凭证')
 
     def check_upload_vip_service_entrustment_agreement(self):  # 查看VIP服务委托协议是否已上传
-        return self.__check_upload_certificate('VIP服务委托协议')
+        return self.check_upload_certificate('VIP服务委托协议')
 
     def check_upload_deed_tax_invoice(self):  # 查看契税票是否已上传
-        return self.__check_upload_certificate('契税票')
+        return self.check_upload_certificate('契税票')
 
     def check_upload_owner_identification_information(self):  # 查看身份证明是否已上传
-        return self.__check_upload_certificate('身份证明')
+        return self.check_upload_certificate('身份证明')
 
     def check_upload_original_purchase_contract_information(self):  # 查看原始购房合同是否已上传
-        return self.__check_upload_certificate('原始购房合同')
+        return self.check_upload_certificate('原始购房合同')
 
     def check_upload_property_ownership_certificate(self):  # 查看房产证是否已上传
-        return self.__check_upload_certificate('房产证')
+        return self.check_upload_certificate('房产证')
 
-    def __check_upload_certificate(self, certificate_name):  # 查看证书是否已上传
+    def check_upload_certificate(self, certificate_name):  # 查看证书是否已上传
         locator = 'xpath', "//span[text()='" + certificate_name + "']/ancestor::p//span[@class='blue']"
         text = self.get_element_text(locator)
         if text == '查看':
@@ -355,30 +366,30 @@ class HouseDetailPage(WebPage):
         return self.is_exists(house_detail['删除证件'])
 
     def delete_written_entrustment_agreement(self):  # 删除书面委托协议
-        self.__delete_certificate('书面委托协议')
+        self.delete_certificate('书面委托协议')
 
     def delete_key_entrustment_certificate(self):  # 删除钥匙委托凭证
-        self.__delete_certificate('钥匙委托凭证')
+        self.delete_certificate('钥匙委托凭证')
 
     def delete_vip_service_entrustment_agreement(self):  # 删除VIP服务委托协议
-        self.__delete_certificate('VIP服务委托协议')
+        self.delete_certificate('VIP服务委托协议')
 
     def delete_deed_tax_invoice(self):  # 删除契税票
-        self.__delete_certificate('契税票')
+        self.delete_certificate('契税票')
 
     def delete_owner_identification_information(self):  # 删除身份证明
-        self.__delete_certificate('身份证明')
+        self.delete_certificate('身份证明')
 
     def delete_original_purchase_contract_information(self):  # 删除原始购房合同
-        self.__delete_certificate('原始购房合同')
+        self.delete_certificate('原始购房合同')
 
     def delete_property_ownership_certificate(self):  # 删除房产证
-        self.__delete_certificate('房产证')
+        self.delete_certificate('房产证')
 
-    def __delete_certificate(self, certificate_name):  # 删除证书
+    def delete_certificate(self, certificate_name):  # 删除证书
         locator = 'xpath', "//span[text()='" + certificate_name + "']/ancestor::p//span[text()='删除']"
         self.click_element(locator)
-        self.click_element(house_detail['删除证件_确定按钮'], sleep_time=10)
+        self.click_element(house_detail['删除证件_确定按钮'], sleep_time=2)
 
     def upload_written_entrustment_agreement(self, written_entrustment_agreement):  # 上传书面委托协议
         self.click_written_entrustment_agreement_upload_button()
@@ -397,6 +408,16 @@ class HouseDetailPage(WebPage):
         written_entrustment_agreement_page.input_remark(written_entrustment_agreement.get('备注'))
         written_entrustment_agreement_page.click_submit_button()
 
+    def upload_written_entrustment_agreement_with_random_data(self, agreement_number):  # 上传书面委托协议
+        self.click_written_entrustment_agreement_upload_button()
+        written_entrustment_agreement_page = WrittenEntrustmentAgreementPage(self.driver)
+        written_entrustment_agreement_page.input_entrustment_agreement_number(agreement_number)
+        written_entrustment_agreement_page.input_entrustment_start_date(dt_strftime('%Y-%m-%d'))
+        written_entrustment_agreement_page.input_entrustment_end_date(dt_strftime_with_delta(10, '%Y-%m-%d'))
+        written_entrustment_agreement_page.input_remark("自动化测试需要" + dt_strftime('%Y%m%d%H%M%S'))
+        written_entrustment_agreement_page.upload_picture([cm.tmp_picture_file])
+        written_entrustment_agreement_page.click_submit_button()
+
     def upload_key_entrustment_certificate(self, key_entrustment_certificate):  # 上传钥匙委托协议
         self.click_key_entrustment_certificate_upload_button()
         key_entrustment_certificate_page = KeyEntrustmentCertificatePage(self.driver)
@@ -405,6 +426,16 @@ class HouseDetailPage(WebPage):
         key_entrustment_certificate_page.choose_key_type(key_entrustment_certificate.get('钥匙'))
         key_entrustment_certificate_page.input_shop_space(key_entrustment_certificate.get('存放店面'))
         key_entrustment_certificate_page.input_remark(key_entrustment_certificate.get('备注说明'))
+        key_entrustment_certificate_page.click_save_button()
+
+    def upload_key_entrustment_certificate_with_random_data(self, agreement_number):  # 上传钥匙委托协议
+        self.click_key_entrustment_certificate_upload_button()
+        key_entrustment_certificate_page = KeyEntrustmentCertificatePage(self.driver)
+        key_entrustment_certificate_page.input_agreement_number(agreement_number)
+        key_entrustment_certificate_page.choose_key_type(["密码钥匙", "123456"])
+        key_entrustment_certificate_page.input_shop_space('存放店面')
+        key_entrustment_certificate_page.input_remark("自动化测试需要" + dt_strftime('%Y%m%d%H%M%S'))
+        key_entrustment_certificate_page.upload_picture([cm.tmp_picture_file])
         key_entrustment_certificate_page.click_save_button()
 
     def upload_vip_service_entrustment_agreement(self, vip_service_entrustment_agreement):  # 上传VIP服务委托协议
@@ -420,6 +451,22 @@ class HouseDetailPage(WebPage):
         vip_service_entrustment_agreement_page.input_deposit(vip_service_entrustment_agreement.get('保证金'))
         vip_service_entrustment_agreement_page.choose_payment_object(vip_service_entrustment_agreement.get('打款对象'))
         vip_service_entrustment_agreement_page.input_remark(vip_service_entrustment_agreement.get('备注'))
+        vip_service_entrustment_agreement_page.click_submit_button()
+
+    def upload_vip_service_entrustment_agreement_with_random_data(self, agreement_number):  # 上传VIP服务委托协议
+        self.click_vip_service_entrustment_agreement_upload_button()
+        vip_service_entrustment_agreement_page = VipServiceEntrustmentAgreementPage(self.driver)
+        vip_service_entrustment_agreement_page.upload_picture([cm.tmp_picture_file])
+        vip_service_entrustment_agreement_page.input_entrustment_agreement_number(agreement_number)
+        vip_service_entrustment_agreement_page.input_entrustment_date(dt_strftime('%Y-%m-%d'))
+        vip_service_entrustment_agreement_page.input_entrustment_end_date(dt_strftime_with_delta(90, '%Y-%m-%d'))
+        vip_service_entrustment_agreement_page.choose_entrustment_type("VIP服务")
+        vip_service_entrustment_agreement_page.input_entrustment_price(
+            "".join(map(lambda x: random.choice(string.digits), range(5))))
+        vip_service_entrustment_agreement_page.input_deposit(
+            "".join(map(lambda x: random.choice(string.digits), range(4))))
+        vip_service_entrustment_agreement_page.choose_payment_object(random.choice(["服务人", "商圈经理", "业主"]))
+        vip_service_entrustment_agreement_page.input_remark("自动化测试需要" + dt_strftime('%Y%m%d%H%M%S'))
         vip_service_entrustment_agreement_page.click_submit_button()
 
     def upload_deed_tax_invoice_information(self, deed_tax_invoice_information):  # 上传契税票
@@ -467,6 +514,19 @@ class HouseDetailPage(WebPage):
         property_ownership_certificate_page.input_building_area(property_ownership_certificate.get('建筑面积'))
         property_ownership_certificate_page.input_room_area(property_ownership_certificate.get('套内面积'))
         property_ownership_certificate_page.input_remark(property_ownership_certificate.get('备注'))
+        property_ownership_certificate_page.click_submit_button()
+
+    def upload_property_ownership_certificate_with_random_data(self):  # 上传房产证
+        self.click_property_ownership_certificate_upload_button()
+        property_ownership_certificate_page = PropertyOwnershipCertificatePage(self.driver)
+        property_ownership_certificate_page.upload_picture([cm.tmp_picture_file])
+        property_ownership_certificate_page.input_contract_registration_date(dt_strftime('%Y-%m-%d'))
+        property_ownership_certificate_page.choose_is_share(random.choice(["是", "否"]))
+        property_ownership_certificate_page.input_building_area(
+            "1".join(map(lambda x: random.choice(string.digits), range(2))))
+        property_ownership_certificate_page.input_room_area(
+            "1".join(map(lambda x: random.choice(string.digits), range(2))))
+        property_ownership_certificate_page.input_remark("自动化测试需要" + dt_strftime('%Y%m%d%H%M%S'))
         property_ownership_certificate_page.click_submit_button()
 
     def click_share_button(self):  # 点击房源详情右侧分享按钮
@@ -543,9 +603,8 @@ class HouseDetailPage(WebPage):
 
     def click_delete_survey_button(self):  # 点击房源详情右侧删除实勘按钮
         self.move_mouse_to_element(house_detail['右侧菜单更多按钮'])
-        # self.move_mouse_to_element(house_detail['删除实勘按钮'])
-        sleep(3)
-        self.click_element(house_detail['删除实勘按钮'], 3)
+        self.move_mouse_to_element(house_detail['删除实勘按钮'])
+        self.click_element(house_detail['删除实勘按钮'], sleep_time=3)
 
     def get_tooltip_content(self):
         if self.element_is_exist(house_detail['弹窗显示'], timeout=1):
@@ -575,6 +634,30 @@ class HouseDetailPage(WebPage):
         floor = self.get_element_text(house_detail['楼层弹窗_具体楼层信息']).split('具体楼层')[1]
         self.click_element(house_detail['弹窗_关闭按钮'])
         return floor.split('/')[0].replace(' ', '')
+
+    def update_house_price(self, house_price):  # 调整价格
+        self.move_mouse_to_element(house_detail['右侧菜单更多按钮'])
+        sleep(2)
+        self.move_mouse_to_element(house_detail['调整价格选项'])
+        self.click_element(house_detail['调整价格选项'], sleep_time=2)
+        self.input_text_into_element(house_detail['房源价格输入框'], house_price)
+        self.dialog_click_confirm_button()
+
+    def get_house_price_in_dialog(self):  # 弹窗， 获取原始价格
+        self.move_mouse_to_element(house_detail['右侧菜单更多按钮'])
+        self.move_mouse_to_element(house_detail['调整价格选项'])
+        self.click_element(house_detail['调整价格选项'], sleep_time=2)
+        value = self.get_element_text(house_detail['调价弹窗的房源价格'])
+        self.dialog_click_cancel_button()
+        return value
+
+    def click_focus_on_house_button(self):  # 点击房源详情关注房源按钮
+        if self.get_element_attribute(house_detail['右侧菜单关注房源按钮'], "class") != 'follow':
+            self.click_element(house_detail['右侧菜单关注房源按钮'])
+
+    def click_focus_on_estate_button(self):  # 点击房源详情关注小区按钮
+        if self.get_element_attribute(house_detail['右侧菜单关注小区按钮'], "class") != 'follow':
+            self.click_element(house_detail['右侧菜单关注小区按钮'])
 
     def click_go_top_button(self):  # 点击房源详情右侧顶部按钮
         self.click_element(house_detail['右侧菜单顶部按钮'])
@@ -826,6 +909,9 @@ class HouseDetailPage(WebPage):
         sleep(1)
         self.click_element(house_detail['房源基础信息按钮'], 1)
 
+    def basic_information_dialog_input_phone(self, phone):
+        self.input_text(house_detail['房源基础信息弹窗_手机号码输入框'], phone, clear=True)
+
     def verify_can_modify(self):
         """验证是否可以修改"""
         self.move_mouse_to_element(house_detail['右侧菜单更多按钮'])
@@ -890,7 +976,7 @@ class HouseDetailPage(WebPage):
         sleep(1)
         self.click_element(house_detail['调整价格选项'])
         # initial_price_in_dialog = self.get_element_text(house_detail['调价弹窗的房源价格']).split('.')[0]  # 调整弹窗中的房源初始价格
-        initial_price_in_dialog = self.get_element_text(house_detail['调价弹窗的房源价格'])[0:-2]  # 调整弹窗中的房源初始价格
+        initial_price_in_dialog = self.get_element_text(house_detail['调价弹窗的房源价格'])  # 调整弹窗中的房源初始价格
         return initial_price_in_dialog
 
     def modify_house_price(self, initial_price):
@@ -964,7 +1050,8 @@ class HouseDetailPage(WebPage):
         sleep(1)
         locator = 'xpath', "//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, " \
                            "'ant-select-dropdown-hidden'))]//div[@class='rc-virtual-list']" \
-                           "//div[contains(@class,'ant-select-item ant-select-item-option') and @title='" + maintainer_name + "']"
+                           "//div[contains(@class,'ant-select-item ant-select-item-option') and @title='" \
+                  + maintainer_name + "']"
 
         self.click_element(house_detail['维护人管理按钮'], 2)
         self.click_element(house_detail['选择人员输入框'], 2)
@@ -976,7 +1063,7 @@ class HouseDetailPage(WebPage):
         else:
             expect_maintainer_name = self.find_elements(house_detail['下拉框'])[0].text
             self.find_elements(house_detail['下拉框'])[0].click()
-        self.click_element(house_detail['分配弹窗确定按钮'], 5)
+        self.click_element(house_detail['分配弹窗确定按钮'], 2)
         return expect_maintainer_name
 
     def get_current_maintainer(self):

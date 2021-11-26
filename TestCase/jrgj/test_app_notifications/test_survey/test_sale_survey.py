@@ -37,16 +37,18 @@ class TestSaleSurvey(object):
     feedback = "自动化测试需要，实勘M反馈" + dt_strftime("%Y%m%d%H%M%S")
 
     @pytest.fixture(scope="class", autouse=True)
-    def setup_and_teardown(self, oppo_android_driver, nox_android_driver):
-        app_login = AppLoginPage(oppo_android_driver)
-        app_main = AppMainPage(oppo_android_driver)
-        app_mine = AppMinePage(oppo_android_driver)
-        app_message_table = AppMessageTablePage(oppo_android_driver)
-        second_app_login = AppLoginPage(nox_android_driver)
-        second_app_main = AppMainPage(nox_android_driver)
-        second_app_mine = AppMinePage(nox_android_driver)
-        second_app_message_table = AppMessageTablePage(nox_android_driver)
+    def setup_and_teardown(self, web_driver, android_driver, android_driver2):
+        main_leftview = MainLeftViewPage(web_driver)
+        app_login = AppLoginPage(android_driver)
+        app_main = AppMainPage(android_driver)
+        app_mine = AppMinePage(android_driver)
+        app_message_table = AppMessageTablePage(android_driver)
+        second_app_login = AppLoginPage(android_driver2)
+        second_app_main = AppMainPage(android_driver2)
+        second_app_mine = AppMinePage(android_driver2)
+        second_app_message_table = AppMessageTablePage(android_driver2)
 
+        main_leftview.change_role('经纪人')
         app_login.log_in(ini.user_account, ini.user_password)
         app_main.close_top_view()
         app_main.click_message_button()
@@ -60,17 +62,18 @@ class TestSaleSurvey(object):
         app_mine.log_out()
         second_app_main.click_mine_button()
         second_app_mine.log_out()
+        main_leftview.change_role('经纪人')
 
     @allure.story("预约实勘")
-    def test_001(self, web_driver, oppo_android_driver, nox_android_driver):
-        app_common = AppCommonPage(oppo_android_driver)
-        app_notification = AppNotificationsTablePage(oppo_android_driver)
-        app_message_table = AppMessageTablePage(oppo_android_driver)
-        second_app_common = AppCommonPage(nox_android_driver)
-        second_app_notification = AppNotificationsTablePage(nox_android_driver)
-        second_app_message_table = AppMessageTablePage(nox_android_driver)
+    def test_001(self, web_driver, android_driver, android_driver2):
+        app_common = AppCommonPage(android_driver)
+        app_notification = AppNotificationsTablePage(android_driver)
+        app_message_table = AppMessageTablePage(android_driver)
+        second_app_common = AppCommonPage(android_driver2)
+        second_app_notification = AppNotificationsTablePage(android_driver2)
+        second_app_message_table = AppMessageTablePage(android_driver2)
 
-        self.appointment_survey(web_driver)
+        self.appointment_survey(web_driver)  # 预约实勘
         if self.exploration_time[0] == '今天':
             survey_date = dt_strftime("%Y-%m-%d")
         elif self.exploration_time[0] == '明天':
@@ -139,8 +142,8 @@ class TestSaleSurvey(object):
                       + "进行实勘拍摄，订单编号为" + self.survey_code + "。")
         second_app_common.back_previous_step()
         second_app_common.back_previous_step()
-        self.upload_survey(web_driver, nox_android_driver)
-        self.survey_m_feedback(web_driver)
+        self.upload_survey(web_driver, android_driver2)
+        self.survey_m_feedback(web_driver)  # 实勘M反馈
         second_app_common.open_notifications()
         pytest.assume(second_app_notification.get_notification_title_by_row(1) == '实勘人M反馈')
         pytest.assume(second_app_notification.get_notification_content_by_row(1) in "您好！您拍摄的房源 "
@@ -178,7 +181,6 @@ class TestSaleSurvey(object):
         house_detail = HouseDetailPage(web_driver)
         survey_table = SurveyTablePage(web_driver)
 
-        main_leftview.change_role('经纪人')
         self.house_code = house_table.get_house_code_by_db(flag='买卖')
         assert self.house_code != '', "不存在房源"
         logger.info('房源编号为：' + self.house_code)
@@ -186,6 +188,7 @@ class TestSaleSurvey(object):
         house_table.click_sale_tab()
         house_table.clear_filter('买卖')
         house_table.input_house_code_search(self.house_code)
+        house_table.click_search_button()
         house_table.go_house_detail_by_row(1)
         if house_detail.check_survey_status() == '已预约':
             logger.info('已预约实勘，取消实勘预约')  # 须优化实勘已上传的情况
@@ -215,6 +218,7 @@ class TestSaleSurvey(object):
             main_leftview.click_all_house_label()
             house_table.clear_filter(flag='买卖')
             house_table.input_house_code_search(self.house_code)
+            house_table.click_search_button()
             house_table.go_house_detail_by_row(1)
         elif house_detail.check_survey_status() == '已上传':
             main_leftview.change_role('超级管理员')
@@ -234,6 +238,7 @@ class TestSaleSurvey(object):
             main_leftview.click_all_house_label()
             house_table.clear_filter(flag='买卖')
             house_table.input_house_code_search(self.house_code)
+            house_table.click_search_button()
             house_table.go_house_detail_by_row(1)
         else:
             pass

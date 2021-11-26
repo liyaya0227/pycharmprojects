@@ -49,4 +49,4 @@ class KeyEntrustmentCertificatePage(WebPage):
         self.click_element(key_entrustment_certificate['关闭按钮'])
 
     def click_save_button(self):
-        self.click_element(key_entrustment_certificate['保存按钮'], sleep_time=5)
+        self.click_element(key_entrustment_certificate['保存按钮'], sleep_time=2)

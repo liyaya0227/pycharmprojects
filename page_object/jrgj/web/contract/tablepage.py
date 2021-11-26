@@ -64,7 +64,8 @@ class ContractTablePage(WebPage):
         self.click_element(table['重置按钮'])
 
     def click_search_button(self):  # 点击搜索按钮
-        self.click_element(table['查询按钮'], sleep_time=1)
+        sleep(0.5)
+        self.click_element(table['查询按钮'], sleep_time=2)
 
     def delete_contract_by_row(self, row=1):  # 根据行数，点击删除合同按钮
         self.wait_page_loading_complete()
@@ -148,6 +149,7 @@ class ContractTablePage(WebPage):
         locator = 'xpath', "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + \
                   str(row) + "]/td[" + str(self.__get_column_by_title('审核状态') + 1) + "]//a[text()='审核']"
         self.click_element(locator)
+        sleep(4)
 
     def get_contract_code_by_row(self, row=1):  # 根据行数，获取合同编号
         contract_code_locator = 'xpath', \
@@ -166,6 +168,12 @@ class ContractTablePage(WebPage):
                                  "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + \
                                  str(row) + "]/td[" + str(self.__get_column_by_title('变更/解约') + 1) + "]"
         return self.get_element_text(change_rescind_locator)
+
+    def get_contract_pre_examine_by_row(self, row=1):  # 根据行数，获取合同签前审核状态
+        pre_examine_locator = 'xpath', \
+                              "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + \
+                              str(row) + "]/td[" + str(self.__get_column_by_title('签前审核') + 1) + "]"
+        return self.get_element_text(pre_examine_locator)
 
     def get_contract_detail_by_row(self, row=1, flag='买卖'):  # 根据行数，获取合同列表各字段
         contract_detail = {}
@@ -214,12 +222,10 @@ class ContractTablePage(WebPage):
                                   "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + \
                                   str(row) + "]/td[" + str(self.__get_column_by_title('签前审核') + 1) + "]"
             contract_detail['pre_examine'] = self.get_element_text(pre_examine_locator)
-
             change_rescind_locator = 'xpath', \
                                      "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + \
                                      str(row) + "]/td[" + str(self.__get_column_by_title('变更/解约') + 1) + "]"
             contract_detail['change_rescind'] = self.get_element_text(change_rescind_locator)
-
         elif flag == '租赁':
             attachment_examine_locator = 'xpath', \
                                          "//div[@style='' or not(@style)]/div[@class='sign-less']//table/tbody/tr[" + \

@@ -6,6 +6,7 @@
 成交房源标签: "xpath==//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//div[@class='ant-tabs-content-holder']//div[@class='ant-tabs-nav-list']//div[@role='tab' and text()='成交房源']"
 下架房源标签: "xpath==//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//div[@class='ant-tabs-content-holder']//div[@class='ant-tabs-nav-list']//div[@role='tab' and text()='下架房源']"
 
+我的房源按钮: "xpath==//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//span[text()='我的房源']/parent::button[@type='button']"
 新增房源按钮: "xpath==//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//span[text()='新增房源']/parent::button[@type='button']"
 新增楼盘按钮: "xpath==//div[not(contains(@style,'display'))]//div[@class='ant-row houseManage']//span[text()='新增楼盘']/parent::button[@type='button']"
 

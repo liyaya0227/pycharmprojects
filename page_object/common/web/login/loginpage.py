@@ -139,3 +139,4 @@ class LoginPage(WebPage):
         if self.check_choose_app_dialog_exist():
             self.choose_app_and_city(app=app)
             self.dialog_click_confirm_button()
+        self.wait_page_loading_complete()

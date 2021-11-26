@@ -16,8 +16,8 @@ top_view = Element('jrgj/web/main/topview')
 class MainTopViewPage(WebPage):
 
     def click_close_button(self):
-        if self.element_is_exist(top_view['关闭按钮'], timeout=2):
-            # sleep()
+        if self.element_is_exist(top_view['关闭按钮'], timeout=4):
+            sleep(2)
             self.click_element(top_view['关闭按钮'])
 
     def find_notification_title(self):
@@ -33,12 +33,13 @@ class MainTopViewPage(WebPage):
         if self.element_is_exist(top_view['右上角弹窗_内容'], timeout=15):
             sleep()
             value = self.get_element_text(top_view['右上角弹窗_内容'])
-            self.click_element(top_view['右上角弹窗_关闭按钮'], 10)
+            self.click_element(top_view['右上角弹窗_关闭按钮'])
+            sleep(2)
             return value
         else:
             return ''
 
     def close_notification(self):
         if self.element_is_exist(top_view['右上角弹窗_关闭按钮'], timeout=5):
-            sleep()
             self.click_element(top_view['右上角弹窗_关闭按钮'])
+            sleep(2)

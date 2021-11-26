@@ -1,5 +1,7 @@
 房源编号标签: "xpath==//div[@style='' or not(@style)]/div[@class='houseDetail']/div[@class='ant-row houseTitle']//div[@class='title']/span"
 房源所有标签列标签: "xpath==//div[@style='' or not(@style)]/div[@class='houseDetail']//div[@class='houseTag']/span"
+房源举证剩余时间标签: "xpath==//div[@style='' or not(@style)]/div[@class='houseDetail']/div[@class='ant-row houseTitle']/div[last()]/div"
+
 价格标签: "xpath==//div[@style='' or not(@style)]/div[@class='houseDetail']//div[@class='ant-row houseBaseInfo']//div[@class='informationLeft']//span[@class='price']"
 户型标签: "xpath==//div[@style='' or not(@style)]/div[@class='houseDetail']//div[@class='ant-row houseBaseInfo']//div[@class='mainItemBox']//li[contains(text(), '户型')]/p"
 面积标签: "xpath==//div[@style='' or not(@style)]/div[@class='houseDetail']//div[@class='ant-row houseBaseInfo']//div[@class='mainItemBox']//li[contains(text(), '面积')]/p"
@@ -90,6 +92,9 @@
 
 删除实勘按钮: "xpath==//div[contains(@class,'ant-popover ant-popover-placement-left')]//*[text()='删除实勘']"
 
+右侧菜单关注房源按钮: "xpath==//div[@class='rightMenu']//span[contains(.,'关注房源')]/ancestor::li"
+右侧菜单关注小区按钮: "xpath==//div[@class='rightMenu']//span[contains(.,'关注小区')]/ancestor::li"
+
 右侧菜单顶部按钮: "xpath==//div[@class='rightMenu']//span[text()='顶部']"
 
 编辑重点维护信息按钮: "xpath==//div[@style='' or not(@style)]/div[@class='houseDetail']//div[text()='编辑重点维护信息']"
@@ -128,6 +133,7 @@ VIP服务人_姓名标签: "xpath==//div[@style='' or not(@style)]/div[@class='h
 房源编号: "xpath==//span[contains(.,'房源编号：')]"
 更多按钮: "xpath==//span[contains(.,'更多')]"
 房源基础信息按钮: "xpath==//li[contains(.,'房源基础信息')]"
+房源基础信息弹窗_手机号码输入框: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//input[@id='phoneNumber']"
 #房源基础信息弹窗title: "xpath==//div[contains(.,'房源基础信息')]"
 #房源基础信息弹窗title: "xpath==//div[@id='rcDialogTitle1']"
 房源基础信息弹窗title: "xpath==//div[@style='' or not(@style)]//div[@role='dialog']//div[text()='房源基础信息']"

@@ -1,0 +1,4 @@
+欢迎标签: "xpath==//header[@class='main-header']//a[contains(text(),'欢迎')]"
+注销按钮: "xpath==//header[@class='main-header']//a[text()='注销']"
+
+弹窗_确定按钮: "xpath==//div[@class='layui-layer layui-layer-dialog']//a[text()='确定']"

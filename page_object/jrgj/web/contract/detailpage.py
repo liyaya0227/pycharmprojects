@@ -127,7 +127,24 @@ class ContractDetailPage(WebPage):
         else:
             return False
 
-    def click_subject_contract(self):
+    def click_contract_examine_process_tab(self):
+        self.click_element(detail['合同审核流标签'], sleep_time=3)
+
+    def click_watch_examine_remark_button_by_row(self, row=1):
+        """合同审核信息，点击查看审核备注信息"""
+        locator = "xpath", "(//div[@class='order-detail-less']//div[text()='合同审核流']" \
+                           "/ancestor::div[contains(@class,'order-list-tab')]//div[text()='合同审核信息']" \
+                           "/parent::div/ul/li)[" + str(row) + "]//span[text()='查看审核备注信息']/parent::button"
+        if self.element_is_exist(locator):
+            self.click_element(locator)
+        else:
+            raise ValueError("未找到查看审核备注信息按钮")
+
+    def examine_remark_dialog_get_picture_count(self):
+        """审核备注信息，获取图片说明，图片数"""
+        return len(self.find_elements(detail['审核备注信息弹窗_图片说明图片']))
+
+    def click_subject_contract_tab(self):
         self.click_element(detail['主体合同标签'], sleep_time=3)
 
     def upload_two_sign_contract(self):

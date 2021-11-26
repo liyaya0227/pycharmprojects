@@ -37,13 +37,15 @@ class TestSaleContract(object):
     contract_code = ''
 
     @pytest.fixture(scope="function", autouse=True)
-    def test_prepare(self, web_driver, oppo_android_driver):
+    def test_prepare(self, web_driver, android_driver):
+        main_leftview = MainLeftViewPage(web_driver)
         contract_service = ContractService(web_driver)
-        app_login = AppLoginPage(oppo_android_driver)
-        app_mine = AppMinePage(oppo_android_driver)
-        app_main = AppMainPage(oppo_android_driver)
-        app_message_table = AppMessageTablePage(oppo_android_driver)
+        app_login = AppLoginPage(android_driver)
+        app_mine = AppMinePage(android_driver)
+        app_main = AppMainPage(android_driver)
+        app_message_table = AppMessageTablePage(android_driver)
 
+        main_leftview.change_role('经纪人')
         app_login.log_in(ini.user_account, ini.user_password)
         app_main.close_top_view()
         app_main.click_message_button()
@@ -55,10 +57,10 @@ class TestSaleContract(object):
         app_mine.log_out()
 
     @allure.story("测试买卖合同审核流程， APP通知内容")
-    def test_001(self, web_driver, oppo_android_driver):
-        app_common = AppCommonPage(oppo_android_driver)
-        app_notification = AppNotificationsTablePage(oppo_android_driver)
-        app_message_table = AppMessageTablePage(oppo_android_driver)
+    def test_001(self, web_driver, android_driver):
+        app_common = AppCommonPage(android_driver)
+        app_notification = AppNotificationsTablePage(android_driver)
+        app_message_table = AppMessageTablePage(android_driver)
 
         env = ini.environment
         self.prepare_for_add_contract(web_driver)
@@ -174,7 +176,6 @@ class TestSaleContract(object):
         customer_detail = CustomerDetailPage(web_driver)
         contract_table = ContractTablePage(web_driver)
 
-        main_leftview.change_role('经纪人')
         self.house_code = house_table.get_house_code_by_db(flag='买卖')
         assert self.house_code != ''
         logger.info('房源编号为：' + self.house_code)
@@ -182,6 +183,7 @@ class TestSaleContract(object):
         house_table.click_sale_tab()
         house_table.clear_filter('买卖')
         house_table.input_house_code_search(self.house_code)
+        house_table.click_search_button()
         house_table.go_house_detail_by_row(1)
         self.house_info = house_detail.get_address_dialog_house_property_address()
         self.house_info['house_code'] = self.house_code
@@ -295,7 +297,7 @@ class TestSaleContract(object):
         contract_table.input_contract_code_search(self.contract_code)
         contract_table.click_search_button()
         contract_table.legal_examine_by_row(1)
-        contract_preview.click_reject_button(reason="自动化测试需要")
+        contract_preview.reject_examine_by_reason(reason="自动化测试需要")
         main_leftview.change_role('初级经纪人')
 
     @allure.step("经纪人重新提审，商圈经理审核通过, 法务审核通过")

@@ -9,7 +9,7 @@
 import allure
 from config.conf import cm
 from utils.logger import logger
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException, ElementClickInterceptedException
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -45,7 +45,7 @@ class DriverAction(object):
         """
         self.driver.implicitly_wait(second)
 
-    def find_element(self, locator, timeout=13, poll_frequency=0.5):
+    def find_element(self, locator, timeout=15, poll_frequency=0.5):
         """
         查找单个元素
         :param locator 元素定位
@@ -71,7 +71,7 @@ class DriverAction(object):
         except TimeoutException:
             return []
 
-    def check_element_is_exist(self, locator, timeout=2):
+    def check_element_exist(self, locator, timeout=2):
         """
         判断元素存不存在
         """
@@ -87,8 +87,14 @@ class DriverAction(object):
         点击元素
         :param locator 元素定位
         """
-        logger.info('点击元素({})'.format(locator))
-        self.find_element(locator).click()
+        try:
+            logger.info('点击元素({})'.format(locator))
+            self.find_element(locator).click()
+        except ElementClickInterceptedException:
+            screen_path = cm.screen_path
+            self.screen_shot(screen_path)
+            allure.attach.file(screen_path, "失败截图", allure.attachment_type.PNG)
+            raise ElementClickInterceptedException("点击元素({})报错".format(locator))
 
     def input_text_into_element(self, locator, text):
         """
