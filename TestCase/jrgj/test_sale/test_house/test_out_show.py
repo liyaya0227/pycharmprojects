@@ -14,6 +14,7 @@ from case_service.jrgj.web.survey.survey_service import SurveyService
 from config.conf import cm
 from page_object.common.web.login.loginpage import LoginPage
 from page_object.jrgj.web.main.topviewpage import MainTopViewPage
+from page_object.jrgj.web.survey.tablepage import SurveyTablePage
 from utils.logger import logger
 from common.readconfig import ini
 from utils.jsonutil import get_value, get_data
@@ -61,6 +62,7 @@ class TestOutShow(object):
         self.house_detail_page = HouseDetailPage(gl_web_driver)
         self.agreement_list_page = AgreementListPage(gl_web_driver)
         self.certificate_examine_page = CertificateExaminePage(gl_web_driver)
+        self.survey_table_page = SurveyTablePage(gl_web_driver)
         self.app_main_page = AppMainPage(gl_app_driver)
         self.app_mine_page = AppMinePage(gl_app_driver)
         self.app_login_page = AppLoginPage(gl_app_driver)
@@ -68,25 +70,9 @@ class TestOutShow(object):
         self.house_detail_page.choose_not_out_show()
         self.main_up_view.clear_all_title()
 
-    @allure.step("进入房源详情")
-    def enter_house_detail(self, house_code):
-        self.main_left_view.click_all_house_label()
-        self.house_table_page.input_house_code_search(house_code)
-        for i in range(4):
-            number = self.house_table_page.get_house_number()
-            if int(number) > 0:
-                self.house_detail_page.enter_house_detail()
-                break
-            else:
-                self.house_table_page.click_search_button()
-
     @allure.step("获取书面委托协议编号")
     def get_delegate_agreement_no(self):
         self.main_left_view.click_agreement_list_label()
-        # if ini.environment == 'sz' or ini.environment == 'hz':
-        #     self.agreement_list_page.input_agreement_name_search('一般委托书')
-        # if ini.environment == 'wx':
-        #     self.agreement_list_page.input_agreement_name_search('无锡【芫家】一般委托书【出租】【出售】')
         self.agreement_list_page.input_agreement_name_search('一般委托书')
         self.agreement_list_page.click_query_button()
         self.agreement_list_page.click_download_button_by_row(1)
@@ -106,16 +92,31 @@ class TestOutShow(object):
     @pytest.mark.house
     @pytest.mark.run(order=3)
     def test_out_show(self):
+        house_code = house_info[0]
+        house_service = HouseService(gl_web_driver)
         survey_person_info = get_value(self.json_file_path, ini.environment)
         exploration_info = get_value(self.json_file_path, 'exploration_info')
         written_entrustment_agreement_params = get_value(self.json_file_path, 'written_entrustment_agreement')
-        self.enter_house_detail(house_info[0])
-        if self.house_detail_page.check_survey_status() != '已上传':
+        house_service.enter_house_detail(house_code, HOUSE_TYPE)
+        if self.house_detail_page.check_survey_status() != '已上传':  # 准备实勘数据
             logger.info('未上传实勘，进行实勘预约')
-            if self.house_detail_page.check_survey_status() == '已预约':  # 实勘退单
-                self.house_detail_page.click_back_survey_button()
-                self.house_detail_page.dialog_choose_back_exploration_reason('其他')
-                self.house_detail_page.dialog_click_back_exploration_return_button()
+            if self.house_detail_page.check_survey_status() == '已预约':
+                if self.house_detail_page.check_back_survey():  # 实勘退单
+                    self.house_detail_page.click_back_survey_button()
+                    self.house_detail_page.dialog_choose_back_exploration_reason('其他')
+                    self.house_detail_page.dialog_click_back_exploration_return_button()
+                else:
+                    self.main_up_view.clear_all_title()
+                    self.main_left_view.change_role('超级管理员')
+                    self.main_left_view.click_survey_management_label()  # 取消实勘订单
+                    self.survey_table_page.input_house_code_search(house_code)
+                    self.survey_table_page.click_search_button()
+                    self.survey_table_page.click_cancel_the_order()
+                    self.survey_table_page.dialog_click_confirm_button()
+                    house_service.enter_house_detail(house_code, HOUSE_TYPE)
+            self.main_up_view.clear_all_title()
+            house_service.check_current_role('经纪人')
+            house_service.enter_house_detail(house_code, HOUSE_TYPE)
             survey_service.order_survey(gl_web_driver, survey_person_info['photographer'],
                                         exploration_info['exploration_time'],  # 预约实勘
                                         exploration_info['appointment_instructions'])
@@ -132,27 +133,32 @@ class TestOutShow(object):
                 self.app_mine_page.change_role_click_confirm_button()
             self.app_main_page.click_order_button()  # 拍摄实勘
             exploration_time = exploration_info['exploration_time'][0].split(',')[0]
-            survey_service.shoot_survey(gl_app_driver, house_info[0], exploration_time)
+            survey_service.shoot_survey(gl_app_driver, house_code, exploration_time)
             self.main_left_view.log_out()  # 上传实勘
             self.login_page.log_in(survey_person_info['photographer_phone'],
                                    survey_person_info['photographer_password'])
             self.main_left_view.change_role('实勘人员')
-            survey_service.upload_survey(gl_web_driver, house_info[0])
+            survey_service.upload_survey(gl_web_driver, house_code)
             self.main_top_view.close_notification()
             self.main_left_view.log_out()
             self.login_page.log_in(ini.user_account, ini.user_password)
-            self.enter_house_detail(house_info[0])
-        self.house_detail_page.expand_certificates_info()  # 上传并审核书面委托协议
+            house_service.enter_house_detail(house_code, HOUSE_TYPE)
+        else:
+            logger.info('实勘已上传')
+
+        self.house_detail_page.expand_certificates_info()  # 准备证书数据
         if self.house_detail_page.check_upload_written_entrustment_agreement() != '审核通过':
             if self.house_detail_page.check_upload_written_entrustment_agreement() == '待审核':
                 self.house_detail_page.delete_written_entrustment_agreement()
             self.main_up_view.clear_all_title()
             delegate_agreement_no = self.get_delegate_agreement_no()
             written_entrustment_agreement_params['委托协议编号'] = delegate_agreement_no
-            self.enter_house_detail(house_info[0])
-            self.upload_delegate_agreement(written_entrustment_agreement_params)
-            self.main_left_view.change_role('经纪人')
-            self.enter_house_detail(house_info[0])
+            house_service.enter_house_detail(house_code, HOUSE_TYPE)
+            self.upload_delegate_agreement(written_entrustment_agreement_params)  # 上传证书并审核
+            house_service.check_current_role('经纪人')
+            house_service.enter_house_detail(house_code, HOUSE_TYPE)
+        else:
+            logger.info('证书已上传')
         self.house_detail_page.click_go_top_button()
         self.house_detail_page.choose_out_show()
         assert self.house_detail_page.get_out_show()

@@ -102,15 +102,6 @@ class TestBusinessProcesses(object):
     @allure.step("上传草网签")
     def upload_sign(self, house_name, record_no):
         self.house_task_table_page.search_records_by_report_no(record_no)
-        # if self.house_task_table_page.check_records_to_be_reviewed(house_name):  # 审核驳回草网签
-        #     self.enter_house_task_list('平台管理员', '草网签')
-        #     self.house_task_table_page.search_records_by_name(house_name)
-        #     self.add_house_task_page.audit_rejected_record()
-        #     self.add_house_task_page.click_confirm_btn()
-        #     self.enter_house_task_list('新房案场', '认购')
-        # else:
-        #     logger.info('当前房源暂无待审核的草网签记录')
-        # self.house_task_table_page.switch_tab_by_tab_name('认购')
         self.house_task_table_page.click_upload_sign_btn(record_no)
         self.add_house_task_page.upload_sign(100, 100)
 
@@ -124,12 +115,6 @@ class TestBusinessProcesses(object):
     @allure.step("录入成销")
     def save_sell(self, report_no, picture_path):
         self.house_task_table_page.search_records_by_report_no(report_no)
-        # if self.house_task_table_page.check_records_to_be_reviewed(house_name):  # 审核驳回草网签
-        #     self.add_house_task_page.audit_rejected_record()
-        # else:
-        #     logger.info('当前房源暂无待审核的成销记录')
-        # self.enter_house_task_list('新房案场', '草网签')
-        # self.house_task_table_page.search_records_by_name(house_name)
         self.house_task_table_page.click_save_cell_btn(report_no)
         self.add_house_task_page.save_sell(picture_path)
 

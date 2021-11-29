@@ -6,7 +6,6 @@
 @file: test_view_floor.py
 @date: 2021/8/10 0010
 """
-
 import pytest
 import allure
 from case_service.jrgj.web.house.house_service import HouseService

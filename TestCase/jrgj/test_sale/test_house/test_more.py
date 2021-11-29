@@ -9,6 +9,7 @@
 import allure
 import pytest
 from case_service.jrgj.web.house.house_service import HouseService
+from common.readconfig import ini
 from config.conf import cm
 from page_object.common.web.login.loginpage import LoginPage
 from page_object.jrgj.web.house.detailpage import HouseDetailPage
@@ -40,6 +41,11 @@ class TestHouseDetail(object):
         gl_driver = web_driver
         house_service = HouseService(gl_driver)
         house_info = house_service.prepare_house(self.test_data, HOUSE_TYPE)
+        yield
+        self.login_page = LoginPage(gl_driver)
+        self.main_left_view = MainLeftViewPage(gl_driver)
+        self.main_left_view.log_out()
+        self.login_page.log_in(ini.user_account, ini.user_password)
 
     @pytest.fixture(scope="function", autouse=True)
     def data_prepare(self):
@@ -52,12 +58,13 @@ class TestHouseDetail(object):
         self.house_table_page = HouseTablePage(gl_driver)
         self.house_detail_page = HouseDetailPage(gl_driver)
         account_name = self.house_detail_page.get_account_name()
-        self.enter_house_detail(house_info[0])
+        HouseService(gl_driver).check_current_role('经纪人')
+        HouseService(gl_driver).enter_house_detail(house_info[0], HOUSE_TYPE)
         current_maintainer_name, current_maintainer_phone = self.house_detail_page.get_current_maintainer()
         if current_maintainer_name != account_name:
             self.main_left_view.log_out()
-            house_service.replace_house_maintainer(current_maintainer_phone, 'Autotest1', house_info[0],
-                                                   account_name, HOUSE_TYPE)
+            HouseService(gl_driver).replace_house_maintainer(current_maintainer_phone, 'Autotest1', house_info[0],
+                                                             account_name, HOUSE_TYPE)
         yield
         self.main_up_view.clear_all_title()
 
@@ -68,33 +75,15 @@ class TestHouseDetail(object):
         self.login_page.log_in(maintainer_phone, 'Autotest1')
         self.main_top_view.wait_page_loading_complete()
         self.main_top_view.click_close_button()
-        self.main_left_view.change_role('经纪人')
-        self.enter_house_detail(house_info[0])
+        HouseService(gl_driver).check_current_role('经纪人')
+        HouseService(gl_driver).enter_house_detail(house_info[0], HOUSE_TYPE)
         self.house_detail_page.replace_maintainer(account_name)
-
-    # @allure.step("进入房源详情")
-    # def enter_house_detail(self, house_code):
-    #     self.main_left_view.click_all_house_label()
-    #     self.house_table_page.input_house_code_search(house_code)
-    #     self.house_detail_page.enter_house_detail()
-    @allure.step("进入房源详情")
-    def enter_house_detail(self, house_code):
-        self.main_left_view.click_all_house_label()
-        self.house_table_page.input_house_code_search(house_code)
-        for i in range(4):
-            number = self.house_table_page.get_house_number()
-            if int(number) > 0:
-                self.house_detail_page.enter_house_detail()
-                break
-            else:
-                self.house_table_page.click_search_button()
 
     @allure.story("查看房源基本信息")
     @pytest.mark.rent
     @pytest.mark.house
-    @pytest.mark.run(order=2)  # 保证在新增房源用例后执行
+    @pytest.mark.run(order=6)  # 保证在新增房源用例后执行
     def test_view_basic_information(self):
-        # self.enter_house_detail(house_info[0])
         self.house_detail_page.view_basic_information()
         self.house_detail_page.close_dialog()
         assert self.house_detail_page.verify_view_success()
@@ -102,7 +91,7 @@ class TestHouseDetail(object):
     @allure.story("修改房源状态并审核")
     @pytest.mark.rent
     @pytest.mark.house
-    @pytest.mark.run(order=2)  # 保证在新增房源用例后执行
+    @pytest.mark.run(order=6)  # 保证在新增房源用例后执行
     def test_modify_house_status(self):
         if self.house_detail_page.verify_can_modify():  # 已存在待审核记录，先驳回
             self.main_up_view.clear_all_title()
@@ -112,7 +101,7 @@ class TestHouseDetail(object):
             self.main_top_view.close_notification()
             self.main_up_view.clear_all_title()
             self.main_left_view.change_role('经纪人')
-            self.enter_house_detail(house_info[0])
+            HouseService(gl_driver).enter_house_detail(house_info[0], HOUSE_TYPE)
             self.house_detail_page.move_mouse_to_operation_item('房源状态')
         else:
             logger.info('不存在待审核记录的修改房源状态记录')
@@ -128,19 +117,22 @@ class TestHouseDetail(object):
     @allure.story("修改房源价格-从调整价格进入")
     @pytest.mark.rent
     @pytest.mark.house
-    @pytest.mark.run(order=2)  # 保证在新增房源用例后执行
+    @pytest.mark.run(order=6)  # 保证在新增房源用例后执行
     def test_modify_house_price(self):
         initial_price, house_area = self.house_detail_page.get_house_info_in_detail_page(HOUSE_TYPE)
-        initial_price_in_dialog = self.house_detail_page.get_initial_price_in_dialog()
+        initial_price_in_dialog = self.house_detail_page.get_initial_price_in_dialog(HOUSE_TYPE)
         expect_final_price = self.house_detail_page.modify_house_price(initial_price)
-        if len(initial_price_in_dialog.split('.')) > 1:
+        if len(initial_price_in_dialog.split('.')) > 1:  # 房源价格为整数时做特殊处理
             if initial_price_in_dialog.split('.')[1] == '0':
                 initial_price_in_dialog = initial_price_in_dialog.split('.')[0]
-        pytest.assume(initial_price == initial_price_in_dialog)  # 校验修改价格弹窗中的初始价格是否正确
+        if len(expect_final_price.split('.')) > 1:  # 房源价格为整数时做特殊处理
+            if expect_final_price.split('.')[1] == '0':
+                expect_final_price = expect_final_price.split('.')[0]
+        assert initial_price == initial_price_in_dialog  # 校验弹窗中的初始价格
         actual_price_in_detail_page, expect_final_unit_price, actual_unit_price_in_detail_page = \
             self.house_detail_page.get_modified_price_in_detail_page(HOUSE_TYPE, expect_final_price, house_area)
-        pytest.assume(expect_final_price == actual_price_in_detail_page)  # 校验修改后详情页面的价格更新
-        pytest.assume(expect_final_unit_price == actual_unit_price_in_detail_page)  # 校验修改后详情页面的单价更新
+        assert expect_final_price == actual_price_in_detail_page  # 校验详情页面价格更新
+        assert expect_final_unit_price == actual_unit_price_in_detail_page  # 校验详情页面单价更新
         actual_text, expect_text = self.house_detail_page.verify_record_list_update(initial_price,
                                                                                     expect_final_price, HOUSE_TYPE)
         assert actual_text == expect_text
@@ -148,24 +140,27 @@ class TestHouseDetail(object):
     @allure.story("修改房源价格-从房源基础信息进入")
     @pytest.mark.rent
     @pytest.mark.house
-    @pytest.mark.run(order=2)  # 保证在新增房源用例后执行
+    @pytest.mark.run(order=6)  # 保证在新增房源用例后执行
     def test_modify_price_by_information(self):
         initial_price, house_area = self.house_detail_page.get_house_info_in_detail_page(HOUSE_TYPE)
         expect_final_price = self.house_detail_page.modify_price_from_basic_information_page()
         actual_price_in_detail_page, expect_final_unit_price, actual_unit_price_in_detail_page = \
             self.house_detail_page.get_modified_price_in_detail_page(HOUSE_TYPE, expect_final_price, house_area)
-        pytest.assume(expect_final_price == actual_price_in_detail_page)  # 校验修改后详情页面的价格更新
-        assert (expect_final_unit_price == actual_unit_price_in_detail_page)  # 校验修改后详情页面的单价更新
+        if len(expect_final_price.split('.')) > 1:  # 房源价格为整数时做特殊处理
+            if expect_final_price.split('.')[1] == '0':
+                expect_final_price = expect_final_price.split('.')[0]
+        assert expect_final_price == actual_price_in_detail_page  # 校验详情页面价格更新
+        assert expect_final_unit_price == actual_unit_price_in_detail_page  # 校验详情页面单价更新
         actual_text, expect_text = self.house_detail_page.verify_record_list_update(initial_price,
                                                                                     expect_final_price, HOUSE_TYPE)
-        pytest.assume(actual_text == expect_text)  # 校验调价记录列表更新
-        assert self.house_detail_page.verify_log_list_update(account_name)  # 校验操作日志列表是否更新
+        assert actual_text == expect_text  # 校验调价记录列表更新
+        assert self.house_detail_page.verify_log_list_update(account_name)  # 校验操作日志列表更新
         self.house_detail_page.click_close_btn()
 
     @allure.story("举报房源并审核")
     @pytest.mark.rent
     @pytest.mark.house
-    @pytest.mark.run(order=2)  # 保证在新增房源用例后执行
+    @pytest.mark.run(order=6)  # 保证在新增房源用例后执行
     def test_report_house(self):
         if self.house_detail_page.verify_can_report():  # 存在待审核的举报房源记录，先驳回
             self.main_up_view.clear_all_title()
@@ -175,7 +170,7 @@ class TestHouseDetail(object):
             self.main_top_view.close_notification()
             self.main_up_view.clear_all_title()
             self.main_left_view.change_role('经纪人')
-            self.enter_house_detail(house_info[0])
+            HouseService(gl_driver).enter_house_detail(house_info[0], HOUSE_TYPE)
             self.house_detail_page.move_mouse_to_operation_item('房源举报')
         else:
             logger.info('不存在待审核记录的修改房源状态记录')
@@ -193,7 +188,7 @@ class TestHouseDetail(object):
     @allure.story("更换房源维护人")
     @pytest.mark.rent
     @pytest.mark.house
-    @pytest.mark.run(order=2)  # 保证调整价格等用例执行结束后再执行更换房源维护人用例
+    @pytest.mark.run(order=6)  # 保证调整价格等用例执行结束后再执行更换房源维护人用例
     def test_replace_maintainer(self, data_recovery):
         global maintainer_phone, actual_maintainer_name
         expect_maintainer_name = self.house_detail_page.replace_maintainer('自动化测试AAAAA')

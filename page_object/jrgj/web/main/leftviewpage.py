@@ -39,6 +39,9 @@ class MainLeftViewPage(WebPage):
         main_topview = MainTopViewPage(self.driver)
         main_topview.click_close_button()
 
+    def get_current_role_name(self):
+        return self.get_element_text(left_view['角色标签'])
+
     def log_out(self):
         self.browser_refresh()
         self.click_element(left_view['功能按钮'])

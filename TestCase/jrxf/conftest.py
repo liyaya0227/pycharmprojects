@@ -44,36 +44,6 @@ def xf_web_driver():
     web_driver.quit()
 
 
-# @pytest.fixture(scope='class', autouse=False)
-# def android_driver():
-#     global adriver
-#     desired_caps = {
-#         'automationName': 'appium',  # 自动化引擎，默认appium
-#         'platformName': 'Android',  # 操作系统
-#         'platformVersion': '6.0.1',  # 操作系统版本
-#         'deviceName': '127.0.0.1:7555',  # MUMU
-#         # 'platformVersion': '5.1.1',  # 操作系统版本
-#         # 'deviceName': '127.0.0.1:62001',  # 夜神
-#         # 'platformVersion': '7.1.2',  # 操作系统版本
-#         # 'deviceName': '721QEDRE2H7DT',  # 设备名称。如果是真机，在'设置->关于手机->设备名称'里查看
-#         'noReset': True,  # 应用状态是否需要重置，默认true
-#         'fullReset': False,  # 执行完测试后是否卸载app，默认false
-#         'appPackage': ini.app_package,  # 应用的包名
-#         'appActivity': ini.app_package + '.MainActivity',  # 应用的第一个启动Activity
-#         'newCommandTimeout': 60 * 60,  # 命令超时时间，单位：秒；超时自动结束会话
-#         'unicodeKeyboard': True,  # 使用unicode编码方式发送字符串；输入中文需要
-#         'resetKeyboard': True  # 将键盘隐藏起来，默认true；输入中文需要
-#     }
-#     adriver = androiddriver.Remote('http://127.0.0.1:4723/wd/hub', desired_caps)  # 连接Appium
-#     # login_page = AppLoginPage(adriver)
-#     # login_page.input_account(ini.user_account)
-#     # login_page.input_password(ini.user_password)
-#     # login_page.choose_read()
-#     # login_page.click_login_button()
-#     yield adriver
-#     adriver.quit()
-
-
 @pytest.fixture(scope='session', autouse=True)
 def setup_and_teardown(xf_web_driver):
     login_page = LoginPage(xf_web_driver)
