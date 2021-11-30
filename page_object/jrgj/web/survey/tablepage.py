@@ -57,8 +57,8 @@ class SurveyTablePage(WebPage):
                            "/tr[" + str(row) + "]/td[" + str(column + 1) + "]//li[1]"
         return re.search(r"：(\w+)/", self.get_element_text(locator)).group(1)
 
-    def click_cancel_the_order(self):  # 取消订单
-        ele_list = self.find_elements(survey_table['取消订单按钮'])
+    def click_cancel_the_order(self):  # 取消实勘
+        ele_list = self.find_elements(survey_table['取消实勘按钮'])
         for ele in ele_list:
             ele.click()
             sleep(1.5)

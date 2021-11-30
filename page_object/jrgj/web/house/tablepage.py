@@ -90,14 +90,18 @@ class HouseTablePage(WebPage):
         self.click_element(locator, 1)
 
     def input_house_code_search(self, house_code):
+        sleep(5)
         self.input_text(house_table['房源编号搜索项'], house_code, clear=True)
+        sleep(4)
 
     def input_building_name_search(self, building_name):
         self.input_text(house_table['楼盘名称搜索项'], building_name)
+        sleep(5)
 
     def click_search_button(self):
-        sleep(4)
-        self.click_element(house_table['搜索按钮'], sleep_time=5)
+        sleep(2)
+        self.click_element(house_table['搜索按钮'], sleep_time=8)
+        self.wait_page_loading_complete()
 
     def click_reset_button(self):
         self.click_element(house_table['重置按钮'])
@@ -315,12 +319,12 @@ class HouseTablePage(WebPage):
         except IndexError:
             return ''
 
-    # @staticmethod
-    # def update_house_create_time_by_db(house_code, create_time, flag='买卖'):
-    #     if flag == '买卖':
-    #         sql = "update trade_house set create_time='" + create_time + "' where house_code='" + house_code + "'"
-    #     elif flag == '租赁':
-    #         sql = "update rent_house set create_time='" + create_time + "' where house_code='" + house_code + "'"
-    #     else:
-    #         raise "传值错误"
-    #     update_sql(sql)
+    @staticmethod
+    def update_house_create_time_by_db(house_code, create_time, flag='买卖'):
+        if flag == '买卖':
+            sql = "update trade_house set create_time='" + create_time + "' where house_code='" + house_code + "'"
+        elif flag == '租赁':
+            sql = "update rent_house set create_time='" + create_time + "' where house_code='" + house_code + "'"
+        else:
+            raise "传值错误"
+        update_sql(sql)

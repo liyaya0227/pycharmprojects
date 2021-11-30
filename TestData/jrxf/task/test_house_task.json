@@ -10,8 +10,10 @@
   ],
   "tc01_audit_subscribe": [
     {
+      "payment": 1000,
       "commission": 100,
-      "company_income": 20
+      "company_income": 20,
+      "deal_prize": 10
     }
   ]
 }

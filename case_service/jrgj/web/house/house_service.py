@@ -18,7 +18,6 @@ from page_object.jrgj.web.house.tablepage import HouseTablePage
 from page_object.jrgj.web.contract.tablepage import ContractTablePage
 from utils.logger import logger
 from utils.sqlutil import select_sql
-from utils.timeutil import sleep
 
 
 class HouseService(object):
@@ -37,7 +36,7 @@ class HouseService(object):
         flag_dist = {'sale': "买卖", 'rent': "租赁"}
         get_house_info_flg = flag_dist[flag]
         house_info = self.get_house_info_by_db(get_house_info_flg)
-        if house_info[1] is not None:
+        if house_info is not None:
             contract_no_list = self.contract_table_page.get_contract_no(house_info[2])
             if len(contract_no_list) != 0:  # 删除合同
                 self.delete_contract(contract_no_list)
@@ -46,7 +45,7 @@ class HouseService(object):
         else:  # 新增房源
             self.add_house(test_add_data, flag)
         self.main_up_view.clear_all_title()
-        self.main_left_view.change_role('经纪人')
+        self.check_current_role('经纪人')
         house_info = self.get_house_info_by_db(get_house_info_flg)
         return house_info
 
@@ -191,21 +190,30 @@ class HouseService(object):
             raise "传值错误"
         self.house_detail_page.transfer_house(ini.super_verify_code)
 
-    def replace_house_maintainer(self, account, password, house_code, replace_account, flag):
-        self.login_page.log_in(account, 'Autotest1')
-        self.main_top_view.click_close_button()
-        self.main_left_view.change_role('经纪人')
+    def check_current_role(self, expect_role_name):
+        if expect_role_name not in self.main_left_view.get_current_role_name():
+            self.main_left_view.change_role(expect_role_name)
+
+    def enter_house_detail(self, house_code, flag):
         self.main_left_view.click_all_house_label()
-        self.house_table_page.input_house_code_search(house_code)
-        self.house_detail_page.enter_house_detail()
-        self.house_detail_page.replace_maintainer(replace_account)
-        self.main_left_view.log_out()
-        self.login_page.log_in(ini.user_account, ini.user_password)
-        self.main_left_view.change_role('经纪人')
-        logger.info(flag)
-        self.main_left_view.click_all_house_label()
-        sleep(0.5)
         if flag == 'rent':
             self.house_table_page.click_rent_tab()
         self.house_table_page.input_house_code_search(house_code)
-        self.house_detail_page.enter_house_detail()
+        for i in range(4):
+            number = self.house_table_page.get_house_number()
+            if int(number) > 0:
+                self.house_detail_page.enter_house_detail()
+                break
+            else:
+                self.house_table_page.click_search_button()
+
+    def replace_house_maintainer(self, account, password, house_code, replace_account, flag):
+        self.login_page.log_in(account, 'Autotest1')
+        self.main_top_view.click_close_button()
+        self.check_current_role('经纪人')
+        self.enter_house_detail(house_code, flag)
+        self.house_detail_page.replace_maintainer(replace_account)
+        self.main_left_view.log_out()
+        self.login_page.log_in(ini.user_account, ini.user_password)
+        self.check_current_role('经纪人')
+        self.enter_house_detail(house_code, flag)

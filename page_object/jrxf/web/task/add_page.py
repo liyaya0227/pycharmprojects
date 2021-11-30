@@ -61,9 +61,11 @@ class AddHouseTaskPage(WebPage):
         sleep(1)
         self.click_element(add_task['弹窗_确定按钮'], 1.5)
 
-    def audit_subscribe(self, commission, company_income):
+    def audit_subscribe(self, payment, commission, company_income, deal_prize):
+        self.input_text(add_task['供应商打款输入框'], commission)
         self.input_text(add_task['佣金金额输入框'], commission)
         self.input_text(add_task['公司收入输入框'], company_income)
+        self.input_text(add_task['成交奖输入框'], deal_prize)
         self.click_element(add_task['审核认购弹窗_通过按钮'], 1)
 
     def audit_rejected_record(self):

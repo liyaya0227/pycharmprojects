@@ -36,10 +36,8 @@ class TestAdd(object):
         gl_web_driver = web_driver
         self.main_up_view = MainUpViewPage(gl_web_driver)
         self.house_add_page = HouseAddPage(gl_web_driver)
-        # self.house_detail_page = HouseDetailPage(gl_web_driver)
         self.main_top_view = MainTopViewPage(gl_web_driver)
         self.main_left_view = MainLeftViewPage(gl_web_driver)
-        # self.contract_table = ContractTablePage(gl_web_driver)
         self.house_table_page = HouseTablePage(gl_web_driver)
         yield
         self.main_up_view.clear_all_title()
@@ -67,6 +65,8 @@ class TestAdd(object):
             assert '新增成功' in self.main_top_view.find_notification_content()
             assert self.house_table_page.get_house_code_by_db(flag='租赁') != ''
         house_code = self.house_table_page.get_house_code_by_db(flag='租赁')
+        self.main_left_view.click_all_house_label()
+        self.house_table_page.click_rent_tab()  # 点击租赁标签
         self.house_table_page.choose_estate_name_search(ini.house_community_name)  # 验证搜索
         self.house_table_page.choose_building_name_search(ini.house_building_id)
         self.house_table_page.click_search_button()

@@ -25,5 +25,23 @@
       "contract_name": "自动化测试AAAASY",
       "contract_phone": "15800000013"
     }
+  ],
+  "sz_contract_field": [
+    {
+      "contract_name": "自动化测试AAAASY",
+      "contract_phone": "15800000013"
+    }
+  ],
+  "wx_contract_field": [
+    {
+      "contract_name": "自动化测试AAAASY",
+      "contract_phone": "12800000013"
+    }
+  ],
+  "hx_contract_field": [
+    {
+      "contract_name": "自动化测试AAAASY",
+      "contract_phone": "14800000013"
+    }
   ]
 }

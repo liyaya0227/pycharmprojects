@@ -149,9 +149,11 @@ class TestAdd(object):
 
     @allure.step("上架房源")
     def release_house(self, house_name):
-        edit_house_base_info_params = self.test_add_data['tc01_edit_house_base_info'][0]
-        contract_name = edit_house_base_info_params['contract_name']
-        contract_phone = edit_house_base_info_params['contract_phone']
+        # edit_house_base_info_params = self.test_add_data['tc01_edit_house_base_info'][0]
+        contract_field_key = ini.environment + '_contract_field'
+        contract_field_params = self.test_add_data[contract_field_key][0]
+        contract_name = contract_field_params['contract_name']
+        contract_phone = contract_field_params['contract_phone']
         self.main_left_view.click_house_management_label()
         self.house_table_page.click_unreleased_house_tab()
         self.house_table_page.serch_unhandle_house(house_name)

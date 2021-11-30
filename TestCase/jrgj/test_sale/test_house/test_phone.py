@@ -6,7 +6,6 @@
 @file: test_address.py
 @date: 2021/8/10 0010
 """
-
 import pytest
 import allure
 from case_service.jrgj.web.house.house_service import HouseService
@@ -93,7 +92,7 @@ class TestPhone(object):
     @allure.story("测试查看号码最大次数")
     @pytest.mark.sale
     @pytest.mark.house
-    @pytest.mark.run(order=11)
+    @pytest.mark.run(order=3)
     def test_view_phone_maximum(self):
         self.enter_house_detail()  # 进入房源详情
         self.house_detail_page.click_phone_button()  # 查看业主联系方式

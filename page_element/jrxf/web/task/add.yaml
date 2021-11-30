@@ -27,8 +27,10 @@
 交款凭证图片input: "xpath==//input[@id='fileListThird']"
 
 #审核认购
+供应商打款输入框: "xpath==//div[@style='' or not(@style)]//div[@role='dialog']//input[@id='payment']"
 佣金金额输入框: "xpath==//div[@style='' or not(@style)]//div[@role='dialog']//input[@id='commission']"
 公司收入输入框: "xpath==//div[@style='' or not(@style)]//div[@role='dialog']//input[@id='companyIncome']"
+成交奖输入框: "xpath==//div[@style='' or not(@style)]//div[@role='dialog']//input[@id='dealPrize']"
 审核认购弹窗_通过按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//span[text()=' 审核通过']/parent::button[@type='button']"
 
 #草网签

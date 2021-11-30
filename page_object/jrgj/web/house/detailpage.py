@@ -9,9 +9,9 @@
 import random
 import re
 import string
-
 from common.readxml import ReadXml
 from config.conf import cm
+from decimal import *
 from common.readconfig import ini
 from page.webpage import WebPage
 from utils.logger import logger
@@ -239,7 +239,7 @@ class HouseDetailPage(WebPage):
         self.driver.execute_script("arguments[0].scrollIntoView();", target_ele)  # 拖动到可见的元素去
         if target_ele.text == '展开':
             target_ele.click()
-            sleep(2)
+            sleep(5)
         # ele = self.find_element(house_detail['证件信息展开收起按钮'])
         # if ele.text == '展开':
         #     ele.click()
@@ -975,23 +975,25 @@ class HouseDetailPage(WebPage):
         res = self.is_exists(locator)
         return res
 
-    def get_initial_price_in_dialog(self):
+    def get_initial_price_in_dialog(self, flag):
         """获取调价弹窗页面的初始房源价格"""
-        # self.move_mouse_to_operation_item('调整价格')
         self.move_mouse_to_element(house_detail['右侧菜单更多按钮'])
         sleep(1)
         self.move_mouse_to_element(house_detail['调整价格选项'])
         sleep(1)
         self.click_element(house_detail['调整价格选项'])
-        # initial_price_in_dialog = self.get_element_text(house_detail['调价弹窗的房源价格']).split('.')[0]  # 调整弹窗中的房源初始价格
-        initial_price_in_dialog = self.get_element_text(house_detail['调价弹窗的房源价格'])  # 调整弹窗中的房源初始价格
+        if flag == 'rent':
+            initial_price_in_dialog = self.get_element_text(house_detail['调价弹窗的房源价格'])  # 调整弹窗中的房源初始价格
+        else:
+            initial_price_in_dialog = self.get_element_text(house_detail['调价弹窗的房源价格'])  # 调整弹窗中的房源初始价格
         return initial_price_in_dialog
 
     def modify_house_price(self, initial_price):
         """修改房源价格"""
-        expect_final_price = int(initial_price) + random.randint(1, 9)
-        self.input_text(house_detail['房源价格输入框'], expect_final_price)
-        self.click_element(house_detail['调价弹窗确定按钮'], 2)
+        expect_final_price = float(initial_price) + random.randint(1, 9)
+        self.input_text(house_detail['房源价格输入框'], str(expect_final_price))
+        sleep(3)
+        self.click_element(house_detail['调价弹窗确定按钮'], 3)
         return str(expect_final_price)
 
     def get_modified_price_in_detail_page(self, flag, expect_final_price, house_area):
@@ -1000,9 +1002,10 @@ class HouseDetailPage(WebPage):
         if flag == 'sale':
             ele_text = self.get_element_text(house_detail['房源初始价格'])  # 获取详情页面修改后的价格
             actual_price_in_detail_page = ele_text[:-1]
-            unit_price = int(expect_final_price) * 10000 / int(house_area)
-            expect_final_unit_price = self.get_house_unit_price(unit_price, 2)  # 根据修改后的房源价格及房源面积计算单价
-            actual_unit_price_in_detail_page = self.get_element_text(house_detail['房源初始单价'])  # 获取详情页面修改后的单价
+            unit_price = float(expect_final_price) * 10000 / float(house_area)
+            expect_final_unit_price = str(Decimal(str(unit_price)).quantize(Decimal('0.00'), ROUND_HALF_UP))
+            actual_unit_price_in_detail_page = str(Decimal(self.get_element_text(house_detail['房源初始单价'])).
+                                                   quantize(Decimal('0.00'), ROUND_HALF_UP))
             return actual_price_in_detail_page, expect_final_unit_price, actual_unit_price_in_detail_page
         elif flag == 'rent':
             actual_price_in_detail_page = self.get_element_text(house_detail['房源初始价格']).split('元')[0]
@@ -1013,7 +1016,8 @@ class HouseDetailPage(WebPage):
     def verify_record_list_update(self, init_price, expect_final_price, flag):
         """验证调价记录列表是否更新"""
         expect_text = ''
-        self.click_element(house_detail['调价记录按钮'], 2)
+        sleep(3)
+        self.click_element(house_detail['调价记录按钮'], 5)
         actual_text = self.get_element_text(house_detail['调价记录第一条价格']).strip()
         if flag == 'sale':
             expect_text = '{init_price}万元 - {final_price}万元'.format(init_price=init_price,
@@ -1030,11 +1034,12 @@ class HouseDetailPage(WebPage):
         self.move_mouse_to_element(house_detail['右侧菜单更多按钮'])
         sleep(1)
         self.click_element(house_detail['房源基础信息按钮'], 1)
-        expect_final_price = int(self.get_element_attribute(house_detail['详情页面售价输入框'], 'value')) + random.randint(1, 9)
+        expect_final_price = float(self.get_element_attribute(house_detail['详情页面售价输入框'], 'value')) + \
+                             random.randint(1, 9)
         self.clear_text(house_detail['详情页面售价输入框'])
-        self.input_text(house_detail['详情页面售价输入框'], expect_final_price)
-        sleep(1)
-        self.click_element(house_detail['基础信息弹窗确定按钮'], 2)
+        self.input_text(house_detail['详情页面售价输入框'], str(expect_final_price))
+        sleep(5)
+        self.click_element(house_detail['基础信息弹窗确定按钮'], 5)
         return str(expect_final_price)
 
     def verify_log_list_update(self, account_name):
@@ -1101,7 +1106,7 @@ class HouseDetailPage(WebPage):
         """举报房源"""
         self.click_element(house_detail['房源举报按钮'], 1)
         self.click_element(house_detail['房源不卖选项'], 1)
-        self.click_element(house_detail['举报房源弹窗确认按钮'], 2)
+        self.click_element(house_detail['举报房源弹窗确认按钮'], 5)
         text = self.find_element(house_detail['右上角弹窗_内容']).text
         return text
 
@@ -1307,43 +1312,3 @@ class HouseDetailPage(WebPage):
         self.input_text(house_detail['验证码输入框'], verify_code)
         self.click_element(house_detail['提交按钮'])
         self.click_element(house_detail['知道了按钮'])
-
-    @staticmethod
-    def get_house_unit_price(float_a, n):
-        """根据四舍五入保留2位小数的原则计算房源单价"""
-        string_a = str(float_a)
-        a, b, c = string_a.partition('.')  # 此时的a、b和c的类型均为字符串类型
-        if len(c) > 2:
-            cc = c[:n]
-            if int(c[n]) >= 5:
-                ccc = int(cc) + 1
-            else:
-                ccc = int(cc)
-            return a + b + str(ccc)
-        else:
-            c2 = int(c)
-            if len(c) == 1 and c2 == 0:
-                return a
-            else:
-                return a + b + c
-
-    @staticmethod
-    def get_house_unit_price2(float_a, n):
-        """根据四舍五入保留2位小数的原则计算房源单价"""
-        string_a = str(float_a)
-        integer, decimal_point, decimal = string_a.partition('.')  # 此时的integer、decimal_point和decimal的类型均为字符串类型
-        if len(decimal) > 2:
-            cc = decimal[:n]  # 前二位小数
-            if int(decimal[n]) >= 5:  # 四舍五入
-                cc = int(cc) + 1
-            else:
-                cc = int(cc)
-            return integer + decimal_point + str(cc)
-        else:
-            c2 = int(decimal)
-            if len(decimal) == 1 and c2 == 0:
-                return integer
-            else:
-                return integer + decimal_point + decimal
-
-
