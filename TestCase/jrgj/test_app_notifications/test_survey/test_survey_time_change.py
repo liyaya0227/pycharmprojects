@@ -25,6 +25,7 @@ from page_object.jrgj.web.main.topviewpage import MainTopViewPage
 from page_object.jrgj.web.survey.tablepage import SurveyTablePage
 
 
+@pytest.mark.app_notifications
 @allure.feature("测试APP通知-实勘")
 class TestSurveyTimeChange(object):
 
@@ -36,11 +37,17 @@ class TestSurveyTimeChange(object):
         app_login = AppLoginPage(android_driver)
         app_main = AppMainPage(android_driver)
         app_mine = AppMinePage(android_driver)
+        app_common = AppCommonPage(android_driver)
+        app_notification = AppNotificationsTablePage(android_driver)
+        app_message_table = AppMessageTablePage(android_driver)
 
         main_leftview.change_role('经纪人')
         app_login.log_in(ini.user_account, ini.user_password)
         app_main.close_top_view()
-        app_main.click_mine_button()
+        app_main.click_message_button()
+        app_message_table.click_notification_tab()
+        app_common.open_notifications()
+        app_notification.dismiss_all_notification()
         yield
         app_main.click_mine_button()
         app_mine.log_out()
@@ -49,7 +56,6 @@ class TestSurveyTimeChange(object):
     @allure.story("预约实勘时间更改")
     def test_001(self, web_driver, android_driver):
         app_common = AppCommonPage(android_driver)
-        app_main = AppMainPage(android_driver)
         app_notification = AppNotificationsTablePage(android_driver)
         app_message_table = AppMessageTablePage(android_driver)
 
@@ -67,8 +73,7 @@ class TestSurveyTimeChange(object):
                       "房源编号" + self.house_code + ini.house_community_name + "预约实勘时间已被摄影师更改，最新实勘时间"
                       + survey_change_date + " " + self.change_time[1])
         app_notification.dismiss_all_notification()
-        app_main.click_message_button()
-        app_message_table.click_notification_tab()
+        app_common.down_swipe_for_refresh()
         pytest.assume(app_message_table.get_house_message() ==
                       "房源编号" + self.house_code + ini.house_community_name + "预约实勘时间已被摄影师更改，最新实勘时间"
                       + survey_change_date + " " + self.change_time[1])

@@ -121,6 +121,26 @@ class ReadConfig(object):
         return self._get(env.upper() + '_USER', 'OD_PASSWORD')
 
     @property
+    def om_user_account(self):
+        if self.environment in ['ks', 'zjg']:
+            env = 'sz'
+        elif self.environment in ['tl']:
+            env = 'hz'
+        else:
+            env = self.environment
+        return self._get(env.upper() + '_USER', 'OM_ACCOUNT')
+
+    @property
+    def om_user_password(self):
+        if self.environment in ['ks', 'zjg']:
+            env = 'sz'
+        elif self.environment in ['tl']:
+            env = 'hz'
+        else:
+            env = self.environment
+        return self._get(env.upper() + '_USER', 'OM_PASSWORD')
+
+    @property
     def survey_user_account(self):
         if self.environment in ['ks', 'zjg']:
             env = 'sz'

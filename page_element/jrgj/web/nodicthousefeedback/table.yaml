@@ -1,0 +1,21 @@
+买卖标签: "xpath==//div[@class='houses-dispose-management']//div[@class='ant-tabs-nav-list']//div[text()='买卖']"
+租赁标签: "xpath==//div[@class='houses-dispose-management']//div[@class='ant-tabs-nav-list']//div[text()='租赁']"
+
+楼盘名称搜索输入框: "xpath==//div[@class='houses-dispose-management']//div[@class='ant-card-body']//label[text()='楼盘名称']/ancestor::div[@class='ant-col']//input"
+
+搜索按钮: "xpath==//div[@class='houses-dispose-management']//div[@class='ant-card-body']//span[text()='搜 索']/parent::button"
+
+审批弹窗_审批驳回按钮: "xpath==//div[@class='ant-modal-root']//div[@class='ant-modal-content']//span[text()='审批驳回']/parent::button"
+审批弹窗_匹配楼盘字典按钮: "xpath==//div[@class='ant-modal-root']//div[@class='ant-modal-content']//span[text()='匹配楼盘字典']/parent::button"
+
+驳回弹窗_理由输入框: "xpath==//div[@class='ant-modal-root']//div[@class='ant-modal-body']//textarea[@id='checkRemark']"
+
+匹配弹窗_楼盘名称输入框: "xpath==//div[@class='ant-modal-root']//div[@class='ant-modal-body']//label[text()='楼盘名称']/ancestor::div[contains(@class, 'ant-row')]//input"
+匹配弹窗_栋座输入框: "xpath==//div[@class='ant-modal-root']//div[@class='ant-modal-body']//label[text()='栋座']/ancestor::div[contains(@class, 'ant-row')]//input"
+匹配弹窗_单元输入框: "xpath==//div[@class='ant-modal-root']//div[@class='ant-modal-body']//label[text()='单元']/ancestor::div[contains(@class, 'ant-row')]//input"
+匹配弹窗_楼层输入框: "xpath==//div[@class='ant-modal-root']//div[@class='ant-modal-body']//label[text()='楼层']/ancestor::div[contains(@class, 'ant-row')]//input"
+匹配弹窗_门牌输入框: "xpath==//div[@class='ant-modal-root']//div[@class='ant-modal-body']//label[text()='门牌']/ancestor::div[contains(@class, 'ant-row')]//input"
+
+弹窗_取消按钮: "xpath==//div[@class='ant-modal-root']//div[@class='ant-modal-content']//span[text()='取 消']/parent::button"
+弹窗_确定按钮: "xpath==//div[@class='ant-modal-root']//div[@class='ant-modal-content']//span[text()='确 定']/parent::button"
+弹窗_知道了按钮: "xpath==//div[@class='ant-modal-root']//div[@class='ant-modal-content']//span[text()='知道了']/parent::button"

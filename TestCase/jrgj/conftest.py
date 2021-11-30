@@ -12,13 +12,10 @@ from utils.logger import logger
 from common.readconfig import ini
 from selenium import webdriver
 from appium import webdriver as androiddriver
-from common_enum.role_type import RoleTypeEnum
 from page_object.common.web.login.loginpage import LoginPage
 from page_object.jrgj.web.main.leftviewpage import MainLeftViewPage
 from page_object.jrgj.web.main.topviewpage import MainTopViewPage
 from case_service.jrgj.app.login.login_service import LoginService as AppLoginService
-from page_object.jrgj.app.main.mainpage import AppMainPage
-from page_object.jrgj.app.mine.minepage import AppMinePage
 
 
 @pytest.fixture(scope='session', autouse=False)
@@ -78,15 +75,6 @@ def android_driver():
     driver = androiddriver.Remote('http://127.0.0.1:4723/wd/hub', desired_caps)  # 连接Appium
     login_service = AppLoginService(driver)
     login_service.back_login_page()
-    # login_service.login_app(ini.user_account, ini.user_password)
-    # app_main = AppMainPage(adriver)
-    # app_mine = AppMinePage(adriver)
-    # app_main.click_mine_button()
-    # if RoleTypeEnum.PrimaryAgent.value not in app_mine.get_user_role():
-    #     app_mine.click_change_role_button()
-    #     app_mine.change_role_choose_role(RoleTypeEnum.PrimaryAgent.value)
-    #     app_mine.change_role_click_confirm_button()
-    #     app_main.close_top_view()
     yield driver
     driver.quit()
 

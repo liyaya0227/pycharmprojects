@@ -8,10 +8,8 @@
 """
 import random
 import string
-
 import allure
 import pytest
-
 from case_service.jrjob.job_service import JobService
 from utils.logger import logger
 from common.readconfig import ini
@@ -32,6 +30,7 @@ from page_object.jrgj.web.main.topviewpage import MainTopViewPage
 from utils.timeutil import dt_strftime_with_delta
 
 
+@pytest.mark.app_notifications
 @allure.feature("测试APP通知-验真")
 class TestVerifyHouse(object):
 
@@ -52,6 +51,7 @@ class TestVerifyHouse(object):
         app_main.close_top_view()
         app_main.click_message_button()
         app_message_table.click_notification_tab()
+        app_message_table.click_clear_message_button()
         app_common.open_notifications()
         app_notification.dismiss_all_notification()
         yield
@@ -78,11 +78,11 @@ class TestVerifyHouse(object):
 
         self.check_house(web_driver)
         self.update_verify_time(web_driver)
-        # app_common.open_notifications()
-        # pytest.assume(app_notification.get_notification_title_by_row(1) == '验真房源失效')
-        # pytest.assume(app_notification.get_notification_content_by_row(1) in
-        #               "您好，您有一套房源" + ini.house_community_name + self.house_code + "验真举证超期未举证，请及时处理。")
-        # app_notification.dismiss_all_notification()
+        app_common.open_notifications()
+        pytest.assume(app_notification.get_notification_title_by_row(1) == '验真房源失效')
+        pytest.assume(app_notification.get_notification_content_by_row(1) in
+                      "您好，您有一套房源" + ini.house_community_name + self.house_code + "验真举证超期未举证，请及时处理。")
+        app_notification.dismiss_all_notification()
         app_common.down_swipe_for_refresh()
         pytest.assume(app_message_table.get_house_message() ==
                       "您好，您有一套房源" + ini.house_community_name + self.house_code + "验真举证超期未举证，请及时处理。")

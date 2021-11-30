@@ -179,3 +179,24 @@ class HouseAddPage(WebPage):
         if flag == 'rent':
             self.choose_decoration_state(test_data['decoration_state'])
         self.click_add_button()
+
+    def add_no_estate_dict_house(self, house_type, house_estate, house_building_id, house_building_cell, house_floor,
+                                 house_doorplate, cert_files: list):
+        """创建无楼盘字典房源"""
+        self.click_element(house_add['无楼盘字典_创建按钮'])
+        if house_type == '买卖':
+            self.click_element(house_add['无楼盘字典新增弹窗_出售单选'])
+        elif house_type == '租赁':
+            self.click_element(house_add['无楼盘字典新增弹窗_出租单选'])
+        else:
+            raise ValueError('传值错误，只能是买卖或者租赁')
+        self.input_text_into_element(house_add['无楼盘字典新增弹窗_楼盘名称输入框'], house_estate)
+        self.input_text_into_element(house_add['无楼盘字典新增弹窗_栋座输入框'], house_building_id)
+        self.input_text_into_element(house_add['无楼盘字典新增弹窗_单元输入框'], house_building_cell)
+        self.input_text_into_element(house_add['无楼盘字典新增弹窗_楼层输入框'], house_floor)
+        self.input_text_into_element(house_add['无楼盘字典新增弹窗_门牌输入框'], house_doorplate)
+        for file in cert_files:
+            self.input_text_into_element(house_add['无楼盘字典新增弹窗_举证信息上传按钮'], file)
+            sleep(2)
+        self.click_element(house_add['无楼盘字典新增弹窗_确定按钮'])
+        self.click_element(house_add['弹窗_知道了按钮'])

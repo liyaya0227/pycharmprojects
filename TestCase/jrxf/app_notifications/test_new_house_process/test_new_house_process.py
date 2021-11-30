@@ -3,7 +3,7 @@
 """
 @author: jutao
 @version: V1.0
-@file: test_new_house.py
+@file: test_new_house_process.py
 @date: 2021/11/16 0016
 """
 import allure
@@ -27,11 +27,12 @@ from page_object.jrgj.app.mine.minepage import AppMinePage
 
 
 @allure.feature("测试APP通知-新房")
+@pytest.mark.skip
 class TestSurveyTimeChange(object):
 
     new_house = ini.new_house_name
 
-    @pytest.fixture(scope="class", autouse=True)
+    @pytest.fixture(scope="function", autouse=True)
     def setup_and_teardown(self, android_driver):
         app_login = AppLoginPage(android_driver)
         app_main = AppMainPage(android_driver)

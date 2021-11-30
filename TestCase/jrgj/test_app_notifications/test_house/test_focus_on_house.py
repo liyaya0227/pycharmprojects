@@ -37,6 +37,7 @@ from page_object.jrgj.web.main.leftviewpage import MainLeftViewPage
 from page_object.jrgj.web.main.topviewpage import MainTopViewPage
 
 
+@pytest.mark.app_notifications
 @allure.feature("测试APP通知-关注房源")
 class TestFocusOnHouse(object):
     new_house_price = str(random.randint(100, 999)) + "." + "".join(map(lambda x: random.choice(string.digits),
@@ -59,6 +60,7 @@ class TestFocusOnHouse(object):
         app_main.close_top_view()
         app_main.click_message_button()
         app_message_table.click_notification_tab()
+        app_message_table.click_clear_message_button()
         app_common.open_notifications()
         app_notification.dismiss_all_notification()
         yield

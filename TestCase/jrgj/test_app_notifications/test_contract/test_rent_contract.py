@@ -31,6 +31,7 @@ from case_service.jrgj.web.contract.contract_service import ContractService
 from utils.logger import logger
 
 
+@pytest.mark.app_notifications
 @allure.feature("测试APP通知-合同")
 class TestRentContract(object):
 
@@ -44,12 +45,17 @@ class TestRentContract(object):
         app_main = AppMainPage(android_driver)
         app_mine = AppMinePage(android_driver)
         app_message_table = AppMessageTablePage(android_driver)
+        app_common = AppCommonPage(android_driver)
+        app_notification = AppNotificationsTablePage(android_driver)
 
         main_leftview.change_role('经纪人')
         app_login.log_in(ini.user_account, ini.user_password)
         app_main.close_top_view()
         app_main.click_message_button()
         app_message_table.click_notification_tab()
+        app_message_table.click_clear_message_button()
+        app_common.open_notifications()
+        app_notification.dismiss_all_notification()
         yield
         if self.contract_code:
             contract_service.super_admin_delete_contract(self.contract_code, flag='租赁')

@@ -1,5 +1,6 @@
 消息标签: "xpath==//*[@class='android.view.ViewGroup' and @index='1']//*[@text='消息']"
 通知标签: "xpath==//*[@class='android.view.ViewGroup' and @index='1']//*[@text='通知']"
+清除消息按钮: "xpath==//*[@class='android.view.ViewGroup' and @index='1']//*[@text='通知']/parent::android.view.ViewGroup/parent::android.view.ViewGroup/android.view.ViewGroup[last()]/android.widget.ImageView"
 
 系统消息标签: "xpath==//*[@class='android.widget.ScrollView' and @index='0']//*[@text='系统消息']/parent::android.view.ViewGroup"
 系统消息最新内容: "xpath==(//*[@class='android.widget.ScrollView' and @index='0']//*[@text='系统消息']/parent::android.view.ViewGroup/*[@class='android.widget.TextView'])[last()]"

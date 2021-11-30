@@ -23,6 +23,11 @@ class AppMessageTablePage(AndroidPage):
         """点击通知标签"""
         self.click_element(message_table['通知标签'])
 
+    def click_clear_message_button(self):
+        """点击清除消息按钮"""
+        self.click_element(message_table['清除消息按钮'])
+        sleep(2)
+
     def go_system_message_list(self):
         """进入系统消息列表"""
         self.click_element(message_table['系统消息标签'])

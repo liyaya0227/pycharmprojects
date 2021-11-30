@@ -1,0 +1,13 @@
+门店共享池标签: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'sharedPool')]//div[contains(@class, 'sharedPoolType')]/div[@role='tablist']//div[text()='门店共享池']"
+区域共享池标签: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'sharedPool')]//div[contains(@class, 'sharedPoolType')]/div[@role='tablist']//div[text()='区域共享池']"
+
+买卖标签: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'sharedPool')]//div[contains(@class, 'houseTypeTabs')]/div[@role='tablist']//div[text()='买卖']"
+租赁标签: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'sharedPool')]//div[contains(@class, 'houseTypeTabs')]/div[@role='tablist']//div[text()='租赁']"
+
+房源编号搜索输入框: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'sharedPool')]//div[contains(@class, 'dataPlateHouseList')]//div[contains(@class,'search_criteria')]//input[@id='preOwnedCode' or @id='houseCode']"
+
+搜索按钮: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'sharedPool')]//div[contains(@class, 'dataPlateHouseList')]//div[contains(@class,'search_criteria')]//span[text()='搜 索']/parent::button"
+重置按钮: "xpath==//div[@style='' or not(@style)]/div[contains(@class,'sharedPool')]//div[contains(@class, 'dataPlateHouseList')]//div[contains(@class,'search_criteria')]//span[text()='重 置']/parent::button"
+
+弹窗_取消按钮: "xpath==//div[@class='ant-modal-root']//span[text()='取 消']/parent::button"
+弹窗_确定按钮: "xpath==//div[@class='ant-modal-root']//span[text()='确 定']/parent::button"

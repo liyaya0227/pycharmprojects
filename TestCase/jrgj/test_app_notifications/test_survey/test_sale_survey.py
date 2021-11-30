@@ -30,6 +30,7 @@ from page_object.jrgj.web.main.topviewpage import MainTopViewPage
 from page_object.jrgj.web.survey.tablepage import SurveyTablePage
 
 
+@pytest.mark.app_notifications
 @allure.feature("测试APP通知-买卖普通实勘")
 class TestSaleSurvey(object):
 
@@ -43,20 +44,30 @@ class TestSaleSurvey(object):
         app_main = AppMainPage(android_driver)
         app_mine = AppMinePage(android_driver)
         app_message_table = AppMessageTablePage(android_driver)
+        app_common = AppCommonPage(android_driver)
+        app_notification = AppNotificationsTablePage(android_driver)
         second_app_login = AppLoginPage(android_driver2)
         second_app_main = AppMainPage(android_driver2)
         second_app_mine = AppMinePage(android_driver2)
         second_app_message_table = AppMessageTablePage(android_driver2)
+        second_app_common = AppCommonPage(android_driver2)
+        second_app_notification = AppNotificationsTablePage(android_driver2)
 
         main_leftview.change_role('经纪人')
         app_login.log_in(ini.user_account, ini.user_password)
         app_main.close_top_view()
         app_main.click_message_button()
         app_message_table.click_notification_tab()
+        app_message_table.click_clear_message_button()
+        app_common.open_notifications()
+        app_notification.dismiss_all_notification()
         second_app_login.log_in(ini.survey_user_account, ini.survey_user_password)
         second_app_main.close_top_view()
         second_app_main.click_message_button()
         second_app_message_table.click_notification_tab()
+        second_app_message_table.click_clear_message_button()
+        second_app_common.open_notifications()
+        second_app_notification.dismiss_all_notification()
         yield
         app_main.click_mine_button()
         app_mine.log_out()

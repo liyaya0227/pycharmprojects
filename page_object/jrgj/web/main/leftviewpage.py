@@ -101,6 +101,18 @@ class MainLeftViewPage(WebPage):
             self.click_element(left_view['房源管理菜单'], sleep_time=0.5)
         self.click_element(left_view['资料盘标签'], sleep_time=0.5)
 
+    def click_no_dict_house_feedback_label(self):
+        is_expanded = self.get_element_attribute(left_view['房源管理菜单'], 'aria-expanded')
+        if is_expanded == 'false':
+            self.click_element(left_view['房源管理菜单'], sleep_time=0.5)
+        self.click_element(left_view['无字典房源反馈标签'], sleep_time=0.5)
+
+    def click_share_pool_label(self):
+        is_expanded = self.get_element_attribute(left_view['房源管理菜单'], 'aria-expanded')
+        if is_expanded == 'false':
+            self.click_element(left_view['房源管理菜单'], sleep_time=0.5)
+        self.click_element(left_view['共享池标签'], sleep_time=0.5)
+
     def click_my_customer_label(self):
         is_expanded = self.get_element_attribute(left_view['客源管理菜单'], 'aria-expanded')
         if is_expanded == 'false':

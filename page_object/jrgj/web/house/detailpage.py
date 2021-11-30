@@ -671,6 +671,14 @@ class HouseDetailPage(WebPage):
         else:
             return ''
 
+    def check_house_in_share_pool(self):
+        """检查房源是否在共享池"""
+        if not self.element_is_exist(house_detail['维护人_姓名标签']) and \
+                not self.element_is_exist(house_detail['编辑重点维护信息按钮']):
+            return True
+        else:
+            return False
+
     def get_all_valid_role_info(self):
         all_role_list = self.find_elements(house_detail['所有角色标签'])
         role_info_list = {}

@@ -10,6 +10,8 @@
 楼层下拉框: "xpath==//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'ant-select-dropdown-hidden'))]//div[@class='rc-virtual-list']//div[contains(@class,'ant-select-item ant-select-item-option')]"
 门牌选择框: "xpath==//form[@class='ant-form ant-form-horizontal edit-house-form add-house']//input[@id='locationInfo_doorplate']"
 门牌下拉框: "xpath==//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'ant-select-dropdown-hidden'))]//div[@class='rc-virtual-list']//div[contains(@class,'ant-select-item ant-select-item-option')]"
+无楼盘字典_创建按钮: "xpath==//form[@class='ant-form ant-form-horizontal edit-house-form add-house']//a[text()='创建']"
+
 下一步按钮: "xpath==//form[@class='ant-form ant-form-horizontal edit-house-form add-house']//span[text()='下一步']/parent::button[@type='submit']"
 
 资料盘认领弹窗_取消按钮: "xpath==//div[@class='ant-modal-root']//span[text()='取 消']/parent::button"
@@ -49,3 +51,16 @@
 装修情况下拉框: "xpath==//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'ant-select-dropdown-hidden'))]//div[@class='rc-virtual-list']//div[contains(@class,'ant-select-item ant-select-item-option')]"
 上一步按钮: "xpath==//form[@class='ant-form ant-form-horizontal edit-house-form add-house']//span[text()='上一步']/parent::button[@type='button']"
 添加按钮: "xpath==//form[@class='ant-form ant-form-horizontal edit-house-form add-house']//span[text()='添 加']/parent::button[@type='submit']"
+
+无楼盘字典新增弹窗_出售单选: "xpath==//div[@class='ant-modal-root']/div[@role='dialog']//div[@class='ant-modal-body']/form//label[text()='委托类型']/ancestor::div[@class='ant-row ant-form-item']//span[text()='出售']/parent::label//input"
+无楼盘字典新增弹窗_出租单选: "xpath==//div[@class='ant-modal-root']/div[@role='dialog']//div[@class='ant-modal-body']/form//label[text()='委托类型']/ancestor::div[@class='ant-row ant-form-item']//span[text()='出租']/parent::label//input"
+无楼盘字典新增弹窗_楼盘名称输入框: "xpath==//div[@class='ant-modal-root']/div[@role='dialog']//div[@class='ant-modal-body']/form//label[text()='楼盘名称']/ancestor::div[@class='ant-row ant-form-item']//input"
+无楼盘字典新增弹窗_栋座输入框: "xpath==//div[@class='ant-modal-root']/div[@role='dialog']//div[@class='ant-modal-body']/form//label[text()='栋座']/ancestor::div[@class='ant-row ant-form-item']//input"
+无楼盘字典新增弹窗_单元输入框: "xpath==//div[@class='ant-modal-root']/div[@role='dialog']//div[@class='ant-modal-body']/form//label[text()='单元']/ancestor::div[@class='ant-row ant-form-item']//input"
+无楼盘字典新增弹窗_楼层输入框: "xpath==//div[@class='ant-modal-root']/div[@role='dialog']//div[@class='ant-modal-body']/form//label[text()='楼层']/ancestor::div[@class='ant-row ant-form-item']//input"
+无楼盘字典新增弹窗_门牌输入框: "xpath==//div[@class='ant-modal-root']/div[@role='dialog']//div[@class='ant-modal-body']/form//label[text()='门牌']/ancestor::div[@class='ant-row ant-form-item']//input"
+无楼盘字典新增弹窗_举证信息上传按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog']//div[@class='ant-modal-body']/form//span[text()='房产证/委托书/其他材料']/ancestor::div[contains(@class,'ant-form-item')]//input"
+无楼盘字典新增弹窗_取消按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog']//div[@class='ant-modal-footer']//span[text()='取 消']/parent::button"
+无楼盘字典新增弹窗_确定按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog']//div[@class='ant-modal-footer']//span[text()='确 定']/parent::button"
+
+弹窗_知道了按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog']//div[@class='ant-modal-body']//span[text()='知道了']/parent::button"

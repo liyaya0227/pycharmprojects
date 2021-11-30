@@ -120,6 +120,7 @@
 下拉框: "xpath==//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'ant-select-dropdown-hidden'))]//div[@class='rc-virtual-list']//div[contains(@class,'ant-select-item ant-select-item-option')]"
 
 所有角色标签: "xpath==//div[@style='' or not(@style)]/div[@class='houseDetail']//div[contains(@class,'roleInfo')]//i[@class='tip']"
+维护人_姓名标签: "xpath==//div[@style='' or not(@style)]/div[@class='houseDetail']//i[@class='tip' and text()='维护人']/parent::div/div[2]/p[1]"
 VIP服务人_姓名标签: "xpath==//div[@style='' or not(@style)]/div[@class='houseDetail']//i[@class='tip' and text()='VIP服务人']/parent::div/div[2]/p[1]"
 
 #更多-房源基础信息

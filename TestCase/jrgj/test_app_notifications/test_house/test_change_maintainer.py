@@ -25,6 +25,7 @@ from page_object.jrgj.web.main.leftviewpage import MainLeftViewPage
 from page_object.jrgj.web.main.topviewpage import MainTopViewPage
 
 
+@pytest.mark.app_notifications
 @allure.feature("测试APP通知-维护人变更")
 class TestChangeMaintainer(object):
     new_maintainer_name = '自动化测试AAAAA'
@@ -46,6 +47,7 @@ class TestChangeMaintainer(object):
         app_main.close_top_view()
         app_main.click_message_button()
         app_message_table.click_notification_tab()
+        app_message_table.click_clear_message_button()
         app_common.open_notifications()
         app_notification.dismiss_all_notification()
         yield
@@ -60,13 +62,13 @@ class TestChangeMaintainer(object):
         app_message_table = AppMessageTablePage(android_driver)
 
         self.change_maintainer(web_driver)
-        # app_common.open_notifications()
-        # pytest.assume(app_notification.get_notification_title_by_row(1) == '维护人变更')
-        # pytest.assume(app_notification.get_notification_content_by_row(1) in
-        #               "您已成为楼盘地址" + ini.house_community_name + "-" + ini.house_building_id + "-"
-        #               + ini.house_building_cell + "-" + ini.house_doorplate + "房源编号" + self.house_code
-        #               + "的维护人，请及时维护房源相关信息 。")
-        # app_notification.dismiss_all_notification()
+        app_common.open_notifications()
+        pytest.assume(app_notification.get_notification_title_by_row(1) == '维护人变更')
+        pytest.assume(app_notification.get_notification_content_by_row(1) in
+                      "您已成为楼盘地址" + ini.house_community_name + "-" + ini.house_building_id + "-"
+                      + ini.house_building_cell + "-" + ini.house_doorplate + "房源编号" + self.house_code
+                      + "的维护人，请及时维护房源相关信息 。")
+        app_notification.dismiss_all_notification()
         app_common.down_swipe_for_refresh()
         pytest.assume(app_message_table.get_house_message() ==
                       "您已成为楼盘地址" + ini.house_community_name + "-" + ini.house_building_id + "-"
@@ -89,7 +91,7 @@ class TestChangeMaintainer(object):
         app_common.back_previous_step()
         self.change_maintainer_back(web_driver)
 
-    @allure.step("经纪人调整房源价格")
+    @allure.step("经纪人维护人变更")
     def change_maintainer(self, web_driver):
         main_upview = MainUpViewPage(web_driver)
         main_topview = MainTopViewPage(web_driver)
@@ -109,10 +111,11 @@ class TestChangeMaintainer(object):
         house_table.click_search_button()
         house_table.go_house_detail_by_row(1)
         house_detail.replace_maintainer(self.new_maintainer_name)
+        logger.info("变更经纪人成功")
         main_topview.close_notification()
         main_upview.clear_all_title()
 
-    @allure.step("经纪人调整房源价格")
+    @allure.step("经纪人维护人变更为原始经纪人")
     def change_maintainer_back(self, web_driver):
         login = LoginPage(web_driver)
         main_topview = MainTopViewPage(web_driver)
@@ -134,3 +137,4 @@ class TestChangeMaintainer(object):
         main_leftview.log_out()
         login.log_in(ini.user_account, ini.user_password)
         main_leftview.change_role("经纪人")
+        logger.info("变更为原始经纪人")
