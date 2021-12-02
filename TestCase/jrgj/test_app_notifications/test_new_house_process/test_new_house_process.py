@@ -76,12 +76,12 @@ class TestNewHouseProcess(object):
         self.check_customer(web_driver)
         self.check_new_house_operation(web_driver)
         self.new_house_report(web_driver)
-        # app_common.open_notifications()
-        # pytest.assume(app_notification.get_notification_title_by_row(1) == '新房报备待审核')
-        # pytest.assume(app_notification.get_notification_content_by_row(1) in
-        #               "您收到一条新房报备，经纪人" + self.agent + ini.user_account + "，客户" + self.customer_name
-        #               + ini.custom_telephone + "，楼盘信息" + self.new_house + self.address + "，请及时审核。")
-        # app_notification.dismiss_all_notification()
+        app_common.open_notifications()
+        pytest.assume(app_notification.get_notification_title_by_row(1) == '新房报备待审核')
+        pytest.assume(app_notification.get_notification_content_by_row(1) in
+                      "您收到一条新房报备，经纪人" + self.agent + ini.user_account + "，客户" + self.customer_name
+                      + ini.custom_telephone + "，楼盘信息" + self.new_house + self.address + "，请及时审核。")
+        app_notification.dismiss_all_notification()
         app_common.down_swipe_for_refresh()
         pytest.assume(app_message_table.get_customer_message() ==
                       "您收到一条新房报备，经纪人" + self.agent + ini.user_account + "，客户" + self.customer_name
@@ -100,12 +100,12 @@ class TestNewHouseProcess(object):
         app_common.back_previous_step()
         app_common.back_previous_step()
         self.new_house_report_reject(web_driver, report_reject_reason)
-        # app_common.open_notifications()
-        # pytest.assume(app_notification.get_notification_title_by_row(1) == '新房报备审核驳回')
-        # pytest.assume(app_notification.get_notification_content_by_row(1) in
-        #               "您报备的客户" + self.customer_name + ini.custom_telephone + "，楼盘信息" + self.new_house
-        #               + self.address + "已驳回。")
-        # app_notification.dismiss_all_notification()
+        app_common.open_notifications()
+        pytest.assume(app_notification.get_notification_title_by_row(1) == '新房报备审核驳回')
+        pytest.assume(app_notification.get_notification_content_by_row(1) in
+                      "您报备的客户" + self.customer_name + ini.custom_telephone + "，楼盘信息" + self.new_house
+                      + self.address + "已驳回。")
+        app_notification.dismiss_all_notification()
         app_common.down_swipe_for_refresh()
         pytest.assume(app_message_table.get_customer_message() ==
                       "您报备的客户" + self.customer_name + ini.custom_telephone + "，楼盘信息" + self.new_house
@@ -125,12 +125,12 @@ class TestNewHouseProcess(object):
         app_common.back_previous_step()
         self.new_house_report(web_driver)
         self.new_house_report_pass(web_driver)
-        # app_common.open_notifications()
-        # pytest.assume(app_notification.get_notification_title_by_row(1) == '新房报备审核通过')
-        # pytest.assume(app_notification.get_notification_content_by_row(1) in
-        #               "您报备的客户" + self.customer_name + ini.custom_telephone + "，楼盘信息" + self.new_house
-        #               + self.address + "已审核通过。")
-        # app_notification.dismiss_all_notification()
+        app_common.open_notifications()
+        pytest.assume(app_notification.get_notification_title_by_row(1) == '新房报备审核通过')
+        pytest.assume(app_notification.get_notification_content_by_row(1) in
+                      "您报备的客户" + self.customer_name + ini.custom_telephone + "，楼盘信息" + self.new_house
+                      + self.address + "已审核通过。")
+        app_notification.dismiss_all_notification()
         app_common.down_swipe_for_refresh()
         pytest.assume(app_message_table.get_customer_message() ==
                       "您报备的客户" + self.customer_name + ini.custom_telephone + "，楼盘信息" + self.new_house
@@ -149,12 +149,12 @@ class TestNewHouseProcess(object):
         app_common.back_previous_step()
         app_common.back_previous_step()
         self.new_house_take_look(web_driver)
-        # app_common.open_notifications()
-        # pytest.assume(app_notification.get_notification_title_by_row(1) == '带看待审核')
-        # pytest.assume(app_notification.get_notification_content_by_row(1) in
-        #               "您收到一条新房带看单，经纪人" + self.agent + ini.user_account + "，客户" + self.customer_name
-        #               + ini.custom_telephone + "，楼盘信息" + self.new_house + self.address + "请及时审核。")
-        # app_notification.dismiss_all_notification()
+        app_common.open_notifications()
+        pytest.assume(app_notification.get_notification_title_by_row(1) == '带看待审核')
+        pytest.assume(app_notification.get_notification_content_by_row(1) in
+                      "您收到一条新房带看单，经纪人" + self.agent + ini.user_account + "，客户" + self.customer_name
+                      + ini.custom_telephone + "，楼盘信息" + self.new_house + self.address + "请及时审核。")
+        app_notification.dismiss_all_notification()
         app_common.down_swipe_for_refresh()
         pytest.assume(app_message_table.get_house_message() ==
                       "您收到一条新房带看单，经纪人" + self.agent + ini.user_account + "，客户" + self.customer_name
@@ -173,12 +173,12 @@ class TestNewHouseProcess(object):
         app_common.back_previous_step()
         app_common.back_previous_step()
         self.new_house_take_look_reject(web_driver, take_look_reject_reason)
-        # app_common.open_notifications()
-        # pytest.assume(app_notification.get_notification_title_by_row(1) == '带看审核驳回')
-        # pytest.assume(app_notification.get_notification_content_by_row(1) in
-        #               "您申请的带看单，客户" + self.customer_name + ini.custom_telephone + "，楼盘信息" + self.new_house
-        #               + self.address + "已驳回。")
-        # app_notification.dismiss_all_notification()
+        app_common.open_notifications()
+        pytest.assume(app_notification.get_notification_title_by_row(1) == '带看审核驳回')
+        pytest.assume(app_notification.get_notification_content_by_row(1) in
+                      "您申请的带看单，客户" + self.customer_name + ini.custom_telephone + "，楼盘信息" + self.new_house
+                      + self.address + "已驳回。")
+        app_notification.dismiss_all_notification()
         app_common.down_swipe_for_refresh()
         pytest.assume(app_message_table.get_house_message() ==
                       "您申请的带看单，客户" + self.customer_name + ini.custom_telephone + "，楼盘信息" + self.new_house
@@ -198,12 +198,12 @@ class TestNewHouseProcess(object):
         app_common.back_previous_step()
         self.new_house_take_look(web_driver)
         self.new_house_take_look_pass(web_driver)
-        # app_common.open_notifications()
-        # pytest.assume(app_notification.get_notification_title_by_row(1) == '带看审核通过')
-        # pytest.assume(app_notification.get_notification_content_by_row(1) in
-        #               "您申请的带看单，客户" + self.customer_name + ini.custom_telephone + "，楼盘信息" + self.new_house
-        #               + self.address + "已审核通过")
-        # app_notification.dismiss_all_notification()
+        app_common.open_notifications()
+        pytest.assume(app_notification.get_notification_title_by_row(1) == '带看审核通过')
+        pytest.assume(app_notification.get_notification_content_by_row(1) in
+                      "您申请的带看单，客户" + self.customer_name + ini.custom_telephone + "，楼盘信息" + self.new_house
+                      + self.address + "已审核通过")
+        app_notification.dismiss_all_notification()
         app_common.down_swipe_for_refresh()
         pytest.assume(app_message_table.get_house_message() ==
                       "您申请的带看单，客户" + self.customer_name + ini.custom_telephone + "，楼盘信息" + self.new_house
@@ -222,13 +222,13 @@ class TestNewHouseProcess(object):
         app_common.back_previous_step()
         app_common.back_previous_step()
         self.new_house_subscription(web_driver, subscription_amount)
-        # app_common.open_notifications()
-        # pytest.assume(app_notification.get_notification_title_by_row(1) == '新房认购待审核')
-        # pytest.assume(app_notification.get_notification_content_by_row(1) in
-        #               "您收到一条新房报单，经纪人" + self.agent + ini.user_account + "，客户" + self.customer_name
-        #               + ini.custom_telephone + "，楼盘信息" + self.new_house + self.address + "，认购金额"
-        #               + subscription_amount + "元，请及时审核。")
-        # app_notification.dismiss_all_notification()
+        app_common.open_notifications()
+        pytest.assume(app_notification.get_notification_title_by_row(1) == '新房认购待审核')
+        pytest.assume(app_notification.get_notification_content_by_row(1) in
+                      "您收到一条新房报单，经纪人" + self.agent + ini.user_account + "，客户" + self.customer_name
+                      + ini.custom_telephone + "，楼盘信息" + self.new_house + self.address + "，认购金额"
+                      + subscription_amount + "元，请及时审核。")
+        app_notification.dismiss_all_notification()
         app_common.down_swipe_for_refresh()
         pytest.assume(app_message_table.get_customer_message() ==
                       "您收到一条新房报单，经纪人" + self.agent + ini.user_account + "，客户" + self.customer_name
@@ -250,12 +250,12 @@ class TestNewHouseProcess(object):
         app_common.back_previous_step()
         app_common.back_previous_step()
         self.new_house_subscription_reject(web_driver, subscription_reject_reason)
-        # app_common.open_notifications()
-        # pytest.assume(app_notification.get_notification_title_by_row(1) == '新房认购审核驳回')
-        # pytest.assume(app_notification.get_notification_content_by_row(1) in
-        #               "您申请的新房认购客户" + self.customer_name + ini.custom_telephone + "，楼盘信息" + self.new_house
-        #               + self.address + "，认购金额" + subscription_amount + "元，已驳回。")
-        # app_notification.dismiss_all_notification()
+        app_common.open_notifications()
+        pytest.assume(app_notification.get_notification_title_by_row(1) == '新房认购审核驳回')
+        pytest.assume(app_notification.get_notification_content_by_row(1) in
+                      "您申请的新房认购客户" + self.customer_name + ini.custom_telephone + "，楼盘信息" + self.new_house
+                      + self.address + "，认购金额" + subscription_amount + "元，已驳回。")
+        app_notification.dismiss_all_notification()
         app_common.down_swipe_for_refresh()
         pytest.assume(app_message_table.get_customer_message() ==
                       "您申请的新房认购客户" + self.customer_name + ini.custom_telephone + "，楼盘信息" + self.new_house
@@ -275,12 +275,12 @@ class TestNewHouseProcess(object):
         app_common.back_previous_step()
         self.new_house_subscription_again(web_driver)
         self.new_house_subscription_pass(web_driver)
-        # app_common.open_notifications()
-        # pytest.assume(app_notification.get_notification_title_by_row(1) == '新房认购审核通过')
-        # pytest.assume(app_notification.get_notification_content_by_row(1) in
-        #               "您申请的新房认购客户" + self.customer_name + ini.custom_telephone + "，楼盘信息" + self.new_house
-        #               + self.address + "，认购金额" + subscription_amount + "元，已审核通过。")
-        # app_notification.dismiss_all_notification()
+        app_common.open_notifications()
+        pytest.assume(app_notification.get_notification_title_by_row(1) == '新房认购审核通过')
+        pytest.assume(app_notification.get_notification_content_by_row(1) in
+                      "您申请的新房认购客户" + self.customer_name + ini.custom_telephone + "，楼盘信息" + self.new_house
+                      + self.address + "，认购金额" + subscription_amount + "元，已审核通过。")
+        app_notification.dismiss_all_notification()
         app_common.down_swipe_for_refresh()
         pytest.assume(app_message_table.get_customer_message() ==
                       "您申请的新房认购客户" + self.customer_name + ini.custom_telephone + "，楼盘信息" + self.new_house
