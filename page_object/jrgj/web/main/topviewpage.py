@@ -41,5 +41,6 @@ class MainTopViewPage(WebPage):
 
     def close_notification(self):
         if self.element_is_exist(top_view['右上角弹窗_关闭按钮'], timeout=5):
+            sleep()
             self.click_element(top_view['右上角弹窗_关闭按钮'])
             sleep(2)

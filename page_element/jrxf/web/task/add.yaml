@@ -5,8 +5,9 @@
 预计到访时间输入框: "xpath==//div[@style='' or not(@style)]//div[@role='dialog']//input[@id='expectArriveTime']"
 时间弹窗_确定按钮: "xpath==//div[@style='' or not(@style)]//div[@class='ant-picker-panel-container']//span[text()='确 定']/parent::button"
 时间弹窗_此刻按钮: "xpath==//div[@style='' or not(@style)]//div[@class='ant-picker-panel-container']//a[text()='此刻' and @class='ant-picker-now-btn']"
-审核弹窗_通过按钮: "xpath==//div[@class='ant-modal-root']//span[text()='审核通过']/parent::button[@type='button']"
-审核弹窗_驳回按钮: "xpath==//div[@class='ant-modal-root']//span[text()='审核驳回']/parent::button[@type='button']"
+审核弹窗_通过按钮: "xpath==//div[@class='ant-modal-root']//span[contains(text(),'审核通过')]/parent::button[@type='button']"
+审核弹窗_驳回按钮: "xpath==//div[@class='ant-modal-root']//span[contains(text(),'审核驳回')]/parent::button[@type='button']"
+审核弹窗_驳回理由输入框: "xpath==//div[@class='ant-modal-root']//label[text()='驳回理由']/ancestor::div[contains(@class,'ant-row')]//input[@id='checkRemark']"
 
 #带看
 带看时间输入框: "xpath==//div[@style='' or not(@style)]//div[@role='dialog']//input[@id='takeLookTime']"

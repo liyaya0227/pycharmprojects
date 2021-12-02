@@ -68,8 +68,8 @@ class HouseTaskTablePage(WebPage):
         return record_no
 
     def click_view_report_btn(self, record_no):
-        locator = 'xpath', "//span[text()='" + record_no + "']/parent::td/following-sibling::td//a[contains(text()," \
-                                                           "'查看')] "
+        locator = 'xpath', "//*[text()='" + record_no + "']/parent::td/following-sibling::td//a[contains(text()," \
+                                                           "'查看')]"
         self.click_element(locator)
 
     def click_view_record_btn(self, record_no):

@@ -55,4 +55,7 @@ class MainLeftViewPage(WebPage):
         self.click_element(left_view['上架楼盘审核标签'], sleep_time=0.5)
 
     def click_house_task_label(self):
+        is_expanded = self.get_element_attribute(left_view['新房作业菜单'], 'aria-expanded')
+        if is_expanded == 'false':
+            self.click_element(left_view['新房作业菜单'], sleep_time=0.5)
         self.click_element(left_view['新房作业流程菜单'], sleep_time=0.5)

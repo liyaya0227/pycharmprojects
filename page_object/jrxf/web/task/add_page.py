@@ -39,6 +39,12 @@ class AddHouseTaskPage(WebPage):
     def click_approved_btn(self):
         self.click_element(add_task['审核弹窗_通过按钮'], 1.5)
 
+    def click_reject_btn(self):
+        self.click_element(add_task['审核弹窗_驳回按钮'], 1.5)
+
+    def reject_dialog_input_reason(self, reason):
+        self.input_text_into_element(add_task['审核弹窗_驳回理由输入框'], reason)
+
     def save_take_look(self, picture_path):
         self.click_element(add_task['带看时间输入框'])
         self.click_element(add_task['时间弹窗_此刻按钮'])
@@ -62,11 +68,27 @@ class AddHouseTaskPage(WebPage):
         self.click_element(add_task['弹窗_确定按钮'], 1.5)
 
     def audit_subscribe(self, payment, commission, company_income, deal_prize):
-        self.input_text(add_task['供应商打款输入框'], commission)
+        self.input_text(add_task['供应商打款输入框'], payment)
         self.input_text(add_task['佣金金额输入框'], commission)
         self.input_text(add_task['公司收入输入框'], company_income)
         self.input_text(add_task['成交奖输入框'], deal_prize)
         self.click_element(add_task['审核认购弹窗_通过按钮'], 1)
+
+    def subscribe_dialog_input_payment(self, payment):
+        """认购审核弹窗，输入供应商打款"""
+        self.input_text_into_element(add_task['供应商打款输入框'], payment)
+
+    def subscribe_dialog_input_commission(self, commission):
+        """认购审核弹窗，输入佣金金额"""
+        self.input_text_into_element(add_task['佣金金额输入框'], commission)
+
+    def subscribe_dialog_input_company_income(self, company_income):
+        """认购审核弹窗，输入公司收入"""
+        self.input_text_into_element(add_task['公司收入输入框'], company_income)
+
+    def subscribe_dialog_input_deal_prize(self, deal_prize):
+        """认购审核弹窗，输入成交奖"""
+        self.input_text_into_element(add_task['成交奖输入框'], deal_prize)
 
     def audit_rejected_record(self):
         locator = 'xpath', "//td[text()='待审核']/following-sibling::td//a[contains(text(), '查看')] "

@@ -29,13 +29,18 @@ class NewHouseOperationTablePage(WebPage):
 
     def input_building_name_search(self, building_name):
         self.input_text(new_house_operation_table['楼盘名称搜索框'], building_name)
-        sleep(0.5)
-        building_name_list = self.find_elements(new_house_operation_table['下拉框'])
-        for building_name_ele in building_name_list:
-            if building_name_ele.text == building_name:
-                building_name_ele.click()
-                return True
-        raise ValueError('传值错误')
+        sleep(1)
+        locator = "xpath", "//div[contains(@class, 'ant-select-dropdown') " \
+                           "and not(contains(@class, 'ant-select-dropdown-hidden'))]//div[@class='rc-virtual-list']" \
+                           "//div[contains(@class,'ant-select-item ant-select-item-option')]/div[text()='" \
+                  + building_name + "']"
+        self.click_element(locator)
+        # building_name_list = self.find_elements(new_house_operation_table['下拉框'])
+        # for building_name_ele in building_name_list:
+        #     if building_name_ele.text == building_name:
+        #         building_name_ele.click()
+        #         return True
+        # raise ValueError('传值错误')
 
     def input_company_name_search(self, company_name):
         self.input_text(new_house_operation_table['公司名称搜索框'], company_name)
@@ -197,6 +202,16 @@ class NewHouseOperationTablePage(WebPage):
         else:
             return len(table_list)
 
+    def get_report_code_by_row(self, row=1):
+        locator = 'xpath', "(//div[@style='']/div[@class='new-house-management']//table/tbody/tr[not(@aria-hidden)])["\
+                  + str(row) + "]/td[" + str(self.__get_column_by_title('报备编号') + 1) + "]//a"
+        return self.get_element_text(locator)
+
+    def get_estate_address_by_row(self, row=1):
+        locator = 'xpath', "(//div[@style='']/div[@class='new-house-management']//table/tbody/tr[not(@aria-hidden)])["\
+                  + str(row) + "]/td[" + str(self.__get_column_by_title('楼盘名称/地址') + 1) + "]/div[last()]"
+        return self.get_element_text(locator)
+
     def delete_report_by_row(self, row=1):
         locator = 'xpath', "(//div[@style='']/div[@class='new-house-management']//table/tbody/tr[not(@aria-hidden)])["\
                   + str(row) + "]/td[" + str(self.__get_column_by_title('操作') + 1) + "]//a[text()='删除']"
@@ -215,6 +230,11 @@ class NewHouseOperationTablePage(WebPage):
     def enter_subscribe_by_row(self, row=1):
         locator = 'xpath', "(//div[@style='']/div[@class='new-house-management']//table/tbody/tr[not(@aria-hidden)])[" \
                   + str(row) + "]/td[" + str(self.__get_column_by_title('操作') + 1) + "]//a[text()='录认购']"
+        self.click_element(locator)
+
+    def click_edit_button_by_row(self, row=1):
+        locator = 'xpath', "(//div[@style='']/div[@class='new-house-management']//table/tbody/tr[not(@aria-hidden)])[" \
+                  + str(row) + "]/td[" + str(self.__get_column_by_title('操作') + 1) + "]//a[text()='编辑']"
         self.click_element(locator)
 
     def __get_column_by_title(self, title):

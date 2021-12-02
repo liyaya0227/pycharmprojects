@@ -45,6 +45,10 @@ class ReadConfig(object):
         return self._get('APP', 'PACKAGE')
 
     @property
+    def xf_app_package(self):
+        return self._get('APP', 'XF_PACKAGE')
+
+    @property
     def cw_user_account(self):
         return self._get('CW_USER', 'ACCOUNT')
 

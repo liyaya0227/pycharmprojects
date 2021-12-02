@@ -47,7 +47,7 @@ def xf_web_driver():
 
 
 @pytest.fixture(scope='session', autouse=False)
-def android_driver():
+def xf_android_driver():
     """mumu"""
     desired_caps = {
         'automationName': 'appium',  # 自动化引擎，默认appium
@@ -60,8 +60,8 @@ def android_driver():
         # 'deviceName': '192.168.101.192',  # 设备名称。如果是真机，在'设置->关于手机->设备名称'里查看
         'noReset': True,  # 应用状态是否需要重置，默认true
         'fullReset': False,  # 执行完测试后是否卸载app，默认false
-        'appPackage': ini.app_package,  # 应用的包名
-        'appActivity': ini.app_package + '.MainActivity',  # 应用的第一个启动Activity
+        'appPackage': ini.xf_app_package,  # 应用的包名
+        'appActivity': ini.xf_app_package + '.MainActivity',  # 应用的第一个启动Activity
         'newCommandTimeout': 60 * 60 * 60,  # 命令超时时间，单位：秒；超时自动结束会话
         'unicodeKeyboard': True,  # 使用unicode编码方式发送字符串；输入中文需要
         'resetKeyboard': True  # 将键盘隐藏起来，默认true；输入中文需要
