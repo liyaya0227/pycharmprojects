@@ -1,0 +1,30 @@
+#新房作业流程
+#待办楼盘菜单: "xpath==//div[@style='' or not(@style)]/div[@class='estateManage']/div[@class='tabs']//span[contains(text(), '待办楼盘')]"
+#合同审核菜单: "xpath==//div[@style='' or not(@style)]/div[@class='estateManage']/div[@class='tabs']//span[contains(text(), '合同审核')]"
+#待上架楼盘菜单: "xpath==//div[@style='' or not(@style)]/div[@class='estateManage']/div[@class='tabs']//span[contains(text(), '待上架楼盘')]"
+
+#报备tab页
+楼盘名称输入框: "xpath==//div[@style='' or not(@style)]/div[@class='new-house-management']//input[@id='estateName']"
+报备编号输入框: "xpath==//div[@style='' or not(@style)]/div[@class='new-house-management']//input[@id='reportNum']"
+搜索按钮: "xpath==//div[@style='' or not(@style)]/div[@class='new-house-management']//span[text()='搜索']/parent::button[@type='submit']"
+新增按钮: "xpath==//div[@style='' or not(@style)]/div[@class='new-house-management']//span[text()='新增']/parent::button[@type='button']"
+重置按钮: "xpath==//div[@style='' or not(@style)]/div[@class='new-house-management']//span[text()='重置']/parent::button[@type='button']"
+
+#报备列表
+删除按钮: "xpath==//div[@style='' or not(@style)]//tbody[@class='ant-table-tbody']//a[text()='删除']"
+弹窗_删除按钮: "xpath==//div[@style='' or not(@style)]//div[@role='dialog']//span[text()='删 除']/parent::button[@type='button']"
+查看按钮: "xpath==//div[@style='' or not(@style)]//tbody[@class='ant-table-tbody']//a[text()='查看']"
+录入带看按钮: "xpath==//div[@style='' or not(@style)]//tbody[@class='ant-table-tbody']//a[text()='录入带看']"
+右上角弹窗_内容: "xpath==//div[@class='ant-notification ant-notification-topRight']//div[@class='ant-notification-notice-description']"
+#已过报备保护期弹窗: "xpath==//div[text()='已过报备保护期']"
+
+#带看列表
+录入认购按钮: "xpath==//div[@style='' or not(@style)]//tbody[@class='ant-table-tbody']//a[text()='录认购']"
+已过带看保护期弹窗: "xpath==//div[text()='已过带看保护期']"
+
+##认购列表
+#上传草网签按钮: "xpath==//div[@style='' or not(@style)]//tbody[@class='ant-table-tbody']//a[text()='上传草网签']"
+#
+##草签列表
+#录成销按钮: "xpath==//div[@style='' or not(@style)]//tbody[@class='ant-table-tbody']//a[text()='录成销']"
+

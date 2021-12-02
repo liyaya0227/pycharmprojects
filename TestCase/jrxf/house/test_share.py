@@ -20,26 +20,30 @@ from utils.jsonutil import get_data
 from utils.logger import logger
 
 person_info = {}
-gl_web_driver = None
+gl_xf_web_driver = None
 add_house_model_info = {}
 
 
 @allure.feature("房源分享功能")
 class TestShare(object):
-    house_name = ''
+    json_file_path = cm.test_data_dir + "/jrxf/house/test_add.json"
+    test_add_data = get_data(json_file_path)
+    new_house_name = ini.new_house_name
+
+    @pytest.fixture(scope="class", autouse=True)
+    def check_house(self, xf_web_driver):
+        global gl_xf_web_driver
+        gl_xf_web_driver = xf_web_driver
+        house_service = HouseService(gl_xf_web_driver)
+        house_service.check_current_role('平台管理员')
+        house_service.prepare_house(self.test_add_data, self.new_house_name)  # 验证房源状态
 
     @pytest.fixture(scope="function", autouse=True)
-    def test_prepare(self, xf_web_driver):
-        global gl_web_driver
-        gl_web_driver = xf_web_driver
-        house_service = HouseService(gl_web_driver)
-        self.house_name = ini.house_community_name
-        self.main_up_view = MainUpViewPage(gl_web_driver)
-        self.main_left_view = MainLeftViewPage(gl_web_driver)
-        self.house_table_page = HouseTablePage(gl_web_driver)
-        self.house_detail_page = HouseDetailPage(gl_web_driver)
-        self.main_left_view.change_role('平台管理员')
-        house_service.check_house_state(gl_web_driver, self.house_name)  # 验证房源状态
+    def test_prepare(self):
+        self.main_up_view = MainUpViewPage(gl_xf_web_driver)
+        self.main_left_view = MainLeftViewPage(gl_xf_web_driver)
+        self.house_table_page = HouseTablePage(gl_xf_web_driver)
+        self.house_detail_page = HouseDetailPage(gl_xf_web_driver)
         yield
         self.main_up_view.clear_all_title()
 
@@ -47,7 +51,7 @@ class TestShare(object):
     def enter_house_detail(self, house_name):
         self.main_left_view.click_house_management_label()
         self.house_table_page.click_coop_house_tab()
-        self.house_table_page.serch_unhandle_house(house_name)
+        self.house_table_page.search_unhandle_house(house_name)
         self.house_table_page.enter_house_detail(house_name)
 
     @allure.step("上传户型介绍")
@@ -95,7 +99,7 @@ class TestShare(object):
         user_info = self.house_detail_page.get_user_info_from_db(ini.user_account)  # 获取用户信息
         user_name = user_info[0]
         cell_phone = user_info[1]
-        self.enter_house_detail(self.house_name)  # 进入房源详情
+        self.enter_house_detail(self.new_house_name)  # 进入房源详情
         self.house_detail_page.click_see_more()
         self.upload_house_model()  # 上传户型介绍
         self.house_detail_page.switch_tab_by_name('楼盘首页')  # 进入分享页面
@@ -123,7 +127,7 @@ class TestShare(object):
     @allure.story("测试生成二维码")
     @pytest.mark.run(order=3)
     def test_generate_qr_code(self):
-        self.enter_house_detail(self.house_name)
+        self.enter_house_detail(self.new_house_name)
         house_model_number = self.house_detail_page.get_house_model_number()
         house_img_number = self.house_detail_page.get_house_img_number()
         if house_model_number == 0:  # 上传户型介绍

@@ -14,7 +14,7 @@
 弹窗_确定按钮: "xpath==//div[@style='' or not(@style)]//div[@role='dialog']//span[text()='确 定']/parent::button[@type='button']"
 
 #合作楼盘tab页
-#合作楼盘tab_楼盘名称输入框: "xpath==//div[@style='' or not(@style)]/div[@class='estateManage']//input[@id='newHouseName']"
+合作楼盘tab_楼盘名称输入框: "xpath==//div[@style='' or not(@style)]/div[@class='estateManage']//input[@id='newHouseName']"
 
 
 #待办楼盘列表

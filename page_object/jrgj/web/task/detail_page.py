@@ -15,7 +15,7 @@ from utils.databaseutil import DataBaseUtil
 from utils.logger import logger
 from utils.timeutil import sleep
 
-house_detail = Element('jrxf/web/house/detail')
+house_detail = Element('jrgj/web/house/detail')
 
 
 class HouseDetailPage(WebPage):
@@ -24,7 +24,7 @@ class HouseDetailPage(WebPage):
         """新房详情查看更多"""
         self.click_element(house_detail['查看更多'])
 
-    def get_image_list_lenth(self):
+    def get_image_list_length(self):
         """获取相册列表中的图片数量"""
         ele_list = self.find_elements(house_detail['相册列表_图片'])
         return len(ele_list)
