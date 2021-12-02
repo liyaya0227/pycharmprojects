@@ -42,6 +42,10 @@ class MainLeftViewPage(WebPage):
     def get_current_role_name(self):
         return self.get_element_text(left_view['角色标签'])
 
+    def check_current_role(self, expect_role_name):
+        if expect_role_name not in self.get_current_role_name():
+            self.change_role(expect_role_name)
+
     def log_out(self):
         self.browser_refresh()
         self.click_element(left_view['功能按钮'])

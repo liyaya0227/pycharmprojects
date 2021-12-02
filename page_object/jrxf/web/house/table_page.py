@@ -37,7 +37,7 @@ class HouseTablePage(WebPage):
     def click_add_house_btn(self):
         self.click_element(house_table['新增楼盘按钮'])
 
-    def serch_unhandle_house(self, house_name):
+    def search_unhandle_house(self, house_name):
         self.input_text(house_table['楼盘名称输入框'], house_name, clear=True)
         self.click_element(house_table['搜索按钮'])
         sleep()
@@ -45,7 +45,7 @@ class HouseTablePage(WebPage):
     def click_reset_button(self):
         self.click_element(house_table['重置按钮'])
 
-    def get_serch_result(self):
+    def get_search_result(self):
         house_number = self.get_element_text(house_table['搜索结果'])
         return house_number
 
@@ -66,7 +66,7 @@ class HouseTablePage(WebPage):
 
     # 合同审核
 
-    def serch_contract_audit_records(self, house_name):
+    def search_contract_audit_records(self, house_name):
         self.input_text(house_table['合同_楼盘名称输入框'], house_name)
         self.click_element(house_table['合同_搜索按钮'])
 
@@ -83,7 +83,7 @@ class HouseTablePage(WebPage):
 
     # 上架审核
 
-    def serch_released_audit_records(self, house_name):
+    def search_released_audit_records(self, house_name):
         self.input_text(house_table['上架_楼盘名称输入框'], house_name)
         self.click_element(house_table['上架_搜索按钮'])
 
@@ -141,12 +141,13 @@ class HouseTablePage(WebPage):
         self.click_element(locator)
 
     @staticmethod
-    def get_house_status_by_db(house_name):
+    def get_house_info_by_db(house_name):
         database_util = DataBaseUtil('Xf My SQL', ini.xf_database_name)
         get_house_info = house_sql.get_sql('new_house', 'get_house_info').format(new_house_name=house_name)
         house_info = database_util.select_sql(get_house_info)
         if len(house_info) > 0:
             house_status = house_info[0][1]
-            return house_status
+            show_outside_status = house_info[0][2]
+            return {"house_status": house_status, "show_outside_status": show_outside_status}
         else:
             return ''

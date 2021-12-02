@@ -59,3 +59,10 @@ class MainLeftViewPage(WebPage):
         if is_expanded == 'false':
             self.click_element(left_view['新房作业菜单'], sleep_time=0.5)
         self.click_element(left_view['新房作业流程菜单'], sleep_time=0.5)
+
+    def get_current_role_name(self):
+        return self.get_element_text(left_view['角色标签'])
+
+    def check_current_role(self, expect_role_name):
+        if expect_role_name not in self.get_current_role_name():
+            self.change_role(expect_role_name)

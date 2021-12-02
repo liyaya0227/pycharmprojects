@@ -8,6 +8,7 @@
 """
 import pytest
 from config.conf import cm
+from page_object.jrxf.web.main.leftviewpage import MainLeftViewPage as XfMainLeftViewPage
 from utils.logger import logger
 from common.readconfig import ini
 from selenium import webdriver
@@ -132,6 +133,27 @@ def android_driver2():
     yield second_adriver
     second_adriver.quit()
 
+
+@pytest.fixture(scope='session', autouse=False)
+def xf_web_driver():
+    chrome_options = webdriver.ChromeOptions()
+    prefs = {
+        "download.default_directory": cm.tmp_dir,
+        "credentials_enable_service": False,
+        "profile.password_manager_enabled": False
+    }
+    chrome_options.add_experimental_option("prefs", prefs)
+    chrome_options.add_experimental_option('useAutomationExtension', False)
+    chrome_options.add_experimental_option('excludeSwitches', ['enable-automation', 'load-extension'])
+    gl_xf_web_driver = webdriver.Chrome(options=chrome_options)
+    gl_xf_web_driver.maximize_window()
+    gl_xf_web_driver.get(ini.xf_url)
+    login_page = LoginPage(gl_xf_web_driver)
+    login_page.log_in(ini.user_account, ini.user_password)
+    yield gl_xf_web_driver
+    main_left_view = XfMainLeftViewPage(gl_xf_web_driver)
+    main_left_view.log_out()
+    gl_xf_web_driver.quit()
 
 # @pytest.fixture(scope='session', autouse=False)
 # def android_driver2():

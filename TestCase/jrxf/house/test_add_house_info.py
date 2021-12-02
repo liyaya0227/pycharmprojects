@@ -19,23 +19,29 @@ from page_object.jrxf.web.main.upviewpage import MainUpViewPage
 from utils.jsonutil import get_data
 from utils.logger import logger
 
+gl_xf_web_driver = None
+
 
 @allure.feature("测试房源详情模块")
 class TestAdd(object):
-    house_name = ''
+    json_file_path = cm.test_data_dir + "/jrxf/house/test_add.json"
+    test_add_data = get_data(json_file_path)
+    new_house_name = ini.new_house_name
+
+    @pytest.fixture(scope="class", autouse=True)
+    def check_house(self, xf_web_driver):
+        global gl_xf_web_driver
+        gl_xf_web_driver = xf_web_driver
+        house_service = HouseService(gl_xf_web_driver)
+        house_service.check_current_role('平台管理员')
+        house_service.prepare_house(self.test_add_data, self.new_house_name)  # 验证房源状态
 
     @pytest.fixture(scope="function", autouse=True)
-    def test_prepare(self, xf_web_driver):
-        json_file_path = cm.test_data_dir + "/jrxf/house/test_add.json"
-        test_add_data = get_data(json_file_path)
-        house_service = HouseService(xf_web_driver)
-        self.house_name = ini.house_community_name
-        self.main_up_view = MainUpViewPage(xf_web_driver)
-        self.main_left_view = MainLeftViewPage(xf_web_driver)
-        self.house_table_page = HouseTablePage(xf_web_driver)
-        self.house_detail_page = HouseDetailPage(xf_web_driver)
-        self.main_left_view.change_role('平台管理员')
-        house_service.prepare_house(test_add_data, self.house_name)  # 验证房源状态
+    def test_prepare(self):
+        self.main_up_view = MainUpViewPage(gl_xf_web_driver)
+        self.main_left_view = MainLeftViewPage(gl_xf_web_driver)
+        self.house_table_page = HouseTablePage(gl_xf_web_driver)
+        self.house_detail_page = HouseDetailPage(gl_xf_web_driver)
         yield
         self.main_up_view.clear_all_title()
 
@@ -43,7 +49,7 @@ class TestAdd(object):
     def enter_house_detail(self, house_name):
         self.main_left_view.click_house_management_label()
         self.house_table_page.click_coop_house_tab()
-        self.house_table_page.serch_unhandle_house(house_name)
+        self.house_table_page.search_unhandle_house(house_name)
         self.house_table_page.enter_house_detail(house_name)
 
     @allure.step("上传户型介绍")
@@ -70,7 +76,7 @@ class TestAdd(object):
     @allure.story("上传户型介绍")
     @pytest.mark.run(order=2)
     def test_upload_house_model(self):
-        self.enter_house_detail(self.house_name)  # 进入房源详情
+        self.enter_house_detail(self.new_house_name)  # 进入房源详情
         initial_house_model_number = self.house_detail_page.get_house_model_number()
         self.house_detail_page.click_see_more()
         self.upload_house_model()  # 上传户型介绍
@@ -82,7 +88,7 @@ class TestAdd(object):
     @allure.story("维护楼栋信息")
     @pytest.mark.run(order=2)
     def test_add_building_info(self):
-        self.enter_house_detail(self.house_name)  # 进入房源详情
+        self.enter_house_detail(self.new_house_name)  # 进入房源详情
         initial_house_model_number = self.house_detail_page.get_house_model_number()
         if initial_house_model_number == 0:  # 上传户型介绍
             self.upload_house_model()
@@ -98,7 +104,7 @@ class TestAdd(object):
     @allure.story("发布动态")
     @pytest.mark.run(order=2)
     def test_add_house_dynamic(self):
-        self.enter_house_detail(self.house_name)  # 进入房源详情
+        self.enter_house_detail(self.new_house_name)  # 进入房源详情
         self.house_detail_page.click_see_more()
         self.house_detail_page.switch_tab_by_name('楼盘动态')
         trend_explain = self.house_detail_page.house_dynamic_content('楼盘动态title', '楼盘动态最新' +
@@ -110,7 +116,7 @@ class TestAdd(object):
     @allure.story("编辑楼盘卖点")
     @pytest.mark.run(order=2)
     def test_edit_house_selling_point(self):
-        self.enter_house_detail(self.house_name)  # 进入房源详情
+        self.enter_house_detail(self.new_house_name)  # 进入房源详情
         self.house_detail_page.click_see_more()
         self.house_detail_page.switch_tab_by_name('楼盘卖点')
         push_plate = self.house_detail_page.house_selling_point_content('距离地铁二号线100米' +

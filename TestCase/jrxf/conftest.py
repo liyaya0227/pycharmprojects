@@ -6,12 +6,7 @@
 @file: conftest.py
 @time: 2021/10/14
 """
-
-import os
-import base64
 import pytest
-import allure
-from py.xml import html
 from config.conf import cm
 from selenium import webdriver
 from appium import webdriver as androiddriver
@@ -19,11 +14,13 @@ from common.readconfig import ini
 from page_object.common.web.login.loginpage import LoginPage
 from page_object.jrxf.web.main.leftviewpage import MainLeftViewPage
 from case_service.jrgj.app.login.login_service import LoginService as AppLoginService
-from utils.timeutil import dt_strftime
+from page_object.jrgj.web.main.leftviewpage import MainLeftViewPage as GjMainLeftViewPage
+from page_object.jrgj.web.main.topviewpage import MainTopViewPage as GjMainTopViewPage
 
 
-web_driver = None
 app_driver = None
+web_driver = None
+gl_gj_web_driver = None
 
 
 @pytest.fixture(scope='session', autouse=False)
@@ -42,7 +39,11 @@ def xf_web_driver():
         web_driver = webdriver.Chrome(options=chrome_options)
         web_driver.maximize_window()
         web_driver.get(ini.xf_url)
+        login_page = LoginPage(web_driver)
+        login_page.log_in(ini.user_account, ini.user_password)
     yield web_driver
+    main_left_view = MainLeftViewPage(web_driver)
+    main_left_view.log_out()
     web_driver.quit()
 
 
@@ -73,10 +74,37 @@ def xf_android_driver():
     driver.quit()
 
 
-@pytest.fixture(scope='session', autouse=True)
-def setup_and_teardown(xf_web_driver):
-    login_page = LoginPage(xf_web_driver)
+# @pytest.fixture(scope='session', autouse=True)
+# def setup_and_teardown(xf_web_driver):
+#     login_page = LoginPage(xf_web_driver)
+#     login_page.log_in(ini.user_account, ini.user_password)
+#     yield
+#     main_left_view = MainLeftViewPage(web_driver)
+#     main_left_view.log_out()
+
+
+@pytest.fixture(scope='session', autouse=False)
+def gj_web_driver():
+    global gl_gj_web_driver
+    chrome_options = webdriver.ChromeOptions()
+    prefs = {
+        "download.default_directory": cm.tmp_dir,
+        "credentials_enable_service": False,
+        "profile.password_manager_enabled": False
+    }
+    chrome_options.add_experimental_option("prefs", prefs)
+    chrome_options.add_experimental_option('useAutomationExtension', False)
+    chrome_options.add_experimental_option('excludeSwitches', ['enable-automation', 'load-extension'])
+    gl_gj_web_driver = webdriver.Chrome(options=chrome_options)
+    gl_gj_web_driver.maximize_window()
+    gl_gj_web_driver.get(ini.url)
+    login_page = LoginPage(gl_gj_web_driver)
     login_page.log_in(ini.user_account, ini.user_password)
-    yield
-    main_left_view = MainLeftViewPage(web_driver)
+    main_top_view = GjMainTopViewPage(gl_gj_web_driver)
+    main_top_view.wait_page_loading_complete()
+    main_top_view.click_close_button()
+    yield gl_gj_web_driver
+    main_left_view = GjMainLeftViewPage(gl_gj_web_driver)
     main_left_view.log_out()
+    gl_gj_web_driver.quit()
+

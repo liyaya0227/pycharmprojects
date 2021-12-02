@@ -15,8 +15,8 @@ add_house = Element('jrxf/web/house/add')
 
 class AddHousePage(WebPage):
 
-    def add_house_base_info(self, house_name, developers, house_status, sale_price, start_sale_time, making_room_time,
-                            house_keeper_type, city, country, trade, house_address, sale_address):  # 增加房源基础信息
+    def add_house_base_info(self, house_address, house_name, developers, house_status, sale_price, start_sale_time,
+                            making_room_time, house_keeper_type, sale_address):  # 增加房源基础信息
         self.input_text(add_house['楼盘名称输入框'], house_name)
         self.input_text(add_house['开发商输入框'], developers)
         self.select_house_status(house_status)
@@ -24,8 +24,8 @@ class AddHousePage(WebPage):
         self.select_start_sale_time(start_sale_time)
         self.select_making_room_time(making_room_time)
         self.select_house_keeper_type(house_keeper_type)
-        self.select_area(city, country, trade)
-        self.input_text(add_house['楼盘地址输入框'], house_address)
+        self.select_area(house_address['city'], house_address['country'], house_address['trade'])
+        self.input_text(add_house['楼盘地址输入框'], house_address['house_address'])
         self.input_text(add_house['售楼处地址输入框'], sale_address)
         self.choose_building_position()
         self.click_element(add_house['弹窗_确定按钮'])
@@ -130,6 +130,9 @@ class AddHousePage(WebPage):
         self.input_text(add_house['联系人姓名输入框'], contract_name)
         self.select_item_option(option=item_option_value)
         self.click_element(add_house['弹窗_确定按钮'], 3)
+
+    def add_incentive_policy(self):  # 添加激励政策
+        self.input_text(add_house['激励政策输入框'], '送车库')
 
     def click_save_btn(self):
         self.click_element(add_house['保存按钮'], 1)

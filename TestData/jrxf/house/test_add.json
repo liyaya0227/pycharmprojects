@@ -1,4 +1,5 @@
-{"tc01_add_house_base_info": [
+{
+  "tc01_add_house_base_info": [
     {
       "house_name": "UI自动化测试楼盘",
       "developers": "恒大",
@@ -7,11 +8,31 @@
       "start_sale_time": "今天",
       "making_room_time": "今天",
       "house_keeper_type": "住宅",
+      "sale_address": "恒大售楼处"
+    }
+  ],
+  "sz_house_address": [
+    {
       "city": "苏州市",
       "country": "工业园区",
       "trade": "湖东",
-      "house_address": "工业园区湖东",
-      "sale_address": "恒大售楼处"
+      "house_address": "工业园区湖东"
+    }
+  ],
+  "wx_house_address": [
+    {
+      "city": "无锡市",
+      "country": "江阴市",
+      "trade": "江阴",
+      "house_address": "江阴市江阴区"
+    }
+  ],
+  "hz_house_address": [
+    {
+      "city": "杭州市",
+      "country": "桐庐",
+      "trade": "百江镇",
+      "house_address": "桐庐百江"
     }
   ],
   "tc01_add_house_followup": [
@@ -38,7 +59,7 @@
       "contract_phone": "12800000013"
     }
   ],
-  "hx_contract_field": [
+  "hz_contract_field": [
     {
       "contract_name": "自动化测试AAAASY",
       "contract_phone": "14800000013"

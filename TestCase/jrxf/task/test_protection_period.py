@@ -20,6 +20,7 @@ from page_object.jrxf.web.task.table_page import HouseTaskTablePage
 from utils.databaseutil import DataBaseUtil
 from utils.jsonutil import get_data
 
+gl_xf_web_driver = None
 task_sql = ReadXml("jrxf/task/task_sql")
 
 
@@ -29,18 +30,22 @@ class TestProtectionPeriod(object):
     json_file_path = cm.test_data_dir + "/jrxf/house/test_add.json"
     test_house_task_data = get_data(task_json_file_path)
     test_add_data = get_data(json_file_path)
-    house_name = ''
+    new_house_name = ini.new_house_name
+
+    @pytest.fixture(scope="class", autouse=True)
+    def check_house(self, xf_web_driver):
+        global gl_xf_web_driver
+        gl_xf_web_driver = xf_web_driver
+        house_service = HouseService(gl_xf_web_driver)
+        house_service.check_current_role('平台管理员')
+        house_service.prepare_house(self.test_add_data, self.new_house_name)  # 验证房源状态
 
     @pytest.fixture(scope="function", autouse=True)
-    def test_prepare(self, xf_web_driver):
-        house_service = HouseService(xf_web_driver)
-        self.house_name = ini.house_community_name
-        self.main_up_view = MainUpViewPage(xf_web_driver)
-        self.main_left_view = MainLeftViewPage(xf_web_driver)
-        self.add_house_task_page = AddHouseTaskPage(xf_web_driver)
-        self.house_task_table_page = HouseTaskTablePage(xf_web_driver)
-        self.main_left_view.change_role('平台管理员')
-        house_service.prepare_house(self.test_add_data, self.house_name)  # 验证房源状态
+    def test_prepare(self):
+        self.main_up_view = MainUpViewPage(gl_xf_web_driver)
+        self.main_left_view = MainLeftViewPage(gl_xf_web_driver)
+        self.add_house_task_page = AddHouseTaskPage(gl_xf_web_driver)
+        self.house_task_table_page = HouseTaskTablePage(gl_xf_web_driver)
         yield
         self.main_up_view.clear_all_title()
 
@@ -61,7 +66,7 @@ class TestProtectionPeriod(object):
     @allure.step("增加报备")
     def add_report(self, house_name):
         add_house_base_info_params = self.test_add_data['tc01_add_house_base_info'][0]
-        house_info = self.house_name + ' - ' + add_house_base_info_params['country'] + add_house_base_info_params[
+        house_info = house_name + ' - ' + add_house_base_info_params['country'] + add_house_base_info_params[
             'trade']
         self.main_left_view.click_house_task_label()
         self.house_task_table_page.delete_records(house_name)  # 删除已有报备
@@ -101,9 +106,9 @@ class TestProtectionPeriod(object):
     @allure.story("测试报备保护期")
     @pytest.mark.run(order=3)
     def test_report_protection_period(self):
-        self.add_report(self.house_name)  # 增加报备
-        report_no = self.house_task_table_page.get_record_no_by_house_name(self.house_name)  # 获取报备编号
-        self.audit_report(self.house_name, report_no)  # 新房案场审核报备
+        self.add_report(self.new_house_name)  # 增加报备
+        report_no = self.house_task_table_page.get_record_no_by_house_name(self.new_house_name)  # 获取报备编号
+        self.audit_report(self.new_house_name, report_no)  # 新房案场审核报备
         self.update_report_protect_end_time(report_no)  # 更新数据库中报备保护截至时间
         self.enter_house_task_list('平台管理员', '报备')
         self.house_task_table_page.search_records_by_report_no(report_no)
@@ -112,10 +117,10 @@ class TestProtectionPeriod(object):
     @allure.story("测试带看保护期")
     @pytest.mark.run(order=3)
     def test_take_look_protection_period(self):
-        self.add_report(self.house_name)  # 增加报备
-        report_no = self.house_task_table_page.get_record_no_by_house_name(self.house_name)  # 获取报备编号
-        self.audit_report(self.house_name, report_no)  # 新房案场审核报备
-        self.add_take_look(self.house_name, report_no, [cm.tmp_picture_file])  # 录入带看
+        self.add_report(self.new_house_name)  # 增加报备
+        report_no = self.house_task_table_page.get_record_no_by_house_name(self.new_house_name)  # 获取报备编号
+        self.audit_report(self.new_house_name, report_no)  # 新房案场审核报备
+        self.add_take_look(self.new_house_name, report_no, [cm.tmp_picture_file])  # 录入带看
         self.audit_take_look(report_no)
         self.update_take_look_protect_end_time(report_no)
         self.enter_house_task_list('平台管理员', '带看')

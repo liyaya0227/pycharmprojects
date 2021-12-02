@@ -15,27 +15,32 @@ from page_object.jrxf.web.house.detail_page import HouseDetailPage
 from page_object.jrxf.web.house.table_page import HouseTablePage
 from page_object.jrxf.web.main.leftviewpage import MainLeftViewPage
 from page_object.jrxf.web.main.upviewpage import MainUpViewPage
+from utils.jsonutil import get_data
 from utils.logger import logger
 
-gl_web_driver = None
+gl_xf_web_driver = None
 
 
 @allure.feature("京日新房房源详情模块-楼盘相册")
 class TestAdd(object):
-    house_name = ''
+    json_file_path = cm.test_data_dir + "/jrxf/house/test_add.json"
+    test_add_data = get_data(json_file_path)
+    new_house_name = ini.new_house_name
+
+    @pytest.fixture(scope="class", autouse=True)
+    def check_house(self, xf_web_driver):
+        global gl_xf_web_driver
+        gl_xf_web_driver = xf_web_driver
+        house_service = HouseService(gl_xf_web_driver)
+        house_service.check_current_role('平台管理员')
+        house_service.prepare_house(self.test_add_data, self.new_house_name)  # 验证房源状态
 
     @pytest.fixture(scope="function", autouse=True)
-    def test_prepare(self, xf_web_driver):
-        global gl_web_driver
-        gl_web_driver = xf_web_driver
-        self.house_name = ini.house_community_name
-        house_service = HouseService(gl_web_driver)
-        self.main_up_view = MainUpViewPage(gl_web_driver)
-        self.main_left_view = MainLeftViewPage(gl_web_driver)
-        self.house_table_page = HouseTablePage(gl_web_driver)
-        self.house_detail_page = HouseDetailPage(gl_web_driver)
-        self.main_left_view.change_role('平台管理员')
-        house_service.check_house_state(gl_web_driver, self.house_name)  # 验证房源状态
+    def test_prepare(self):
+        self.main_up_view = MainUpViewPage(gl_xf_web_driver)
+        self.main_left_view = MainLeftViewPage(gl_xf_web_driver)
+        self.house_table_page = HouseTablePage(gl_xf_web_driver)
+        self.house_detail_page = HouseDetailPage(gl_xf_web_driver)
         yield
         self.main_up_view.clear_all_title()
 
@@ -43,7 +48,7 @@ class TestAdd(object):
     def enter_house_detail(self, house_name):
         self.main_left_view.click_house_management_label()
         self.house_table_page.click_coop_house_tab()
-        self.house_table_page.serch_unhandle_house(house_name)
+        self.house_table_page.search_unhandle_house(house_name)
         self.house_table_page.enter_house_detail(house_name)
 
     @allure.step("批量上传图片")
@@ -62,7 +67,7 @@ class TestAdd(object):
     @allure.story("批量上传")
     @pytest.mark.run(order=2)
     def test_batch_upload_house_img(self):
-        self.enter_house_detail(self.house_name)  # 进入房源详情
+        self.enter_house_detail(self.new_house_name)  # 进入房源详情
         self.house_detail_page.click_see_more()  # 批量上传图片
         initial_number = self.house_detail_page.get_image_list_lenth()
         count = self.add_new_house_img()
@@ -77,7 +82,7 @@ class TestAdd(object):
     @allure.step("批量删除图片")
     @pytest.mark.run(order=2)
     def test_batch_delete_house_img(self):
-        self.enter_house_detail(self.house_name)  # 进入房源详情
+        self.enter_house_detail(self.new_house_name)  # 进入房源详情
         self.house_detail_page.click_see_more()
         initial_number = self.house_detail_page.get_image_list_lenth()
         if initial_number <= 1:  # 上传图片
@@ -98,7 +103,7 @@ class TestAdd(object):
     @allure.step("全选删除图片")
     @pytest.mark.run(order=2)
     def test_select_all_to_delete_house_img(self):
-        self.enter_house_detail(self.house_name)  # 进入房源详情
+        self.enter_house_detail(self.new_house_name)  # 进入房源详情
         self.house_detail_page.click_see_more()
         initial_number = self.house_detail_page.get_image_list_lenth()
         if initial_number <= 1:  # 上传图片

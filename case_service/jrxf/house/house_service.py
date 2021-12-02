@@ -23,9 +23,9 @@ class HouseService(object):
         self.audit_house_page = AuditHousePage(xf_w_driver)
 
     def prepare_house(self, test_add_data, house_name):
-        house_status = self.house_table_page.get_house_status_by_db(house_name)
+        house_status, show_outside_status = self.house_table_page.get_house_info_by_db(house_name)
         if house_status != '':
-            self.check_house_state(house_name, house_status)
+            self.check_house_state(test_add_data, house_name, house_status)
         else:
             self.add_house(test_add_data, house_name)
 
@@ -36,27 +36,27 @@ class HouseService(object):
         self.release_house(test_add_data, house_name)
         self.audit_release_house(house_name)
 
-    def check_house_state(self, house_name, house_status):
-        # self.main_left_view.click_house_management_label()
+    def check_house_state(self, test_add_data, house_name, house_status):
+        self.check_current_role('管理员')
         if house_status:
             if house_status == 1:  # 待办
                 self.main_left_view.click_house_management_label()
-                self.house_table_page.serch_unhandle_house(house_name)
+                self.house_table_page.search_unhandle_house(house_name)
                 self.house_table_page.del_unhandle_house(house_name)
             elif house_status == 2:  # 合同审核
                 self.main_left_view.click_house_management_label()
                 self.house_table_page.click_audit_house_contract_tab()
-                self.house_table_page.serch_unhandle_house(house_name)
+                self.house_table_page.search_unhandle_house(house_name)
                 if self.house_table_page.check_contract_audit_status(house_name):
                     self.audit_house_contract(house_name)
-                    self.release_house(house_name)
+                    self.release_house(test_add_data, house_name)
                     self.audit_release_house(house_name)
             elif house_status == 3:  # 待上架楼盘
                 self.main_left_view.click_house_management_label()
                 self.house_table_page.click_unreleased_house_tab()
-                self.house_table_page.serch_unhandle_house(house_name)
+                self.house_table_page.search_unhandle_house(house_name)
                 if self.house_table_page.check_release_audit_status(house_name):
-                    self.release_house(house_name)
+                    self.release_house(test_add_data, house_name)
                 self.audit_release_house(house_name)
             elif house_status in [4, 5]:  # 合作楼盘、非合作楼盘
                 logger.info('不需要处理')
@@ -76,7 +76,7 @@ class HouseService(object):
 
     def upload_house_contract(self, house_name):
         """上传房源合同"""
-        self.house_table_page.serch_unhandle_house(house_name)
+        self.house_table_page.search_unhandle_house(house_name)
         self.house_table_page.click_edit_btn(house_name)  # 编辑房源
         self.add_house_page.click_follow_up_tab()  # 填写跟进信息
         self.add_house_page.add_follow_up()
@@ -86,7 +86,7 @@ class HouseService(object):
     def audit_house_contract(self, house_name):
         """审核合同"""
         self.main_left_view.click_house_contract_audit_label()  # 审核合同
-        self.house_table_page.serch_contract_audit_records(house_name)
+        self.house_table_page.search_contract_audit_records(house_name)
         self.house_table_page.click_audit_contract_btn(house_name)
         self.audit_house_page.audit_contract()
 
@@ -97,7 +97,7 @@ class HouseService(object):
         contract_phone = edit_house_base_info_params['contract_phone']
         self.main_left_view.click_house_management_label()
         self.house_table_page.click_unreleased_house_tab()
-        self.house_table_page.serch_unhandle_house(house_name)
+        self.house_table_page.search_unhandle_house(house_name)
         self.house_table_page.click_edit_unreleased_house_btn(house_name)  # 编辑房源
         self.add_house_page.input_house_preferential()
         self.add_house_page.add_customer_rules()  # 客户规则
@@ -109,6 +109,10 @@ class HouseService(object):
     def audit_release_house(self, house_name):
         """审核上架房源"""
         self.main_left_view.click_house_released_audit_label()  # 上架审核
-        self.house_table_page.serch_released_audit_records(house_name)
+        self.house_table_page.search_released_audit_records(house_name)
         self.house_table_page.click_audit_released_house_btn(house_name)
         self.audit_house_page.audit_release()
+
+    def check_current_role(self, expect_role_name):
+        if expect_role_name not in self.main_left_view.get_current_role_name():
+            self.main_left_view.change_role(expect_role_name)

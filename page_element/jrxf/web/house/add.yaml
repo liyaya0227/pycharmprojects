@@ -43,6 +43,7 @@
 提前报备时间输入框: "xpath==//div[@class='editHouseInfo']//input[@id='advanceReportedTime']"
 报备保护时间输入框: "xpath==//div[@class='editHouseInfo']//input[@id='reportedProtectTime']"
 带看保护时间输入框: "xpath==//div[@class='editHouseInfo']//input[@id='takeLookTime']"
+激励政策输入框: "xpath==//div[@class='editHouseInfo']//textarea[@id='incentivePolicy']"
 规划信息card_title: "xpath==//div[@class='editHouseInfo']//div[@class='ant-card-body']/h1[text()='规划信息']"
 建筑类型输入框: "xpath==//div[@class='editHouseInfo']//input[@id='newHouseType']"
 产权年限输入框: "xpath==//div[@class='editHouseInfo']//input[@id='propertyFixedYear']"
