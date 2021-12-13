@@ -152,7 +152,7 @@ class HouseDetailPage(WebPage):
     def click_back_survey_button(self):  # 点击实勘退单按钮
         target = self.find_element(house_detail['实勘退单按钮'])
         self.driver.execute_script("arguments[0].scrollIntoView();", target)  # 拖动到可见的元素去
-        # self.click_element(house_detail['实勘退单按钮'], sleep_time=1)
+        self.click_element(house_detail['实勘退单按钮'], sleep_time=1)
 
     def dialog_choose_normal_survey(self):  # 预约实勘弹窗选择普通实勘
         self.click_element(house_detail['选择实勘方式_普通实勘单选'], 1)
@@ -346,16 +346,17 @@ class HouseDetailPage(WebPage):
     def click_delete_certificate(self):  # 删除证书
         self.expand_certificates_info()
         ele_list = self.find_elements(house_detail['删除证件'])
-        for ele in ele_list:
-            ele_list = self.find_elements(house_detail['删除证件'])
-            ele_list[0].click()
-            sleep(2)
-            self.click_element(house_detail['删除证件_确定按钮'], 2)
-            self.close_notification()
-            target = self.find_element(house_detail['证件信息'])
-            self.driver.execute_script("arguments[0].scrollIntoView();", target)  # 拖动到可见的元素去
-            if self.is_exists(house_detail['证件信息展开收起按钮']):
-                self.click_element(house_detail['证件信息展开收起按钮'], 5)
+        if len(ele_list) > 0:
+            for ele in ele_list:
+                ele_list = self.find_elements(house_detail['删除证件'])
+                ele_list[0].click()
+                sleep(2)
+                self.click_element(house_detail['删除证件_确定按钮'], 2)
+                self.close_notification()
+                target = self.find_element(house_detail['证件信息'])
+                self.driver.execute_script("arguments[0].scrollIntoView();", target)  # 拖动到可见的元素去
+                if self.is_exists(house_detail['证件信息展开收起按钮']):
+                    self.click_element(house_detail['证件信息展开收起按钮'], 5)
 
     def close_notification(self):
         if self.element_is_exist(house_detail['右上角弹窗_关闭按钮'], timeout=5):
@@ -1300,11 +1301,13 @@ class HouseDetailPage(WebPage):
     # 资料盘
     def click_transfer_to_rent_btn(self):
         """点击转出租验证"""
-        self.click_element(house_detail['转出租验真按钮'])
+        self.click_element(house_detail['转出租按钮'])
+        self.click_element(house_detail['弹窗_确定按钮'])
 
     def click_transfer_to_sale_btn(self):
         """点击转在售验证"""
-        self.click_element(house_detail['转在售验真按钮'])
+        self.click_element(house_detail['转在售按钮'])
+        self.click_element(house_detail['弹窗_确定按钮'])
 
     def transfer_house(self, verify_code):
         """房源转真"""

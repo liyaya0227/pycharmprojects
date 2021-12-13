@@ -17,7 +17,6 @@ from case_service.jrgj.app.login.login_service import LoginService as AppLoginSe
 from page_object.jrgj.web.main.leftviewpage import MainLeftViewPage as GjMainLeftViewPage
 from page_object.jrgj.web.main.topviewpage import MainTopViewPage as GjMainTopViewPage
 
-
 app_driver = None
 web_driver = None
 gl_gj_web_driver = None
@@ -107,4 +106,3 @@ def gj_web_driver():
     main_left_view = GjMainLeftViewPage(gl_gj_web_driver)
     main_left_view.log_out()
     gl_gj_web_driver.quit()
-

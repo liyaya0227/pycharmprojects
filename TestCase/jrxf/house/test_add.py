@@ -105,7 +105,7 @@ class TestAdd(object):
         self.add_house_page.add_planning_info()  # 规划信息
         self.add_house_page.add_support_info()  # 配套信息
         self.add_house_page.add_contract(contract_name, contract_phone)  # 联系人
-        # self.add_house_page.add_incentive_policy()  # 激励政策
+        self.add_house_page.add_incentive_policy()  # 激励政策
         self.add_house_page.click_save_btn()  # 保存详细信息
 
     @allure.step("审核上架房源")

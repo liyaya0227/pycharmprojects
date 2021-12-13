@@ -1,6 +1,6 @@
 #楼盘基本信息
 楼盘名称输入框: "xpath==//div[@style='' or not(@style)]//div[@role='document']//textarea[@id='newHouseName']"
-开发商输入框: "xpath==//div[@style='' or not(@style)]//div[@role='document']//textarea[@id='developers']"
+开发商输入框: "xpath==//div[@style='' or not(@style)]//div[@role='document']//input[@id='developers']"
 楼盘状态输入框: "xpath==//div[@style='' or not(@style)]//div[@role='document']//input[@id='status']"
 楼盘价格输入框: "xpath==//div[@style='' or not(@style)]//div[@role='document']//input[@id='salePrice']"
 开盘时间输入框: "xpath==//div[@style='' or not(@style)]//div[@role='document']//input[@id='startSaleTime']"

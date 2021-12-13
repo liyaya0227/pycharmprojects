@@ -85,6 +85,14 @@ class ReadConfig(object):
         return self._get(env.upper() + '_USER', 'PASSWORD')
 
     @property
+    def xf_user_account(self):
+        return self._get(self.environment.upper() + '_XF_USER', 'account')
+
+    @property
+    def xf_user_password(self):
+        return self._get(self.environment.upper() + '_XF_USER', 'password')
+
+    @property
     def s_user_account(self):
         if self.environment in ['ks', 'zjg']:
             env = 'sz'
@@ -248,7 +256,9 @@ class ReadConfig(object):
 
     @property
     def new_house_name(self):
-        return self._get('NEW_HOUSE', 'NAME')
+        new_house_name = self._get('NEW_HOUSE', 'NAME')
+        new_house_name = new_house_name.replace("@env", self.environment.upper())
+        return new_house_name
 
     @property
     def custom_telephone(self):

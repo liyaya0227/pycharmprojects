@@ -6,6 +6,7 @@
 @file: house_service.py
 @date: 2021/10/25
 """
+from common.readconfig import ini
 from config.conf import cm
 from page_object.jrxf.web.house.add_page import AddHousePage
 from page_object.jrxf.web.house.audit_page import AuditHousePage
@@ -23,14 +24,15 @@ class HouseService(object):
         self.audit_house_page = AuditHousePage(xf_w_driver)
 
     def prepare_house(self, test_add_data, house_name):
-        house_status, show_outside_status = self.house_table_page.get_house_info_by_db(house_name)
-        if house_status != '':
-            self.check_house_state(test_add_data, house_name, house_status)
+        house_info = self.house_table_page.get_house_info_by_db(house_name)
+        if house_info != '':
+            self.check_house_state(test_add_data, house_name, house_info['house_status'])
         else:
             self.add_house(test_add_data, house_name)
+        return house_info['house_address']
 
     def add_house(self, test_add_data, house_name):
-        self.add_house_base_info(test_add_data)
+        self.add_house_base_info(test_add_data, house_name)
         self.upload_house_contract(house_name)
         self.audit_house_contract(house_name)
         self.release_house(test_add_data, house_name)
@@ -66,13 +68,16 @@ class HouseService(object):
         else:
             logger.info('暂无新房房源')
 
-    def add_house_base_info(self, test_add_data):
+    def add_house_base_info(self, test_add_data, house_name):
         """增加房源基础信息"""
         add_house_base_info_params = test_add_data['tc01_add_house_base_info'][0]
+        add_house_base_info_params['house_name'] = house_name
+        house_address_key = ini.environment + '_house_address'
+        house_address = test_add_data[house_address_key][0]
         self.main_left_view.click_house_management_label()
         self.house_table_page.click_unhandle_house_tab()
         self.house_table_page.click_add_house_btn()
-        self.add_house_page.add_house_base_info(**add_house_base_info_params)
+        self.add_house_page.add_house_base_info(house_address, **add_house_base_info_params)
 
     def upload_house_contract(self, house_name):
         """上传房源合同"""
@@ -104,6 +109,7 @@ class HouseService(object):
         self.add_house_page.add_planning_info()  # 规划信息
         self.add_house_page.add_support_info()  # 配套信息
         self.add_house_page.add_contract(contract_name, contract_phone)  # 联系人
+        self.add_house_page.add_incentive_policy()  # 激励政策
         self.add_house_page.click_save_btn()  # 保存详细信息
 
     def audit_release_house(self, house_name):
