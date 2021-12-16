@@ -6,8 +6,9 @@
 @file: createsaleorder_kspage.py
 @date: 2021/7/2 0002
 """
+import datetime
 
-from utils.timeutil import sleep
+from utils.timeutil import sleep, dt_strftime, dt_strftime_with_delta
 from page.webpage import WebPage
 from common.readelement import Element
 
@@ -204,7 +205,8 @@ class ContractCreateSaleOrderDetailKSPage(WebPage):
                 if four_info['支付方式'][2][0][0] == 1:
                     self.__choose_value_in_special_drop_down_box(1)
                     self.click_element(create_sale_order_detail_ks['四_2_2_1_1_输入框'])
-                    self.input_text_with_enter(create_sale_order_detail_ks['四_2_2_1_1_输入框'], four_info['支付方式'][2][0][1])
+                    self.input_text_with_enter(create_sale_order_detail_ks['四_2_2_1_1_输入框'],
+                                               self.date_handle(four_info['支付方式'][2][0][1]))
                 else:
                     raise ValueError('填入的值不对')
                 self.input_text(create_sale_order_detail_ks['四_2_2_1_2_输入框'], four_info['支付方式'][2][1])
@@ -250,7 +252,8 @@ class ContractCreateSaleOrderDetailKSPage(WebPage):
             else:
                 raise ValueError('填入的值不对')
             self.click_element(create_sale_order_detail_ks['四_2_2_3_4_1_输入框'])
-            self.input_text_with_enter(create_sale_order_detail_ks['四_2_2_3_4_1_输入框'], four_info['支付方式'][6][0])
+            self.input_text_with_enter(create_sale_order_detail_ks['四_2_2_3_4_1_输入框'],
+                                       self.date_handle(four_info['支付方式'][6][0]))
             if four_info['支付方式'][6][1] == 1:
                 self.click_element(create_sale_order_detail_ks['四_2_2_3_4_2_1_单选按钮'])
             elif four_info['支付方式'][6][1] == 2:
@@ -394,11 +397,14 @@ class ContractCreateSaleOrderDetailKSPage(WebPage):
                 self.input_text(create_sale_order_detail_ks['补充协议_1_' + str(pay_list.index(pay) + 1) + '_2_输入框'],
                                 pay['金额'])
                 if pay['支付方式'] == 1:
-                    self.click_element(create_sale_order_detail_ks['补充协议_1_' + str(pay_list.index(pay) + 1) + '_3_单选按钮'])
+                    self.click_element(create_sale_order_detail_ks['补充协议_1_' + str(pay_list.index(pay) + 1)
+                                                                   + '_3_单选按钮'])
                 elif pay['支付方式'] == 2:
-                    self.click_element(create_sale_order_detail_ks['补充协议_1_' + str(pay_list.index(pay) + 1) + '_4_单选按钮'])
+                    self.click_element(create_sale_order_detail_ks['补充协议_1_' + str(pay_list.index(pay) + 1)
+                                                                   + '_4_单选按钮'])
                 elif pay['支付方式'] == 3:
-                    self.click_element(create_sale_order_detail_ks['补充协议_1_' + str(pay_list.index(pay) + 1) + '_5_单选按钮'])
+                    self.click_element(create_sale_order_detail_ks['补充协议_1_' + str(pay_list.index(pay) + 1)
+                                                                   + '_5_单选按钮'])
                 else:
                     raise ValueError("传值错误")
                 self.click_element(create_sale_order_detail_ks['补充协议_1_' + str(pay_list.index(pay) + 1) + '_6_选择框'])
@@ -490,3 +496,17 @@ class ContractCreateSaleOrderDetailKSPage(WebPage):
         sleep(0.5)
         ele_list = self.find_elements(create_sale_order_detail_ks['合同内容特殊下拉框'])
         ele_list[index-1].click()
+
+    @staticmethod
+    def date_handle(value):
+        if isinstance(value, int):
+            return dt_strftime_with_delta(value, "%Y-%m-%d")
+        elif isinstance(value, str):
+            if value == "":
+                return dt_strftime("%Y-%m-%d")
+            elif isinstance(value, datetime.date):
+                return value
+            else:
+                raise ValueError('传值错误')
+        else:
+            raise ValueError('传值错误')

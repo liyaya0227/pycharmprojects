@@ -1,6 +1,22 @@
+报单审核按钮: "xpath==//div[@style='']/div[@class='detail-transaction']//div[text()='报单审核' and not(@class='title')]"
+提交网签备件按钮: "xpath==//div[@style='']/div[@class='detail-transaction']//div[text()='提交网签备件' and not(@class='title')]"
+登记网签申请按钮: "xpath==//div[@style='']/div[@class='detail-transaction']//div[text()='登记网签申请']"
+登记网签结果按钮: "xpath==//div[@style='']/div[@class='detail-transaction']//div[text()='登记网签结果']"
+资金托管按钮: "xpath==//div[@style='']/div[@class='detail-transaction']//div[text()='资金托管' and not(@class='title')]"
+登记面签结果按钮: "xpath==//div[@style='']/div[@class='detail-transaction']//div[text()='登记面签结果']"
+登记批贷结果按钮: "xpath==//div[@style='']/div[@class='detail-transaction']//div[text()='登记批贷结果']"
+登记放款结果按钮: "xpath==//div[@style='']/div[@class='detail-transaction']//div[text()='登记放款结果']"
 综合办理按钮: "xpath==//div[@style='']/div[@class='detail-transaction']//div[text()='综合办理']"
+领取新不动产/他项证按钮: "xpath==//div[@style='']/div[@class='detail-transaction']//div[text()='领取新不动产/他项证']"
+领取房款按钮: "xpath==//div[@style='']/div[@class='detail-transaction']//div[text()='领取房款']"
 结案按钮: "xpath==//div[@style='']/div[@class='detail-transaction']//div[text()='结案' and not(@class='title')]"
+上传材料清单按钮: "xpath==//div[contains(@class,'ant-dropdown-placement-bottomLeft')]//li[text()='上传材料清单']"
+修改材料清单按钮: "xpath==//div[contains(@class,'ant-dropdown-placement-bottomLeft')]//li[text()='修改材料清单']"
 完成按钮: "xpath==//div[contains(@class,'ant-dropdown-placement-bottomLeft')]//li[text()='完成']"
+
+材料清单弹窗_出卖方输入框: "xpath==(//div[@class='ant-modal-root']/div[@role='dialog' and (@style='' or not(@style))]//div[@class='ant-modal-body']//textarea)[1]"
+材料清单弹窗_买受方输入框: "xpath==(//div[@class='ant-modal-root']/div[@role='dialog' and (@style='' or not(@style))]//div[@class='ant-modal-body']//textarea)[2]"
+材料清单弹窗_提交按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and (@style='' or not(@style))]//span[text()='提 交']/parent::button"
 
 显示隐藏敏感信息按钮: "xpath==//div[@style='']/div[@class='detail-transaction']//span[text()='隐藏敏感信息' or text()='显示敏感信息']/parent::button"
 

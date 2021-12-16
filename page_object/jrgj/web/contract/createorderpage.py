@@ -13,7 +13,7 @@ from page_object.jrgj.web.contract.createsaleorder_szpage import ContractCreateS
 from page_object.jrgj.web.contract.createsaleorder_kspage import ContractCreateSaleOrderDetailKSPage
 from page_object.jrgj.web.contract.createsaleorder_zjgpage import ContractCreateSaleOrderDetailZJGPage
 from page_object.jrgj.web.contract.createsaleorder_wxpage import ContractCreateSaleOrderDetailWXPage
-from page_object.jrgj.web.contract.createsaleorder_hzpage import ContractCreateSaleOrderDetailHZPage
+from page_object.jrgj.web.contract.createsaleorder_tlpage import ContractCreateSaleOrderDetailTLPage
 from page_object.jrgj.web.contract.createrentorderpage import ContractCreateRentOrderPage
 
 create_order = Element('jrgj/web/contract/createorder')
@@ -119,9 +119,9 @@ class ContractCreateOrderPage(WebPage):
         elif env == 'wx':
             ContractCreateSaleOrderDetailWXPage(self.driver).input_contract_content(test_data)
         elif env == 'hz':
-            ContractCreateSaleOrderDetailHZPage(self.driver).input_contract_content(test_data)
+            ContractCreateSaleOrderDetailTLPage(self.driver).input_contract_content(test_data)
         elif env == 'tl':
-            ContractCreateSaleOrderDetailHZPage(self.driver).input_contract_content(test_data)
+            ContractCreateSaleOrderDetailTLPage(self.driver).input_contract_content(test_data)
         elif env == 'cz':
             ContractCreateSaleOrderDetailWXPage(self.driver).input_contract_content(test_data)
         else:

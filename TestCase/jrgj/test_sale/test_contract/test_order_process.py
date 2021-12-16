@@ -8,11 +8,12 @@
 """
 import pytest
 import allure
-from common.globalvar import GlobalVar
 from config.conf import cm
-from utils.jsonutil import get_data
 from utils.logger import logger
 from common.readconfig import ini
+from utils.jsonutil import get_data
+from common.globalvar import GlobalVar
+from common_enum.contract_pay_type import ContractPayTypeEnum
 from page_object.jrgj.web.main.topviewpage import MainTopViewPage
 from page_object.jrgj.web.main.leftviewpage import MainLeftViewPage
 from page_object.jrgj.web.main.upviewpage import MainUpViewPage
@@ -31,6 +32,7 @@ from case_service.jrgj.web.contract.contract_service import ContractService
 @pytest.mark.run(order=21)
 @allure.feature("测试买卖合同流程模块")
 class TestOrderProcess(object):
+    contract_code = 'HE2112000335'
 
     @pytest.fixture(scope="function", autouse=True)
     def test_prepare(self, web_driver):
@@ -42,7 +44,9 @@ class TestOrderProcess(object):
 
     @allure.story("测试买卖合同流程")
     @pytest.mark.parametrize('env', GlobalVar.city_env[ini.environment])
-    def test_001(self, web_driver, env):
+    # @pytest.mark.parametrize('env', [ini.environment])
+    @pytest.mark.parametrize('pay_type', ContractPayTypeEnum)
+    def test_001(self, web_driver, env, pay_type):
         main_topview = MainTopViewPage(web_driver)
         main_leftview = MainLeftViewPage(web_driver)
         main_upview = MainUpViewPage(web_driver)
@@ -55,7 +59,7 @@ class TestOrderProcess(object):
         transaction_detail = TransactionDetailPage(web_driver)
         contract_service = ContractService(web_driver)
 
-        json_file_path = cm.test_data_dir + "/jrgj/test_sale/test_contract/create_order_" + env + ".json"
+        json_file_path = cm.test_data_dir + "/jrgj/test_sale/test_contract/create_order_" + env + "_" + pay_type.value + ".json"
         test_data = get_data(json_file_path)
         self.contract_code = contract_service.agent_add_contract(GlobalVar.house_code, GlobalVar.house_info,
                                                                  GlobalVar.customer_code, env, test_data, flag='买卖')
@@ -207,6 +211,8 @@ class TestOrderProcess(object):
         contract_table.go_contract_detail_by_row(1)
         assert contract_detail.sign_time_icon_is_light()
         logger.info('经纪人填写签约时间后，状态显示正确')
+        if env == 'sz':
+            return
         contract_detail.click_subject_contract_tab()  # 经纪人上传主体合同
         contract_detail.upload_pictures([cm.tmp_picture_file])
         contract_detail.click_submit_button()
@@ -291,6 +297,21 @@ class TestOrderProcess(object):
         transaction_table.click_search_button()
         assert transaction_table.get_table_count() == 1
         transaction_table.go_to_transaction_detail_by_row(1)
+        transaction_detail.complete_report_examine()
+        assert main_topview.find_notification_content() == '操作成功'
+        transaction_detail.complete_submit_online_sign_attachment()
+        assert main_topview.find_notification_content() == '操作成功'
+        transaction_detail.complete_online_sign()
+        assert main_topview.find_notification_content() == '操作成功'
+        transaction_detail.complete_fund_custody()
+        assert main_topview.find_notification_content() == '操作成功'
+        if pay_type == ContractPayTypeEnum.CommercialLoan:
+            transaction_detail.complete_face_sign()
+            assert main_topview.find_notification_content() == '操作成功'
+            transaction_detail.complete_grant_load()
+            assert main_topview.find_notification_content() == '操作成功'
+            transaction_detail.complete_load()
+            assert main_topview.find_notification_content() == '操作成功'
         transaction_detail.complete_transfer_house()
         assert main_topview.find_notification_content() == '操作成功'
         main_leftview.change_role('经纪人')
@@ -314,7 +335,11 @@ class TestOrderProcess(object):
         transaction_table.click_search_button()
         assert transaction_table.get_table_count() == 1
         transaction_table.go_to_transaction_detail_by_row(1)
-        transaction_detail.close_case()
+        transaction_detail.complete_receive_certificates()
+        assert main_topview.find_notification_content() == '操作成功'
+        transaction_detail.complete_receive_house_payment()
+        assert main_topview.find_notification_content() == '操作成功'
+        transaction_detail.complete_close_case()
         assert main_topview.find_notification_content() == '操作成功'
         main_leftview.change_role('经纪人')
         main_leftview.click_contract_management_label()

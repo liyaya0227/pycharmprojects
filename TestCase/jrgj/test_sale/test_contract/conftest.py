@@ -28,7 +28,6 @@ def prepare_for_add_contract(web_driver):
     house_table = HouseTablePage(web_driver)
     house_detail = HouseDetailPage(web_driver)
     customer_table = CustomerTablePage(web_driver)
-    customer_detail = CustomerDetailPage(web_driver)
     contract_table = ContractTablePage(web_driver)
 
     main_leftview.change_role('经纪人')

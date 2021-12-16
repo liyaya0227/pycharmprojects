@@ -6,6 +6,8 @@
 @file: detailpage.py
 @date: 2021/7/8 0008
 """
+import random
+import string
 from page.webpage import WebPage
 from common.readelement import Element
 
@@ -14,13 +16,108 @@ transaction_detail = Element('jrgj/web/transaction/detail')
 
 class TransactionDetailPage(WebPage):
 
+    def complete_report_examine(self):
+        """完成报单审核流程"""
+        if 'done' not in self.get_element_attribute(transaction_detail['报单审核按钮'], 'class'):
+            raise Exception("不能办理报单审核流程")
+        self.click_element(transaction_detail['报单审核按钮'])
+        self.click_element(transaction_detail['完成按钮'], sleep_time=1)
+
+    def complete_submit_online_sign_attachment(self):
+        """完成提交网签备件流程"""
+        if 'done' not in self.get_element_attribute(transaction_detail['提交网签备件按钮'], 'class'):
+            raise Exception("不能办理提交网签备件流程")
+        self.click_element(transaction_detail['提交网签备件按钮'])
+        self.click_element(transaction_detail['完成按钮'], sleep_time=1)
+
+    def complete_online_sign(self):
+        """完成网签流程"""
+        if 'done' not in self.get_element_attribute(transaction_detail['登记网签申请按钮'], 'class'):
+            raise Exception("不能办理登记网签申请流程")
+        self.click_element(transaction_detail['登记网签申请按钮'])
+        self.click_element(transaction_detail['完成按钮'], sleep_time=1)
+        if 'done' not in self.get_element_attribute(transaction_detail['登记网签结果按钮'], 'class'):
+            raise Exception("不能办理登记网签结果流程")
+        self.click_element(transaction_detail['登记网签结果按钮'])
+        self.click_element(transaction_detail['完成按钮'], sleep_time=1)
+
+    def complete_fund_custody(self):
+        """完成资金托管流程"""
+        if 'done' not in self.get_element_attribute(transaction_detail['资金托管按钮'], 'class'):
+            raise Exception("不能办理资金托管流程")
+        self.click_element(transaction_detail['资金托管按钮'])
+        self.click_element(transaction_detail['上传材料清单按钮'], sleep_time=1)
+        self.input_text_into_element(transaction_detail['材料清单弹窗_出卖方输入框'],
+                                     "".join(map(lambda x: random.choice(string.digits), range(5))))
+        self.input_text_into_element(transaction_detail['材料清单弹窗_买受方输入框'],
+                                     "".join(map(lambda x: random.choice(string.digits), range(5))))
+        self.click_element(transaction_detail['材料清单弹窗_提交按钮'])
+        self.click_element(transaction_detail['资金托管按钮'])
+        self.click_element(transaction_detail['完成按钮'], sleep_time=1)
+
+    def complete_face_sign(self):
+        """完成面签流程"""
+        if 'done' not in self.get_element_attribute(transaction_detail['登记面签结果按钮'], 'class'):
+            raise Exception("不能办理登记面签结果流程")
+        self.click_element(transaction_detail['登记面签结果按钮'])
+        self.click_element(transaction_detail['上传材料清单按钮'], sleep_time=1)
+        self.input_text_into_element(transaction_detail['材料清单弹窗_出卖方输入框'],
+                                     "".join(map(lambda x: random.choice(string.digits), range(5))))
+        self.input_text_into_element(transaction_detail['材料清单弹窗_买受方输入框'],
+                                     "".join(map(lambda x: random.choice(string.digits), range(5))))
+        self.click_element(transaction_detail['材料清单弹窗_提交按钮'])
+        self.click_element(transaction_detail['登记面签结果按钮'])
+        self.click_element(transaction_detail['完成按钮'], sleep_time=1)
+
+    def complete_grant_load(self):
+        """完成放款流程"""
+        if 'done' not in self.get_element_attribute(transaction_detail['登记批贷结果按钮'], 'class'):
+            raise Exception("不能办理登记批贷结果流程")
+        self.click_element(transaction_detail['登记批贷结果按钮'])
+        self.click_element(transaction_detail['上传材料清单按钮'], sleep_time=1)
+        self.input_text_into_element(transaction_detail['材料清单弹窗_出卖方输入框'],
+                                     "".join(map(lambda x: random.choice(string.digits), range(5))))
+        self.input_text_into_element(transaction_detail['材料清单弹窗_买受方输入框'],
+                                     "".join(map(lambda x: random.choice(string.digits), range(5))))
+        self.click_element(transaction_detail['材料清单弹窗_提交按钮'])
+        self.click_element(transaction_detail['登记批贷结果按钮'])
+        self.click_element(transaction_detail['完成按钮'], sleep_time=1)
+
+    def complete_load(self):
+        """完成放款流程"""
+        if 'done' not in self.get_element_attribute(transaction_detail['登记放款结果按钮'], 'class'):
+            raise Exception("不能办理登记放款结果流程")
+        self.click_element(transaction_detail['登记放款结果按钮'])
+        self.click_element(transaction_detail['完成按钮'], sleep_time=1)
+
     def complete_transfer_house(self):
         if 'done' not in self.get_element_attribute(transaction_detail['综合办理按钮'], 'class'):
             raise Exception("不能办理过户流程")
         self.click_element(transaction_detail['综合办理按钮'])
+        self.click_element(transaction_detail['上传材料清单按钮'], sleep_time=1)
+        self.input_text_into_element(transaction_detail['材料清单弹窗_出卖方输入框'],
+                                     "".join(map(lambda x: random.choice(string.digits), range(5))))
+        self.input_text_into_element(transaction_detail['材料清单弹窗_买受方输入框'],
+                                     "".join(map(lambda x: random.choice(string.digits), range(5))))
+        self.click_element(transaction_detail['材料清单弹窗_提交按钮'])
+        self.click_element(transaction_detail['综合办理按钮'])
         self.click_element(transaction_detail['完成按钮'], sleep_time=1)
 
-    def close_case(self):
+    def complete_receive_certificates(self):
+        """完成领证流程"""
+        if 'done' not in self.get_element_attribute(transaction_detail['领取新不动产/他项证按钮'], 'class'):
+            raise Exception("不能办理领取新不动产/他项证流程")
+        self.click_element(transaction_detail['领取新不动产/他项证按钮'])
+        self.click_element(transaction_detail['完成按钮'], sleep_time=1)
+
+    def complete_receive_house_payment(self):
+        """完成领款流程"""
+        if 'done' not in self.get_element_attribute(transaction_detail['领取房款按钮'], 'class'):
+            raise Exception("不能办理领取房款流程")
+        self.click_element(transaction_detail['领取房款按钮'])
+        self.click_element(transaction_detail['完成按钮'], sleep_time=1)
+
+    def complete_close_case(self):
         if 'done' not in self.get_element_attribute(transaction_detail['结案按钮'], 'class'):
             raise Exception("不能办理结案流程")
         self.click_element(transaction_detail['结案按钮'])

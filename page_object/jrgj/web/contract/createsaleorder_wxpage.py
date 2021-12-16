@@ -6,8 +6,9 @@
 @file: createsaleorder_wxpage.py
 @date: 2021/7/2 0002
 """
+import datetime
 
-from utils.timeutil import sleep
+from utils.timeutil import sleep, dt_strftime_with_delta, dt_strftime
 from page.webpage import WebPage
 from common.readelement import Element
 
@@ -378,9 +379,7 @@ class ContractCreateSaleOrderDetailWXPage(WebPage):
             # else:
             #     raise ValueError('传值错误')
         # if len(five_info['二_3']) == 0:
-        if not five_info['二_3']:
-            pass
-        else:
+        if five_info['二'] == 2:
             if five_info['二_3'][0] == 1:
                 self.click_element(create_sale_order_detail_wx['五_2_3_1_1_1_单选按钮'])
             elif five_info['二_3'][0] == 2:
@@ -391,7 +390,8 @@ class ContractCreateSaleOrderDetailWXPage(WebPage):
                 raise ValueError('传值错误')
             self.input_text(create_sale_order_detail_wx['五_2_3_1_2_输入框'], five_info['二_3'][1])
             self.click_element(create_sale_order_detail_wx['五_2_3_1_4_输入框'])
-            self.input_text_with_enter(create_sale_order_detail_wx['五_2_3_1_4_输入框'], five_info['二_3'][2])
+            self.input_text_with_enter(create_sale_order_detail_wx['五_2_3_1_4_输入框'],
+                                       self.date_handle(five_info['二_3'][2]))
             if five_info['二_3'][3] == 1:
                 self.click_element(create_sale_order_detail_wx['五_2_3_1_5_1_单选按钮'])
             elif five_info['二_3'][3] == 2:
@@ -698,3 +698,17 @@ class ContractCreateSaleOrderDetailWXPage(WebPage):
         sleep(0.5)
         ele_list = self.find_elements(create_sale_order_detail_wx['合同内容特殊下拉框'])
         ele_list[index-1].click()
+
+    @staticmethod
+    def date_handle(value):
+        if isinstance(value, int):
+            return dt_strftime_with_delta(value, "%Y-%m-%d")
+        elif isinstance(value, str):
+            if value == "":
+                return dt_strftime("%Y-%m-%d")
+            elif isinstance(value, datetime.date):
+                return value
+            else:
+                raise ValueError('传值错误')
+        else:
+            raise ValueError('传值错误')

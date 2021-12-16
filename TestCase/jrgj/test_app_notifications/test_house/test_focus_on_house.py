@@ -305,6 +305,6 @@ class TestFocusOnHouse(object):
         transaction_table.go_to_transaction_detail_by_row(1)
         transaction_detail.complete_transfer_house()
         main_topview.close_notification()
-        transaction_detail.close_case()  # 权证专员结案
+        transaction_detail.complete_close_case()  # 权证专员结案
         main_topview.close_notification()
         main_leftview.change_role('经纪人')

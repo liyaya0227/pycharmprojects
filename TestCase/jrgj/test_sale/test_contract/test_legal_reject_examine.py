@@ -6,21 +6,22 @@
 @file: test_legal_reject_examine.py
 @date: 2021/11/23 0023
 """
+import random
 import pytest
 import allure
-
-from case_service.jrgj.web.contract.contract_service import ContractService
-from common.globalvar import GlobalVar
 from config.conf import cm
-from page_object.jrgj.web.main.upviewpage import MainUpViewPage
-from utils.jsonutil import get_data
 from utils.logger import logger
 from common.readconfig import ini
+from utils.jsonutil import get_data
+from common.globalvar import GlobalVar
+from common_enum.contract_pay_type import ContractPayTypeEnum
+from page_object.jrgj.web.main.upviewpage import MainUpViewPage
 from page_object.jrgj.web.main.topviewpage import MainTopViewPage
 from page_object.jrgj.web.main.leftviewpage import MainLeftViewPage
 from page_object.jrgj.web.contract.tablepage import ContractTablePage
 from page_object.jrgj.web.contract.detailpage import ContractDetailPage
 from page_object.jrgj.web.contract.previewpage import ContractPreviewPage
+from case_service.jrgj.web.contract.contract_service import ContractService
 
 
 @pytest.mark.sale
@@ -51,7 +52,8 @@ class TestOrderChange(object):
 
     @allure.story("测试买卖合同法务驳回流程")
     @pytest.mark.parametrize('env', GlobalVar.city_env[ini.environment])
-    def test_001(self, web_driver, env):
+    @pytest.mark.parametrize('pay_type', [random.choice([x for x in ContractPayTypeEnum])])
+    def test_001(self, web_driver, env, pay_type):
         main_topview = MainTopViewPage(web_driver)
         main_upview = MainUpViewPage(web_driver)
         main_leftview = MainLeftViewPage(web_driver)
@@ -60,7 +62,7 @@ class TestOrderChange(object):
         contract_preview = ContractPreviewPage(web_driver)
         contract_service = ContractService(web_driver)
 
-        json_file_path = cm.test_data_dir + "/jrgj/test_sale/test_contract/create_order_" + env + ".json"
+        json_file_path = cm.test_data_dir + "/jrgj/test_sale/test_contract/create_order_" + env + "_" + pay_type.value + ".json"
         test_data = get_data(json_file_path)
         self.contract_code = contract_service.agent_add_contract(GlobalVar.house_code, GlobalVar.house_info,
                                                                  GlobalVar.customer_code, env, test_data, flag='买卖')

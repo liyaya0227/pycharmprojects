@@ -26,7 +26,7 @@
 二_2_1_定金按钮: "xpath==//div[@style='']//div[@id='earnestList_0']/parent::div/span[@class='add-btn' and text()='+定金']"
 二_2_2_房款按钮: "xpath==//div[@style='']//div[@id='housePaymentList_0']/parent::div/span[@class='add-btn' and text()='+房款']"
 二_2_3_添加按钮: "xpath==//div[@style='']//div[@id='initialPaymentList_0']/parent::div/span[@class='add-btn' and text()='添加']"
-二_2_4_1_选择框: "xpath==//div[@style='']//input[@id='c2_4_1']"
+二_2_4_1_选择框: "xpath==//div[@style='']//input[@id='c2_4_1']/ancestor::div[@class='ant-select-selector']"
 二_2_4_2_输入框: "xpath==//div[@style='']//input[@id='c2_4_2']"
 二_2_4_3_输入框: "xpath==//div[@style='']//input[@id='c2_4_3']"
 二_2_5_1_输入框: "xpath==//div[@style='']//input[@id='c2_5_1']"
