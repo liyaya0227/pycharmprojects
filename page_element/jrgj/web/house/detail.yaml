@@ -258,6 +258,8 @@ VIP服务人_姓名标签: "xpath==//div[@style='' or not(@style)]/div[@class='h
 #资料盘-房源详情
 转出租验真按钮: "xpath==//div[@style='' or not(@style)]/div[@class='dataPlateHouseDetail']//span[text()=' 转出租验真 ']/parent::button"
 转在售验真按钮: "xpath==//div[@style='' or not(@style)]/div[@class='dataPlateHouseDetail']//span[text()=' 转在售验真 ']/parent::button"
+转在售按钮: "xpath==//div[@style='' or not(@style)]/div[@class='dataPlateHouseDetail']//span[text()=' 转在售 ']/parent::button"
+转出租按钮: "xpath==//div[@style='' or not(@style)]/div[@class='dataPlateHouseDetail']//span[text()=' 转出租 ']/parent::button"
 发送短信验证码按钮: "xpath==//div[@class='putProofInfo']//span[text()='发送验证码']/parent::button"
 验证码输入框: "xpath==//div[@class='ant-row ant-form-item']//div[@class='ant-form-item-control-input-content']/input[@placeholder='请输入验证码']"
 提交按钮: "xpath==//div[@class='ant-form-item-control-input']//span[text()='提 交']/parent::button"

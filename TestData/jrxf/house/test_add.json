@@ -2,7 +2,7 @@
   "tc01_add_house_base_info": [
     {
       "house_name": "UI自动化测试楼盘",
-      "developers": "恒大",
+      "developers": "自动化测试开发商",
       "house_status": "即将开盘",
       "sale_price": 2000,
       "start_sale_time": "今天",
@@ -24,7 +24,7 @@
       "city": "无锡市",
       "country": "江阴市",
       "trade": "江阴",
-      "house_address": "江阴市江阴区"
+      "house_address": "江阴市江阴"
     }
   ],
   "hz_house_address": [
@@ -32,7 +32,7 @@
       "city": "杭州市",
       "country": "桐庐",
       "trade": "百江镇",
-      "house_address": "桐庐百江"
+      "house_address": "桐庐百江镇"
     }
   ],
   "tc01_add_house_followup": [

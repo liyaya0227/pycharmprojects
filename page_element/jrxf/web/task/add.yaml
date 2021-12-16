@@ -44,9 +44,9 @@ sign_建筑面积输入框: "xpath==//div[@style='' or not(@style)]//div[@role='
 审核草网签弹窗_通过按钮: "xpath==//div[@class='ant-modal-root']//span[text()='审核通过']/parent::button[@type='button']"
 审核草网签弹窗_驳回按钮: "xpath==//div[@class='ant-modal-root']//span[text()='审核驳回']/parent::button[@type='button']"
 
-
-
 弹窗_确定按钮: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and @style='' or not(@style)]//span[text()='确 定']/parent::button[@type='button']"
+
+
 
 
 

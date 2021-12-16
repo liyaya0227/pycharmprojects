@@ -94,27 +94,3 @@ class TestAddress(object):
             assert dialog_content == '今日查看次数已经超过60次'
         else:
             assert dialog_content == '今日查看次数已经超过60次'
-
-        #     looked_count = self.house_detail_page.dialog_get_looked_count()
-        #     self.house_detail_page.dialog_click_close_button()
-        #     if self.house_detail_page.follow_dialog_exist():  # 填写跟进信息
-        #         assert self.house_detail_page.check_dialog_cancel_button_disabled()
-        #         self.house_detail_page.follow_dialog_input_detail_follow('详细跟进信息')
-        #         self.house_detail_page.dialog_click_confirm_button()
-        #         assert self.main_top_view.find_notification_content() == '编辑成功'
-        #     temp = looked_count
-        #     for _ in range(60 - int(looked_count)):
-        #         self.house_detail_page.click_address_button()
-        #         new_looked_count = self.house_detail_page.dialog_get_looked_count()
-        #         self.house_detail_page.dialog_click_close_button()
-        #         assert int(new_looked_count) == int(temp) + 1
-        #         temp = new_looked_count
-        #     self.house_detail_page.click_address_button()
-        #     dialog_content = self.main_top_view.find_notification_content()
-        #     if self.house_detail_page.check_shopowner_recommend() or self.house_detail_page.get_vip_person() != '':
-        #         assert dialog_content == '请联系维护人查看相关房源信息'
-        #     else:
-        #         assert dialog_content == '今日查看次数已经超过60次'
-        # else:
-        #     assert dialog_content == '今日查看次数已经超过60次'
-

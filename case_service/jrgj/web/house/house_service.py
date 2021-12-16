@@ -188,11 +188,14 @@ class HouseService(object):
             self.house_detail_page.click_transfer_to_rent_btn()
         else:
             raise "传值错误"
-        self.house_detail_page.transfer_house(ini.super_verify_code)
+        # self.house_detail_page.transfer_house(ini.super_verify_code)
 
     def check_current_role(self, expect_role_name):
         if expect_role_name not in self.main_left_view.get_current_role_name():
             self.main_left_view.change_role(expect_role_name)
+            return False
+        else:
+            return True
 
     def enter_house_detail(self, house_code, flag):
         self.main_left_view.click_all_house_label()

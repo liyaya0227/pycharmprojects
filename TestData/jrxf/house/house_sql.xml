@@ -3,7 +3,7 @@
     <table name="new_house">
         <sql id="get_house_info">
             <caption>
-                select id,house_status,is_show_out_side from new_house where new_house_name = '{new_house_name}' and is_valid = 1
+                select id,house_status,is_show_out_side,new_house_address from new_house where new_house_name = '{new_house_name}' and is_valid = 1
             </caption>
         </sql>
     </table>

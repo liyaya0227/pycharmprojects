@@ -30,7 +30,6 @@ HOUSE_TYPE = 'sale'
 house_info = ''
 gl_web_driver = None
 gl_app_driver = None
-survey_service = SurveyService()
 
 
 @allure.feature("房源详情模块-删除实勘")
@@ -71,20 +70,25 @@ class TestDeleteSurvey(object):
     def test_delete_survey(self):
         house_code = house_info[0]
         house_service = HouseService(gl_web_driver)
+        survey_service = SurveyService(gl_web_driver, gl_app_driver)
         survey_person_info = get_value(self.json_file_path, ini.environment)
         exploration_info = get_value(self.json_file_path, 'exploration_info')
-        self.main_left_view.change_role('超级管理员')
+        # self.main_left_view.change_role('超级管理员')
         house_service.enter_house_detail(house_code, HOUSE_TYPE)
         if self.house_detail_page.check_survey_status() != '已上传':
             logger.info('未上传实勘，进行实勘预约')
             if self.house_detail_page.check_survey_status() == '已预约':
                 if self.house_detail_page.check_back_survey():  # 实勘退单
+                    if not house_service.check_current_role('超级管理员'):
+                        house_service.enter_house_detail(house_code, HOUSE_TYPE)
                     self.house_detail_page.click_back_survey_button()
                     self.house_detail_page.dialog_choose_back_exploration_reason('其他')
                     self.house_detail_page.dialog_click_back_exploration_return_button()
                 else:
                     self.main_up_view.clear_all_title()
-                    self.main_left_view.change_role('超级管理员')
+                    # self.main_left_view.change_role('超级管理员')
+                    if not house_service.check_current_role('超级管理员'):
+                        house_service.enter_house_detail(house_code, HOUSE_TYPE)
                     self.main_left_view.click_survey_management_label()  # 取消实勘订单
                     self.survey_table_page.input_house_code_search(house_code)
                     self.survey_table_page.click_search_button()
@@ -92,9 +96,11 @@ class TestDeleteSurvey(object):
                     self.survey_table_page.dialog_click_confirm_button()
                     house_service.enter_house_detail(house_code, HOUSE_TYPE)
             self.main_up_view.clear_all_title()
-            self.main_left_view.change_role('经纪人')
-            house_service.enter_house_detail(house_code, HOUSE_TYPE)
-            survey_service.order_survey(gl_web_driver, survey_person_info['photographer'],
+            # self.main_left_view.change_role('经纪人')
+            if not house_service.check_current_role('经纪人'):
+                house_service.enter_house_detail(house_code, HOUSE_TYPE)
+            # house_service.enter_house_detail(house_code, HOUSE_TYPE)
+            survey_service.order_survey(survey_person_info['photographer'],
                                         exploration_info['exploration_time'],  # 预约实勘
                                         exploration_info['appointment_instructions'])
             if not self.app_login_page.check_is_logged_in():  # 拍摄实勘
@@ -110,17 +116,8 @@ class TestDeleteSurvey(object):
                 self.app_mine_page.change_role_click_confirm_button()
             self.app_main_page.click_order_button()  # 拍摄实勘
             exploration_time = exploration_info['exploration_time'][0].split(',')[0]
-            survey_service.shoot_survey(gl_app_driver, house_code, exploration_time)
-            self.main_left_view.log_out()  # 上传实勘
-            self.login_page.log_in(survey_person_info['photographer_phone'],
-                                   survey_person_info['photographer_password'])
-            self.main_left_view.change_role('实勘人员')
-            survey_service.upload_survey(gl_web_driver, house_code)
-            self.main_top_view.close_notification()
-            self.main_left_view.log_out()
-            self.login_page.log_in(ini.user_account, ini.user_password)
-            self.main_left_view.change_role('超级管理员')
-            house_service.enter_house_detail(house_code, HOUSE_TYPE)
+            survey_service.shoot_survey(house_code, exploration_time)
+            survey_service.login_and_upload_survey(gl_web_driver, survey_person_info, house_code)
         self.house_detail_page.click_delete_survey_button()
         self.house_detail_page.dialog_click_confirm_button()
         assert self.main_top_view.find_notification_content() == '删除实勘成功'

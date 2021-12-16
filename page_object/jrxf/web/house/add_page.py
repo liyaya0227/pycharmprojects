@@ -18,7 +18,7 @@ class AddHousePage(WebPage):
     def add_house_base_info(self, house_address, house_name, developers, house_status, sale_price, start_sale_time,
                             making_room_time, house_keeper_type, sale_address):  # 增加房源基础信息
         self.input_text(add_house['楼盘名称输入框'], house_name)
-        self.input_text(add_house['开发商输入框'], developers)
+        self.select_developer(developers)
         self.select_house_status(house_status)
         self.input_text(add_house['楼盘价格输入框'], sale_price)
         self.select_start_sale_time(start_sale_time)
@@ -29,6 +29,10 @@ class AddHousePage(WebPage):
         self.input_text(add_house['售楼处地址输入框'], sale_address)
         self.choose_building_position()
         self.click_element(add_house['弹窗_确定按钮'])
+
+    def select_developer(self, developer_name):
+        self.input_text(add_house['开发商输入框'], developer_name)
+        self.select_item_option(developer_name)
 
     def select_house_status(self, house_status):
         self.click_element(add_house['楼盘状态输入框'])

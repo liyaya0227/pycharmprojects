@@ -33,7 +33,6 @@ HOUSE_TYPE = 'sale'
 house_info = ''
 gl_web_driver = None
 gl_app_driver = None
-survey_service = SurveyService()
 
 
 @allure.feature("房源详情模块-外网呈现")
@@ -94,6 +93,7 @@ class TestOutShow(object):
     def test_out_show(self):
         house_code = house_info[0]
         house_service = HouseService(gl_web_driver)
+        survey_service = SurveyService(gl_web_driver, gl_app_driver)
         survey_person_info = get_value(self.json_file_path, ini.environment)
         exploration_info = get_value(self.json_file_path, 'exploration_info')
         written_entrustment_agreement_params = get_value(self.json_file_path, 'written_entrustment_agreement')
@@ -117,9 +117,9 @@ class TestOutShow(object):
             self.main_up_view.clear_all_title()
             house_service.check_current_role('经纪人')
             house_service.enter_house_detail(house_code, HOUSE_TYPE)
-            survey_service.order_survey(gl_web_driver, survey_person_info['photographer'],
-                                        exploration_info['exploration_time'],  # 预约实勘
-                                        exploration_info['appointment_instructions'])
+            survey_service.order_survey(survey_person_info['photographer'],
+                                        exploration_info['exploration_time'],
+                                        exploration_info['appointment_instructions'])  # 预约实勘
             if not self.app_login_page.check_login_page():  # 拍摄实勘
                 self.app_main_page.close_top_view()
                 self.app_main_page.click_mine_button()
@@ -133,19 +133,10 @@ class TestOutShow(object):
                 self.app_mine_page.change_role_click_confirm_button()
             self.app_main_page.click_order_button()  # 拍摄实勘
             exploration_time = exploration_info['exploration_time'][0].split(',')[0]
-            survey_service.shoot_survey(gl_app_driver, house_code, exploration_time)
-            self.main_left_view.log_out()  # 上传实勘
-            self.login_page.log_in(survey_person_info['photographer_phone'],
-                                   survey_person_info['photographer_password'])
-            self.main_left_view.change_role('实勘人员')
-            survey_service.upload_survey(gl_web_driver, house_code)
-            self.main_top_view.close_notification()
-            self.main_left_view.log_out()
-            self.login_page.log_in(ini.user_account, ini.user_password)
-            house_service.enter_house_detail(house_code, HOUSE_TYPE)
+            survey_service.shoot_survey(house_code, exploration_time)
+            survey_service.login_and_upload_survey(gl_web_driver, survey_person_info, house_code)  # 上传实勘
         else:
             logger.info('实勘已上传')
-
         self.house_detail_page.expand_certificates_info()  # 准备证书数据
         if self.house_detail_page.check_upload_written_entrustment_agreement() != '审核通过':
             if self.house_detail_page.check_upload_written_entrustment_agreement() == '待审核':

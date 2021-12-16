@@ -28,6 +28,8 @@ class AddHouseTaskPage(WebPage):
     def select_item_option(self, option=None):
         locator = 'xpath', "//div[@style='' or not(@style)]//div[@class='rc-virtual-list']//div[contains(@class," \
                                "'ant-select-item ant-select-item-option') and @title='" + option + "'] "
+        # locator = 'xpath', "//div[@style='' or not(@style)]//div[@class='rc-virtual-list']//div[contains(@class," \
+        #                    "'ant-select-item ant-select-item-option') and @title[contains(text(),'" + option + "')]] "
         self.click_element(locator)
 
     def select_custom_option(self):

@@ -104,7 +104,7 @@ class TestProtectionPeriod(object):
         DataBaseUtil('Xf My SQL', ini.xf_database_name).update_sql(update_sql)
 
     @allure.story("测试报备保护期")
-    @pytest.mark.run(order=3)
+    @pytest.mark.run(order=2)
     def test_report_protection_period(self):
         self.add_report(self.new_house_name)  # 增加报备
         report_no = self.house_task_table_page.get_record_no_by_house_name(self.new_house_name)  # 获取报备编号
@@ -115,7 +115,7 @@ class TestProtectionPeriod(object):
         assert self.house_task_table_page.check_report_protection_period(report_no)
 
     @allure.story("测试带看保护期")
-    @pytest.mark.run(order=3)
+    @pytest.mark.run(order=2)
     def test_take_look_protection_period(self):
         self.add_report(self.new_house_name)  # 增加报备
         report_no = self.house_task_table_page.get_record_no_by_house_name(self.new_house_name)  # 获取报备编号

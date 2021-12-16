@@ -148,6 +148,8 @@ class HouseTablePage(WebPage):
         if len(house_info) > 0:
             house_status = house_info[0][1]
             show_outside_status = house_info[0][2]
-            return {"house_status": house_status, "show_outside_status": show_outside_status}
+            house_address = house_info[0][3]
+            return {"house_status": house_status, "show_outside_status": show_outside_status,
+                    "house_address": house_address}
         else:
             return ''
