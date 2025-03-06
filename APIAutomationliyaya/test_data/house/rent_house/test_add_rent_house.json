@@ -1,0 +1,50 @@
+{
+  "tc01_add_rent_house": [
+    {
+      "ownerInfo": {
+        "name": "陈露露",
+        "phoneNumber": "15062415624",
+        "telePhoneNumber": "-"
+      },
+      "type": [
+        2,
+        1,
+        1,
+        0
+      ],
+      "area": 100,
+      "orientations": [0],
+      "rentPrice": 2000,
+      "rentTime": "2021-09-30",
+      "inspectType": 0,
+      "decorationState": 0,
+      "topContactsType": null,
+      "salePrice": null,
+      "businessType": 1,
+      "locationInfo": {
+        "communityId": "",
+        "buildingId": "3FA8A7AB-8192-446D-B549-59EC02D18F5F",
+        "buildingCell": "1",
+        "floor": "1",
+        "doorplate": "1002",
+        "locationId": "36A19998-036F-439C-8D6D-4B6B2B8D0A7F"
+      },
+      "houseTypeImgUrl": ""
+    }
+  ],
+  "tc01_add_estate_block": [
+    {
+      "countryId": "79B535B2-E8DF-4D48-BC95-0BBD1B85FF50",
+      "tradeId": "529126BC-731D-4890-9683-0608965D810C",
+      "estateId": "1838177A-9BB7-4B96-B1C2-40A5AA47F52F",
+      "index": "1",
+      "gcjLongitude": "120.585297",
+      "gcjLatitude": "31.29904",
+      "sumFloor": 1
+    }
+  ]
+}
+
+
+
+

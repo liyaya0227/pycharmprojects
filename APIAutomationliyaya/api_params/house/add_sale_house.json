@@ -1,0 +1,25 @@
+{
+	"ownerInfo": {
+        "name": "陈露露",
+        "phoneNumber": "15062415624",
+        "telePhoneNumber": "-"
+	},
+	"type": [1, 1, 0, 0],
+	"area": 100,
+	"orientations": [0],
+	"salePrice": 100,
+	"inspectType": 3,
+	"topContactsType": null,
+	"rentPrice": null,
+	"businessType": 0,
+	"locationInfo": {
+		"communityId": null,
+		"buildingId": null,
+		"buildingCell": null,
+		"floor": null,
+		"doorplate": null,
+		"locationId": null
+	},
+	"houseTypeImgUrl": "",
+	"rentTime": null
+}

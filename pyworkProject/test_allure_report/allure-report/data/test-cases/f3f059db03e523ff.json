@@ -1,0 +1,116 @@
+{
+  "uid" : "f3f059db03e523ff",
+  "name" : "test_Delete_User",
+  "fullName" : "test_allure_report.test_add_author_and_delete.Test_Add_Delete_User#test_Delete_User",
+  "historyId" : "c0509c4f55727e31cc470dcc2b36f937",
+  "time" : {
+    "start" : 1640164459947,
+    "stop" : 1640164468957,
+    "duration" : 9010
+  },
+  "status" : "passed",
+  "flaky" : false,
+  "beforeStages" : [ {
+    "name" : "test_Add_User",
+    "time" : {
+      "start" : 1640164459065,
+      "stop" : 1640164459944,
+      "duration" : 879
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false,
+    "hasContent" : false
+  }, {
+    "name" : "xunit_setup_class_fixture_Test_Add_Delete_User",
+    "time" : {
+      "start" : 1640164454375,
+      "stop" : 1640164459064,
+      "duration" : 4689
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false,
+    "hasContent" : false
+  } ],
+  "testStage" : {
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ {
+      "uid" : "b1e13b5de627cbd7",
+      "name" : "stdout",
+      "source" : "b1e13b5de627cbd7.txt",
+      "type" : "text/plain",
+      "size" : 46
+    } ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "attachmentsCount" : 1,
+    "shouldDisplayMessage" : false,
+    "hasContent" : true
+  },
+  "afterStages" : [ {
+    "name" : "xunit_setup_class_fixture_Test_Add_Delete_User::0",
+    "time" : {
+      "start" : 1640164468960,
+      "stop" : 1640164469114,
+      "duration" : 154
+    },
+    "status" : "passed",
+    "steps" : [ ],
+    "attachments" : [ ],
+    "parameters" : [ ],
+    "stepsCount" : 0,
+    "attachmentsCount" : 0,
+    "shouldDisplayMessage" : false,
+    "hasContent" : false
+  } ],
+  "labels" : [ {
+    "name" : "parentSuite",
+    "value" : "test_allure_report"
+  }, {
+    "name" : "suite",
+    "value" : "test_add_author_and_delete"
+  }, {
+    "name" : "subSuite",
+    "value" : "Test_Add_Delete_User"
+  }, {
+    "name" : "host",
+    "value" : "localhost"
+  }, {
+    "name" : "thread",
+    "value" : "81743-MainThread"
+  }, {
+    "name" : "framework",
+    "value" : "pytest"
+  }, {
+    "name" : "language",
+    "value" : "cpython3"
+  }, {
+    "name" : "package",
+    "value" : "test_allure_report.test_add_author_and_delete"
+  }, {
+    "name" : "resultFormat",
+    "value" : "allure2"
+  } ],
+  "parameters" : [ ],
+  "links" : [ ],
+  "hidden" : false,
+  "retry" : false,
+  "extra" : {
+    "severity" : "normal",
+    "retries" : [ ],
+    "categories" : [ ],
+    "tags" : [ ]
+  },
+  "source" : "f3f059db03e523ff.json",
+  "parameterValues" : [ ]
+}

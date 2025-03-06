@@ -1,0 +1,3 @@
+﻿url,http://localhost:8080/jwshoplogin//user/register.do,expresult,注册成功,interfacename,注册接口,6,username,李开塞,password,123456,email,123.com,phone,12453,question,什么最大？,answer,西最大
+url,http://localhost:8080/jwshoplogin/user/login.do,expresult,登录成功,interfacename,登录接口,2,username,李开塞,password,123456,,,,,,,,
+url,http://localhost:8080/jwshoplogin/user/check_vaild.do,expresult,校验成功,interfacename,校验接口,2,str,phone,type,12453,,,,,,,,

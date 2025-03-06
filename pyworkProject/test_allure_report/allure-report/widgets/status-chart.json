@@ -1,0 +1,11 @@
+[ {
+  "uid" : "f3f059db03e523ff",
+  "name" : "test_Delete_User",
+  "time" : {
+    "start" : 1640164459947,
+    "stop" : 1640164468957,
+    "duration" : 9010
+  },
+  "status" : "passed",
+  "severity" : "normal"
+} ]

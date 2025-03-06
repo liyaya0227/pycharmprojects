@@ -1,0 +1,21 @@
+{
+  "uid" : "83edc06c07f9ae9e47eb6dd1b683e4e2",
+  "name" : "packages",
+  "children" : [ {
+    "name" : "test_allure_report.test_add_author_and_delete",
+    "children" : [ {
+      "name" : "test_Delete_User",
+      "uid" : "f3f059db03e523ff",
+      "parentUid" : "9a4158a23468978f09d5af294bc31d74",
+      "status" : "passed",
+      "time" : {
+        "start" : 1640164459947,
+        "stop" : 1640164468957,
+        "duration" : 9010
+      },
+      "flaky" : false,
+      "parameters" : [ ]
+    } ],
+    "uid" : "test_allure_report.test_add_author_and_delete"
+  } ]
+}

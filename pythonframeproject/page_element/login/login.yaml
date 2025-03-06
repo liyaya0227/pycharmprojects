@@ -1,0 +1,24 @@
+账号输入框: "id==account"
+密码输入框: "id==password"
+校验点击按钮: "css==.ant-btn.ant-btn-text.button"
+立即登录按钮: "css==.ant-btn.ant-btn-primary.lgbutton"
+验证图片: "css==.sliderVerifyCode_block__2nWM1"
+滑动按钮: "css==.sliderVerifyCode_slider__1UuHW"
+功能按钮: "xpath==//div[@class='side-header-right']//div[contains(@class, 'ant-dropdown-trigger side-header-dropdown')]"
+退出按钮: "xpath==//span[contains(.,'退出登录')]"
+
+选择弹窗: "css==.ant-modal-content"
+应用选择框: "css==.ant-select.ant-select-single.ant-select-show-arrow"
+城市选择框: "css==.ant-select.ant-select-single.ant-select-show-arrow.ant-select-disabled"
+
+弹窗_取消按钮: "css==.ant-modal-footer>.ant-btn:nth-child(1)"
+弹窗_确定按钮: "css==.ant-modal-footer>.ant-btn.ant-btn-primary"
+
+#选择弹窗: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and (@style='' or not(@style))]//div[text()='请选择登录应用或城市']"
+#应用选择框: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and (@style='' or not(@style))]//input[@id='appList']/ancestor::div[@class='ant-select-selector']"
+#城市选择框: "xpath==//div[@class='ant-modal-root']/div[@role='dialog' and (@style='' or not(@style))]//input[@id='cityList']/ancestor::div[@class='ant-select-selector']"
+#
+#弹窗_取消按钮: "xpath==//div[@class='ant-modal-root']//div[@class='ant-modal-footer']//span[text()='取 消']/parent::button"
+#弹窗_确定按钮: "xpath==//div[@class='ant-modal-root']//div[@class='ant-modal-footer']//span[text()='确 定']/parent::button"
+
+

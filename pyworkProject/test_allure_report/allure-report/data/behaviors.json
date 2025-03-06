@@ -1,0 +1,17 @@
+{
+  "uid" : "b1a8273437954620fa374b796ffaacdd",
+  "name" : "behaviors",
+  "children" : [ {
+    "name" : "test_Delete_User",
+    "uid" : "f3f059db03e523ff",
+    "parentUid" : "b1a8273437954620fa374b796ffaacdd",
+    "status" : "passed",
+    "time" : {
+      "start" : 1640164459947,
+      "stop" : 1640164468957,
+      "duration" : 9010
+    },
+    "flaky" : false,
+    "parameters" : [ ]
+  } ]
+}

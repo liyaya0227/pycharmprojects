@@ -1,0 +1,32 @@
+{
+  "tc01_add_sale_house": [
+    {
+      "ownerInfo": {
+        "name": "陈露露",
+        "phoneNumber": "15062415624",
+        "telePhoneNumber": "-"
+      },
+      "type": [1, 1, 0, 0],
+      "area": 100,
+      "orientations": [0],
+      "salePrice": 100,
+      "inspectType": 3,
+      "topContactsType": null,
+      "rentPrice": null,
+      "businessType": 0,
+      "locationInfo": {
+        "communityId": "EC03E260-37E5-40F5-8B7E-A3C9956C37DE",
+        "buildingId": "2A62C1BA-1120-4B1A-9090-F9E8518EA542",
+        "buildingCell": "1",
+        "floor": "1",
+        "doorplate": "1002",
+        "locationId": "B19E70A8-341C-45C2-A5A0-9CFEF28291F9"
+      },
+      "houseTypeImgUrl": "",
+      "rentTime": null
+    }
+  ]
+}
+
+
+

@@ -1,0 +1,5 @@
+账号输入框: "id==account"
+密码输入框: "id==password"
+点击校验按钮: "css==.ant-btn.ant-btn-text.button"
+滑块按钮: "class==sliderVerifyCode_slider__1UuHW"
+立即登录按钮: "css==.ant-btn.ant-btn-primary.lgbutton"

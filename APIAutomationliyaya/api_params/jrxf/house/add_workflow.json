@@ -1,0 +1,105 @@
+{
+  "add_report_params":{
+    "newHouseIdList": [
+      "5ee8c236-5c07-4708-9437-225c891e9b5f"
+    ],
+    "customId": "2d217ac7-4003-47c7-9eed-163aca110aca",
+    "expectArriveTime": "2022-02-10 13:29",
+    "remark": "11111"
+  },
+  "add_takelook_params": {
+    "newHouseId": "5ee8c236-5c07-4708-9437-225c891e9b5f",
+    "takeLookTime": "2022-02-10 13:30",
+    "customId": "2d217ac7-4003-47c7-9eed-163aca110aca",
+    "fileList": [
+      "https://static.jingrizf.com/new/file/1644471009917.jpg"
+    ],
+    "reportId": "55429e85-cffb-40d9-98b7-2c11fa6be568",
+    "remark": ""
+  },
+  "add_subscribe_params": {
+    "block": "1",
+    "blockCell": "1",
+    "floor": "1",
+    "roomNumber": "1001",
+    "buildingArea": "100",
+    "money": "1000000",
+    "subscribeTime": "2022-02-10 13:30",
+    "takeLookId": "8ddb7b24-b262-47ec-8f20-1376e28b3ded",
+    "reportId": "55429e85-cffb-40d9-98b7-2c11fa6be568",
+    "attachmentList": [
+      {
+        "type": 0,
+        "path": "https://static.jingrizf.com/new/file/1644471056401.jpg"
+      },
+      {
+        "type": 1,
+        "path": "https://static.jingrizf.com/new/file/1644471062197.jpg"
+      },
+      {
+        "type": 2,
+        "path": "https://static.jingrizf.com/new/file/1644471065736.jpg"
+      }
+    ]
+  },
+  "check_subscribe_params": {
+    "block": "1",
+    "blockCell": "1",
+    "floor": "1",
+    "roomNumber": "1001",
+    "buildingArea": "100",
+    "money": 1000000,
+    "subscribeTime": "2022-02-10 13:30",
+    "remark": null,
+    "payment": "100000",
+    "commission": "100000",
+    "companyIncome": "50000",
+    "dealPrize": "50000",
+    "id": "4c059fb6-a67e-4bee-84d7-3d7554f1fe5d",
+    "takeLookId": "8ddb7b24-b262-47ec-8f20-1376e28b3ded",
+    "reportId": "55429e85-cffb-40d9-98b7-2c11fa6be568",
+    "attachmentList": [
+      {
+        "type": 0,
+        "path": "https://static.jingrizf.com/new/file/1644471056401.jpg"
+      },
+      {
+        "type": 1,
+        "path": "https://static.jingrizf.com/new/file/1644471062197.jpg"
+      },
+      {
+        "type": 2,
+        "path": "https://static.jingrizf.com/new/file/1644471065736.jpg"
+      }
+    ]
+  },
+  "add_sign_params": {
+    "area": "100",
+    "signAmount": "1000000",
+    "payment": 100000,
+    "commission": 100000,
+    "companyIncome": 50000,
+    "dealPrize": 50000,
+    "signDetailList": [
+      {
+        "fileList": [],
+        "signTime": "2022-02-10",
+        "type": 1
+      }
+    ],
+    "customId": "2d217ac7-4003-47c7-9eed-163aca110aca",
+    "newHouseId": "5ee8c236-5c07-4708-9437-225c891e9b5f",
+    "reportId": "55429e85-cffb-40d9-98b7-2c11fa6be568",
+    "subscribeId": "4c059fb6-a67e-4bee-84d7-3d7554f1fe5d"
+  },
+  "add_sell_params": {
+    "customId": "2d217ac7-4003-47c7-9eed-163aca110aca",
+    "reportId": "55429e85-cffb-40d9-98b7-2c11fa6be568",
+    "signId": "c2d6e87d-1ee8-4a33-bf34-cbd6ff8af92c",
+    "newHouseId": "5ee8c236-5c07-4708-9437-225c891e9b5f",
+    "fileList": [
+      "https://static.jingrizf.com/new/file/1644471140357.jpg"
+    ]
+  }
+
+}

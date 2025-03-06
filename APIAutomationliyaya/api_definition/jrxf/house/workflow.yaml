@@ -1,0 +1,79 @@
+#获取报备房源
+get_new_house_list_request:
+  method: POST
+  url: /webapi/house/new/list
+
+#新增报备
+add_report_request:
+  method: POST
+  url: /webapi/custom/report/save
+
+#获取报备id
+get_report_id_request:
+  method: POST
+  url: /webapi/custom/report/page
+
+#审核报备
+check_report_request:
+  method: POST
+  url: /webapi/custom/report/check
+
+#新增带看
+add_takelook_request:
+  method: POST
+  url: /webapi/custom/takelook/save
+
+#获取带看id
+get_takelook_id_request:
+  method: POST
+  url: /webapi/custom/takelook/page
+
+#审核带看
+check_takelook_request:
+  method: POST
+  url: /webapi/custom/takelook/check
+
+#新增认购
+add_subscribe_request:
+  method: POST
+  url: /webapi/custom/subscribe/save
+
+#获取认购id
+get_subscribe_id_request:
+  method: POST
+  url: /webapi/custom/subscribe/page
+
+#审核认购
+check_subscribe_request:
+  method: POST
+  url: /webapi/custom/subscribe/check/success
+
+#新增草网签
+add_sign_request:
+  method: POST
+  url: /webapi/custom/sign/save
+
+#获取草网签id
+get_sign_id_request:
+  method: POST
+  url: /webapi/custom/sign/page
+
+#审核草网签
+check_sign_request:
+  method: POST
+  url: /webapi/custom/sign/check
+
+#新增成销
+add_sell_request:
+  method: POST
+  url: /webapi/custom/sell/save
+
+#获取成销id
+get_sell_id_request:
+  method: POST
+  url: /webapi/custom/sell/page
+
+#审核草网签
+check_sell_request:
+  method: POST
+  url: /webapi/custom/sell/check

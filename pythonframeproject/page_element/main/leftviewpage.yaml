@@ -1,0 +1,46 @@
+角色信息按钮: "css==.ant-dropdown-trigger.side-header-dropdown"
+修改密码按钮: "xpath==//span[text()='修改密码']/parent::div"
+切换角色按钮: "xpath==//span[text()='切换角色']/parent::div"
+退出登录按钮: "xpath==//span[text()='退出登录']/parent::div"
+
+关闭弹框按钮: "class==ant-modal-close-x"
+切换的角色: "xpath==//div[@class='ant-modal-content']//label[contains(@class,'ant-radio-wrapper')]"
+取消按钮: "xpath==//div[@class='ant-modal-content']//span[text()='取 消']/parent::button"
+确定按钮: "xpath==//div[@class='ant-modal-content']//span[text()='确 定']/parent::button"
+
+首页概览: "xpath==//div[@class='navLeft']//span/a[text()='首页概览']/ancestor::li"
+
+数据报表菜单: "xpath==//span[text()='数据报表']/parent::div[@class='ant-menu-submenu-title']"
+合同报表标签: "xpath==//li[@title='合同报表']"
+实收业绩报表标签: "xpath==//a[@href='/dataReport/achievementReport']/ancestor::li[@style]"
+流水标签: "xpath==//a[@href='/dataReport/paymentFlow']/ancestor::li[@style]"
+
+系统管理菜单: "xpath==//span[text()='系统管理']/parent::div[@class='ant-menu-submenu-title']"
+门店管理标签: "xpath==//li[@title='门店管理']"
+用户管理标签: "xpath==//li[@title='用户管理']"
+
+房源管理菜单: "xpath==//span[text()='房源管理']/parent::div[@class='ant-menu-submenu-title']"
+全部房源标签: "xpath==//li[@title='全部房源']"
+实勘管理标签: "xpath==//li[@title='实勘管理']"
+资料盘标签: "xpath==//li[@title='资料盘']"
+
+客源管理菜单: "xpath==//span[text()='客源管理']/parent::div[@class='ant-menu-submenu-title']"
+我的客户标签: "xpath==//li[@title='我的客户']"
+新房作业标签: "xpath==//li[@title='新房作业']"
+
+签约管理菜单: "xpath==//span[text()='签约管理']/parent::div[@class='ant-menu-submenu-title']"
+签约管理标签: "xpath==//li[@title='签约管理']"
+业绩标签: "xpath==//li[@title='业绩']"
+财务标签: "xpath==//li[@title='财务']"
+门店分账数据表标签: "xpath==//li[@title='门店分账数据表']"
+品牌返佣数据表标签: "xpath==//li[@title='品牌返佣数据表']"
+品牌返佣分账数据表标签: "xpath==//li[@title='品牌返佣分账数据表']"
+财务报表标签: "xpath==//li[@title='财务报表']"
+实勘部业绩分账标签: "xpath==//li[@title='实勘部业绩分账']"
+
+交易管理菜单: "xpath==//span[text()='交易管理']/parent::div[@class='ant-menu-submenu-title']"
+在途单标签: "xpath==//li[@title='在途单']"
+终结单标签: "xpath==//li[@title='终结单']"
+
+协议应用菜单: "xpath==//span[text()='协议应用']/parent::div[@class='ant-menu-submenu-title']"
+协议列表标签: "xpath==//li[@title='协议列表']"

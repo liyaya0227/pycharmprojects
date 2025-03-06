@@ -1,0 +1,17 @@
+#买卖房源
+add_preowned_house_request:  #增加买卖房源request
+  method: POST
+  url: /resource/house/preOwned/add
+
+search_house_request:  #搜索买卖房源request
+  method: POST
+  url: /resource/housees/search
+
+#租赁房源
+add_rent_house_request:  #增加租赁房源request
+  method: POST
+  url: /resource/house/rent/add
+
+search_rent_house_request:  #搜索租赁房源request
+  method: POST
+  url: /resource/housees/searchrent
